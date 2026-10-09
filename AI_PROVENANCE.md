@@ -12,6 +12,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-09 | The Tamlinux 0.4.1 assembly | [Session](docs/ai/2026-10-09-0.4.1-package.md) |
 | 2026-10-09 | Shell, plugins and commands installed from one packaged assembly | [Session](docs/ai/2026-10-09-packaged-assembly.md) |
 | 2026-10-09 | One reproducible package deployment mechanism for Test and Run | [Session](docs/ai/2026-10-09-deployment-contract.md) |
 | 2026-10-09 | Owned menu paths and source delivery | [Session](docs/ai/2026-10-09-menu-ownership.md) |
