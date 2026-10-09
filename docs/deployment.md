@@ -72,16 +72,19 @@ Rollback activates the retained generation and its package through the same
 installed interfaces. Home Manager generations preserve immutable software;
 mutable user data needs its own documented recovery procedure.
 
-## Remaining implementation work
+## Implementation status
 
-The first extraction already pins public inputs, builds package outputs, and
-defines stable Home Manager paths. Its shell module currently links runtime
-files directly from the source input, while a separate `tamlinux-shell`
-package output exists. It also accepts separately supplied `pluginSources`.
+Implemented on 2026-10-09: the Home Manager module installs only package
+outputs of the recorded assembly. `tamlinux-shell` carries the shell, menu
+defaults, `tam-menu` and the protocol shadow trial; `tamlinux-plugins` and
+`tamlinux-commands` carry the plugin payloads and product commands from the
+same product revision, and the module refuses packages from different
+revisions. Separately supplied plugin payloads and direct source links are
+gone. The `tam-deploy` command pins a `tamlinux-packages` revision on `test` in
+the consumer lock for Test, verifies that the installed shell, plugins and
+commands resolve into the assembly's packages, and for Run fast-forwards
+`main` without rebuilding. A fixture-based check proves the installed paths.
 
-The deployment transition must make the module consume the assembled package
-outputs, include the selected plugin and command payloads in that assembly,
-and make Test and Run helpers select recorded delivery revisions rather than
-install independent source snapshots. Verification must establish that the
-installed runtime belongs to the selected package. These are delivery gaps,
-not alternative deployment routes.
+Remaining: the first deployment of a packaged assembly on a workstation, and
+moving that workstation's configuration from its own source inputs and
+plugin copies to this repository's pinned revision.

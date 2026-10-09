@@ -29,11 +29,14 @@ first and review [the host prerequisites and limits](docs/first-extraction.md).
 No check activates a desktop, starts services, or changes the host package database.
 
 Import `homeManagerModules.default`, enable `tamlinux.shell.enable`, and supply
-layout/settings sources. `tamlinux.shell.pluginSources` accepts explicit
-immutable plugin directories. Leave it empty for the minimal example; consolidated
-plugin sources await payload reconciliation. Background and menu paths are
-configurable. Protocol shadow observation is an explicit opt-in requiring a
-source that contains it.
+layout/settings sources. The module installs the shell, plugins and product
+commands from package outputs built from one product revision
+(`tamlinux-shell`, `tamlinux-plugins`, `tamlinux-commands`);
+`tamlinux.shell.plugins` selects plugin IDs (default: all in the assembly).
+Background and menu paths are configurable. Protocol shadow observation is an
+explicit opt-in requiring an assembly that contains it. Deploy an assembly
+with `tam-deploy` from the Tamlinux commands; see the
+[deployment contract](docs/deployment.md).
 
 The developer baseline installs Bash, editing, C compilation/linking with libc
 headers, Make, Git, secure downloads and certificate trust. A consumer can set

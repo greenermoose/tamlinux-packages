@@ -8,9 +8,11 @@ privately by the author.
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
 | Codex CLI | 0.162.1 | gpt-6.1-sol | 2026-10-09 |
+| Claude Code | 2.1.295 | claude-opus-5-5 | 2026-10-09 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-09 | Shell, plugins and commands installed from one packaged assembly | [Session](docs/ai/2026-10-09-packaged-assembly.md) |
 | 2026-10-09 | One reproducible package deployment mechanism for Test and Run | [Session](docs/ai/2026-10-09-deployment-contract.md) |
 | 2026-10-09 | Owned menu paths and source delivery | [Session](docs/ai/2026-10-09-menu-ownership.md) |
 | 2026-10-09 | Guard pending shell Test before activation | [Session](docs/ai/2026-10-09-shell-test-guard.md) |
