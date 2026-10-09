@@ -5,7 +5,7 @@ pkgs.runCommand "tamlinux-installed-components"
   }
   ''
     ${components.tam}/bin/tam --version | grep -q 'libtam 0.2.0'
-    ${components.tam}/bin/tam browse --pipe welcome | grep -q 'Welcome'
+    ${components.tam}/bin/tam show --pipe welcome | grep -q 'Welcome'
     set +e
     ${components.tamlinux-tools}/bin/tam-file-select --bogus >stdout 2>stderr
     status=$?
