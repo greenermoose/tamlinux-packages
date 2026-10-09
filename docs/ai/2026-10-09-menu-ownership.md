@@ -16,5 +16,9 @@ Menu-default source selection and generated environment are tested with the
 menu candidate, while the existing public example remains compatible with its
 older source pin. Daily plugin payloads and protocol shadow policy are unchanged.
 
-The example-contract path assertion was updated. Build verification is recorded
-after the immutable candidate is selected. Test/Run activation is pending.
+The example-contract assertion verifies the default file, executable command
+and matching service environment when a menu-capable product is selected.
+The example contract and existing shell-Test guard build successfully with
+product `001a216`. The private consumer also builds with accepted plugin payloads
+preserved; pairing it with an older shell is rejected before activation.
+Test/Run activation is pending.

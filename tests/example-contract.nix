@@ -11,8 +11,17 @@ assert builtins.elem "TAMLINUX_BACKGROUND_LINK=/home/alex/.local/state/tamlinux/
 assert builtins.elem "TAMLINUX_MENU_EXTENSION=/home/alex/.config/tamlinux/menu/extension.jsonc"
   unit.Service.Environment;
 assert c.home.file.".local/share/tamlinux/shell".source != null;
+assert c.tamlinux.shell.menuDefaultSource == null ||
+  (c.xdg.configFile."tamlinux/menu/default.jsonc".source != null &&
+    c.home.file.".local/bin/tam-menu".source != null &&
+    builtins.elem "TAMLINUX_MENU_DEFAULT=/home/alex/.config/tamlinux/menu/default.jsonc"
+      unit.Service.Environment);
 pkgs.runCommand "tamlinux-example-contract" { } ''
   test -f ${example.activationPackage}/home-files/.config/systemd/user/tamlinux-shell.service
+  ${pkgs.lib.optionalString (c.tamlinux.shell.menuDefaultSource != null) ''
+    test -f ${example.activationPackage}/home-files/.config/tamlinux/menu/default.jsonc
+    test -x ${example.activationPackage}/home-files/.local/bin/tam-menu
+  ''}
   mkdir -p $out
   cp ${example.activationPackage}/home-files/.config/systemd/user/tamlinux-shell.service $out/
 ''
