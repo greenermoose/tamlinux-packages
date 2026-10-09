@@ -84,6 +84,11 @@ in
         assertion = !protocolShadowAvailable || builtins.pathExists "${tamlinux}/desktop/protocol-shadow";
         message = "The selected source must contain the requested protocol shadow trial.";
       }
+      {
+        assertion = cfg.menuExtensionSource == null ||
+          (cfg.menuDefaultSource != null && builtins.pathExists "${tamlinux}/desktop/menu/tam-menu");
+        message = "Owned menu extension delivery requires matching product menu defaults and tam-menu. Select the 0.4.2 menu candidate before activation.";
+      }
     ];
     home.file.".local/share/tamlinux/shell".source = "${tamlinux}/desktop/shell";
     home.file.".local/share/tamlinux/shell-revision".text = "${cfg.sourceRevision}\n";
