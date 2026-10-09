@@ -11,7 +11,7 @@
       flake = false;
     };
     tam = {
-      url = "github:greenermoose/tam/efbd1037b1fab10375e8c729d7dd793358123217";
+      url = "github:greenermoose/tam/cacdd78922950d9e9b907be607e1326fad67888d";
       flake = false;
     };
     libtam = {
@@ -50,8 +50,9 @@
       lib.packageSets = pkgs: import ./nix/sets { inherit pkgs; };
       homeManagerModules.default = { lib, ... }: {
         imports = [ ./nix/modules ];
-        tamlinux.shell.source = lib.mkDefault tamlinux;
-        tamlinux.shell.sourceRevision = lib.mkDefault tamlinux.rev;
+        tamlinux.shell.package = lib.mkDefault components.tamlinux-shell;
+        tamlinux.shell.pluginPackage = lib.mkDefault components.tamlinux-plugins;
+        tamlinux.shell.commandPackage = lib.mkDefault components.tamlinux-commands;
       };
       packages.${system} = components // {
         default = components.tam;
@@ -61,7 +62,11 @@
       checks.${system} = components // {
         developer-baseline = import ./tests/developer-baseline.nix { inherit pkgs; };
         example-contract = import ./tests/example-contract.nix { inherit pkgs example; };
-        shell-test-guard = import ./tests/shell-test-guard.nix { inherit pkgs example; };
+        assembly-contract = import ./tests/assembly-contract.nix {
+          inherit pkgs home-manager;
+          module = self.homeManagerModules.default;
+          sources = inputs;
+        };
         installed-components = import ./tests/installed-components.nix { inherit pkgs components; };
       };
     };

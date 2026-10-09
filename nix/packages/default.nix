@@ -12,9 +12,11 @@ let
   };
   tam = pkgs.stdenv.mkDerivation {
     pname = "tam";
-    version = "0.3.0";
+    version = "0.7.0";
     src = sources.tam;
     postPatch = "patchShebangs tests";
+    # The command tests read the guide from the source tree, not from $HOME.
+    preCheck = "export TAM_KNOWLEDGE_DIR=$PWD/knowledge";
     buildInputs = [ libtam ];
     makeFlags = [
       "PREFIX=$(out)"
@@ -49,18 +51,127 @@ let
       mainProgram = "tam-file-select";
     };
   };
+  lib = pkgs.lib;
+  product = sources.tamlinux;
+  has = path: builtins.pathExists "${product}/${path}";
+  productVersion = lib.trim (builtins.readFile "${product}/VERSION");
+  features = {
+    menu = has "desktop/menu/default.jsonc" && has "desktop/menu/tam-menu";
+    protocolShadow = has "desktop/protocol-shadow";
+    documentation = has "desktop/README.md";
+  };
+  # Hash only trial code so unrelated shell/menu commits preserve the 0.4.1
+  # protocol shadow observation identity.
+  protocolShadowId =
+    if features.protocolShadow then
+      builtins.hashString "sha256" (
+        lib.concatMapStrings (path: builtins.readFile "${product}/desktop/${path}") [
+          "shell/host/ProtocolState.qml"
+          "shell/host/protocol_model.js"
+          "shell/host/ProtocolShadow.qml"
+          "shell/host/HyprlandAdapter.qml"
+          "protocol-shadow"
+        ]
+      )
+    else
+      "";
+  entries = dir: if has dir then builtins.readDir "${product}/${dir}" else { };
+  pluginIds = lib.sort lib.lessThan (
+    lib.attrNames (lib.filterAttrs (name: type: type == "directory" && lib.hasPrefix "fred." name) (entries "desktop/plugins"))
+  );
+  commandNames = lib.sort lib.lessThan (
+    lib.attrNames (lib.filterAttrs (name: type: type == "directory" && has "commands/${name}/Makefile") (entries "commands"))
+  );
   shell =
-    pkgs.runCommand "tamlinux-shell-${pkgs.lib.trim (builtins.readFile "${sources.tamlinux}/VERSION")}"
-      { }
+    pkgs.runCommand "tamlinux-shell-${productVersion}"
+      {
+        passthru = {
+          version = productVersion;
+          revision = product.rev;
+          inherit features protocolShadowId;
+        };
+      }
       ''
-        mkdir -p $out/share/tamlinux
-        cp -R ${sources.tamlinux}/desktop/shell $out/share/tamlinux/
-        cp ${sources.tamlinux}/VERSION $out/share/tamlinux/version
-        printf '%s\n' ${pkgs.lib.escapeShellArg sources.tamlinux.rev} > $out/share/tamlinux/source-revision
+        mkdir -p $out/share/tamlinux $out/bin
+        cp -R ${product}/desktop/shell $out/share/tamlinux/
+        cp ${product}/VERSION $out/share/tamlinux/version
+        printf '%s\n' ${lib.escapeShellArg product.rev} > $out/share/tamlinux/source-revision
+        ${lib.optionalString features.documentation "cp ${product}/desktop/README.md $out/share/tamlinux/README.md"}
+        ${lib.optionalString features.menu ''
+          mkdir -p $out/share/tamlinux/menu
+          cp ${product}/desktop/menu/default.jsonc $out/share/tamlinux/menu/default.jsonc
+          install -m755 ${product}/desktop/menu/tam-menu $out/bin/tam-menu
+        ''}
+        ${lib.optionalString features.protocolShadow "install -m755 ${product}/desktop/protocol-shadow $out/bin/tam-protocol-shadow"}
       '';
+  # Plugin payloads come from the same product revision as the shell.
+  plugins =
+    pkgs.runCommand "tamlinux-plugins-${productVersion}"
+      {
+        passthru = {
+          ids = pluginIds;
+          revision = product.rev;
+        };
+      }
+      ''
+        mkdir -p $out/share/tamlinux/plugins
+        ${lib.concatMapStrings (id: ''
+          cp -R ${product}/desktop/plugins/${id} $out/share/tamlinux/plugins/${id}
+        '') pluginIds}
+        chmod -R u+w $out
+        find $out -name __pycache__ -type d -prune -exec rm -rf {} +
+        find $out -name '*.pyc' -delete
+      '';
+  # Product commands: each commands/<name>/ installs bin/<name>.
+  commands = pkgs.stdenv.mkDerivation {
+    pname = "tamlinux-commands";
+    version = productVersion;
+    src = product;
+    dontConfigure = true;
+    dontBuild = true;
+    buildInputs = [
+      pkgs.bash
+      pkgs.python3
+    ];
+    nativeCheckInputs = [
+      pkgs.git
+      pkgs.python3
+      pkgs.jq
+      pkgs.which
+    ];
+    doCheck = true;
+    checkPhase = ''
+      runHook preCheck
+      patchShebangs commands
+      export HOME=$TMPDIR/home
+      mkdir -p $HOME
+      git config --global user.email check@example.invalid
+      git config --global user.name check
+      git config --global init.defaultBranch main
+      ${lib.concatMapStrings (name: ''
+        make -C commands/${name} check
+      '') commandNames}
+      runHook postCheck
+    '';
+    installPhase = ''
+      runHook preInstall
+      ${lib.concatMapStrings (name: ''
+        make -C commands/${name} install PREFIX=$out
+      '') commandNames}
+      mkdir -p $out/bin
+      runHook postInstall
+    '';
+    passthru = {
+      names = commandNames;
+      revision = product.rev;
+    };
+    meta.license = lib.licenses.gpl3Plus;
+  };
 in
 {
   inherit libtam tam;
   tamlinux-tools = tools;
   tamlinux-shell = shell;
+  tamlinux-plugins = plugins;
+  tamlinux-commands = commands;
 }

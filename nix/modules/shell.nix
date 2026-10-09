@@ -6,42 +6,36 @@
 }:
 let
   cfg = config.tamlinux.shell;
-  tamlinux = cfg.source;
+  shell = cfg.package;
+  features = shell.passthru.features;
   protocolShadowAvailable = cfg.protocolShadow.enable;
-  protocolShadowId =
-    if protocolShadowAvailable then
-      builtins.hashString "sha256" (
-        lib.concatMapStrings (path: builtins.readFile "${tamlinux}/desktop/${path}") [
-          "shell/host/ProtocolState.qml"
-          "shell/host/protocol_model.js"
-          "shell/host/ProtocolShadow.qml"
-          "shell/host/HyprlandAdapter.qml"
-          "protocol-shadow"
-        ]
-      )
-    else
-      "";
+  selectedPlugins = if cfg.plugins == null then cfg.pluginPackage.passthru.ids else cfg.plugins;
 in
 {
   options.tamlinux.shell = {
     enable = lib.mkEnableOption "Tamlinux shell deployment on an Arch/Hyprland host";
-    source = lib.mkOption {
-      type = lib.types.path;
-      description = "Pinned Tamlinux product source.";
+    package = lib.mkOption {
+      type = lib.types.package;
+      description = "Tamlinux shell package built from the recorded assembly.";
     };
-    sourceRevision = lib.mkOption {
-      type = lib.types.str;
-      description = "Exact product source revision.";
+    pluginPackage = lib.mkOption {
+      type = lib.types.package;
+      description = "Plugin payloads built from the same product revision as the shell.";
+    };
+    commandPackage = lib.mkOption {
+      type = lib.types.package;
+      description = "Tamlinux product commands built from the same product revision.";
+    };
+    plugins = lib.mkOption {
+      type = lib.types.nullOr (lib.types.listOf lib.types.str);
+      default = null;
+      description = "Plugin IDs to install from the plugin package; null installs all of them.";
     };
     documentation = lib.mkOption {
       type = lib.types.str;
-      default = "file://${cfg.source}/desktop/README.md";
+      default =
+        if features.documentation then "file://${shell}/share/tamlinux/README.md" else "https://github.com/greenermoose/tamlinux";
       description = "Product documentation URI.";
-    };
-    pluginSources = lib.mkOption {
-      type = lib.types.attrsOf lib.types.path;
-      default = { };
-      description = "Explicit immutable plugin payloads; no development checkout links.";
     };
     layoutSource = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
@@ -65,12 +59,6 @@ in
       default = null;
       description = "Optional private extension payload, installed at the owned menu path.";
     };
-    menuDefaultSource = lib.mkOption {
-      type = lib.types.nullOr lib.types.path;
-      default = if builtins.pathExists "${tamlinux}/desktop/menu/default.jsonc"
-        then "${tamlinux}/desktop/menu/default.jsonc" else null;
-      description = "Product menu defaults; null retains compatibility with older shell sources.";
-    };
     protocolShadow.enable = lib.mkEnableOption "the explicitly selected read-only protocol trial";
   };
   config = lib.mkIf cfg.enable {
@@ -81,64 +69,57 @@ in
         message = "Every Tamlinux shell installation requires the developer baseline (Nix or verified host tools).";
       }
       {
-        assertion = !protocolShadowAvailable || builtins.pathExists "${tamlinux}/desktop/protocol-shadow";
-        message = "The selected source must contain the requested protocol shadow trial.";
+        assertion = !protocolShadowAvailable || features.protocolShadow;
+        message = "The selected assembly must contain the requested protocol shadow trial.";
       }
       {
-        assertion = cfg.menuExtensionSource == null ||
-          (cfg.menuDefaultSource != null && builtins.pathExists "${tamlinux}/desktop/menu/tam-menu");
-        message = "Owned menu extension delivery requires matching product menu defaults and tam-menu. Select the 0.4.2 menu candidate before activation.";
+        assertion = cfg.menuExtensionSource == null || features.menu;
+        message = "Owned menu extension delivery requires an assembly with product menu defaults and tam-menu.";
+      }
+      {
+        assertion = lib.all (id: lib.elem id cfg.pluginPackage.passthru.ids) selectedPlugins;
+        message = "Selected plugins must be in the assembly's plugin package: "
+          + lib.concatStringsSep ", " cfg.pluginPackage.passthru.ids;
+      }
+      {
+        assertion = shell.passthru.revision == cfg.pluginPackage.passthru.revision
+          && shell.passthru.revision == cfg.commandPackage.passthru.revision;
+        message = "Shell, plugins and commands must come from the same product revision.";
       }
     ];
-    home.file.".local/share/tamlinux/shell".source = "${tamlinux}/desktop/shell";
-    home.file.".local/share/tamlinux/shell-revision".text = "${cfg.sourceRevision}\n";
-    home.file.".local/bin/tam-menu" = lib.mkIf (builtins.pathExists "${tamlinux}/desktop/menu/tam-menu") {
-      source = "${tamlinux}/desktop/menu/tam-menu";
-      executable = true;
-    };
-    home.file.".local/bin/tam-protocol-shadow" = lib.mkIf protocolShadowAvailable {
-      source = "${tamlinux}/desktop/protocol-shadow";
-      executable = true;
-    };
+    home.file =
+      {
+        ".local/share/tamlinux/shell".source = "${shell}/share/tamlinux/shell";
+        ".local/share/tamlinux/shell-revision".text = "${shell.passthru.revision}\n";
+      }
+      // lib.optionalAttrs features.menu {
+        ".local/bin/tam-menu".source = "${shell}/bin/tam-menu";
+      }
+      // lib.optionalAttrs protocolShadowAvailable {
+        ".local/bin/tam-protocol-shadow".source = "${shell}/bin/tam-protocol-shadow";
+      }
+      // lib.listToAttrs (
+        map (name: lib.nameValuePair ".local/bin/${name}" { source = "${cfg.commandPackage}/bin/${name}"; })
+          cfg.commandPackage.passthru.names
+      );
     xdg.configFile =
-      lib.mapAttrs' (
-        id: source: lib.nameValuePair "tamlinux/plugins/${id}" { inherit source; }
-      ) cfg.pluginSources
+      lib.listToAttrs (
+        map (
+          id: lib.nameValuePair "tamlinux/plugins/${id}" { source = "${cfg.pluginPackage}/share/tamlinux/plugins/${id}"; }
+        ) selectedPlugins
+      )
       // lib.optionalAttrs (cfg.layoutSource != null) {
         "tamlinux/shell/layout.json".source = cfg.layoutSource;
       }
       // lib.optionalAttrs (cfg.settingsSource != null) {
         "tamlinux/shell/settings.json".source = cfg.settingsSource;
       }
-      // lib.optionalAttrs (cfg.menuDefaultSource != null) {
-        "tamlinux/menu/default.jsonc".source = cfg.menuDefaultSource;
+      // lib.optionalAttrs features.menu {
+        "tamlinux/menu/default.jsonc".source = "${shell}/share/tamlinux/menu/default.jsonc";
       }
       // lib.optionalAttrs (cfg.menuExtensionSource != null) {
         "tamlinux/menu/extension.jsonc".source = cfg.menuExtensionSource;
       };
-    # A plain switch must not silently undo a pending shell Test. The shell
-    # deployment helper clears Test metadata for deliberate Test/Run/back
-    # transitions; unrelated activations must preserve its exact candidate.
-    home.activation.checkShellTest = config.lib.dag.entryBefore [ "checkLinkTargets" ] ''
-      stateFile="''${XDG_STATE_HOME:-${config.home.homeDirectory}/.local/state}/tamlinux/shell-deploy.json"
-      ${pkgs.python3}/bin/python3 -I - "$stateFile" "${cfg.sourceRevision}" <<'PY'
-      import json
-      import pathlib
-      import sys
-
-      state = pathlib.Path(sys.argv[1])
-      if state.exists():
-          try:
-              record = json.loads(state.read_text())
-              tested = record.get("testedCommit")
-              if tested and tested != sys.argv[2]:
-                  sys.exit("Home Manager activation refused: pending Tamlinux shell Test "
-                           + str(tested) + " would be replaced. Restore it through tam-shell-deploy test "
-                           + str(tested) + " before acceptance or Run.")
-          except (OSError, ValueError, AttributeError) as error:
-              sys.exit("Cannot verify Tamlinux shell Test state: " + str(error))
-      PY
-    '';
     # Preflight check before checkLinkTargets and writeBoundary:
     # Reject any active dev or test override symlink or stale recovery state
     # in ~/.local/state/tam-plugin/ to prevent Home Manager from resolving
@@ -204,15 +185,14 @@ in
           "TAMLINUX_COMPOSITOR_LIVE_ACTIONS=1"
           "QT_QPA_PLATFORM=wayland"
         ]
-        ++ lib.optionals (cfg.menuDefaultSource != null) [
+        ++ lib.optionals features.menu [
           "TAMLINUX_MENU_DEFAULT=${config.xdg.configHome}/tamlinux/menu/default.jsonc"
         ]
         ++ lib.optionals protocolShadowAvailable [
-          # 0.4.1 read-only protocol trial. Hash only trial code so unrelated
-          # later shell/menu commits preserve its observation identity.
+          # 0.4.1 read-only protocol trial; the package hashes only trial code.
           "TAMLINUX_PROTOCOL_SHADOW=1"
-          "TAMLINUX_SHELL_REVISION=${cfg.sourceRevision}"
-          "TAMLINUX_PROTOCOL_SHADOW_ID=${protocolShadowId}"
+          "TAMLINUX_SHELL_REVISION=${shell.passthru.revision}"
+          "TAMLINUX_PROTOCOL_SHADOW_ID=${shell.passthru.protocolShadowId}"
         ];
         Restart = "always";
         RestartSec = 2;
@@ -227,7 +207,7 @@ in
       Unit.Description = "Archive Tamlinux compositor shadow evidence";
       Service = {
         Type = "oneshot";
-        ExecStart = "${pkgs.python3}/bin/python3 -I ${tamlinux}/desktop/protocol-shadow collect";
+        ExecStart = "${pkgs.python3}/bin/python3 -I ${shell}/bin/tam-protocol-shadow collect";
         TimeoutStartSec = 60;
         UMask = "0077";
       };
