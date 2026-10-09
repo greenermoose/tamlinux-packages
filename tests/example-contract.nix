@@ -15,7 +15,7 @@ assert c.home.file.".local/share/tamlinux/shell".source
 assert c.home.file.".local/share/tamlinux/shell-revision".text
   == "${c.tamlinux.shell.package.passthru.revision}\n";
 assert !c.tamlinux.shell.package.passthru.features.menu ||
-  (c.xdg.configFile."tamlinux/menu/default.jsonc".source != null &&
+  (c.xdg.configFile."tamlinux/menu".source != null &&
     c.home.file.".local/bin/tam-menu".source != null &&
     builtins.elem "TAMLINUX_MENU_DEFAULT=/home/alex/.config/tamlinux/menu/default.jsonc"
       unit.Service.Environment);

@@ -25,6 +25,8 @@ let
           pluginPackage = components.tamlinux-plugins;
           commandPackage = components.tamlinux-commands;
           plugins = [ "fred.demo" ];
+          menuExtensionSource = pkgs.writeText "menu-extension.jsonc" ''{"items":[]}'';
+          menuLauncherHidesSource = pkgs.writeText "launcher.hides" "fixture.desktop\n";
         };
         tamlinux.tools = {
           tam = components.tam;
@@ -65,6 +67,9 @@ pkgs.runCommand "tamlinux-assembly-contract" { } ''
   test "$(${files}/.local/bin/tam-demo)" = demo
   test -x ${files}/.local/bin/tam-menu
   test -f ${files}/.config/tamlinux/menu/default.jsonc
+  test -L ${files}/.config/tamlinux/menu
+  test -f ${files}/.config/tamlinux/menu/extension.jsonc
+  grep -qx fixture.desktop ${files}/.config/tamlinux/menu/launcher.hides
   test ! -e ${files}/.local/bin/tam-protocol-shadow
   case "$(resolve ${files}/.local/bin/tam)" in
     ${components.tam}/bin/tam) ;;

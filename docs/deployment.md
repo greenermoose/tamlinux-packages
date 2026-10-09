@@ -4,8 +4,7 @@ Deployment installs a reproducible Tamlinux package through Nix and Home
 Manager. Test and Run use the same packaging, activation mechanism, installed
 paths, commands, and services. Their source selection and acceptance differ.
 
-This is the required delivery contract. The current first extraction does
-not implement all of it yet; the gaps are listed below.
+This is the required delivery contract. Implementation status is recorded below.
 
 ## Select and record the assembly
 
@@ -91,5 +90,11 @@ The next Develop candidate selects the owned-menu implementation at product
 which sorts between 0.4.1 and 0.4.2; the declared product version stays
 `0.4.2-a`. The assembly fixture checks both spellings and their ordering.
 The consumer's installed version must come from the selected assembly.
+
+The owned menu directory is one Home Manager link into an immutable directory
+containing the packaged defaults, an optional personal extension, and an
+optional launcher-filter link. This replaces earlier whole-directory links
+without writing through them into a source checkout. Only the launcher filter
+may be mutable; defaults and extension are fixed inputs to the generation.
 
 The 0.4.2-a candidate still needs promotion to Test and physical acceptance.

@@ -59,6 +59,11 @@ in
       default = null;
       description = "Optional private extension payload, installed at the owned menu path.";
     };
+    menuLauncherHidesSource = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = "Optional mutable launcher filter, linked inside the owned menu directory.";
+    };
     protocolShadow.enable = lib.mkEnableOption "the explicitly selected read-only protocol trial";
   };
   config = lib.mkIf cfg.enable {
@@ -73,7 +78,7 @@ in
         message = "The selected assembly must contain the requested protocol shadow trial.";
       }
       {
-        assertion = cfg.menuExtensionSource == null || features.menu;
+        assertion = (cfg.menuExtensionSource == null && cfg.menuLauncherHidesSource == null) || features.menu;
         message = "Owned menu extension delivery requires an assembly with product menu defaults and tam-menu.";
       }
       {
@@ -115,10 +120,17 @@ in
         "tamlinux/shell/settings.json".source = cfg.settingsSource;
       }
       // lib.optionalAttrs features.menu {
-        "tamlinux/menu/default.jsonc".source = "${shell}/share/tamlinux/menu/default.jsonc";
-      }
-      // lib.optionalAttrs (cfg.menuExtensionSource != null) {
-        "tamlinux/menu/extension.jsonc".source = cfg.menuExtensionSource;
+        # One directory link replaces legacy whole-directory Home Manager
+        # links without traversing them into a mutable source checkout.
+        "tamlinux/menu".source = pkgs.linkFarm "tamlinux-menu" (
+          [{ name = "default.jsonc"; path = "${shell}/share/tamlinux/menu/default.jsonc"; }]
+          ++ lib.optionals (cfg.menuExtensionSource != null) [
+            { name = "extension.jsonc"; path = cfg.menuExtensionSource; }
+          ]
+          ++ lib.optionals (cfg.menuLauncherHidesSource != null) [
+            { name = "launcher.hides"; path = cfg.menuLauncherHidesSource; }
+          ]
+        );
       };
     # Preflight check before checkLinkTargets and writeBoundary:
     # Reject any active dev or test override symlink or stale recovery state
