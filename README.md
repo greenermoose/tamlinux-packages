@@ -10,6 +10,10 @@ reusable Nix package selections and Home Manager shell deployment, and builds a
 generic user example. It targets `x86_64-linux` on the existing Arch/Hyprland
 host integration. It is not a complete workstation installer or accepted release.
 
+The [deployment contract](docs/deployment.md) requires Test and Run to install
+an exact, recorded package assembly through Nix and Home Manager at the same
+managed locations. It also records the remaining gaps in this first extraction.
+
 From a checkout:
 
 ```sh
