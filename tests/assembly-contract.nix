@@ -38,6 +38,13 @@ let
 in
 assert components.tamlinux-plugins.passthru.ids == [ "fred.demo" "fred.other" ];
 assert components.tamlinux-commands.passthru.names == [ "tam-demo" ];
+assert components.tamlinux-shell.passthru.version == "0.4.2-a";
+assert components.tamlinux-shell.name == "tamlinux-shell-0.4.2pre.a";
+assert components.tamlinux-plugins.name == "tamlinux-plugins-0.4.2pre.a";
+assert components.tamlinux-commands.version == "0.4.2pre.a";
+assert builtins.compareVersions "0.4.1" components.tamlinux-commands.version == -1;
+assert builtins.compareVersions components.tamlinux-commands.version "0.4.2" == -1;
+assert builtins.compareVersions components.tamlinux-commands.version "0.4.2pre.b" == -1;
 assert c.home.file.".local/share/tamlinux/shell-revision".text == "${product.rev}\n";
 pkgs.runCommand "tamlinux-assembly-contract" { } ''
   set -eu

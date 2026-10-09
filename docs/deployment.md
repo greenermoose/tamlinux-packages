@@ -85,6 +85,11 @@ the consumer lock for Test, verifies that the installed shell, plugins and
 commands resolve into the assembly's packages, and for Run fast-forwards
 `main` without rebuilding. A fixture-based check proves the installed paths.
 
-Remaining: the first deployment of a packaged assembly on a workstation, and
-moving that workstation's configuration from its own source inputs and
-plugin copies to this repository's pinned revision.
+The packaged 0.4.1 assembly was tested, run and released on 2026-10-09.
+The next Develop candidate selects the owned-menu implementation at product
+`0.4.2-a`. Its Nix shell, plugin and command package names use `0.4.2pre.a`,
+which sorts between 0.4.1 and 0.4.2; the declared product version stays
+`0.4.2-a`. The assembly fixture checks both spellings and their ordering.
+The consumer's installed version must come from the selected assembly.
+
+The 0.4.2-a candidate still needs promotion to Test and physical acceptance.

@@ -55,6 +55,11 @@ let
   product = sources.tamlinux;
   has = path: builtins.pathExists "${product}/${path}";
   productVersion = lib.trim (builtins.readFile "${product}/VERSION");
+  # VERSION keeps SemVer spelling; package managers must sort letter
+  # candidates before the corresponding release.
+  letterVersion = builtins.match "([0-9]+\\.[0-9]+\\.[0-9]+)-([a-z]+)" productVersion;
+  packageVersion = if letterVersion == null then productVersion
+    else "${builtins.elemAt letterVersion 0}pre.${builtins.elemAt letterVersion 1}";
   features = {
     menu = has "desktop/menu/default.jsonc" && has "desktop/menu/tam-menu";
     protocolShadow = has "desktop/protocol-shadow";
@@ -83,7 +88,7 @@ let
     lib.attrNames (lib.filterAttrs (name: type: type == "directory" && has "commands/${name}/Makefile") (entries "commands"))
   );
   shell =
-    pkgs.runCommand "tamlinux-shell-${productVersion}"
+    pkgs.runCommand "tamlinux-shell-${packageVersion}"
       {
         passthru = {
           version = productVersion;
@@ -106,7 +111,7 @@ let
       '';
   # Plugin payloads come from the same product revision as the shell.
   plugins =
-    pkgs.runCommand "tamlinux-plugins-${productVersion}"
+    pkgs.runCommand "tamlinux-plugins-${packageVersion}"
       {
         passthru = {
           ids = pluginIds;
@@ -125,7 +130,7 @@ let
   # Product commands: each commands/<name>/ installs bin/<name>.
   commands = pkgs.stdenv.mkDerivation {
     pname = "tamlinux-commands";
-    version = productVersion;
+    version = packageVersion;
     src = product;
     dontConfigure = true;
     dontBuild = true;
