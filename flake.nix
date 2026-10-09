@@ -61,6 +61,7 @@
       checks.${system} = components // {
         developer-baseline = import ./tests/developer-baseline.nix { inherit pkgs; };
         example-contract = import ./tests/example-contract.nix { inherit pkgs example; };
+        shell-test-guard = import ./tests/shell-test-guard.nix { inherit pkgs example; };
         installed-components = import ./tests/installed-components.nix { inherit pkgs components; };
       };
     };

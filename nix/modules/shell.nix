@@ -90,6 +90,29 @@ in
       // lib.optionalAttrs (cfg.settingsSource != null) {
         "tamlinux/shell/settings.json".source = cfg.settingsSource;
       };
+    # A plain switch must not silently undo a pending shell Test. The shell
+    # deployment helper clears Test metadata for deliberate Test/Run/back
+    # transitions; unrelated activations must preserve its exact candidate.
+    home.activation.checkShellTest = config.lib.dag.entryBefore [ "checkLinkTargets" ] ''
+      stateFile="''${XDG_STATE_HOME:-${config.home.homeDirectory}/.local/state}/tamlinux/shell-deploy.json"
+      ${pkgs.python3}/bin/python3 -I - "$stateFile" "${cfg.sourceRevision}" <<'PY'
+      import json
+      import pathlib
+      import sys
+
+      state = pathlib.Path(sys.argv[1])
+      if state.exists():
+          try:
+              record = json.loads(state.read_text())
+              tested = record.get("testedCommit")
+              if tested and tested != sys.argv[2]:
+                  sys.exit("Home Manager activation refused: pending Tamlinux shell Test "
+                           + str(tested) + " would be replaced. Restore it through tam-shell-deploy test "
+                           + str(tested) + " before acceptance or Run.")
+          except (OSError, ValueError, AttributeError) as error:
+              sys.exit("Cannot verify Tamlinux shell Test state: " + str(error))
+      PY
+    '';
     # Preflight check before checkLinkTargets and writeBoundary:
     # Reject any active dev or test override symlink or stale recovery state
     # in ~/.local/state/tam-plugin/ to prevent Home Manager from resolving
