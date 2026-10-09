@@ -31,7 +31,8 @@ No check activates a desktop, starts services, or changes the host package datab
 Import `homeManagerModules.default`, enable `tamlinux.shell.enable`, and supply
 layout/settings sources. The module installs the shell, plugins and product
 commands from package outputs built from one product revision
-(`tamlinux-shell`, `tamlinux-plugins`, `tamlinux-commands`);
+(`tamlinux-shell`, `tamlinux-plugins`, `tamlinux-commands`), plus `tam` with
+its offline guide and `tam-file-select`;
 `tamlinux.shell.plugins` selects plugin IDs (default: all in the assembly).
 Background and menu paths are configurable. Protocol shadow observation is an
 explicit opt-in requiring an assembly that contains it. Deploy an assembly

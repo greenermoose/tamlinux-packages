@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.1",
+  "version": "0.4.1",
+  "stage": "Test candidate",
+  "host": "Arch Linux with existing native Hyprland/Quickshell integration",
+  "architecture": "x86_64-linux",
+  "packagingRevision": "The Git commit containing this record",
+  "components": {
+    "tamlinux": {
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "167af340cbb68447213f9c5d416bf0814147ad74",
+      "narHash": "sha256-T7xMIZmt2wToolnq5lqS4jIxhbLzpk//CmqTew0ovIE="
+    },
+    "tam": {
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "cacdd78922950d9e9b907be607e1326fad67888d",
+      "narHash": "sha256-YXQa0JvhJmFQrOq6hQsa/cqOWIeWgT4wretmcMfjHfQ="
+    },
+    "libtam": {
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI="
+    },
+    "tamlinux-tools": {
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo="
+    },
+    "nixpkgs": {
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU="
+    },
+    "home-manager": {
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4="
+    }
+  },
+  "packages": [
+    "tamlinux-shell",
+    "tamlinux-plugins",
+    "tamlinux-commands",
+    "tam",
+    "tamlinux-tools"
+  ],
+  "notes": [
+    "Shell and protocol shadow trial unchanged from the accepted shell a0d7737",
+    "Plugin payload digests equal the 0.4.1 acceptance record",
+    "Adds the product commands tam-work, tam-deploy and tam-plugin, tam and tam-file-select"
+  ]
+}

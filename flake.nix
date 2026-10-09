@@ -7,7 +7,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tamlinux = {
-      url = "github:greenermoose/tamlinux/f618970456ef05b1514506efb3bc7458cab7fa1d";
+      url = "github:greenermoose/tamlinux/167af340cbb68447213f9c5d416bf0814147ad74";
       flake = false;
     };
     tam = {
@@ -53,6 +53,8 @@
         tamlinux.shell.package = lib.mkDefault components.tamlinux-shell;
         tamlinux.shell.pluginPackage = lib.mkDefault components.tamlinux-plugins;
         tamlinux.shell.commandPackage = lib.mkDefault components.tamlinux-commands;
+        tamlinux.tools.tam = lib.mkDefault components.tam;
+        tamlinux.tools.fileSelect = lib.mkDefault components.tamlinux-tools;
       };
       packages.${system} = components // {
         default = components.tam;

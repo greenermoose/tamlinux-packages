@@ -26,6 +26,10 @@ let
           commandPackage = components.tamlinux-commands;
           plugins = [ "fred.demo" ];
         };
+        tamlinux.tools = {
+          tam = components.tam;
+          fileSelect = components.tamlinux-tools;
+        };
       }
     ];
   };
@@ -55,5 +59,17 @@ pkgs.runCommand "tamlinux-assembly-contract" { } ''
   test -x ${files}/.local/bin/tam-menu
   test -f ${files}/.config/tamlinux/menu/default.jsonc
   test ! -e ${files}/.local/bin/tam-protocol-shadow
+  case "$(resolve ${files}/.local/bin/tam)" in
+    ${components.tam}/bin/tam) ;;
+    *) echo "tam does not resolve into its package" >&2; exit 1 ;;
+  esac
+  case "$(resolve ${files}/.local/bin/tam-file-select)" in
+    ${components.tamlinux-tools}/bin/tam-file-select) ;;
+    *) echo "tam-file-select does not resolve into its package" >&2; exit 1 ;;
+  esac
+  # The linked guide is found without system data directories or the
+  # compiled-in path.
+  HOME=${files} XDG_DATA_DIRS=/nonexistent TAM_DATADIR=/nonexistent \
+    ${files}/.local/bin/tam show --pipe welcome | grep -q Welcome
   mkdir -p $out
 ''
