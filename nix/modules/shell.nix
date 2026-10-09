@@ -58,7 +58,18 @@ in
     };
     menuExtension = lib.mkOption {
       type = lib.types.str;
-      default = "${config.xdg.configHome}/tamlinux/extensions/menu.jsonc";
+      default = "${config.xdg.configHome}/tamlinux/menu/extension.jsonc";
+    };
+    menuExtensionSource = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = "Optional private extension payload, installed at the owned menu path.";
+    };
+    menuDefaultSource = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = if builtins.pathExists "${tamlinux}/desktop/menu/default.jsonc"
+        then "${tamlinux}/desktop/menu/default.jsonc" else null;
+      description = "Product menu defaults; null retains compatibility with older shell sources.";
     };
     protocolShadow.enable = lib.mkEnableOption "the explicitly selected read-only protocol trial";
   };
@@ -76,6 +87,10 @@ in
     ];
     home.file.".local/share/tamlinux/shell".source = "${tamlinux}/desktop/shell";
     home.file.".local/share/tamlinux/shell-revision".text = "${cfg.sourceRevision}\n";
+    home.file.".local/bin/tam-menu" = lib.mkIf (builtins.pathExists "${tamlinux}/desktop/menu/tam-menu") {
+      source = "${tamlinux}/desktop/menu/tam-menu";
+      executable = true;
+    };
     home.file.".local/bin/tam-protocol-shadow" = lib.mkIf protocolShadowAvailable {
       source = "${tamlinux}/desktop/protocol-shadow";
       executable = true;
@@ -89,6 +104,12 @@ in
       }
       // lib.optionalAttrs (cfg.settingsSource != null) {
         "tamlinux/shell/settings.json".source = cfg.settingsSource;
+      }
+      // lib.optionalAttrs (cfg.menuDefaultSource != null) {
+        "tamlinux/menu/default.jsonc".source = cfg.menuDefaultSource;
+      }
+      // lib.optionalAttrs (cfg.menuExtensionSource != null) {
+        "tamlinux/menu/extension.jsonc".source = cfg.menuExtensionSource;
       };
     # A plain switch must not silently undo a pending shell Test. The shell
     # deployment helper clears Test metadata for deliberate Test/Run/back
@@ -177,6 +198,9 @@ in
           "TAMLINUX_APP_REMOVER=tam-remove-launcher-entry"
           "TAMLINUX_COMPOSITOR_LIVE_ACTIONS=1"
           "QT_QPA_PLATFORM=wayland"
+        ]
+        ++ lib.optionals (cfg.menuDefaultSource != null) [
+          "TAMLINUX_MENU_DEFAULT=${config.xdg.configHome}/tamlinux/menu/default.jsonc"
         ]
         ++ lib.optionals protocolShadowAvailable [
           # 0.4.1 read-only protocol trial. Hash only trial code so unrelated

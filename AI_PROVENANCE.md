@@ -11,5 +11,6 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-09 | Owned menu paths and source delivery | [Session](docs/ai/2026-10-09-menu-ownership.md) |
 | 2026-10-09 | Guard pending shell Test before activation | [Session](docs/ai/2026-10-09-shell-test-guard.md) |
 | 2026-10-09 | Initial public Nix delivery extraction | [Session](docs/ai/2026-10-09-nix-extraction.md) |
