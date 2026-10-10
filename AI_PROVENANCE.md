@@ -31,3 +31,10 @@ assembly for Fred's authorized Test; physical acceptance remains pending.
 Codex CLI `0.162.1` (`gpt-6.1-sol`) pins the repaired plugin contracts and
 tam 0.9.1, with integration checks against the packaged payloads.
 [Session record](docs/ai/2026-10-09-0.4.2c-repair.md).
+
+## 0.4.2-d review-fix assembly
+
+Codex CLI `0.162.1` (`gpt-6.1-sol`) prepares the distinct d assembly with
+restored product history, stricter deployment verification and an installed
+plugin-selection record. Candidate c remains in Test; d awaits its own Test
+instruction. [Session record](docs/ai/2026-10-10-0.4.2d-review-fixes.md).

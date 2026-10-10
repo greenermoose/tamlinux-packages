@@ -85,11 +85,25 @@ commands resolve into the assembly's packages, and for Run fast-forwards
 `main` without rebuilding. A fixture-based check proves the installed paths.
 
 The packaged 0.4.1 assembly was tested, run and released on 2026-10-09.
-The next Develop candidate selects the owned-menu implementation at product
-`0.4.2-a`. Its Nix shell, plugin and command package names use `0.4.2pre.a`,
-which sorts between 0.4.1 and 0.4.2; the declared product version stays
-`0.4.2-a`. The assembly fixture checks both spellings and their ordering.
-The consumer's installed version must come from the selected assembly.
+The next Develop candidate is **0.4.2-d**, superseding the recorded c Test
+assembly without changing its identity. Its shell, plugin and command package
+names use `0.4.2pre.d`, which sorts between 0.4.1 and 0.4.2; `VERSION` keeps
+`0.4.2-d`. A changed candidate uses the next unused letter. The fixture checks
+candidate spelling and version ordering; the consumer version comes from the
+selected assembly.
+
+The module records the selected plugin IDs and product revision at
+`~/.local/share/tamlinux/deployment-selection.json`. `tam-deploy` evaluates the
+committed assembly's exact package outputs, rejects missing/broken endpoints,
+and compares shell, selected plugins, all product commands, menu defaults,
+`tam-menu`, tam, `tam-man` and file-select with those outputs. A package name or
+matching revision text alone cannot prove that an endpoint belongs to the
+assembly. The selection record supports explicit plugin subsets. Older
+assemblies without it are verified against the full plugin set.
+
+Both deployment and rollback identify the active assembly from its matching
+generation record, so a consumer lock prepared for a future candidate cannot
+become the return pin for an earlier generation.
 
 The owned menu directory is one Home Manager link into an immutable directory
 containing the packaged defaults, an optional personal extension, and an
@@ -97,4 +111,5 @@ optional launcher-filter link. This replaces earlier whole-directory links
 without writing through them into a source checkout. Only the launcher filter
 may be mutable; defaults and extension are fixed inputs to the generation.
 
-The 0.4.2-a candidate still needs promotion to Test and physical acceptance.
+The 0.4.2-d candidate is prepared on `develop`. Promotion to Test, installation
+and physical acceptance remain pending the user's Test instruction.

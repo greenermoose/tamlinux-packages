@@ -60,6 +60,12 @@ pkgs.runCommand "tamlinux-assembly-contract" { } ''
     *) echo "plugin does not resolve into the plugin package" >&2; exit 1 ;;
   esac
   test ! -e ${files}/.config/tamlinux/plugins/fred.other
+  ${pkgs.python3}/bin/python3 - <<'PY'
+  import json
+  from pathlib import Path
+  record = json.loads(Path("${files}/.local/share/tamlinux/deployment-selection.json").read_text())
+  assert record == {"revision": "${product.rev}", "plugins": ["fred.demo"]}
+  PY
   case "$(resolve ${files}/.local/bin/tam-demo)" in
     ${components.tamlinux-commands}/bin/tam-demo) ;;
     *) echo "command does not resolve into the command package" >&2; exit 1 ;;

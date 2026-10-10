@@ -96,6 +96,10 @@ in
       {
         ".local/share/tamlinux/shell".source = "${shell}/share/tamlinux/shell";
         ".local/share/tamlinux/shell-revision".text = "${shell.passthru.revision}\n";
+        ".local/share/tamlinux/deployment-selection.json".text = builtins.toJSON {
+          revision = shell.passthru.revision;
+          plugins = selectedPlugins;
+        };
       }
       // lib.optionalAttrs features.menu {
         ".local/bin/tam-menu".source = "${shell}/bin/tam-menu";

@@ -23,3 +23,13 @@ paths and local flake input URLs. The public example uses an illustrative user
 and needs no private source. These checks establish build/installed component
 behavior; they do not establish complete desktop host integration, boot/network
 acceptance, daily use, or rollback proof. See [scope and limits](first-extraction.md).
+
+## 0.4.2-d assembly verification — 2026-10-10
+
+All Nix flake checks passed against the pinned d product, including 36
+deployment command tests, the existing plugin/work coordination checks, seven
+actual packaged plugin storage tests, component installation and the generic
+Home Manager example. The assembly contract proves explicit plugin selection
+is recorded and excluded payloads remain absent. Public portability and
+provenance checks passed. These checks prepare d for physical Test; they do
+not activate it or establish acceptance.

@@ -94,6 +94,7 @@ let
         passthru = {
           version = productVersion;
           revision = product.rev;
+          deploymentSelectionRecord = true;
           inherit features protocolShadowId;
         };
       }

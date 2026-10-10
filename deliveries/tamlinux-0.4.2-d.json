@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.2-d",
+  "version": "0.4.2-d",
+  "stage": "Develop candidate prepared for Test",
+  "host": "Arch Linux with existing native Hyprland/Quickshell integration",
+  "architecture": "x86_64-linux",
+  "packagingRevision": "The Git commit containing this record",
+  "components": {
+    "tamlinux": {
+      "narHash": "sha256-iS/KrFcLdjVy8t7CAO4jXiIJTr1ZFJx/W8N3jogvE3A=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "8056bd9ca810594fbd39ddd4a511965bed2b41b2"
+    },
+    "tam": {
+      "narHash": "sha256-BinF3o7qizOddiECYK8lA+/dzeiX7tyfxSy63NMSLEk=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "abc1380dea7033d5ebab5336d66ec216b99e1e66"
+    },
+    "libtam": {
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f"
+    },
+    "tamlinux-tools": {
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd"
+    },
+    "nixpkgs": {
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe"
+    },
+    "home-manager": {
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24"
+    }
+  },
+  "packages": [
+    "tamlinux-shell",
+    "tamlinux-plugins",
+    "tamlinux-commands",
+    "tam",
+    "tamlinux-tools"
+  ],
+  "notes": [
+    "Distinct d candidate: preserves c delivery identity and does not activate it",
+    "Restores lost product/plugin history and current bundled installation/usage docs",
+    "Exact output and missing-endpoint verification; rollback return pin identifies the active assembly",
+    "Records selected plugin IDs and product revision; workspace advances to 2.0.5",
+    "Retains tam 0.9.1 and every other component/dependency pin from c; physical acceptance pending"
+  ]
+}

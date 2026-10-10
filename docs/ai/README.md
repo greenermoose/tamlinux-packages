@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-10 | Distinct 0.4.2-d review-fix assembly and exact endpoint verification | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-0.4.2d-review-fixes.md) |
 | 2026-10-09 | 0.4.2-c storage repair assembly with tam 0.9.1 | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-09-0.4.2c-repair.md) |
 | 2026-10-09 | 0.4.2-b repair assembly and Test | Codex CLI 0.162.1 | gpt-6.1-sol | [Session](2026-10-09-0.4.2b-repair.md) |
 | 2026-10-09 | 0.4.2-a menu assembly and prerelease version ordering | Codex CLI 0.162.1 | gpt-6.1-sol | [Session](2026-10-09-0.4.2-assembly.md) |
