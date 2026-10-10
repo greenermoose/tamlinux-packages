@@ -12,7 +12,8 @@ let
   };
   tam = pkgs.stdenv.mkDerivation {
     pname = "tam";
-    version = "0.7.0";
+    version = "0.8.0";
+    passthru.features.manWrapper = true;
     src = sources.tam;
     postPatch = "patchShebangs tests";
     # The command tests read the guide from the source tree, not from $HOME.

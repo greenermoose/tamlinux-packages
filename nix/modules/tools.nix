@@ -29,6 +29,8 @@ in
       # directories, so the packaged guide wins over any other installation.
       ".local/share/tamlinux/knowledge".source = "${cfg.tam}/share/tamlinux/knowledge";
       ".local/bin/tam-file-select".source = "${cfg.fileSelect}/bin/tam-file-select";
+    } // lib.optionalAttrs (cfg.tam.passthru.features.manWrapper or false) {
+      ".local/bin/tam-man".source = "${cfg.tam}/bin/tam-man";
     };
   };
 }

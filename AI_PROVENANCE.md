@@ -19,3 +19,9 @@ privately by the author.
 | 2026-10-09 | Owned menu paths and source delivery | [Session](docs/ai/2026-10-09-menu-ownership.md) |
 | 2026-10-09 | Guard pending shell Test before activation | [Session](docs/ai/2026-10-09-shell-test-guard.md) |
 | 2026-10-09 | Initial public Nix delivery extraction | [Session](docs/ai/2026-10-09-nix-extraction.md) |
+
+## 0.4.2-b repair assembly
+
+Codex CLI `0.162.1` (`gpt-6.1-sol`) prepares the pinned plugin/hover repair
+assembly for Fred's authorized Test; physical acceptance remains pending.
+[Session record](docs/ai/2026-10-09-0.4.2b-repair.md).

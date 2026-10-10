@@ -4,7 +4,10 @@ pkgs.runCommand "tamlinux-installed-components"
     nativeBuildInputs = [ pkgs.stdenv.cc ];
   }
   ''
+    ${components.tam}/bin/tam --version | grep -q 'tam command 0.8.0'
     ${components.tam}/bin/tam --version | grep -q 'libtam 0.2.0'
+    test -x ${components.tam}/bin/tam-man
+    printf '<p>Assembly stdin probe</p>\n' | ${components.tam}/bin/tam show - --pipe | grep -q 'Assembly stdin probe'
     ${components.tam}/bin/tam show --pipe welcome | grep -q 'Welcome'
     set +e
     ${components.tamlinux-tools}/bin/tam-file-select --bogus >stdout 2>stderr

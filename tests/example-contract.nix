@@ -5,6 +5,7 @@ let
 in
 assert c.home.username == "alex";
 assert c.tamlinux.developer.enable && !c.tamlinux.developer.nativeProvided;
+assert c.home.file.".local/bin/tam-man".source == "${c.tamlinux.tools.tam}/bin/tam-man";
 assert !c.tamlinux.shell.protocolShadow.enable;
 assert builtins.elem "TAMLINUX_BACKGROUND_LINK=/home/alex/.local/state/tamlinux/current/background"
   unit.Service.Environment;
@@ -21,6 +22,7 @@ assert !c.tamlinux.shell.package.passthru.features.menu ||
       unit.Service.Environment);
 pkgs.runCommand "tamlinux-example-contract" { } ''
   test -f ${example.activationPackage}/home-files/.config/systemd/user/tamlinux-shell.service
+  test -x ${example.activationPackage}/home-files/.local/bin/tam-man
   ${pkgs.lib.optionalString c.tamlinux.shell.package.passthru.features.menu ''
     test -f ${example.activationPackage}/home-files/.config/tamlinux/menu/default.jsonc
     test -x ${example.activationPackage}/home-files/.local/bin/tam-menu
