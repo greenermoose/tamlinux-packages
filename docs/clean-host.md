@@ -94,6 +94,14 @@ nix build .#checks.x86_64-linux.clean-host-audit
 That Nix check tests the auditor's negative cases; it is not a claim that the
 selected assembly is clean-host-ready.
 
+For a compact view of the same scan, add `--format compact`. Add
+`--report /tmp/full-audit.json` to retain complete JSON evidence alongside it.
+The summary groups unresolved lexical names by menu-only, shared and other
+callers and reports every blocker category; the readiness exit status is
+unchanged. A menu-only reference is not authority to retire its feature.
+The 21 auditor regressions include compact/full evidence parity and failed
+evidence-write handling.
+
 ## Measured baseline and next transfers
 
 The [retained audit](evidence/0.4.3-clean-host-audit.json) covers the five actual
@@ -104,6 +112,15 @@ These are lexical inventory counts, not 108 proven runtime dependencies or 54
 independent defects. For example, a plugin's cache/service name can resemble a
 command. References identify exact output-relative files and lines for review;
 no source bodies or user state are recorded.
+
+The [browser/menu follow-up](evidence/0.4.3-menu-launch-closure.json) records all
+five exact outputs, 16 installed browser/focus regressions and 19 real-output
+probes. It scans 245 runtime files, with 101 unresolved lexical names (103 after
+the terminal slice), no new unresolved names and 54 inherited-name locations.
+Browser defaults and webapp launch now resolve. Groups: 66 menu-only, nine shared,
+26 other callers. The complete installed-component check and auditor Nix check
+pass; this does not establish clean-host readiness. Agent adapters and control,
+theme/assets/capture, session/native and migration/recovery chains remain pending.
 
 The baseline exposes menu launches and settings, theme/font/background support,
 capture helpers, audio/network/power controls, reminders and plugin display or

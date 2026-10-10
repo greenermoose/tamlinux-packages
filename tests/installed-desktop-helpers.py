@@ -63,9 +63,11 @@ elif name == 'xdg-terminal-exec':
     elif os.environ.get('TEST_EXEC_PRESENTATION'):
         i = args.index('-e')
         os.execvp(args[i+1], args[i+1:])
-elif name == 'hyprctl': print('{}')
+elif name == 'hyprctl':
+    if args[:2] == ['clients', '-j']: print(os.environ.get('TEST_CLIENTS', '[]'))
+    else: print('{}')
 '''
-        for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'code'):
+        for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'code', 'chromium'):
             path = host_bin / name
             path.write_text(launch_recorder)
             path.chmod(0o755)
@@ -182,6 +184,46 @@ elif name == 'hyprctl': print('{}')
         assert not (root / 'NEVER').exists()
         run('tam-show-done')
         checks.append('presentation runs packaged bash/logo/done without reinterpreting argv')
+
+        applications = root / 'data/applications'
+        applications.mkdir()
+        desktop = applications / 'chromium.desktop'
+        desktop.write_text('[Desktop Entry]\nType=Application\nName=Chromium\n'
+                           'Exec=chromium --profile-directory="Probe Profile" %U\n')
+        (root / 'config/mimeapps.list').write_text(
+            '[Default Applications]\nx-scheme-handler/http=chromium.desktop\n'
+            'x-scheme-handler/https=chromium.desktop\ntext/html=chromium.desktop\n')
+        env['XDG_DATA_DIRS'] = str(root / 'empty-providers')
+        env['XDG_CURRENT_DESKTOP'] = 'generic'
+        env['BROWSER'] = 'ignore-this-session-override'
+        argv = json.loads(run('tam-browser-command', 'chromium.desktop').stdout)
+        assert argv == ['chromium', '--profile-directory=Probe Profile']
+        checks.append('browser resolver reads XDG desktop provider and preserves static argv')
+
+        assert run('tam-default-browser').stdout == 'chromium\n'
+        checks.append('browser default reader uses packaged XDG tools and isolated MIME handlers')
+
+        literal = 'https://example.invalid/?q=$(touch NEVER)&x=a b'
+        run('tam-launch-webapp', literal, '--name=App With Spaces')
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['name'] == 'chromium'
+        assert launch['args'] == ['--profile-directory=Probe Profile', '--app=' + literal,
+                                  '--name=App With Spaces']
+        assert not (root / 'NEVER').exists()
+        checks.append('webapp launch resolves packaged XDG/resolver/jq/setsid and retains literal URL argv')
+
+        env['TEST_CLIENTS'] = json.dumps([{'class': 'Example', 'title': 'Example',
+                                         'address': '0x123', 'initialClass': 'Example'}])
+        run('tam-launch-or-focus-webapp', 'Example', literal)
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['name'] == 'hyprctl' and launch['args'][0] == 'dispatch'
+        run('tam-hyprland-focus-app', 'Example')
+        checks.append('focus wrappers resolve same-output helpers and record the host Hyprland boundary')
+
+        result = run('tam-launch-browser', '--private', check=False)
+        assert result.returncode != 0 and 'bus' in result.stderr.lower(), result.stderr
+        assert 'command not found' not in result.stderr.lower(), result.stderr
+        checks.append('browser launch resolves packaged tools before the deliberately unavailable user bus')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))

@@ -172,6 +172,9 @@ def main():
     parser.add_argument("--output", action="append", default=[], metavar="KIND=PATH",
                         help="Repeat for shell, plugins, commands, tools and tam immutable outputs")
     parser.add_argument("--host-root", type=Path, help="Optional clean Arch filesystem root to inspect")
+    parser.add_argument("--format", choices=("json", "compact"), default="json",
+                        help="Compact read-only summary; readiness and scan scope stay identical")
+    parser.add_argument("--report", type=Path, help="Also retain the complete JSON evidence at this path")
     args = parser.parse_args()
     try:
         contract = json.loads(args.contract.read_text())
@@ -190,10 +193,52 @@ def main():
         if host_root and not (host_root / "etc/arch-release").is_file():
             raise ValueError("host root must contain etc/arch-release")
         result = audit(contract, outputs, host_root)
+        report = json.dumps(result, indent=2, sort_keys=True) + "\n"
+        if args.report:
+            args.report.write_text(report)
     except (OSError, ValueError, KeyError, IndexError) as error:
         parser.exit(2, f"clean-host-audit: {error}\n")
-    print(json.dumps(result, indent=2, sort_keys=True))
+    print(compact_report(result) if args.format == "compact" else report, end="")
     return 0 if result["candidateReady"] else 1
+
+
+def compact_report(result):
+    """Present existing evidence without filtering blockers or guessing scope."""
+    missing = result["missingPackageCommands"]
+    menu_path = "shell:share/tamlinux/menu/"
+    menu_only, shared, other = [], [], []
+    for name, references in missing.items():
+        menu = any(ref.startswith(menu_path) for ref in references)
+        elsewhere = any(not ref.startswith(menu_path) for ref in references)
+        (shared if menu and elsewhere else menu_only if menu else other).append(name)
+    lines = [
+        f"Target: {result['target']}",
+        f"Inventory ready: {str(result['candidateReady']).lower()}",
+        result["scope"],
+        f"Runtime files scanned: {result['filesScanned']}",
+        f"Available bin commands: {len(result['availableCommands'])}; embedded helper names: {len(result['embeddedHelpers'])}",
+        f"Unresolved lexical command names: {len(missing)}",
+    ]
+    for label, names in (("Menu only", menu_only), ("Menu and other callers", shared), ("Other callers", other)):
+        lines.append(f"{label} ({len(names)}): " + (", ".join(sorted(names)) or "none"))
+    for label, key in (("Missing outputs", "missingOutputs"),
+                       ("Missing required output files", "missingOutputFiles"),
+                       ("Inherited identifier locations", "inheritedIdentifierLocations"),
+                       ("Undeclared absolute tools", "undeclaredAbsoluteTools"),
+                       ("Deferred absolute tools", "deferredAbsoluteTools"),
+                       ("Pending requirements", "pendingRequirements")):
+        lines.append(f"{label}: {len(result[key])}")
+    host = result["host"]
+    if host is None:
+        lines.append("Host: not inspected")
+    else:
+        for label, key in (("Missing required host binaries", "requiredBinariesMissing"),
+                           ("Missing optional host binaries", "optionalBinariesMissing"),
+                           ("Forbidden host packages", "forbiddenPackages")):
+            lines.append(f"{label}: {len(host[key])}")
+    lines.append("Lexical groups identify review candidates, not feature retirement or dependency counts.")
+    lines.append(result["limits"])
+    return "\n".join(lines) + "\n"
 
 
 if __name__ == "__main__":

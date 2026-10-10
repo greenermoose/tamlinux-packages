@@ -161,6 +161,53 @@ class AuditTests(unittest.TestCase):
                              capture_output=True, text=True)
         self.assertEqual(bad.returncode, 2)
 
+    def test_compact_groups_partition_missing_names_without_dropping_blockers(self):
+        self.menu('{"action": "tam-menu-only tam-shared"}')
+        self.write(self.outputs["commands"] / "bin/tam-caller",
+                   '#!/bin/bash\ntam-shared tam-transitive\n', True)
+        result = self.run_audit()
+        compact = module.compact_report(result)
+        self.assertIn('Menu only (1): tam-menu-only', compact)
+        self.assertIn('Menu and other callers (1): tam-shared', compact)
+        self.assertIn('Other callers (1): tam-transitive', compact)
+        self.assertIn('Inventory ready: false', compact)
+        self.assertIn('Host: not inspected', compact)
+
+    def test_compact_cli_retains_identical_complete_evidence_and_exit(self):
+        self.menu('{"action": "tam-missing", "font": "omarchy"}')
+        contract = self.write(self.root / "contract.json", json.dumps(self.contract))
+        args = [sys.executable, str(SCRIPT), '--contract', str(contract)]
+        for name, path in self.outputs.items():
+            args += ['--output', f'{name}={path}']
+        full = subprocess.run(args, capture_output=True, text=True)
+        report = self.root / 'evidence.json'
+        short = subprocess.run(args + ['--format', 'compact', '--report', str(report)],
+                               capture_output=True, text=True)
+        self.assertEqual(short.returncode, full.returncode)
+        self.assertEqual(json.loads(report.read_text()), json.loads(full.stdout))
+        self.assertIn('Inherited identifier locations: 1', short.stdout)
+
+    def test_compact_reports_optional_host_and_required_blockers(self):
+        host = self.root / 'host'
+        self.contract['native'].append({'package': 'extra', 'binaries': ['extra'], 'optional': True})
+        self.write(host / 'var/lib/pacman/local/omarchy-1/desc', '%NAME%\nomarchy\n')
+        compact = module.compact_report(self.run_audit(host_root=host))
+        self.assertIn('Missing required host binaries: 1', compact)
+        self.assertIn('Missing optional host binaries: 1', compact)
+        self.assertIn('Forbidden host packages: 1', compact)
+
+    def test_compact_ready_and_invalid_evidence_destination(self):
+        contract = self.write(self.root / 'contract.json', json.dumps(self.contract))
+        args = [sys.executable, str(SCRIPT), '--contract', str(contract), '--format', 'compact']
+        for name, path in self.outputs.items():
+            args += ['--output', f'{name}={path}']
+        ready = subprocess.run(args, capture_output=True, text=True)
+        self.assertEqual(ready.returncode, 0)
+        self.assertIn('Inventory ready: true', ready.stdout)
+        bad = subprocess.run(args + ['--report', str(self.root / 'absent/evidence.json')],
+                             capture_output=True, text=True)
+        self.assertEqual(bad.returncode, 2)
+
 
 if __name__ == "__main__":
     unittest.main()

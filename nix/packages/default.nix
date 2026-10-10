@@ -106,6 +106,15 @@ let
     tam-show-logo = [ pkgs.ncurses ];
     tam-default-editor = [ pkgs.coreutils ];
     tam-default-terminal = [ pkgs.coreutils ];
+    tam-browser-command = [ pkgs.python3 ];
+    tam-default-browser = [ pkgs.coreutils pkgs.xdg-utils ];
+    tam-launch-browser = [ pkgs.coreutils pkgs.jq pkgs.gnugrep
+      pkgs.systemd pkgs.xdg-utils ];
+    tam-launch-webapp = [ pkgs.coreutils pkgs.jq pkgs.util-linux pkgs.xdg-utils ];
+    tam-hyprland-focus-app = [ pkgs.jq ];
+    tam-launch-or-focus = [ pkgs.bash pkgs.jq pkgs.coreutils pkgs.util-linux ];
+    tam-launch-or-focus-webapp = [ ];
+    tam-launch-or-focus-tui = [ pkgs.coreutils ];
     # tam-menu belongs to the shell output, at this same product revision.
     tam-agent = lib.optionals features.menu [ shell ];
     tam-plugin = [ pkgs.git pkgs.python3 pkgs.jq pkgs.coreutils

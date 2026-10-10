@@ -48,3 +48,11 @@ and default helpers with package dependency closure. Nineteen installed-chain
 regressions, the Nix build/integration and fourteen isolated output probes pass.
 Command closure precedes session/native defaults and clean-host proof; no
 installed candidate changed. [Session](docs/ai/2026-10-10-terminal-editor-closure.md).
+
+## 0.4.3 menu disposition and browser launch closure — 2026-10-10
+
+Codex CLI `0.162.1` (`gpt-6.1-sol`) implemented eight browser/focus interfaces,
+retained menu/keybinding workflow dispositions and compact package-output evidence.
+Sixteen installed launch regressions, 21 auditor regressions, Nix build/integration
+and 19 actual-output probes pass. Independent desktop acceptance remains pending.
+[Session](docs/ai/2026-10-10-0.4.3-menu-launch-closure.md).
