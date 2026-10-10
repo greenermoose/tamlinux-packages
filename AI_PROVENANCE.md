@@ -12,6 +12,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-10 | 0.4.3 clean Arch/Hyprland contract, package gap inventory and 17 audit regression tests | [Session](docs/ai/2026-10-10-0.4.3-clean-host-contract.md) |
 | 2026-10-10 | 0.4.3 desktop helper runtime dependencies; no candidate activation | [Session](docs/ai/2026-10-10-0.4.3-helper-dependencies.md) |
 | 2026-10-09 | Pinned 0.4.2-a menu assembly and correctly ordered prerelease package versions | [Session](docs/ai/2026-10-09-0.4.2-assembly.md) |
 | 2026-10-09 | The Tamlinux 0.4.1 assembly | [Session](docs/ai/2026-10-09-0.4.1-package.md) |

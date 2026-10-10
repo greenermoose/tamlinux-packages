@@ -1,0 +1,200 @@
+#!/usr/bin/env python3
+"""Read explicit package outputs and a host root; never use the caller's PATH.
+
+This is a readiness inventory, not an installer or a shell dependency parser.
+Lexical custom-command references are candidates for investigation, including
+commands inside conditions and launch arguments. Nothing inspected is executed.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+from pathlib import Path
+import re
+
+CUSTOM = re.compile(r"(?<![\w.-])tam-[a-z0-9]+(?:-[a-z0-9]+)*(?![\w.-])")
+ABSOLUTE = re.compile(r"/usr/bin/[a-zA-Z0-9][a-zA-Z0-9_-]*")
+INHERITED = re.compile(r"omarchy", re.IGNORECASE)
+SKIP_DIRS = {".git", "docs", "tests", "upstream", "__pycache__", "node_modules"}
+SUFFIXES = {".qml", ".js", ".py", ".sh", ".json", ".jsonc"}
+
+
+def runtime_files(root):
+    for directory, dirs, files in os.walk(root):
+        dirs[:] = sorted(d for d in dirs if d not in SKIP_DIRS)
+        for name in sorted(files):
+            path = Path(directory) / name
+            if name.startswith("LICENSE") or name in {"source-revision", "version"}:
+                continue
+            if path.suffix in SUFFIXES or (not path.suffix and os.access(path, os.X_OK)):
+                yield path
+
+
+def code_lines(path):
+    """Ignore whole comment lines, retaining interpreter declarations.
+
+    Inline comments/docstrings are intentionally conservative: hits need review.
+    No global inherited-name exception hides runtime compatibility strings.
+    """
+    try:
+        lines = path.read_text(encoding="utf-8").splitlines()
+    except UnicodeDecodeError:
+        return
+    for number, line in enumerate(lines, 1):
+        stripped = line.lstrip()
+        if stripped.startswith(("//", "/*", "*")):
+            continue
+        if stripped.startswith("#") and not stripped.startswith("#!"):
+            continue
+        yield number, line
+
+
+def scan_outputs(outputs):
+    commands, absolute, inherited = {}, {}, []
+    embedded = {}
+    available = {}
+    files_scanned = 0
+    for kind, root in sorted(outputs.items()):
+        for path in sorted((root / "bin").glob("*")):
+            if not path.name.startswith(".") and path.is_file() and os.access(path, os.X_OK):
+                available.setdefault(path.name, []).append(f"{kind}:bin/{path.name}")
+        for path in runtime_files(root):
+            rel = path.relative_to(root).as_posix()
+            location = f"{kind}:{rel}"
+            if rel.startswith("share/tamlinux/plugins/") and os.access(path, os.X_OK):
+                embedded.setdefault(path.name, []).append(location)
+            files_scanned += 1
+            for number, line in code_lines(path):
+                reference = f"{location}:{number}"
+                for name in set(CUSTOM.findall(line)):
+                    commands.setdefault(name, []).append(reference)
+                for name in set(ABSOLUTE.findall(line)):
+                    absolute.setdefault(name, []).append(reference)
+                if INHERITED.search(line):
+                    # Record only identifiers/locations, never source bodies or state.
+                    inherited.append(reference)
+    return commands, absolute, inherited, embedded, available, files_scanned
+
+
+def host_inventory(root, contract):
+    """Offline root inspection. No chroot, package manager or service invocation."""
+    required_missing, optional_missing = [], []
+    for item in contract["native"]:
+        for binary in item["binaries"]:
+            path = root / "usr/bin" / binary
+            present = rooted_executable(root, path)
+            if not present:
+                target = optional_missing if item.get("optional", False) else required_missing
+                target.append({"binary": binary, "package": item["package"]})
+    forbidden = []
+    for path in sorted((root / "var/lib/pacman/local").glob("*/desc")):
+        lines = path.read_text().splitlines()
+        if "%NAME%" in lines:
+            name = lines[lines.index("%NAME%") + 1]
+            if name in contract["forbiddenPackages"] or INHERITED.search(name):
+                forbidden.append(name)
+    return {"requiredBinariesMissing": required_missing,
+            "optionalBinariesMissing": optional_missing,
+            "forbiddenPackages": sorted(forbidden),
+            "limits": "Offline binary/package presence only; repositories, sources, services, login and hardware still require installation proof."}
+
+
+def rooted_executable(root, path):
+    """Follow image symlinks inside the inspected root, with bounded traversal."""
+    root = root.resolve()
+    relative = path.relative_to(root)
+    parts = list(relative.parts)
+    current = root
+    traversals = 0
+    while parts:
+        part = parts.pop(0)
+        if part == ".":
+            continue
+        if part == "..":
+            if current == root:
+                return False
+            current = current.parent
+            continue
+        current = current / part
+        if current.is_symlink():
+            traversals += 1
+            if traversals > 40:
+                return False
+            target = Path(os.readlink(current))
+            current = root if target.is_absolute() else current.parent
+            parts = list(target.parts[1:] if target.is_absolute() else target.parts) + parts
+    return current.is_file() and os.access(current, os.X_OK)
+
+
+def audit(contract, outputs, host_root=None):
+    commands, absolute, inherited, embedded, available, scanned = scan_outputs(outputs)
+    declared = {"/usr/bin/" + binary for item in contract["native"] for binary in item["binaries"]}
+    deferred = set(contract.get("deferredAbsoluteTools", []))
+    missing = {name: sorted(refs) for name, refs in sorted(commands.items())
+               if name not in available and name not in embedded}
+    undeclared = {name: sorted(refs) for name, refs in sorted(absolute.items())
+                  if name not in declared and name not in deferred}
+    missing_outputs = sorted(set(contract["outputs"]) - set(outputs))
+    missing_files = []
+    for kind, paths in contract.get("requiredFiles", {}).items():
+        missing_files.extend(f"{kind}:{path}" for path in paths
+                             if kind not in outputs or not (outputs[kind] / path).is_file())
+    for kind, paths in contract.get("requiredExecutables", {}).items():
+        missing_files.extend(f"{kind}:{path}" for path in paths
+                             if kind not in outputs or not (outputs[kind] / path).is_file()
+                             or not os.access(outputs[kind] / path, os.X_OK))
+    host = host_inventory(host_root, contract) if host_root else None
+    blocked = bool(missing or inherited or undeclared or missing_outputs or missing_files or contract["pending"]
+                   or (host and (host["requiredBinariesMissing"] or host["forbiddenPackages"])))
+    return {
+        "schema": 1, "target": contract["target"], "candidateReady": not blocked,
+        "scope": "Static package-output inventory; not clean-host acceptance",
+        "filesScanned": scanned, "missingOutputs": missing_outputs,
+        "missingOutputFiles": sorted(missing_files),
+        "availableCommands": available,
+        "customCommandReferences": {name: sorted(refs) for name, refs in sorted(commands.items())},
+        "missingPackageCommands": missing,
+        "embeddedHelpers": embedded,
+        "inheritedIdentifierLocations": sorted(inherited),
+        "undeclaredAbsoluteTools": undeclared,
+        "deferredAbsoluteTools": sorted(set(absolute) & deferred),
+        "pendingRequirements": contract["pending"],
+        "host": host,
+        "limits": "Custom command matches are lexical, including data and dormant code; review before transfer. Embedded helper presence does not prove invocation resolution. PATH tools, dynamic commands, transitive third-party dependencies, repositories, theme assets and effective configuration require further proof. Whole-line provenance comments/licenses/tests/docs are excluded; inline comments and compatibility data may need review."
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--contract", type=Path,
+                        default=Path(__file__).resolve().parents[1] / "contracts/arch-hyprland.json")
+    parser.add_argument("--output", action="append", default=[], metavar="KIND=PATH",
+                        help="Repeat for shell, plugins, commands, tools and tam immutable outputs")
+    parser.add_argument("--host-root", type=Path, help="Optional clean Arch filesystem root to inspect")
+    args = parser.parse_args()
+    try:
+        contract = json.loads(args.contract.read_text())
+        if contract["schema"] != 1:
+            raise ValueError("unsupported contract schema")
+        outputs = {}
+        for value in args.output:
+            kind, path = value.split("=", 1)
+            if kind not in contract["outputs"] or kind in outputs:
+                raise ValueError(f"unknown or duplicate output kind: {kind}")
+            root = Path(path).resolve()
+            if not root.is_dir():
+                raise ValueError(f"output is not a directory: {kind}")
+            outputs[kind] = root
+        host_root = args.host_root.resolve() if args.host_root else None
+        if host_root and not (host_root / "etc/arch-release").is_file():
+            raise ValueError("host root must contain etc/arch-release")
+        result = audit(contract, outputs, host_root)
+    except (OSError, ValueError, KeyError, IndexError) as error:
+        parser.exit(2, f"clean-host-audit: {error}\n")
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0 if result["candidateReady"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

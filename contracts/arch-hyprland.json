@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "target": "arch-hyprland",
+  "architecture": "x86_64-linux",
+  "stage": "Develop; clean installation not yet proven",
+  "independenceGate": {
+    "requiredChecks": ["I01", "I02", "I03", "I04", "I05", "I06", "I07", "I08", "I09"],
+    "identity": "artifact tuple SHA-256",
+    "passRule": "Every required ID passes with runner identity and evidence digests for the same artifact tuple; missing, blocked or stale evidence fails closed",
+    "implementation": "Pending: this static inventory supports part of I03, not the complete gate"
+  },
+  "outputs": ["shell", "plugins", "commands", "tools", "tam"],
+  "requiredFiles": {
+    "shell": ["share/tamlinux/shell/shell.qml", "share/tamlinux/shell/host/session_start.py", "share/tamlinux/menu/default.jsonc", "share/tamlinux/version", "share/tamlinux/source-revision"],
+    "plugins": ["share/tamlinux/plugins/fred.agents/manifest.json", "share/tamlinux/plugins/fred.clock/manifest.json", "share/tamlinux/plugins/fred.keyboard/manifest.json", "share/tamlinux/plugins/fred.monitor/manifest.json", "share/tamlinux/plugins/fred.sysinfo/manifest.json", "share/tamlinux/plugins/fred.tides/manifest.json", "share/tamlinux/plugins/fred.weather/manifest.json", "share/tamlinux/plugins/fred.workspaces/manifest.json"]
+  },
+  "requiredExecutables": {
+    "shell": ["bin/tam-menu"],
+    "commands": ["bin/tam-agent", "bin/tam-cmd-present", "bin/tam-deploy", "bin/tam-launch-tui", "bin/tam-menu-select", "bin/tam-menu-timezone", "bin/tam-notification-send", "bin/tam-plugin", "bin/tam-qmlcache-purge", "bin/tam-restart-shell", "bin/tam-shell", "bin/tam-theme-payload", "bin/tam-work"],
+    "tools": ["bin/tam-file-select"],
+    "tam": ["bin/tam", "bin/tam-man"]
+  },
+  "native": [
+    {"package": "bash", "binaries": ["bash"], "purpose": "Desktop process launch and shell helpers"},
+    {"package": "python", "binaries": ["python3"], "purpose": "Session launcher and plugin probes"},
+    {"package": "coreutils", "binaries": ["env", "install", "ls", "mkdir", "readlink", "rm", "timeout"], "purpose": "Absolute host actions and state files"},
+    {"package": "util-linux", "binaries": ["setpriv", "setsid"], "purpose": "Process lifetime and terminal launch"},
+    {"package": "systemd", "binaries": ["busctl", "systemctl", "timedatectl"], "purpose": "User units, login/sleep and notification bus"},
+    {"package": "hyprland", "binaries": ["Hyprland", "hyprctl"], "purpose": "Wayland session and Hyprland IPC; selected build must support the product's Lua dispatches"},
+    {"package": "hypridle", "binaries": ["hypridle"], "purpose": "Retained idle/sleep behavior; enablement follows the selected policy"},
+    {"package": "hyprlock", "binaries": ["hyprlock"], "purpose": "Retained locker with host-owned PAM and packaged configuration"},
+    {"package": "hyprsunset", "binaries": ["hyprsunset"], "purpose": "Retained night-light controls"},
+    {"package": "quickshell", "binaries": ["quickshell"], "purpose": "Qt/Wayland shell and Quickshell QML modules"},
+    {"package": "uwsm", "binaries": ["uwsm", "uwsm-app"], "purpose": "Graphical session environment and application launch"},
+    {"package": "xdg-terminal-exec", "binaries": ["xdg-terminal-exec"], "purpose": "Selected terminal desktop entry"},
+    {"package": "xdg-utils", "binaries": ["xdg-open"], "purpose": "Open URLs and files"},
+    {"package": "wl-clipboard", "binaries": ["wl-copy", "wl-paste"], "purpose": "Clipboard and calendar copying"},
+    {"package": "inotify-tools", "binaries": ["inotifywait"], "purpose": "Watch the owned background selection"},
+    {"package": "procps-ng", "binaries": ["pgrep", "pkill"], "purpose": "Clipboard/recording process control"},
+    {"package": "libnotify", "binaries": ["notify-send"], "purpose": "Plugin notifications"},
+    {"package": "pciutils", "binaries": ["lspci"], "purpose": "Hardware information probe"},
+    {"package": "power-profiles-daemon", "binaries": ["powerprofilesctl"], "optional": true, "purpose": "Power profile controls; unavailable service must degrade explicitly"}
+  ],
+  "facilities": [
+    {"id": "session", "providers": ["dbus", "systemd", "uwsm"], "proof": "Fresh graphical login imports WAYLAND_DISPLAY and Hyprland IPC identity into the user manager and starts graphical-session.target"},
+    {"id": "graphics", "providers": ["mesa", "quickshell", "hyprland"], "proof": "Native Qt/Wayland/DRM stack loads all eight plugins; matching Quickshell modules and driver bridge"},
+    {"id": "audio", "providers": ["pipewire", "wireplumber"], "proof": "Audio panel, mute/volume/media keys and desktop recording audio"},
+    {"id": "network", "providers": ["networkmanager"], "proof": "NetworkManager D-Bus access, Wi-Fi panel and QR workflow"},
+    {"id": "bluetooth", "providers": ["bluez"], "proof": "Enabled Bluetooth service and panel behavior on capable hardware"},
+    {"id": "authorization", "providers": ["polkit", "pam"], "proof": "Shell authorization agent and locker authenticate through host-owned policy/PAM"},
+    {"id": "portals", "providers": ["xdg-desktop-portal", "xdg-desktop-portal-hyprland", "xdg-desktop-portal-gtk"], "proof": "File selection, screen sharing and application access in the new session"},
+    {"id": "credentials", "providers": ["host Secret Service/keyring"], "proof": "Selected application and portal credentials survive login and remain outside public defaults"},
+    {"id": "capture", "providers": ["pending declared capture/recording/OCR/QR dependencies"], "proof": "Preserved capture workflows from packaged helper chains; exact independent tools/providers selected with their implementations"},
+    {"id": "applications", "providers": ["consumer selections"], "proof": "Independently installed terminal, editor and browser desktop entries resolve without workstation overrides"},
+    {"id": "boot-recovery", "providers": ["Arch host", "pending Tamlinux native integration"], "proof": "Host-specific IDs, boot/initramfs update, fallback/recovery and sleep/resume after every changed root integration"}
+  ],
+  "pending": [
+    {"id": "independence-gate", "owner": "delivery", "proof": "Implement and run all nine tuple-bound checks from the product plan; static scan success cannot substitute for runtime, migration, network or recovery evidence"},
+    {"id": "menu-command-closure", "owner": "product", "proof": "All retained actions, conditions and provider-generated calls resolve from declared packages, including transitive helpers"},
+    {"id": "theme-assets-fonts", "owner": "product", "proof": "Owned default theme/background, icon and text fonts render today's desktop without inherited assets or pre-existing XDG state"},
+    {"id": "hyprland-session-defaults", "owner": "product/native host", "proof": "Packaged fresh-host compositor/session/keybinding defaults; consumer contributes only selections and machine values"},
+    {"id": "browser-native-hosts", "owner": "product/native host", "proof": "Renamed native registrations and helpers with actual extension permissions and copy/download tests"},
+    {"id": "editor-defaults", "owner": "product", "proof": "Independent editor integration with preserved user data"},
+    {"id": "settings-native-ownership", "owner": "product/native host", "proof": "Inspected system settings/services/hooks classified and required behavior delivered by pinned native packages"},
+    {"id": "independent-providers", "owner": "delivery", "proof": "Exact third-party sources, recipes, signatures and channels recorded; no inherited repository/server required"},
+    {"id": "clean-host-proof", "owner": "delivery", "proof": "Actual clean Arch installation, login/workflows, blocked inherited domains, update and rollback with exact artifact identities"}
+  ],
+  "forbiddenPackages": ["omarchy", "omarchy-settings", "omarchy-nvim", "omarchy-keyring", "linux-omarchy", "linux-omarchy-headers"],
+  "deferredAbsoluteTools": ["/usr/bin/swaymsg"],
+  "limits": "Native package names are the host contract, not proof of independent availability or exact versions. Binary presence and lexical scans cannot establish complete runtime closure, bus/service availability, visual behavior or clean-host acceptance. Pending requirements always block candidate readiness."
+}

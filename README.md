@@ -28,6 +28,11 @@ directory are illustrative: set your own values before activation. Build it
 first and review [the host prerequisites and limits](docs/first-extraction.md).
 No check activates a desktop, starts services, or changes the host package database.
 
+The [0.4.3 clean-host contract and audit](docs/clean-host.md) declare the native
+Arch/Hyprland prerequisites and inspect explicit built outputs for missing
+commands and inherited software identifiers. Its retained baseline exposes
+unfinished desktop closure; the example is not yet a complete clean-host install.
+
 Import `homeManagerModules.default`, enable `tamlinux.shell.enable`, and supply
 layout/settings sources. The module installs the shell, plugins and product
 commands from package outputs built from one product revision

@@ -62,6 +62,7 @@
       };
       homeConfigurations.example = example;
       checks.${system} = components // {
+        clean-host-audit = import ./tests/clean-host-audit.nix { inherit pkgs; };
         developer-baseline = import ./tests/developer-baseline.nix { inherit pkgs; };
         example-contract = import ./tests/example-contract.nix { inherit pkgs example; };
         assembly-contract = import ./tests/assembly-contract.nix {
