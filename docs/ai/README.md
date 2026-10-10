@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-09 | 0.4.2-c storage repair assembly with tam 0.9.1 | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-09-0.4.2c-repair.md) |
 | 2026-10-09 | 0.4.2-b repair assembly and Test | Codex CLI 0.162.1 | gpt-6.1-sol | [Session](2026-10-09-0.4.2b-repair.md) |
 | 2026-10-09 | 0.4.2-a menu assembly and prerelease version ordering | Codex CLI 0.162.1 | gpt-6.1-sol | [Session](2026-10-09-0.4.2-assembly.md) |
 | 2026-10-09 | The Tamlinux 0.4.1 assembly | Claude Code 2.1.295 | claude-opus-5-5 | [Session](2026-10-09-0.4.1-package.md) |

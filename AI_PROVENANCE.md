@@ -25,3 +25,9 @@ privately by the author.
 Codex CLI `0.162.1` (`gpt-6.1-sol`) prepares the pinned plugin/hover repair
 assembly for Fred's authorized Test; physical acceptance remains pending.
 [Session record](docs/ai/2026-10-09-0.4.2b-repair.md).
+
+## 0.4.2-c storage repair assembly
+
+Codex CLI `0.162.1` (`gpt-6.1-sol`) pins the repaired plugin contracts and
+tam 0.9.1, with integration checks against the packaged payloads.
+[Session record](docs/ai/2026-10-09-0.4.2c-repair.md).

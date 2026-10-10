@@ -7,11 +7,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tamlinux = {
-      url = "github:greenermoose/tamlinux/eace805340d49e7a4e49df5f34c32344c92c18cf";
+      url = "github:greenermoose/tamlinux/307b507e08699404b3865591c7fd433763442f3d";
       flake = false;
     };
     tam = {
-      url = "github:greenermoose/tam/326063d29854c35159f00f066b548fc0d9c7dc7e";
+      url = "github:greenermoose/tam/abc1380dea7033d5ebab5336d66ec216b99e1e66";
       flake = false;
     };
     libtam = {
@@ -69,7 +69,10 @@
           module = self.homeManagerModules.default;
           sources = inputs;
         };
-        installed-components = import ./tests/installed-components.nix { inherit pkgs components; };
+        installed-components = import ./tests/installed-components.nix {
+          inherit pkgs components;
+          productSource = tamlinux;
+        };
       };
     };
 }

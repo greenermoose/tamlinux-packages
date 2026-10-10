@@ -12,7 +12,7 @@ let
   };
   tam = pkgs.stdenv.mkDerivation {
     pname = "tam";
-    version = "0.8.0";
+    version = "0.9.1";
     passthru.features.manWrapper = true;
     src = sources.tam;
     postPatch = "patchShebangs tests";
