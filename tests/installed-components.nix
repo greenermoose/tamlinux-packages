@@ -15,6 +15,10 @@ pkgs.runCommand "tamlinux-installed-components"
     ${components.tam}/bin/tam show --pipe welcome | grep -q 'Welcome'
     TAM_PLUGIN_STORAGE_ROOT=${components.tamlinux-plugins}/share/tamlinux/plugins \
       ${pkgs.python3}/bin/python3 -B ${productSource}/desktop/tests/test_plugin_storage.py
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-shell" components.tamlinux-commands.passthru.names) ''
+      ${pkgs.python3}/bin/python3 -B ${./installed-desktop-helpers.py} \
+        --commands ${components.tamlinux-commands} --shell ${components.tamlinux-shell}
+    ''}
     set +e
     ${components.tamlinux-tools}/bin/tam-file-select --bogus >stdout 2>stderr
     status=$?

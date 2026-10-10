@@ -7,11 +7,12 @@ privately by the author.
 
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
-| Codex CLI | 0.162.1 | gpt-6.1-sol | 2026-10-09 |
+| Codex CLI | 0.162.1 | gpt-6.1-sol | 2026-10-10 |
 | Claude Code | 2.1.295 | claude-opus-5-5 | 2026-10-09 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-10 | 0.4.3 desktop helper runtime dependencies; no candidate activation | [Session](docs/ai/2026-10-10-0.4.3-helper-dependencies.md) |
 | 2026-10-09 | Pinned 0.4.2-a menu assembly and correctly ordered prerelease package versions | [Session](docs/ai/2026-10-09-0.4.2-assembly.md) |
 | 2026-10-09 | The Tamlinux 0.4.1 assembly | [Session](docs/ai/2026-10-09-0.4.1-package.md) |
 | 2026-10-09 | Shell, plugins and commands installed from one packaged assembly | [Session](docs/ai/2026-10-09-packaged-assembly.md) |

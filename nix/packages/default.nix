@@ -88,9 +88,26 @@ let
   commandNames = lib.sort lib.lessThan (
     lib.attrNames (lib.filterAttrs (name: type: type == "directory" && has "commands/${name}/Makefile") (entries "commands"))
   );
+  # Host session facilities (Quickshell, UWSM and xdg-terminal-exec) remain
+  # independently supplied prerequisites. These helpers own their other tools
+  # and resolve one another from the same command output, before user PATH.
+  commandRuntimeDeps = {
+    tam-notification-send = [ pkgs.jq pkgs.systemd ];
+    tam-shell = [ pkgs.coreutils pkgs.gnugrep ];
+    tam-menu-select = [ pkgs.perl pkgs.coreutils ];
+    tam-menu-timezone = [ pkgs.systemd ];
+    tam-launch-tui = [ pkgs.coreutils pkgs.util-linux ];
+    # tam-menu belongs to the shell output, at this same product revision.
+    tam-agent = lib.optionals features.menu [ shell ];
+    tam-plugin = [ pkgs.git pkgs.python3 pkgs.jq pkgs.coreutils
+      pkgs.diffutils pkgs.findutils pkgs.gawk pkgs.gnugrep ];
+    tam-qmlcache-purge = [ pkgs.coreutils pkgs.findutils ];
+    tam-restart-shell = [ pkgs.systemd ];
+  };
   shell =
     pkgs.runCommand "tamlinux-shell-${packageVersion}"
       {
+        nativeBuildInputs = [ pkgs.bash pkgs.python3 ];
         passthru = {
           version = productVersion;
           revision = product.rev;
@@ -110,6 +127,7 @@ let
           install -m755 ${product}/desktop/menu/tam-menu $out/bin/tam-menu
         ''}
         ${lib.optionalString features.protocolShadow "install -m755 ${product}/desktop/protocol-shadow $out/bin/tam-protocol-shadow"}
+        patchShebangs $out/bin
       '';
   # Plugin payloads come from the same product revision as the shell.
   plugins =
@@ -136,6 +154,7 @@ let
     src = product;
     dontConfigure = true;
     dontBuild = true;
+    nativeBuildInputs = [ pkgs.makeWrapper ];
     buildInputs = [
       pkgs.bash
       pkgs.python3
@@ -145,11 +164,14 @@ let
       pkgs.python3
       pkgs.jq
       pkgs.which
+      pkgs.nodejs
+      pkgs.perl
     ];
     doCheck = true;
     checkPhase = ''
       runHook preCheck
       patchShebangs commands
+      ${lib.optionalString features.menu "patchShebangs desktop/menu/tam-menu"}
       export HOME=$TMPDIR/home
       mkdir -p $HOME
       git config --global user.email check@example.invalid
@@ -168,6 +190,12 @@ let
       mkdir -p $out/bin
       runHook postInstall
     '';
+    postFixup = lib.concatMapStrings (name:
+      lib.optionalString (lib.elem name commandNames) ''
+        wrapProgram $out/bin/${name} \
+          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}"
+      ''
+    ) (lib.attrNames commandRuntimeDeps);
     passthru = {
       names = commandNames;
       revision = product.rev;
