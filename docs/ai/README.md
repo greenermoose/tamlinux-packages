@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-10 | 0.4.3 terminal/editor package closure and prioritized implementation | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-terminal-editor-closure.md) |
 | 2026-10-10 | 0.4.3 clean Arch/Hyprland contract and explicit package-output audit | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-0.4.3-clean-host-contract.md) |
 | 2026-10-10 | 0.4.3 desktop helper runtime dependencies and development package checks | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-0.4.3-helper-dependencies.md) |
 | 2026-10-10 | Distinct 0.4.2-d review-fix assembly and exact endpoint verification | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-0.4.2d-review-fixes.md) |

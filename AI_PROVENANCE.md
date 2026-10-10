@@ -40,3 +40,11 @@ Codex CLI `0.162.1` (`gpt-6.1-sol`) prepares the distinct d assembly with
 restored product history, stricter deployment verification and an installed
 plugin-selection record. Candidate c remains in Test; d awaits its own Test
 instruction. [Session record](docs/ai/2026-10-10-0.4.2d-review-fixes.md).
+
+## 0.4.3 terminal/editor closure — 2026-10-10
+
+Codex CLI `0.162.1` (`gpt-6.1-sol`) implemented nine terminal/editor launch
+and default helpers with package dependency closure. Nineteen installed-chain
+regressions, the Nix build/integration and fourteen isolated output probes pass.
+Command closure precedes session/native defaults and clean-host proof; no
+installed candidate changed. [Session](docs/ai/2026-10-10-terminal-editor-closure.md).

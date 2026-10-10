@@ -1,0 +1,1273 @@
+{
+  "audit": {
+    "availableCommands": {
+      "tam": [
+        "tam:bin/tam"
+      ],
+      "tam-agent": [
+        "commands:bin/tam-agent"
+      ],
+      "tam-cmd-present": [
+        "commands:bin/tam-cmd-present"
+      ],
+      "tam-cmd-terminal-cwd": [
+        "commands:bin/tam-cmd-terminal-cwd"
+      ],
+      "tam-default-editor": [
+        "commands:bin/tam-default-editor"
+      ],
+      "tam-default-terminal": [
+        "commands:bin/tam-default-terminal"
+      ],
+      "tam-deploy": [
+        "commands:bin/tam-deploy"
+      ],
+      "tam-file-select": [
+        "tools:bin/tam-file-select"
+      ],
+      "tam-launch-config-editor": [
+        "commands:bin/tam-launch-config-editor"
+      ],
+      "tam-launch-editor": [
+        "commands:bin/tam-launch-editor"
+      ],
+      "tam-launch-floating-terminal-with-presentation": [
+        "commands:bin/tam-launch-floating-terminal-with-presentation"
+      ],
+      "tam-launch-terminal": [
+        "commands:bin/tam-launch-terminal"
+      ],
+      "tam-launch-tui": [
+        "commands:bin/tam-launch-tui"
+      ],
+      "tam-man": [
+        "tam:bin/tam-man"
+      ],
+      "tam-menu": [
+        "shell:bin/tam-menu"
+      ],
+      "tam-menu-select": [
+        "commands:bin/tam-menu-select"
+      ],
+      "tam-menu-timezone": [
+        "commands:bin/tam-menu-timezone"
+      ],
+      "tam-notification-send": [
+        "commands:bin/tam-notification-send"
+      ],
+      "tam-plugin": [
+        "commands:bin/tam-plugin"
+      ],
+      "tam-protocol-shadow": [
+        "shell:bin/tam-protocol-shadow"
+      ],
+      "tam-qmlcache-purge": [
+        "commands:bin/tam-qmlcache-purge"
+      ],
+      "tam-restart-shell": [
+        "commands:bin/tam-restart-shell"
+      ],
+      "tam-shell": [
+        "commands:bin/tam-shell"
+      ],
+      "tam-show-done": [
+        "commands:bin/tam-show-done"
+      ],
+      "tam-show-logo": [
+        "commands:bin/tam-show-logo"
+      ],
+      "tam-theme-payload": [
+        "commands:bin/tam-theme-payload"
+      ],
+      "tam-work": [
+        "commands:bin/tam-work"
+      ]
+    },
+    "candidateReady": false,
+    "customCommandReferences": {
+      "tam-agent": [
+        "commands:bin/.tam-agent-wrapped:67",
+        "shell:share/tamlinux/shell/host/BarApi.qml:169",
+        "shell:share/tamlinux/shell/shell.qml:633"
+      ],
+      "tam-agent-usage": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-codex:615"
+      ],
+      "tam-agent-usage-antigravity": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-antigravity:119",
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-antigravity:133",
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-antigravity:201",
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-antigravity:233",
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-antigravity:86"
+      ],
+      "tam-agent-usage-codex": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-codex:413",
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-codex:452"
+      ],
+      "tam-agent-usage-cursor": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-cursor:315",
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-cursor:356"
+      ],
+      "tam-agent-usage-update": [
+        "plugins:share/tamlinux/plugins/fred.agents/Main.qml:25",
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-update:46"
+      ],
+      "tam-audio-input-set-default": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:484"
+      ],
+      "tam-audio-output-set-default": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:472",
+        "shell:share/tamlinux/shell/panels/bluetooth/Panel.qml:215"
+      ],
+      "tam-audio-output-sink": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:601"
+      ],
+      "tam-audio-sink-availability": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:592"
+      ],
+      "tam-battery-low": [
+        "shell:share/tamlinux/shell/services/battery/Service.qml:39"
+      ],
+      "tam-battery-status": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:205"
+      ],
+      "tam-bluetooth-device": [
+        "shell:share/tamlinux/shell/panels/bluetooth/Panel.qml:271"
+      ],
+      "tam-bluetooth-power": [
+        "shell:share/tamlinux/shell/panels/bluetooth/Panel.qml:641"
+      ],
+      "tam-brightness-display": [
+        "plugins:share/tamlinux/plugins/fred.monitor/fred-monitor-state:241",
+        "plugins:share/tamlinux/plugins/fred.monitor/fred-monitor-state:285"
+      ],
+      "tam-capture-qr": [
+        "shell:share/tamlinux/menu/default.jsonc:36"
+      ],
+      "tam-capture-screenrecording": [
+        "shell:share/tamlinux/menu/default.jsonc:33",
+        "shell:share/tamlinux/menu/default.jsonc:38",
+        "shell:share/tamlinux/menu/default.jsonc:39",
+        "shell:share/tamlinux/menu/default.jsonc:40",
+        "shell:share/tamlinux/shell/bar/indicators/ScreenRecording.qml:44"
+      ],
+      "tam-capture-screenrecording-with-webcam": [
+        "shell:share/tamlinux/menu/default.jsonc:41"
+      ],
+      "tam-capture-screenshot": [
+        "shell:share/tamlinux/menu/default.jsonc:32"
+      ],
+      "tam-capture-text": [
+        "shell:share/tamlinux/menu/default.jsonc:35"
+      ],
+      "tam-capture-webcam-list": [
+        "shell:share/tamlinux/menu/default.jsonc:41"
+      ],
+      "tam-cmd-present": [
+        "commands:bin/.tam-agent-wrapped:88",
+        "commands:bin/.tam-launch-editor-wrapped:49",
+        "shell:share/tamlinux/menu/default.jsonc:119",
+        "shell:share/tamlinux/menu/default.jsonc:120",
+        "shell:share/tamlinux/menu/default.jsonc:121",
+        "shell:share/tamlinux/menu/default.jsonc:122",
+        "shell:share/tamlinux/menu/default.jsonc:123",
+        "shell:share/tamlinux/menu/default.jsonc:124",
+        "shell:share/tamlinux/menu/default.jsonc:125",
+        "shell:share/tamlinux/menu/default.jsonc:127",
+        "shell:share/tamlinux/menu/default.jsonc:128",
+        "shell:share/tamlinux/menu/default.jsonc:129",
+        "shell:share/tamlinux/menu/default.jsonc:130",
+        "shell:share/tamlinux/menu/default.jsonc:132",
+        "shell:share/tamlinux/menu/default.jsonc:133",
+        "shell:share/tamlinux/menu/default.jsonc:134",
+        "shell:share/tamlinux/menu/default.jsonc:135",
+        "shell:share/tamlinux/menu/default.jsonc:136",
+        "shell:share/tamlinux/menu/default.jsonc:137",
+        "shell:share/tamlinux/menu/default.jsonc:138",
+        "shell:share/tamlinux/menu/default.jsonc:139",
+        "shell:share/tamlinux/menu/default.jsonc:52",
+        "shell:share/tamlinux/menu/default.jsonc:53",
+        "shell:share/tamlinux/menu/default.jsonc:54",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:513"
+      ],
+      "tam-cmd-terminal-cwd": [
+        "commands:bin/.tam-launch-terminal-wrapped:32"
+      ],
+      "tam-default-agent": [
+        "shell:share/tamlinux/menu/default.jsonc:105",
+        "shell:share/tamlinux/menu/default.jsonc:106",
+        "shell:share/tamlinux/menu/default.jsonc:107",
+        "shell:share/tamlinux/menu/default.jsonc:108",
+        "shell:share/tamlinux/menu/default.jsonc:109",
+        "shell:share/tamlinux/menu/default.jsonc:110",
+        "shell:share/tamlinux/menu/default.jsonc:111",
+        "shell:share/tamlinux/menu/default.jsonc:112",
+        "shell:share/tamlinux/menu/default.jsonc:113",
+        "shell:share/tamlinux/menu/default.jsonc:114",
+        "shell:share/tamlinux/menu/default.jsonc:115",
+        "shell:share/tamlinux/menu/default.jsonc:116",
+        "shell:share/tamlinux/menu/default.jsonc:117",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:477"
+      ],
+      "tam-default-browser": [
+        "shell:share/tamlinux/menu/default.jsonc:119",
+        "shell:share/tamlinux/menu/default.jsonc:120",
+        "shell:share/tamlinux/menu/default.jsonc:121",
+        "shell:share/tamlinux/menu/default.jsonc:122",
+        "shell:share/tamlinux/menu/default.jsonc:123",
+        "shell:share/tamlinux/menu/default.jsonc:124",
+        "shell:share/tamlinux/menu/default.jsonc:125",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:478"
+      ],
+      "tam-default-editor": [
+        "commands:bin/.tam-default-editor-wrapped:52",
+        "shell:share/tamlinux/menu/default.jsonc:132",
+        "shell:share/tamlinux/menu/default.jsonc:133",
+        "shell:share/tamlinux/menu/default.jsonc:134",
+        "shell:share/tamlinux/menu/default.jsonc:135",
+        "shell:share/tamlinux/menu/default.jsonc:136",
+        "shell:share/tamlinux/menu/default.jsonc:137",
+        "shell:share/tamlinux/menu/default.jsonc:138",
+        "shell:share/tamlinux/menu/default.jsonc:139",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:479"
+      ],
+      "tam-default-terminal": [
+        "commands:bin/.tam-default-terminal-wrapped:50",
+        "shell:share/tamlinux/menu/default.jsonc:127",
+        "shell:share/tamlinux/menu/default.jsonc:128",
+        "shell:share/tamlinux/menu/default.jsonc:129",
+        "shell:share/tamlinux/menu/default.jsonc:130",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:480"
+      ],
+      "tam-deploy": [
+        "commands:bin/.tam-plugin-wrapped:115",
+        "commands:bin/.tam-plugin-wrapped:577",
+        "commands:bin/tam-deploy:444",
+        "commands:bin/tam-deploy:476"
+      ],
+      "tam-desktop-mode": [
+        "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:58",
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1016",
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1023",
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1029",
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1070",
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:845",
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:882",
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:884"
+      ],
+      "tam-disk-speedtest": [
+        "shell:share/tamlinux/shell/panels/diskspeedtest/Panel.qml:103"
+      ],
+      "tam-display-text-size": [
+        "plugins:share/tamlinux/plugins/fred.monitor/Panel.qml:22"
+      ],
+      "tam-dns": [
+        "shell:share/tamlinux/menu/default.jsonc:100",
+        "shell:share/tamlinux/menu/default.jsonc:101",
+        "shell:share/tamlinux/menu/default.jsonc:98",
+        "shell:share/tamlinux/menu/default.jsonc:99",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:671",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:481"
+      ],
+      "tam-drive-password": [
+        "shell:share/tamlinux/menu/default.jsonc:187"
+      ],
+      "tam-file-select": [
+        "commands:bin/tam-deploy:246"
+      ],
+      "tam-font-current": [
+        "shell:share/tamlinux/shell/services/menu/Service.qml:326"
+      ],
+      "tam-font-list": [
+        "shell:share/tamlinux/shell/services/menu/Service.qml:326"
+      ],
+      "tam-font-set": [
+        "shell:share/tamlinux/shell/services/menu/Service.qml:329"
+      ],
+      "tam-hibernation-available": [
+        "shell:share/tamlinux/menu/default.jsonc:18"
+      ],
+      "tam-hw-dell-xps-haptic-touchpad": [
+        "shell:share/tamlinux/menu/default.jsonc:52",
+        "shell:share/tamlinux/menu/default.jsonc:53",
+        "shell:share/tamlinux/menu/default.jsonc:54"
+      ],
+      "tam-hw-fingerprint": [
+        "shell:share/tamlinux/menu/default.jsonc:142"
+      ],
+      "tam-hw-hybrid-gpu": [
+        "shell:share/tamlinux/menu/default.jsonc:49"
+      ],
+      "tam-hw-laptop": [
+        "shell:share/tamlinux/menu/default.jsonc:47",
+        "shell:share/tamlinux/menu/default.jsonc:48",
+        "shell:share/tamlinux/menu/default.jsonc:69"
+      ],
+      "tam-hw-touchpad": [
+        "shell:share/tamlinux/menu/default.jsonc:50"
+      ],
+      "tam-hw-touchscreen": [
+        "shell:share/tamlinux/menu/default.jsonc:55"
+      ],
+      "tam-hyprland-monitor-internal": [
+        "shell:share/tamlinux/menu/default.jsonc:47"
+      ],
+      "tam-hyprland-monitor-internal-mirror": [
+        "shell:share/tamlinux/menu/default.jsonc:48"
+      ],
+      "tam-hyprland-window-gaps-toggle": [
+        "shell:share/tamlinux/menu/default.jsonc:71"
+      ],
+      "tam-hyprland-window-single-square-aspect-toggle": [
+        "shell:share/tamlinux/menu/default.jsonc:72"
+      ],
+      "tam-hyprland-workspace-layout-toggle": [
+        "shell:share/tamlinux/menu/default.jsonc:70"
+      ],
+      "tam-install-font": [
+        "shell:share/tamlinux/menu/default.jsonc:159",
+        "shell:share/tamlinux/menu/default.jsonc:160",
+        "shell:share/tamlinux/menu/default.jsonc:161",
+        "shell:share/tamlinux/menu/default.jsonc:162",
+        "shell:share/tamlinux/menu/default.jsonc:163",
+        "shell:share/tamlinux/menu/default.jsonc:164"
+      ],
+      "tam-launch-config-editor": [
+        "commands:bin/.tam-launch-config-editor-wrapped:35",
+        "shell:share/tamlinux/menu/default.jsonc:147",
+        "shell:share/tamlinux/menu/default.jsonc:148",
+        "shell:share/tamlinux/menu/default.jsonc:149",
+        "shell:share/tamlinux/menu/default.jsonc:82",
+        "shell:share/tamlinux/menu/default.jsonc:93",
+        "shell:share/tamlinux/menu/default.jsonc:94",
+        "shell:share/tamlinux/menu/default.jsonc:95"
+      ],
+      "tam-launch-editor": [
+        "commands:bin/.tam-launch-config-editor-wrapped:40"
+      ],
+      "tam-launch-floating-terminal-with-presentation": [
+        "commands:bin/.tam-launch-floating-terminal-with-presentation-wrapped:43",
+        "shell:share/tamlinux/menu/default.jsonc:101",
+        "shell:share/tamlinux/menu/default.jsonc:142",
+        "shell:share/tamlinux/menu/default.jsonc:143",
+        "shell:share/tamlinux/menu/default.jsonc:144",
+        "shell:share/tamlinux/menu/default.jsonc:145",
+        "shell:share/tamlinux/menu/default.jsonc:146",
+        "shell:share/tamlinux/menu/default.jsonc:150",
+        "shell:share/tamlinux/menu/default.jsonc:153",
+        "shell:share/tamlinux/menu/default.jsonc:154",
+        "shell:share/tamlinux/menu/default.jsonc:156",
+        "shell:share/tamlinux/menu/default.jsonc:170",
+        "shell:share/tamlinux/menu/default.jsonc:171",
+        "shell:share/tamlinux/menu/default.jsonc:172",
+        "shell:share/tamlinux/menu/default.jsonc:173",
+        "shell:share/tamlinux/menu/default.jsonc:174",
+        "shell:share/tamlinux/menu/default.jsonc:177",
+        "shell:share/tamlinux/menu/default.jsonc:180",
+        "shell:share/tamlinux/menu/default.jsonc:183",
+        "shell:share/tamlinux/menu/default.jsonc:184",
+        "shell:share/tamlinux/menu/default.jsonc:185",
+        "shell:share/tamlinux/menu/default.jsonc:186",
+        "shell:share/tamlinux/menu/default.jsonc:187",
+        "shell:share/tamlinux/menu/default.jsonc:188",
+        "shell:share/tamlinux/menu/default.jsonc:49",
+        "shell:share/tamlinux/menu/default.jsonc:77",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:680"
+      ],
+      "tam-launch-openclaw": [
+        "commands:bin/.tam-agent-wrapped:130"
+      ],
+      "tam-launch-screensaver": [
+        "shell:share/tamlinux/menu/default.jsonc:15",
+        "shell:share/tamlinux/shell/services/idle/Service.qml:80"
+      ],
+      "tam-launch-terminal": [
+        "shell:share/tamlinux/shell/host/BarApi.qml:193"
+      ],
+      "tam-launch-tui": [
+        "commands:bin/.tam-agent-wrapped:176",
+        "commands:bin/.tam-launch-editor-wrapped:56"
+      ],
+      "tam-launch-webapp": [
+        "shell:share/tamlinux/menu/default.jsonc:166",
+        "shell:share/tamlinux/menu/default.jsonc:23",
+        "shell:share/tamlinux/menu/default.jsonc:24",
+        "shell:share/tamlinux/menu/default.jsonc:25",
+        "shell:share/tamlinux/menu/default.jsonc:26"
+      ],
+      "tam-man": [
+        "commands:bin/tam-deploy:248"
+      ],
+      "tam-menu": [
+        "commands:bin/.tam-agent-wrapped:83",
+        "commands:bin/tam-deploy:250",
+        "shell:bin/tam-menu:45",
+        "shell:bin/tam-menu:61",
+        "shell:share/tamlinux/shell/bar/indicators/ScreenRecording.qml:44",
+        "shell:share/tamlinux/shell/host/BarApi.qml:181"
+      ],
+      "tam-menu-herdr-keybindings": [
+        "shell:share/tamlinux/menu/default.jsonc:28"
+      ],
+      "tam-menu-keybindings": [
+        "shell:share/tamlinux/menu/default.jsonc:22"
+      ],
+      "tam-menu-select": [
+        "commands:bin/.tam-menu-select-wrapped:40",
+        "commands:bin/.tam-menu-select-wrapped:59",
+        "commands:bin/.tam-menu-select-wrapped:68",
+        "commands:bin/.tam-menu-select-wrapped:88",
+        "commands:bin/.tam-menu-timezone-wrapped:34"
+      ],
+      "tam-menu-share": [
+        "shell:share/tamlinux/menu/default.jsonc:59",
+        "shell:share/tamlinux/menu/default.jsonc:60",
+        "shell:share/tamlinux/menu/default.jsonc:61"
+      ],
+      "tam-menu-timezone": [
+        "shell:share/tamlinux/menu/default.jsonc:179",
+        "shell:share/tamlinux/shell/host/BarApi.qml:211"
+      ],
+      "tam-menu-tmux-keybindings": [
+        "shell:share/tamlinux/menu/default.jsonc:27"
+      ],
+      "tam-network-band": [
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:488",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:653",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:872"
+      ],
+      "tam-network-password": [
+        "shell:share/tamlinux/shell/panels/wifiqr/Panel.qml:156"
+      ],
+      "tam-network-qr": [
+        "shell:share/tamlinux/shell/panels/wifiqr/Panel.qml:131",
+        "shell:share/tamlinux/shell/panels/wifiqr/Panel.qml:132"
+      ],
+      "tam-network-speedtest": [
+        "shell:share/tamlinux/shell/panels/speedtest/Panel.qml:106"
+      ],
+      "tam-network-status": [
+        "shell:share/tamlinux/menu/default.jsonc:102",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:821",
+        "shell:share/tamlinux/shell/panels/speedtest/Panel.qml:178"
+      ],
+      "tam-notification-send": [
+        "commands:bin/.tam-default-editor-wrapped:60",
+        "commands:bin/.tam-default-terminal-wrapped:63",
+        "commands:bin/.tam-launch-config-editor-wrapped:39",
+        "commands:bin/.tam-menu-timezone-wrapped:36",
+        "commands:bin/.tam-notification-send-wrapped:46",
+        "plugins:share/tamlinux/plugins/fred.clock/BarWidget.qml:69",
+        "plugins:share/tamlinux/plugins/fred.clock/Panel.qml:258",
+        "plugins:share/tamlinux/plugins/fred.tides/BarWidget.qml:15",
+        "shell:share/tamlinux/shell/host/BarApi.qml:206"
+      ],
+      "tam-pkg-aur-install": [
+        "shell:share/tamlinux/menu/default.jsonc:152"
+      ],
+      "tam-pkg-install": [
+        "shell:share/tamlinux/menu/default.jsonc:151"
+      ],
+      "tam-pkg-missing": [
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:512"
+      ],
+      "tam-pkg-present": [
+        "shell:share/tamlinux/menu/default.jsonc:170",
+        "shell:share/tamlinux/menu/default.jsonc:171",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:511"
+      ],
+      "tam-pkg-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:165"
+      ],
+      "tam-plugin": [
+        "commands:bin/.tam-plugin-wrapped:100",
+        "commands:bin/.tam-plugin-wrapped:101",
+        "commands:bin/.tam-plugin-wrapped:102",
+        "commands:bin/.tam-plugin-wrapped:103",
+        "commands:bin/.tam-plugin-wrapped:104",
+        "commands:bin/.tam-plugin-wrapped:105",
+        "commands:bin/.tam-plugin-wrapped:106",
+        "commands:bin/.tam-plugin-wrapped:13",
+        "commands:bin/.tam-plugin-wrapped:263",
+        "commands:bin/.tam-plugin-wrapped:490",
+        "commands:bin/.tam-plugin-wrapped:503",
+        "commands:bin/.tam-plugin-wrapped:507",
+        "commands:bin/.tam-plugin-wrapped:526",
+        "commands:bin/.tam-plugin-wrapped:58",
+        "commands:bin/.tam-plugin-wrapped:588",
+        "commands:bin/.tam-plugin-wrapped:63",
+        "commands:bin/.tam-plugin-wrapped:94",
+        "commands:bin/.tam-plugin-wrapped:97",
+        "commands:bin/.tam-plugin-wrapped:98",
+        "commands:bin/.tam-plugin-wrapped:99"
+      ],
+      "tam-plymouth-switcher": [
+        "shell:share/tamlinux/menu/default.jsonc:77"
+      ],
+      "tam-powerprofiles-list": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:211",
+        "shell:share/tamlinux/shell/services/menu/Service.qml:332"
+      ],
+      "tam-powerprofiles-set": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:170",
+        "shell:share/tamlinux/shell/services/battery/Service.qml:49",
+        "shell:share/tamlinux/shell/services/menu/Service.qml:334"
+      ],
+      "tam-qmlcache-purge": [
+        "commands:bin/.tam-plugin-wrapped:88",
+        "commands:bin/.tam-qmlcache-purge-wrapped:32"
+      ],
+      "tam-reminder": [
+        "shell:share/tamlinux/menu/default.jsonc:56",
+        "shell:share/tamlinux/menu/default.jsonc:57",
+        "shell:share/tamlinux/menu/default.jsonc:58",
+        "shell:share/tamlinux/shell/bar/indicators/Reminder.qml:27",
+        "shell:share/tamlinux/shell/bar/indicators/Reminder.qml:46",
+        "shell:share/tamlinux/shell/bar/indicators/Reminder.qml:60"
+      ],
+      "tam-remove-security-fido2": [
+        "shell:share/tamlinux/menu/default.jsonc:171"
+      ],
+      "tam-remove-security-fingerprint": [
+        "shell:share/tamlinux/menu/default.jsonc:170"
+      ],
+      "tam-remove-security-sshd": [
+        "shell:share/tamlinux/menu/default.jsonc:172"
+      ],
+      "tam-remove-security-sudoless-docker": [
+        "shell:share/tamlinux/menu/default.jsonc:173"
+      ],
+      "tam-restart-audio": [
+        "shell:share/tamlinux/menu/default.jsonc:183"
+      ],
+      "tam-restart-bluetooth": [
+        "shell:share/tamlinux/menu/default.jsonc:185"
+      ],
+      "tam-restart-hyprsunset": [
+        "shell:share/tamlinux/menu/default.jsonc:148",
+        "shell:share/tamlinux/menu/default.jsonc:181"
+      ],
+      "tam-restart-shell": [
+        "commands:bin/.tam-plugin-wrapped:89",
+        "commands:bin/tam-deploy:178",
+        "commands:bin/tam-deploy:331",
+        "commands:bin/tam-deploy:430",
+        "shell:share/tamlinux/menu/default.jsonc:182"
+      ],
+      "tam-restart-trackpad": [
+        "shell:share/tamlinux/menu/default.jsonc:186"
+      ],
+      "tam-restart-wifi": [
+        "shell:share/tamlinux/menu/default.jsonc:184"
+      ],
+      "tam-restart-xcompose": [
+        "shell:share/tamlinux/menu/default.jsonc:149"
+      ],
+      "tam-setup-security-fido2": [
+        "shell:share/tamlinux/menu/default.jsonc:143"
+      ],
+      "tam-setup-security-fingerprint": [
+        "shell:share/tamlinux/menu/default.jsonc:142"
+      ],
+      "tam-setup-security-sshd": [
+        "shell:share/tamlinux/menu/default.jsonc:144"
+      ],
+      "tam-setup-security-sudoless-docker": [
+        "shell:share/tamlinux/menu/default.jsonc:146"
+      ],
+      "tam-shell": [
+        "commands:bin/.tam-menu-select-wrapped:111",
+        "commands:bin/.tam-shell-wrapped:49",
+        "commands:bin/.tam-shell-wrapped:52",
+        "commands:bin/tam-deploy:184",
+        "commands:bin/tam-deploy:189",
+        "shell:bin/tam-menu:38",
+        "shell:bin/tam-menu:41",
+        "shell:share/tamlinux/menu/default.jsonc:102",
+        "shell:share/tamlinux/menu/default.jsonc:29",
+        "shell:share/tamlinux/menu/default.jsonc:68",
+        "shell:share/tamlinux/menu/default.jsonc:69",
+        "shell:share/tamlinux/menu/default.jsonc:73",
+        "shell:share/tamlinux/menu/default.jsonc:74",
+        "shell:share/tamlinux/menu/default.jsonc:81",
+        "shell:share/tamlinux/menu/default.jsonc:85",
+        "shell:share/tamlinux/menu/default.jsonc:86"
+      ],
+      "tam-show-done": [
+        "commands:bin/.tam-launch-floating-terminal-with-presentation-wrapped:64"
+      ],
+      "tam-show-logo": [
+        "commands:bin/.tam-launch-floating-terminal-with-presentation-wrapped:55"
+      ],
+      "tam-sudo-docker": [
+        "shell:share/tamlinux/menu/default.jsonc:146",
+        "shell:share/tamlinux/menu/default.jsonc:173"
+      ],
+      "tam-sudo-passwordless": [
+        "shell:share/tamlinux/menu/default.jsonc:145"
+      ],
+      "tam-system-lock": [
+        "shell:share/tamlinux/menu/default.jsonc:16",
+        "shell:share/tamlinux/shell/services/idle/Service.qml:90"
+      ],
+      "tam-system-logout": [
+        "shell:share/tamlinux/menu/default.jsonc:19"
+      ],
+      "tam-system-reboot": [
+        "shell:share/tamlinux/menu/default.jsonc:20"
+      ],
+      "tam-system-shutdown": [
+        "shell:share/tamlinux/menu/default.jsonc:21"
+      ],
+      "tam-system-stats": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:217"
+      ],
+      "tam-system-wake": [
+        "shell:share/tamlinux/shell/services/idle/Service.qml:116"
+      ],
+      "tam-theme-bg-set": [
+        "shell:share/tamlinux/menu/default.jsonc:76"
+      ],
+      "tam-theme-bg-switcher": [
+        "shell:share/tamlinux/menu/default.jsonc:76"
+      ],
+      "tam-theme-payload": [
+        "commands:bin/tam-theme-payload:362",
+        "shell:share/tamlinux/shell/services/theme/Service.qml:54"
+      ],
+      "tam-theme-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:168"
+      ],
+      "tam-theme-set": [
+        "shell:share/tamlinux/menu/default.jsonc:75"
+      ],
+      "tam-theme-switcher": [
+        "shell:share/tamlinux/menu/default.jsonc:75"
+      ],
+      "tam-toggle-crash-capture": [
+        "shell:share/tamlinux/menu/default.jsonc:65"
+      ],
+      "tam-toggle-enabled": [
+        "shell:share/tamlinux/menu/default.jsonc:17"
+      ],
+      "tam-toggle-hybrid-gpu": [
+        "shell:share/tamlinux/menu/default.jsonc:49"
+      ],
+      "tam-toggle-idle": [
+        "shell:share/tamlinux/menu/default.jsonc:63"
+      ],
+      "tam-toggle-input-device": [
+        "shell:share/tamlinux/menu/default.jsonc:50",
+        "shell:share/tamlinux/menu/default.jsonc:55"
+      ],
+      "tam-toggle-nightlight": [
+        "shell:share/tamlinux/menu/default.jsonc:67",
+        "shell:share/tamlinux/shell/services/nightlight/Service.qml:61",
+        "shell:share/tamlinux/shell/services/nightlight/Service.qml:70"
+      ],
+      "tam-toggle-notification-silencing": [
+        "shell:share/tamlinux/menu/default.jsonc:64"
+      ],
+      "tam-toggle-screensaver": [
+        "shell:share/tamlinux/menu/default.jsonc:66"
+      ],
+      "tam-transcode": [
+        "shell:share/tamlinux/menu/default.jsonc:42"
+      ],
+      "tam-tui-install": [
+        "shell:share/tamlinux/menu/default.jsonc:154"
+      ],
+      "tam-tui-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:167"
+      ],
+      "tam-update": [
+        "shell:share/tamlinux/menu/default.jsonc:174"
+      ],
+      "tam-update-firmware": [
+        "shell:share/tamlinux/menu/default.jsonc:177"
+      ],
+      "tam-update-time": [
+        "shell:share/tamlinux/menu/default.jsonc:180"
+      ],
+      "tam-weather-location": [
+        "plugins:share/tamlinux/plugins/fred.weather/Panel.qml:27"
+      ],
+      "tam-webapp-install": [
+        "shell:share/tamlinux/menu/default.jsonc:153"
+      ],
+      "tam-webapp-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:166"
+      ],
+      "tam-work": [
+        "commands:bin/tam-work:452"
+      ]
+    },
+    "deferredAbsoluteTools": [
+      "/usr/bin/swaymsg"
+    ],
+    "embeddedHelpers": {
+      "fetch-events.py": [
+        "plugins:share/tamlinux/plugins/fred.clock/fetch-events.py"
+      ],
+      "fred-monitor-layout": [
+        "plugins:share/tamlinux/plugins/fred.monitor/fred-monitor-layout"
+      ],
+      "fred-monitor-reset": [
+        "plugins:share/tamlinux/plugins/fred.monitor/fred-monitor-reset"
+      ],
+      "fred-monitor-state": [
+        "plugins:share/tamlinux/plugins/fred.monitor/fred-monitor-state"
+      ],
+      "manage-event.py": [
+        "plugins:share/tamlinux/plugins/fred.clock/manage-event.py"
+      ],
+      "sysinfo-probe.py": [
+        "plugins:share/tamlinux/plugins/fred.sysinfo/sysinfo-probe.py"
+      ],
+      "tam-agent-usage-antigravity": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-antigravity"
+      ],
+      "tam-agent-usage-claude": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-claude"
+      ],
+      "tam-agent-usage-codex": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-codex"
+      ],
+      "tam-agent-usage-cursor": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-cursor"
+      ],
+      "tam-agent-usage-update": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-update"
+      ],
+      "tam-desktop-mode": [
+        "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode"
+      ]
+    },
+    "filesScanned": 229,
+    "host": null,
+    "inheritedIdentifierLocations": [
+      "plugins:share/tamlinux/plugins/fred.monitor/Panel.qml:1637",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:1140",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:1141",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:1144",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:238",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:789",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:790",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:794",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:795",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:797",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:798",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:925",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:975",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:977",
+      "plugins:share/tamlinux/plugins/fred.workspaces/Workspaces.qml:981",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1043",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1045",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1046",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:1061",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:23",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:3",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:5",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:565",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:597",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:985",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:996",
+      "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode:998",
+      "shell:share/tamlinux/menu/default.jsonc:106",
+      "shell:share/tamlinux/menu/default.jsonc:109",
+      "shell:share/tamlinux/menu/default.jsonc:111",
+      "shell:share/tamlinux/menu/default.jsonc:112",
+      "shell:share/tamlinux/menu/default.jsonc:114",
+      "shell:share/tamlinux/menu/default.jsonc:115",
+      "shell:share/tamlinux/menu/default.jsonc:116",
+      "shell:share/tamlinux/menu/default.jsonc:117",
+      "shell:share/tamlinux/menu/default.jsonc:13",
+      "shell:share/tamlinux/menu/default.jsonc:134",
+      "shell:share/tamlinux/menu/default.jsonc:150",
+      "shell:share/tamlinux/menu/default.jsonc:156",
+      "shell:share/tamlinux/menu/default.jsonc:157",
+      "shell:share/tamlinux/menu/default.jsonc:166",
+      "shell:share/tamlinux/menu/default.jsonc:77",
+      "shell:share/tamlinux/menu/default.jsonc:87",
+      "shell:share/tamlinux/menu/default.jsonc:88",
+      "shell:share/tamlinux/menu/default.jsonc:89",
+      "shell:share/tamlinux/menu/default.jsonc:90",
+      "shell:share/tamlinux/menu/default.jsonc:91",
+      "shell:share/tamlinux/menu/default.jsonc:92",
+      "shell:share/tamlinux/shell/bar/widgets/Menu.qml:22",
+      "shell:share/tamlinux/shell/host/BarApi.qml:143",
+      "shell:share/tamlinux/shell/host/HyprlandAdapter.qml:213",
+      "shell:share/tamlinux/shell/panels/audio/Panel.qml:56",
+      "shell:share/tamlinux/shell/shell.qml:763",
+      "shell:share/tamlinux/shell/shell.qml:790"
+    ],
+    "limits": "Custom command matches are lexical, including data and dormant code; review before transfer. Embedded helper presence does not prove invocation resolution. PATH tools, dynamic commands, transitive third-party dependencies, repositories, theme assets and effective configuration require further proof. Whole-line provenance comments/licenses/tests/docs are excluded; inline comments and compatibility data may need review.",
+    "missingOutputFiles": [],
+    "missingOutputs": [],
+    "missingPackageCommands": {
+      "tam-agent-usage": [
+        "plugins:share/tamlinux/plugins/fred.agents/bin/tam-agent-usage-codex:615"
+      ],
+      "tam-audio-input-set-default": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:484"
+      ],
+      "tam-audio-output-set-default": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:472",
+        "shell:share/tamlinux/shell/panels/bluetooth/Panel.qml:215"
+      ],
+      "tam-audio-output-sink": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:601"
+      ],
+      "tam-audio-sink-availability": [
+        "shell:share/tamlinux/shell/panels/audio/Panel.qml:592"
+      ],
+      "tam-battery-low": [
+        "shell:share/tamlinux/shell/services/battery/Service.qml:39"
+      ],
+      "tam-battery-status": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:205"
+      ],
+      "tam-bluetooth-device": [
+        "shell:share/tamlinux/shell/panels/bluetooth/Panel.qml:271"
+      ],
+      "tam-bluetooth-power": [
+        "shell:share/tamlinux/shell/panels/bluetooth/Panel.qml:641"
+      ],
+      "tam-brightness-display": [
+        "plugins:share/tamlinux/plugins/fred.monitor/fred-monitor-state:241",
+        "plugins:share/tamlinux/plugins/fred.monitor/fred-monitor-state:285"
+      ],
+      "tam-capture-qr": [
+        "shell:share/tamlinux/menu/default.jsonc:36"
+      ],
+      "tam-capture-screenrecording": [
+        "shell:share/tamlinux/menu/default.jsonc:33",
+        "shell:share/tamlinux/menu/default.jsonc:38",
+        "shell:share/tamlinux/menu/default.jsonc:39",
+        "shell:share/tamlinux/menu/default.jsonc:40",
+        "shell:share/tamlinux/shell/bar/indicators/ScreenRecording.qml:44"
+      ],
+      "tam-capture-screenrecording-with-webcam": [
+        "shell:share/tamlinux/menu/default.jsonc:41"
+      ],
+      "tam-capture-screenshot": [
+        "shell:share/tamlinux/menu/default.jsonc:32"
+      ],
+      "tam-capture-text": [
+        "shell:share/tamlinux/menu/default.jsonc:35"
+      ],
+      "tam-capture-webcam-list": [
+        "shell:share/tamlinux/menu/default.jsonc:41"
+      ],
+      "tam-default-agent": [
+        "shell:share/tamlinux/menu/default.jsonc:105",
+        "shell:share/tamlinux/menu/default.jsonc:106",
+        "shell:share/tamlinux/menu/default.jsonc:107",
+        "shell:share/tamlinux/menu/default.jsonc:108",
+        "shell:share/tamlinux/menu/default.jsonc:109",
+        "shell:share/tamlinux/menu/default.jsonc:110",
+        "shell:share/tamlinux/menu/default.jsonc:111",
+        "shell:share/tamlinux/menu/default.jsonc:112",
+        "shell:share/tamlinux/menu/default.jsonc:113",
+        "shell:share/tamlinux/menu/default.jsonc:114",
+        "shell:share/tamlinux/menu/default.jsonc:115",
+        "shell:share/tamlinux/menu/default.jsonc:116",
+        "shell:share/tamlinux/menu/default.jsonc:117",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:477"
+      ],
+      "tam-default-browser": [
+        "shell:share/tamlinux/menu/default.jsonc:119",
+        "shell:share/tamlinux/menu/default.jsonc:120",
+        "shell:share/tamlinux/menu/default.jsonc:121",
+        "shell:share/tamlinux/menu/default.jsonc:122",
+        "shell:share/tamlinux/menu/default.jsonc:123",
+        "shell:share/tamlinux/menu/default.jsonc:124",
+        "shell:share/tamlinux/menu/default.jsonc:125",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:478"
+      ],
+      "tam-disk-speedtest": [
+        "shell:share/tamlinux/shell/panels/diskspeedtest/Panel.qml:103"
+      ],
+      "tam-display-text-size": [
+        "plugins:share/tamlinux/plugins/fred.monitor/Panel.qml:22"
+      ],
+      "tam-dns": [
+        "shell:share/tamlinux/menu/default.jsonc:100",
+        "shell:share/tamlinux/menu/default.jsonc:101",
+        "shell:share/tamlinux/menu/default.jsonc:98",
+        "shell:share/tamlinux/menu/default.jsonc:99",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:671",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:481"
+      ],
+      "tam-drive-password": [
+        "shell:share/tamlinux/menu/default.jsonc:187"
+      ],
+      "tam-font-current": [
+        "shell:share/tamlinux/shell/services/menu/Service.qml:326"
+      ],
+      "tam-font-list": [
+        "shell:share/tamlinux/shell/services/menu/Service.qml:326"
+      ],
+      "tam-font-set": [
+        "shell:share/tamlinux/shell/services/menu/Service.qml:329"
+      ],
+      "tam-hibernation-available": [
+        "shell:share/tamlinux/menu/default.jsonc:18"
+      ],
+      "tam-hw-dell-xps-haptic-touchpad": [
+        "shell:share/tamlinux/menu/default.jsonc:52",
+        "shell:share/tamlinux/menu/default.jsonc:53",
+        "shell:share/tamlinux/menu/default.jsonc:54"
+      ],
+      "tam-hw-fingerprint": [
+        "shell:share/tamlinux/menu/default.jsonc:142"
+      ],
+      "tam-hw-hybrid-gpu": [
+        "shell:share/tamlinux/menu/default.jsonc:49"
+      ],
+      "tam-hw-laptop": [
+        "shell:share/tamlinux/menu/default.jsonc:47",
+        "shell:share/tamlinux/menu/default.jsonc:48",
+        "shell:share/tamlinux/menu/default.jsonc:69"
+      ],
+      "tam-hw-touchpad": [
+        "shell:share/tamlinux/menu/default.jsonc:50"
+      ],
+      "tam-hw-touchscreen": [
+        "shell:share/tamlinux/menu/default.jsonc:55"
+      ],
+      "tam-hyprland-monitor-internal": [
+        "shell:share/tamlinux/menu/default.jsonc:47"
+      ],
+      "tam-hyprland-monitor-internal-mirror": [
+        "shell:share/tamlinux/menu/default.jsonc:48"
+      ],
+      "tam-hyprland-window-gaps-toggle": [
+        "shell:share/tamlinux/menu/default.jsonc:71"
+      ],
+      "tam-hyprland-window-single-square-aspect-toggle": [
+        "shell:share/tamlinux/menu/default.jsonc:72"
+      ],
+      "tam-hyprland-workspace-layout-toggle": [
+        "shell:share/tamlinux/menu/default.jsonc:70"
+      ],
+      "tam-install-font": [
+        "shell:share/tamlinux/menu/default.jsonc:159",
+        "shell:share/tamlinux/menu/default.jsonc:160",
+        "shell:share/tamlinux/menu/default.jsonc:161",
+        "shell:share/tamlinux/menu/default.jsonc:162",
+        "shell:share/tamlinux/menu/default.jsonc:163",
+        "shell:share/tamlinux/menu/default.jsonc:164"
+      ],
+      "tam-launch-openclaw": [
+        "commands:bin/.tam-agent-wrapped:130"
+      ],
+      "tam-launch-screensaver": [
+        "shell:share/tamlinux/menu/default.jsonc:15",
+        "shell:share/tamlinux/shell/services/idle/Service.qml:80"
+      ],
+      "tam-launch-webapp": [
+        "shell:share/tamlinux/menu/default.jsonc:166",
+        "shell:share/tamlinux/menu/default.jsonc:23",
+        "shell:share/tamlinux/menu/default.jsonc:24",
+        "shell:share/tamlinux/menu/default.jsonc:25",
+        "shell:share/tamlinux/menu/default.jsonc:26"
+      ],
+      "tam-menu-herdr-keybindings": [
+        "shell:share/tamlinux/menu/default.jsonc:28"
+      ],
+      "tam-menu-keybindings": [
+        "shell:share/tamlinux/menu/default.jsonc:22"
+      ],
+      "tam-menu-share": [
+        "shell:share/tamlinux/menu/default.jsonc:59",
+        "shell:share/tamlinux/menu/default.jsonc:60",
+        "shell:share/tamlinux/menu/default.jsonc:61"
+      ],
+      "tam-menu-tmux-keybindings": [
+        "shell:share/tamlinux/menu/default.jsonc:27"
+      ],
+      "tam-network-band": [
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:488",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:653",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:872"
+      ],
+      "tam-network-password": [
+        "shell:share/tamlinux/shell/panels/wifiqr/Panel.qml:156"
+      ],
+      "tam-network-qr": [
+        "shell:share/tamlinux/shell/panels/wifiqr/Panel.qml:131",
+        "shell:share/tamlinux/shell/panels/wifiqr/Panel.qml:132"
+      ],
+      "tam-network-speedtest": [
+        "shell:share/tamlinux/shell/panels/speedtest/Panel.qml:106"
+      ],
+      "tam-network-status": [
+        "shell:share/tamlinux/menu/default.jsonc:102",
+        "shell:share/tamlinux/shell/panels/network/Panel.qml:821",
+        "shell:share/tamlinux/shell/panels/speedtest/Panel.qml:178"
+      ],
+      "tam-pkg-aur-install": [
+        "shell:share/tamlinux/menu/default.jsonc:152"
+      ],
+      "tam-pkg-install": [
+        "shell:share/tamlinux/menu/default.jsonc:151"
+      ],
+      "tam-pkg-missing": [
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:512"
+      ],
+      "tam-pkg-present": [
+        "shell:share/tamlinux/menu/default.jsonc:170",
+        "shell:share/tamlinux/menu/default.jsonc:171",
+        "shell:share/tamlinux/shell/services/menu/MenuModel.js:511"
+      ],
+      "tam-pkg-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:165"
+      ],
+      "tam-plymouth-switcher": [
+        "shell:share/tamlinux/menu/default.jsonc:77"
+      ],
+      "tam-powerprofiles-list": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:211",
+        "shell:share/tamlinux/shell/services/menu/Service.qml:332"
+      ],
+      "tam-powerprofiles-set": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:170",
+        "shell:share/tamlinux/shell/services/battery/Service.qml:49",
+        "shell:share/tamlinux/shell/services/menu/Service.qml:334"
+      ],
+      "tam-reminder": [
+        "shell:share/tamlinux/menu/default.jsonc:56",
+        "shell:share/tamlinux/menu/default.jsonc:57",
+        "shell:share/tamlinux/menu/default.jsonc:58",
+        "shell:share/tamlinux/shell/bar/indicators/Reminder.qml:27",
+        "shell:share/tamlinux/shell/bar/indicators/Reminder.qml:46",
+        "shell:share/tamlinux/shell/bar/indicators/Reminder.qml:60"
+      ],
+      "tam-remove-security-fido2": [
+        "shell:share/tamlinux/menu/default.jsonc:171"
+      ],
+      "tam-remove-security-fingerprint": [
+        "shell:share/tamlinux/menu/default.jsonc:170"
+      ],
+      "tam-remove-security-sshd": [
+        "shell:share/tamlinux/menu/default.jsonc:172"
+      ],
+      "tam-remove-security-sudoless-docker": [
+        "shell:share/tamlinux/menu/default.jsonc:173"
+      ],
+      "tam-restart-audio": [
+        "shell:share/tamlinux/menu/default.jsonc:183"
+      ],
+      "tam-restart-bluetooth": [
+        "shell:share/tamlinux/menu/default.jsonc:185"
+      ],
+      "tam-restart-hyprsunset": [
+        "shell:share/tamlinux/menu/default.jsonc:148",
+        "shell:share/tamlinux/menu/default.jsonc:181"
+      ],
+      "tam-restart-trackpad": [
+        "shell:share/tamlinux/menu/default.jsonc:186"
+      ],
+      "tam-restart-wifi": [
+        "shell:share/tamlinux/menu/default.jsonc:184"
+      ],
+      "tam-restart-xcompose": [
+        "shell:share/tamlinux/menu/default.jsonc:149"
+      ],
+      "tam-setup-security-fido2": [
+        "shell:share/tamlinux/menu/default.jsonc:143"
+      ],
+      "tam-setup-security-fingerprint": [
+        "shell:share/tamlinux/menu/default.jsonc:142"
+      ],
+      "tam-setup-security-sshd": [
+        "shell:share/tamlinux/menu/default.jsonc:144"
+      ],
+      "tam-setup-security-sudoless-docker": [
+        "shell:share/tamlinux/menu/default.jsonc:146"
+      ],
+      "tam-sudo-docker": [
+        "shell:share/tamlinux/menu/default.jsonc:146",
+        "shell:share/tamlinux/menu/default.jsonc:173"
+      ],
+      "tam-sudo-passwordless": [
+        "shell:share/tamlinux/menu/default.jsonc:145"
+      ],
+      "tam-system-lock": [
+        "shell:share/tamlinux/menu/default.jsonc:16",
+        "shell:share/tamlinux/shell/services/idle/Service.qml:90"
+      ],
+      "tam-system-logout": [
+        "shell:share/tamlinux/menu/default.jsonc:19"
+      ],
+      "tam-system-reboot": [
+        "shell:share/tamlinux/menu/default.jsonc:20"
+      ],
+      "tam-system-shutdown": [
+        "shell:share/tamlinux/menu/default.jsonc:21"
+      ],
+      "tam-system-stats": [
+        "shell:share/tamlinux/shell/panels/power/Panel.qml:217"
+      ],
+      "tam-system-wake": [
+        "shell:share/tamlinux/shell/services/idle/Service.qml:116"
+      ],
+      "tam-theme-bg-set": [
+        "shell:share/tamlinux/menu/default.jsonc:76"
+      ],
+      "tam-theme-bg-switcher": [
+        "shell:share/tamlinux/menu/default.jsonc:76"
+      ],
+      "tam-theme-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:168"
+      ],
+      "tam-theme-set": [
+        "shell:share/tamlinux/menu/default.jsonc:75"
+      ],
+      "tam-theme-switcher": [
+        "shell:share/tamlinux/menu/default.jsonc:75"
+      ],
+      "tam-toggle-crash-capture": [
+        "shell:share/tamlinux/menu/default.jsonc:65"
+      ],
+      "tam-toggle-enabled": [
+        "shell:share/tamlinux/menu/default.jsonc:17"
+      ],
+      "tam-toggle-hybrid-gpu": [
+        "shell:share/tamlinux/menu/default.jsonc:49"
+      ],
+      "tam-toggle-idle": [
+        "shell:share/tamlinux/menu/default.jsonc:63"
+      ],
+      "tam-toggle-input-device": [
+        "shell:share/tamlinux/menu/default.jsonc:50",
+        "shell:share/tamlinux/menu/default.jsonc:55"
+      ],
+      "tam-toggle-nightlight": [
+        "shell:share/tamlinux/menu/default.jsonc:67",
+        "shell:share/tamlinux/shell/services/nightlight/Service.qml:61",
+        "shell:share/tamlinux/shell/services/nightlight/Service.qml:70"
+      ],
+      "tam-toggle-notification-silencing": [
+        "shell:share/tamlinux/menu/default.jsonc:64"
+      ],
+      "tam-toggle-screensaver": [
+        "shell:share/tamlinux/menu/default.jsonc:66"
+      ],
+      "tam-transcode": [
+        "shell:share/tamlinux/menu/default.jsonc:42"
+      ],
+      "tam-tui-install": [
+        "shell:share/tamlinux/menu/default.jsonc:154"
+      ],
+      "tam-tui-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:167"
+      ],
+      "tam-update": [
+        "shell:share/tamlinux/menu/default.jsonc:174"
+      ],
+      "tam-update-firmware": [
+        "shell:share/tamlinux/menu/default.jsonc:177"
+      ],
+      "tam-update-time": [
+        "shell:share/tamlinux/menu/default.jsonc:180"
+      ],
+      "tam-weather-location": [
+        "plugins:share/tamlinux/plugins/fred.weather/Panel.qml:27"
+      ],
+      "tam-webapp-install": [
+        "shell:share/tamlinux/menu/default.jsonc:153"
+      ],
+      "tam-webapp-remove": [
+        "shell:share/tamlinux/menu/default.jsonc:166"
+      ]
+    },
+    "pendingRequirements": [
+      {
+        "id": "independence-gate",
+        "owner": "delivery",
+        "proof": "Implement and run all nine tuple-bound checks from the product plan; static scan success cannot substitute for runtime, migration, network or recovery evidence"
+      },
+      {
+        "id": "menu-command-closure",
+        "owner": "product",
+        "proof": "All retained actions, conditions and provider-generated calls resolve from declared packages, including transitive helpers"
+      },
+      {
+        "id": "theme-assets-fonts",
+        "owner": "product",
+        "proof": "Owned default theme/background, icon and text fonts render today's desktop without inherited assets or pre-existing XDG state"
+      },
+      {
+        "id": "hyprland-session-defaults",
+        "owner": "product/native host",
+        "proof": "Packaged fresh-host compositor/session/keybinding defaults; consumer contributes only selections and machine values"
+      },
+      {
+        "id": "browser-native-hosts",
+        "owner": "product/native host",
+        "proof": "Renamed native registrations and helpers with actual extension permissions and copy/download tests"
+      },
+      {
+        "id": "editor-defaults",
+        "owner": "product",
+        "proof": "Independent editor integration with preserved user data"
+      },
+      {
+        "id": "settings-native-ownership",
+        "owner": "product/native host",
+        "proof": "Inspected system settings/services/hooks classified and required behavior delivered by pinned native packages"
+      },
+      {
+        "id": "independent-providers",
+        "owner": "delivery",
+        "proof": "Exact third-party sources, recipes, signatures and channels recorded; no inherited repository/server required"
+      },
+      {
+        "id": "clean-host-proof",
+        "owner": "delivery",
+        "proof": "Actual clean Arch installation, login/workflows, blocked inherited domains, update and rollback with exact artifact identities"
+      }
+    ],
+    "schema": 1,
+    "scope": "Static package-output inventory; not clean-host acceptance",
+    "target": "arch-hyprland",
+    "undeclaredAbsoluteTools": {}
+  },
+  "auditExitStatus": 1,
+  "auditorSha256": "f2a44eec38dff1e0be68a840cba3b05327428cd9ce7ee898347d4f700f9a36f7",
+  "commandsDerivation": "/nix/store/s43gnqfw3cxjafcmwmsk63yi690l4sx0-tamlinux-commands-0.4.2pre.d.drv",
+  "contractSha256": "8e0575e81585e5239620182e2bf89490ba8d94b1d5a4788f6b5baf7c8f7212be",
+  "date": "2026-10-10",
+  "installedComponentCheck": "/nix/store/l7fy95prw6jc6bl9q8v5w3zq2xsk0fan-tamlinux-installed-components",
+  "installedOutputProbes": {
+    "checks": [
+      "theme helper executes with its packaged Python interpreter",
+      "IPC resolves the installed shell with packaged runtime tools",
+      "menu selection resolves packaged IPC and Perl without host PATH",
+      "unset agent resolves the packaged menu without selecting an agent",
+      "offline product catalog resolves installed registry and runtime tools",
+      "notification jq/busctl resolve before the deliberately absent bus",
+      "cache purge resolves packaged find/hash tools and preserves unrelated files",
+      "command presence retains the declared host program boundary",
+      "fresh terminal/editor default readers need no workstation state",
+      "terminal launch resolves packaged cwd/setsid with recorded host facilities",
+      "packaged editor setter/config launcher share owned state despite unavailable toast bus",
+      "terminal selector writes only the configured XDG destination",
+      "terminal and inline editor routes resolve packaged sibling helpers",
+      "presentation runs packaged bash/logo/done without reinterpreting argv"
+    ],
+    "limits": "Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.",
+    "passed": 14
+  },
+  "launcherRegressionTestsPassed": 19,
+  "limits": "Development snapshot retains baseline version text, not a prepared 0.4.2-d or 0.4.3 candidate. Recorded host facilities and unavailable buses; no clean-host login, appearance, migration or physical acceptance.",
+  "originalCodeRegressionsRejected": [
+    "XDG terminal preference destination",
+    "presentation argument preservation and owned theme"
+  ],
+  "schema": 1,
+  "sourceSnapshot": "/nix/store/rm2ibz8brqj2q55icd42kzp3z8r8i95i-tamlinux-0.4.3-development",
+  "stage": "Develop snapshot; no new letter candidate"
+}

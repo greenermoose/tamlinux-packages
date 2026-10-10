@@ -16,7 +16,7 @@
   },
   "requiredExecutables": {
     "shell": ["bin/tam-menu"],
-    "commands": ["bin/tam-agent", "bin/tam-cmd-present", "bin/tam-deploy", "bin/tam-launch-tui", "bin/tam-menu-select", "bin/tam-menu-timezone", "bin/tam-notification-send", "bin/tam-plugin", "bin/tam-qmlcache-purge", "bin/tam-restart-shell", "bin/tam-shell", "bin/tam-theme-payload", "bin/tam-work"],
+    "commands": ["bin/tam-agent", "bin/tam-cmd-present", "bin/tam-cmd-terminal-cwd", "bin/tam-default-editor", "bin/tam-default-terminal", "bin/tam-deploy", "bin/tam-launch-config-editor", "bin/tam-launch-editor", "bin/tam-launch-floating-terminal-with-presentation", "bin/tam-launch-terminal", "bin/tam-launch-tui", "bin/tam-menu-select", "bin/tam-menu-timezone", "bin/tam-notification-send", "bin/tam-plugin", "bin/tam-qmlcache-purge", "bin/tam-restart-shell", "bin/tam-shell", "bin/tam-show-done", "bin/tam-show-logo", "bin/tam-theme-payload", "bin/tam-work"],
     "tools": ["bin/tam-file-select"],
     "tam": ["bin/tam", "bin/tam-man"]
   },

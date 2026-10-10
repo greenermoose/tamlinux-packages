@@ -48,14 +48,36 @@ else:
                         'pathlib.Path(os.environ["TEST_NETWORK_LOG"]).touch()\n'
                         'sys.exit(99)\n')
         curl.chmod(0o755)
+        launch_log = root / 'launches.jsonl'
+        launch_recorder = f'#!{sys.executable}\n' + '''
+import json, os, pathlib, sys
+name = pathlib.Path(sys.argv[0]).name
+args = sys.argv[1:]
+with open(os.environ['TEST_LAUNCH_LOG'], 'a') as out:
+    out.write(json.dumps({'name': name, 'args': args, 'cwd': os.getcwd()}) + '\\n')
+if name == 'uwsm-app':
+    assert args[0] == '--'
+    os.execvp(args[1], args[1:])
+elif name == 'xdg-terminal-exec':
+    if args == ['--print-id']: print('foot.desktop')
+    elif os.environ.get('TEST_EXEC_PRESENTATION'):
+        i = args.index('-e')
+        os.execvp(args[i+1], args[i+1:])
+elif name == 'hyprctl': print('{}')
+'''
+        for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'code'):
+            path = host_bin / name
+            path.write_text(launch_recorder)
+            path.chmod(0o755)
         env = {'HOME': str(root / 'home'), 'XDG_DATA_HOME': str(root / 'data'),
                'XDG_CONFIG_HOME': str(root / 'config'), 'XDG_STATE_HOME': str(root / 'state'),
                'XDG_CACHE_HOME': str(root / 'cache'), 'XDG_RUNTIME_DIR': str(root / 'runtime'),
                'TMPDIR': str(root), 'WAYLAND_DISPLAY': 'wayland-development-probe',
-               'PATH': str(host_bin), 'LANG': 'C',
+               'PATH': str(host_bin), 'LANG': 'C', 'TERM': 'xterm',
                'DBUS_SESSION_BUS_ADDRESS': 'unix:path=' + str(root / 'no-session-bus'),
                'DBUS_SYSTEM_BUS_ADDRESS': 'unix:path=' + str(root / 'no-system-bus'),
-               'TEST_CALL_LOG': str(log), 'TEST_NETWORK_LOG': str(network)}
+               'TEST_CALL_LOG': str(log), 'TEST_NETWORK_LOG': str(network),
+               'TEST_LAUNCH_LOG': str(launch_log)}
 
         def run(name, *values, check=True):
             result = subprocess.run([str(args.commands / 'bin' / name), *values],
@@ -118,6 +140,48 @@ else:
         assert run('tam-cmd-present', 'qs').returncode == 0
         assert run('tam-cmd-present', 'not-a-real-program', check=False).returncode != 0
         checks.append('command presence retains the declared host program boundary')
+
+        assert run('tam-default-editor').stdout == 'nvim\n'
+        assert run('tam-default-terminal').stdout == 'foot\n'
+        assert not (root / 'state/tamlinux/defaults/editor').exists()
+        checks.append('fresh terminal/editor default readers need no workstation state')
+
+        assert run('tam-cmd-terminal-cwd').stdout == env['HOME'] + '\n'
+        run('tam-launch-terminal', 'nvim', 'file with spaces')
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['args'] == ['--dir=' + env['HOME'], 'nvim', 'file with spaces']
+        checks.append('terminal launch resolves packaged cwd/setsid with recorded host facilities')
+
+        # The deliberately absent bus makes the toast fail after the preference
+        # write. Verify the saved selection and the launcher's independent chain.
+        run('tam-default-editor', 'code', check=False)
+        assert run('tam-default-editor').stdout == 'code\n'
+        run('tam-launch-config-editor', 'config with spaces.lua')
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['name'] == 'code' and launch['args'] == ['config with spaces.lua']
+        checks.append('packaged editor setter/config launcher share owned state despite unavailable toast bus')
+
+        run('tam-default-terminal', 'kitty', check=False)
+        assert (root / 'config/xdg-terminals.list').read_text().endswith('kitty.desktop\n')
+        assert not (root / 'home/.config').exists()
+        checks.append('terminal selector writes only the configured XDG destination')
+
+        run('tam-default-editor', 'nvim', check=False)
+        run('tam-launch-editor', 'file with spaces')
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['args'] == ['--app-id=org.tamlinux.nvim', '-e', 'nvim', 'file with spaces']
+        run('tam-launch-editor', '--inline', 'file with spaces')
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['name'] == 'nvim' and launch['args'] == ['file with spaces']
+        checks.append('terminal and inline editor routes resolve packaged sibling helpers')
+
+        env['TEST_EXEC_PRESENTATION'] = '1'
+        run('tam-launch-floating-terminal-with-presentation', 'code', 'literal $(touch NEVER)')
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['name'] == 'code' and launch['args'] == ['literal $(touch NEVER)']
+        assert not (root / 'NEVER').exists()
+        run('tam-show-done')
+        checks.append('presentation runs packaged bash/logo/done without reinterpreting argv')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))

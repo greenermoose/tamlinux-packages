@@ -97,6 +97,15 @@ let
     tam-menu-select = [ pkgs.perl pkgs.coreutils ];
     tam-menu-timezone = [ pkgs.systemd ];
     tam-launch-tui = [ pkgs.coreutils pkgs.util-linux ];
+    tam-launch-terminal = [ pkgs.coreutils pkgs.util-linux ];
+    tam-cmd-terminal-cwd = [ pkgs.coreutils pkgs.gawk pkgs.gnugrep
+      pkgs.procps pkgs.jq ];
+    tam-launch-editor = [ pkgs.util-linux ];
+    tam-launch-config-editor = [ ];
+    tam-launch-floating-terminal-with-presentation = [ pkgs.bash pkgs.util-linux pkgs.gawk ];
+    tam-show-logo = [ pkgs.ncurses ];
+    tam-default-editor = [ pkgs.coreutils ];
+    tam-default-terminal = [ pkgs.coreutils ];
     # tam-menu belongs to the shell output, at this same product revision.
     tam-agent = lib.optionals features.menu [ shell ];
     tam-plugin = [ pkgs.git pkgs.python3 pkgs.jq pkgs.coreutils
