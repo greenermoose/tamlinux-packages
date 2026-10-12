@@ -106,6 +106,8 @@ let
     tam-show-logo = [ pkgs.ncurses ];
     tam-default-editor = [ pkgs.coreutils ];
     tam-default-terminal = [ pkgs.coreutils ];
+    tam-default-agent = [ pkgs.coreutils pkgs.gnugrep pkgs.mise ];
+    tam-audio-input-set-default = [ pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
     tam-browser-command = [ pkgs.python3 ];
     tam-default-browser = [ pkgs.coreutils pkgs.xdg-utils ];
     tam-launch-browser = [ pkgs.coreutils pkgs.jq pkgs.gnugrep

@@ -7,7 +7,7 @@ privately by the author.
 
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
-| Codex CLI | 0.162.1 | gpt-6.1-sol | 2026-10-10 |
+| Codex CLI | 0.162.1 | gpt-6.1-sol | 2026-10-12 |
 | Claude Code | 2.1.295 | claude-opus-5-5 | 2026-10-09 |
 
 | Date | Milestone | Record |
@@ -56,3 +56,12 @@ retained menu/keybinding workflow dispositions and compact package-output eviden
 Sixteen installed launch regressions, 21 auditor regressions, Nix build/integration
 and 19 actual-output probes pass. Independent desktop acceptance remains pending.
 [Session](docs/ai/2026-10-10-0.4.3-menu-launch-closure.md).
+
+## 0.4.3 retained agent defaults and microphone controls — 2026-10-12
+
+Codex CLI `0.162.1` (`gpt-6.1-sol`) declared default-agent and microphone routing
+dependencies and extended isolated real-output probes. Twenty-five installed
+regressions, Nix command builds/integration and 24 actual-output probes pass.
+The final five-output audit reports 98 unresolved lexical names and 52 inherited
+locations. No candidate was activated.
+[Session](docs/ai/2026-10-12-agent-default-closure.md).

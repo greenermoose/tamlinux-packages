@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-12 | Retained agent defaults and first microphone controls | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-agent-default-closure.md) |
 | 2026-10-10 | 0.4.3 menu disposition and browser launch closure | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-0.4.3-menu-launch-closure.md) |
 | 2026-10-10 | 0.4.3 terminal/editor package closure and prioritized implementation | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-terminal-editor-closure.md) |
 | 2026-10-10 | 0.4.3 clean Arch/Hyprland contract and explicit package-output audit | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-0.4.3-clean-host-contract.md) |

@@ -67,7 +67,7 @@ elif name == 'hyprctl':
     if args[:2] == ['clients', '-j']: print(os.environ.get('TEST_CLIENTS', '[]'))
     else: print('{}')
 '''
-        for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'code', 'chromium'):
+        for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'code', 'chromium', 'codex'):
             path = host_bin / name
             path.write_text(launch_recorder)
             path.chmod(0o755)
@@ -142,6 +142,50 @@ elif name == 'hyprctl':
         assert run('tam-cmd-present', 'qs').returncode == 0
         assert run('tam-cmd-present', 'not-a-real-program', check=False).returncode != 0
         checks.append('command presence retains the declared host program boundary')
+
+        assert run('tam-default-agent').stdout == ''
+        agent_file = root / 'config/tamlinux/defaults/agent'
+        assert not agent_file.exists()
+        user_bin = root / 'home/.local/bin'
+        user_bin.mkdir(parents=True)
+        (user_bin / 'codex').symlink_to(host_bin / 'codex')
+        run('tam-default-agent', 'codex')
+        assert agent_file.read_text() == 'codex\n'
+        assert run('tam-default-agent').stdout == run('tam-agent', '--current').stdout == 'codex\n'
+        assert not (root / 'home/.config/tamlinux/defaults/agent').exists()
+        checks.append('packaged agent setter/reader share isolated XDG state and resolve atomic file tools')
+
+        prompt = 'literal prompt; $(touch NEVER) with spaces'
+        run('tam-agent', '--inline', '--prompt', prompt)
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['name'] == 'codex' and launch['args'] == ['--approve-for-me', '--', prompt]
+        assert not (root / 'NEVER').exists()
+        checks.append('packaged agent launcher preserves prompt argv at the recorded application boundary')
+
+        for name in ('openclaw', 'hermes'):
+            stub = host_bin / name
+            stub.write_text('#!/bin/sh\nmise use -g pipx:hermes-agent\n')
+            stub.chmod(0o755)
+            agent_file.write_text(name + '\n')
+            before = launch_log.read_text()
+            for flags in ((name,), ('--installed', name), ('--install', name)):
+                assert run('tam-default-agent', *flags, check=False).returncode != 0
+            assert run('tam-agent', '--inline', '--prompt', prompt, check=False).returncode != 0
+            assert launch_log.read_text() == before and agent_file.read_text() == name + '\n'
+        checks.append('retired OpenClaw and Hermes selections/stubs cannot install, launch or alter state')
+
+        agent_file.write_text('codex\n')
+        result = run('tam-default-agent', '--install', check=False)
+        assert result.returncode != 0 and agent_file.read_text() == 'codex\n'
+        assert not (root / 'home/.hermes').exists()
+        checks.append('invalid agent installation request preserves selection without invoking an installer')
+
+        env['PULSE_SERVER'] = 'unix:' + str(root / 'no-pulse-server')
+        env['PIPEWIRE_REMOTE'] = 'tamlinux-development-unavailable'
+        result = run('tam-audio-input-set-default', '42', 'development-microphone', check=False)
+        assert result.returncode == 0, result.stderr
+        assert 'command not found' not in result.stderr.lower(), result.stderr
+        checks.append('packaged microphone routing reaches isolated unavailable PipeWire/Pulse boundaries')
 
         assert run('tam-default-editor').stdout == 'nvim\n'
         assert run('tam-default-terminal').stdout == 'foot\n'
