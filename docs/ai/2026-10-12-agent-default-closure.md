@@ -8,7 +8,7 @@
 ## Guiding prompt (excerpt)
 
 > I accept your assessment of Hermes. Proceed with that in mind. I also accept the following recommendations from your 18-step-0.4.3-next-slice report
-> 
+>
 > 1) Transfer tam-default-agent into tamlinux/commands
 > 2) Remove OpenClaw branches
 > 3) Inspect every helper and tool edge before adding delivery wrappers.
