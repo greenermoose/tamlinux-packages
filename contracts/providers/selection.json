@@ -1,0 +1,142 @@
+{
+  "keyring": {
+    "armoredSha256": "6e5e9373e4684d646f2274e2df54d7fea5f79bc0df981ad8cd7851d1d2454ba3",
+    "binarySha256": "f7af717a90821803e5c366032f3135c236c4100962716b3c1ed352f8b9330f51",
+    "origin": "Arch Linux distribution keyring"
+  },
+  "providers": [
+    {
+      "architecture": "x86_64",
+      "archive": "quickshell-0.3.1-1-x86_64.pkg.tar.zst",
+      "id": "quickshell",
+      "origin": "https://git.outfoxxed.me/quickshell/quickshell",
+      "package": "quickshell",
+      "recipeSha256": "129785b78e03fd316938fa386ddc3d7b3727835530905feaa4686c3d65471338",
+      "requiredFiles": [
+        "usr/bin/quickshell",
+        "usr/bin/qs",
+        "usr/lib/qt6/qml/Quickshell/qmldir"
+      ],
+      "sha256": "5988659fdc1b0addf138a3cd8e3540fc1078bfc60c995c6f4cd0fb9054484ec7",
+      "signature": {
+        "file": "quickshell-0.3.1-1-x86_64.pkg.tar.zst.sig",
+        "fingerprint": "B0D65295476606B71F0C6F82A85E811EB4CA2E08",
+        "sha256": "2713fed678f3236cc0224e71876bfab96c10d55def0ab4b72bf1b8846ce6e22d"
+      },
+      "status": "selected",
+      "trust": "arch-signature",
+      "updateChannel": "https://archive.archlinux.org/packages/q/quickshell/",
+      "version": "0.3.1-1"
+    },
+    {
+      "architecture": "any",
+      "archive": "uwsm-0.27.0-1-any.pkg.tar.zst",
+      "id": "uwsm",
+      "origin": "https://github.com/Vladimir-csp/uwsm",
+      "package": "uwsm",
+      "recipeSha256": "590f4e0a802ffedbcc6b2c0f38f6bfba8d4c6de9040f8e356db9f700e5321127",
+      "requiredFiles": [
+        "usr/bin/uwsm",
+        "usr/bin/uwsm-app"
+      ],
+      "sha256": "0beff7c5da2502bcf8eb5c6493fec7e1c700eb9bd4b23bbd715328ea048eac96",
+      "signature": {
+        "file": "uwsm-0.27.0-1-any.pkg.tar.zst.sig",
+        "fingerprint": "B0D65295476606B71F0C6F82A85E811EB4CA2E08",
+        "sha256": "f40dc5acd894110d7a60953297d8595ae7f4a8a2f7e53ecd5a900c1d1fa09368"
+      },
+      "status": "selected",
+      "trust": "arch-signature",
+      "updateChannel": "https://archive.archlinux.org/packages/u/uwsm/",
+      "version": "0.27.0-1"
+    },
+    {
+      "architecture": "any",
+      "archive": "xdg-terminal-exec-0.14.3-2-any.pkg.tar.zst",
+      "id": "xdg-terminal-exec",
+      "origin": "https://github.com/Vladimir-csp/xdg-terminal-exec",
+      "package": "xdg-terminal-exec",
+      "recipeSha256": "845458948a1255cf23ac1d889c8ab478cf6ed576fe142a5bf80507f4a64be86d",
+      "requiredFiles": [
+        "usr/bin/xdg-terminal-exec"
+      ],
+      "sha256": "a43ac5a86ab7ee994558ac06d95909484f72f14980912b78463009ade9286fef",
+      "signature": {
+        "file": "xdg-terminal-exec-0.14.3-2-any.pkg.tar.zst.sig",
+        "fingerprint": "262A58EC6C51F7EA395B2E2DFDC3040B92ACA748",
+        "sha256": "8fd945e2fce18f99a046c431a20f9f6e3855b490e7a570812dbcf2435a3c9c8e"
+      },
+      "status": "selected",
+      "trust": "arch-signature",
+      "updateChannel": "https://archive.archlinux.org/packages/x/xdg-terminal-exec/",
+      "version": "0.14.3-2"
+    },
+    {
+      "architecture": "x86_64",
+      "archive": "hyprland-0.56.2-4.1-x86_64.pkg.tar.zst",
+      "id": "hyprland",
+      "origin": "https://github.com/hyprwm/Hyprland",
+      "package": "hyprland",
+      "recipeFiles": {
+        "recipes/hyprland/PKGBUILD": "64d6fa05f44023fb974c389983b6d2e0286b81e190f76bd3a70a59526f19df85",
+        "recipes/hyprland/hyprland-dpms-off-on-connect.patch": "348e93ae29a988dbca4a42d24ad0e98f84ca026eb8d32c4a916db2f8a880ec13",
+        "recipes/hyprland/hyprland-dpms-state-per-monitor.patch": "fee516e2593ba537584e32a44e7e3de51acb368274fa9557c6a9217b77e0836e",
+        "recipes/hyprland/hyprland-idle-inhibit-unchanged-noop.patch": "84e474cf7f1c257f0d7450a7e2a5131fa355f650e31ce8b04e71e64ad4ec220c"
+      },
+      "recipeSha256": "64d6fa05f44023fb974c389983b6d2e0286b81e190f76bd3a70a59526f19df85",
+      "requiredFiles": [
+        "usr/bin/Hyprland",
+        "usr/bin/hyprctl",
+        "usr/bin/start-hyprland"
+      ],
+      "sha256": "ddb2c3eb5abd71b5df2185f5dc62b81e483f5007df8be6e07c5ea0867d5d0d11",
+      "status": "selected",
+      "trust": "reviewed-local-build",
+      "updateChannel": "https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/hyprland",
+      "version": "0.56.2-4.1"
+    },
+    {
+      "architecture": "x86_64",
+      "archive": "aquamarine-0.15.1-1.1-x86_64.pkg.tar.zst",
+      "id": "aquamarine",
+      "origin": "https://github.com/hyprwm/aquamarine",
+      "package": "aquamarine",
+      "recipeFiles": {
+        "recipes/aquamarine/PKGBUILD": "e3bca28ed22c4ffaac7a071d95eb98caaedb023e2aa514f52182351389a30a89",
+        "recipes/aquamarine/aquamarine-guard-null-connectors.patch": "91b97d3fc9e6a7f78f9f66bb68cecd946329027d246a3162c591ac3b5a04721a"
+      },
+      "recipeSha256": "e3bca28ed22c4ffaac7a071d95eb98caaedb023e2aa514f52182351389a30a89",
+      "requiredFiles": [
+        "usr/lib/libaquamarine.so.14"
+      ],
+      "sha256": "27b5a9ff6912e9680b7244737849331569d767de57e9fe66277ab9664ad4b7d3",
+      "status": "selected",
+      "trust": "reviewed-local-build",
+      "updateChannel": "https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/aquamarine",
+      "version": "0.15.1-1.1"
+    },
+    {
+      "id": "tensaku",
+      "reason": "Maintained source v0.29.0 builds with locked dependencies, owned glyph identity and explicit capture-key integration; 228 tests pass. Native graphical behavior still needs VM proof.",
+      "status": "pending"
+    },
+    {
+      "id": "ttfx",
+      "reason": "Maintained source v0.3.2 builds with locked dependencies; 25 tests and installed deterministic frames pass. Paired screensaver requires graphical proof.",
+      "status": "pending"
+    },
+    {
+      "id": "asdcontrol",
+      "reason": "Maintained source v0.6.0 builds and its interface check passes. Fixed native installation, Polkit/device policy and physical Apple HID proof remain pending.",
+      "status": "pending"
+    },
+    {
+      "id": "native-system",
+      "reason": "Complete pinned Arch native dependency/service/graphics/portal/PAM/KMS/browser/boot closure and recovery remain to be selected.",
+      "status": "pending"
+    }
+  ],
+  "schema": 1,
+  "stage": "Develop; partial selection, no installation or acceptance",
+  "target": "arch-hyprland"
+}

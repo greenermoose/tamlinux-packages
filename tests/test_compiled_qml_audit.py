@@ -52,6 +52,37 @@ class CompiledTests(unittest.TestCase):
         self.assertTrue(result["compiledPayloadPassed"])
         self.assertIn("qmldirDigest", result["qmlImports"][0])
 
+    def test_static_proof_binds_selected_provider_and_module_bytes(self):
+        self.setUpScanner('testplugin')
+        provider = self.write(self.output / 'bin/provider', b'provider bytes')
+        record = {'schema': 1, 'passed': True,
+                  'runner': {'name': 'tamlinux-qml-provider', 'sourceDigest': 'a' * 64},
+                  'provider': {'path': str(provider), 'sha256': audit.sha(provider)},
+                  'imports': [{'name': 'Test.Module', 'qmldir': str(self.module / 'qmldir'),
+                               'qmldirDigest': audit.sha(self.module / 'qmldir'),
+                               'passed': True, 'exit': 0, 'configDigest': 'b' * 64}]}
+        report = self.write(self.root / 'proof.json', json.dumps(record))
+        def inspect():
+            return audit.inspect({'shell': self.output}, self.readelf, self.scanner,
+                                 [self.modules], [self.libraries], [report])
+        self.assertTrue(inspect()['resolvedQmlPassed'])
+        provider.write_bytes(b'changed provider')
+        with self.assertRaisesRegex(ValueError, 'stale static provider'):
+            inspect()
+        provider.write_bytes(b'provider bytes')
+        (self.module / 'qmldir').write_text('module Changed.Module\n')
+        with self.assertRaisesRegex(ValueError, 'stale static module'):
+            inspect()
+
+    def test_reference_host_static_provider_cannot_substitute_for_selected_output(self):
+        provider = self.write(self.libraries / 'host-provider', b'host bytes')
+        report = self.write(self.root / 'proof.json', json.dumps({
+            'schema': 1, 'passed': True, 'provider': {'path': str(provider), 'sha256': audit.sha(provider)},
+            'runner': {'name': 'tamlinux-qml-provider', 'sourceDigest': 'a' * 64}, 'imports': []}))
+        with self.assertRaisesRegex(ValueError, 'not a selected'):
+            audit.inspect({'shell': self.output}, self.readelf, self.scanner,
+                          [self.modules], [self.libraries], [report])
+
     def test_non_utf8_null_and_utf16_inherited_payloads_are_not_skipped(self):
         for data in (b"\xffOMARCHY", b"\0omarchy-command", "omarchy".encode("utf-16le")):
             self.write(self.output / "opaque.bin", data)

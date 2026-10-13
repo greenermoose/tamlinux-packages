@@ -17,7 +17,7 @@ CUSTOM = re.compile(r"(?<![\w.-])tam-[a-z0-9]+(?:-[a-z0-9]+)*(?![\w.-])")
 ABSOLUTE = re.compile(r"/usr/bin/[a-zA-Z0-9][a-zA-Z0-9_-]*")
 INHERITED = re.compile(r"omarchy", re.IGNORECASE)
 SKIP_DIRS = {".git", "docs", "tests", "upstream", "__pycache__", "node_modules"}
-SUFFIXES = {".qml", ".js", ".py", ".sh", ".json", ".jsonc"}
+SUFFIXES = {".qml", ".js", ".py", ".sh", ".json", ".jsonc", ".lua", ".desktop", ".conf"}
 
 
 def runtime_files(root):
@@ -44,6 +44,8 @@ def code_lines(path):
     for number, line in enumerate(lines, 1):
         stripped = line.lstrip()
         if stripped.startswith(("//", "/*", "*")):
+            continue
+        if path.suffix == ".lua" and stripped.startswith("--"):
             continue
         if stripped.startswith("#") and not stripped.startswith("#!"):
             continue

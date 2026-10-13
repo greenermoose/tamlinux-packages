@@ -66,7 +66,7 @@ def main():
       deliverySnapshot = delivery;
       outputs = builtins.mapAttrs (_: value: value.outPath) outputs;
     }''')
-    common = ['--impure'] + (['--offline'] if args.offline else [])
+    common = ['--impure', '--option', 'substituters', 'https://cache.nixos.org'] + (['--offline'] if args.offline else [])
     identities = json.loads(run('identities', ['nix', 'eval', '--json', *common,
                                               '--expr', metadata]).stdout)
     (report / 'identities.json').write_text(json.dumps(identities, indent=2) + '\n')

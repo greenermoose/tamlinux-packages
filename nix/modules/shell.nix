@@ -31,6 +31,11 @@ in
       default = null;
       description = "Plugin IDs to install from the plugin package; null installs all of them.";
     };
+    quickshellPackage = lib.mkOption {
+      type = lib.types.nullOr lib.types.package;
+      default = if features.sessionProviders or false then pkgs.quickshell else null;
+      description = "Pinned Quickshell provider shared by session startup and IPC clients.";
+    };
     documentation = lib.mkOption {
       type = lib.types.str;
       default =
@@ -71,8 +76,16 @@ in
     # Home Manager's fontconfig discovers fonts in the immutable command
     # profile; the mono baseline and menu glyphs are delivered by that tuple.
     fonts.fontconfig.enable = lib.mkDefault true;
-    home.packages = [ cfg.commandPackage ];
+    home.packages = [ cfg.commandPackage ] ++ lib.optional (cfg.quickshellPackage != null) cfg.quickshellPackage;
+    home.sessionVariables = lib.optionalAttrs (cfg.quickshellPackage != null) {
+      TAMLINUX_QUICKSHELL = "${cfg.quickshellPackage}/bin/quickshell";
+      TAMLINUX_QUICKSHELL_IPC = "${cfg.quickshellPackage}/bin/qs";
+    };
     assertions = [
+      {
+        assertion = cfg.quickshellPackage == null || (features.sessionProviders or false);
+        message = "Selected Quickshell delivery requires product support for paired runtime providers.";
+      }
       {
         assertion = config.tamlinux.developer.enable;
         message = "Every Tamlinux shell installation requires the developer baseline (Nix or verified host tools).";
@@ -186,8 +199,11 @@ in
       };
       Service = {
         Type = "simple";
-        ExecStart = "/usr/bin/python3 -I ${config.home.homeDirectory}/.local/share/tamlinux/shell/host/session_start.py";
-        Environment = [
+        ExecStart = "${pkgs.python3}/bin/python3 -I ${config.home.homeDirectory}/.local/share/tamlinux/shell/host/session_start.py";
+        Environment = lib.optionals (cfg.quickshellPackage != null) [
+          "TAMLINUX_QUICKSHELL=${cfg.quickshellPackage}/bin/quickshell"
+          "TAMLINUX_QUICKSHELL_IPC=${cfg.quickshellPackage}/bin/qs"
+        ] ++ [
           "QML_IMPORT_PATH=${config.home.homeDirectory}/.local/share/tamlinux/shell/modules"
           "QS_DISABLE_FILE_WATCHER=1"
           "QS_NO_RELOAD_POPUP=1"

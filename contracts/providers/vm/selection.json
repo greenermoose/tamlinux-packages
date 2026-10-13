@@ -1,0 +1,31 @@
+{
+  "capabilities": {
+    "audio": false,
+    "bluetooth": false,
+    "graphics": "virtio-vga, software guest rendering; no host compositor connection",
+    "memoryMiB": 4096,
+    "network": "Guest egress blocked by QEMU restrict=on; loopback-only forwarded SSH",
+    "physicalAcceptance": false,
+    "physicalDisplayBrightness": false,
+    "physicalSleepResume": false,
+    "target": "clean Arch/Hyprland software proof",
+    "vcpus": 2
+  },
+  "firmware": {
+    "codeSha256": "2febd26c0b4cf95a636a941afa37d64a552723443ed9ac72f763f6840da98cb4",
+    "varsSha256": "5d2ac383371b408398accee7ec27c8c09ea5b74a0de0ceea6513388b15be5d1e"
+  },
+  "image": {
+    "file": "Arch-Linux-x86_64-cloudimg-20261001.604814.qcow2",
+    "sha256": "360f0fa49db6813bdc8e35bed230a2dc2ae3567b7b5ab74719c0a706e4e34e87",
+    "signatureSha256": "ace927f824b100af00c2f165d07c0a0200e6a57b65590e8c09b208930f90a7fd",
+    "signingFingerprint": "656E4C5AC1CC3B86E539D97E343635A6859A9174",
+    "url": "https://geo.mirror.pkgbuild.com/images/v20261001.604814/Arch-Linux-x86_64-cloudimg-20261001.604814.qcow2"
+  },
+  "key": {
+    "file": "arch-boxes.asc",
+    "origin": "https://gitlab.archlinux.org/archlinux/arch-boxes/-/raw/master/README.md",
+    "sha256": "950fd1530dc70ab4201d3a78f563775251df0cad77c86a1add08f5894e20845c"
+  },
+  "schema": 1
+}

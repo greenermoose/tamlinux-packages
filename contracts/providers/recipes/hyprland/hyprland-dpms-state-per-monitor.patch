@@ -1,0 +1,182 @@
+From 3e4303a78b29f006c5264dd71a94e7e079781ecf Mon Sep 17 00:00:00 2001
+From: Fred Horch <fred.horch@gmail.com>
+Date: Thu, 17 Sep 2026 23:13:00 -0400
+Subject: Derive the compositor-wide DPMS flag from monitor state; remember
+ per-output DPMS-off across reconnects
+
+Bug: g_pCompositor->m_dpmsStateOn is what misc:mouse_move_enables_dpms and
+misc:key_press_enables_dpms consult: while it is false, any pointer or keyboard event
+runs dpms(TOGGLE_ACTION_ENABLE, nullopt) and lights every monitor. The dpms dispatcher
+(src/config/shared/actions/ConfigActions.cpp, Actions::dpms) assigned that flag from the
+last monitor it touched, even with a monitor filter, so `dpms off <one monitor>` set the
+compositor-wide flag to false while the other monitors stayed lit. The next mouse move on
+any lit monitor then switched the blanked one back on. The wlr-output-power-management
+path (src/protocols/OutputPower.cpp -> CMonitor::setDPMS) never updated the flag at all,
+so a client blanking every monitor through that protocol left the flag true and input did
+not wake them.
+
+Evidence (2026-09-17 23:02, three-monitor amdgpu desktop, Hyprland 0.56.2): an idle
+per-monitor blank of HDMI-A-1 via `hl.dsp.dpms({ action = "off", monitor = "HDMI-A-1" })`
+went dark on time and came back on as soon as the pointer moved on DP-1, with no input
+on HDMI-A-1, no hypridle Resumed, and no dpms-on dispatch from any client.
+
+Fix:
+- CMonitor::setDPMS() recomputes g_pCompositor->m_dpmsStateOn from every enabled
+  monitor: false only when all of them are DPMS-off. CMonitor::onDisconnect() recomputes
+  it too, so losing the last lit monitor is reflected. Actions::dpms() no longer assigns
+  the flag. Every DPMS path (dispatcher, wlr-output-power, the input-driven enable)
+  now agrees. With all monitors off, input still turns everything on as before; with
+  only some monitors off, input on a lit monitor no longer touches the dark ones.
+- A file-local set in src/output/Monitor.cpp remembers, by output name, monitors that
+  were switched off, and CMonitor::onConnect() brings a returning output up dark if its
+  name is in it, in addition to the compositor-wide inheritance already there. Without
+  this, correcting the flag would have re-lit any panel that drops HPD after losing
+  signal and reconnects a second later (input auto-scan) after every per-monitor blank,
+  including a cold link training on DisplayPort. An unfiltered `dpms on` (which is what
+  the input-driven enable issues) clears the whole set, so an output that was unplugged
+  while off and comes back after a compositor-wide wake is lit; a per-monitor `dpms on`
+  clears only that name.
+
+No class layout changes (file-local static, one free function in namespace Monitor), so
+plugins built against the unpatched headers keep working.
+
+Upstream: same code on main as of 2026-09-17 (Actions::dpms assigns the flag per
+monitor; OutputPower never does). Not filed (hyprwm AI-usage policy; see the registry).
+
+Retires when: an Arch hyprland release whose dpms dispatcher does not mark the compositor
+DPMS-off after a filtered `dpms off`, i.e. moving the mouse on a lit monitor does not wake a
+monitor blanked individually. Packaged locally as 0.56.2-3.3 together with
+hyprland-dpms-off-on-connect.patch and hyprland-idle-inhibit-unchanged-noop.patch; any
+Arch pkgrel or pkgver bump outranks it automatically (the pacman hook then says whether
+to rebase or retire).
+
+diff -ruN a/src/output/Monitor.cpp b/src/output/Monitor.cpp
+
+(Patch carried in ~/pkgs by Fred's Omarchy workstation; registry: https://github.com/greenermoose/omarchy-fred-ecosystem)
+
+AI-Tool: claude 2.1.274
+AI-Model: Claude Opus 5
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+---
+ src/config/shared/actions/ConfigActions.cpp | 10 ++++-
+ src/output/Monitor.cpp                      | 46 ++++++++++++++++++++-
+ src/output/Monitor.hpp                      |  4 ++
+ 3 files changed, 57 insertions(+), 3 deletions(-)
+
+diff --git a/src/config/shared/actions/ConfigActions.cpp b/src/config/shared/actions/ConfigActions.cpp
+index cf38816790e4151ea51b58d352291da248e079b4..b523c07278e30c3af6f53728cf26441fc4517d89 100644
+--- a/src/config/shared/actions/ConfigActions.cpp
++++ b/src/config/shared/actions/ConfigActions.cpp
+@@ -1252,9 +1252,17 @@ ActionResult Actions::dpms(eTogglableAction action, std::optional<PHLMONITOR> mo
+         }
+ 
+         m->setDPMS(enable);
+-        g_pCompositor->m_dpmsStateOn = enable;
+     }
+ 
++    // g_pCompositor->m_dpmsStateOn is derived in CMonitor::setDPMS() from the
++    // state of every enabled monitor; assigning it here from the last monitor
++    // touched made a per-monitor `dpms off` look compositor-wide, and the next
++    // mouse move anywhere re-lit that monitor. An unfiltered enable is the
++    // "everything on" intent, so it also forgets outputs that were switched
++    // off individually and are currently unplugged.
++    if (!mon.has_value() && action == TOGGLE_ACTION_ENABLE)
++        Monitor::forgetDPMSOffOutputs();
++
+     Pointer::mgr()->recheckEnteredOutputs();
+ 
+     return {};
+diff --git a/src/output/Monitor.cpp b/src/output/Monitor.cpp
+index 431621f62b6c88206fb9b728108a798306dfb6fe..20351e1e412eadf0d0f9fcc6740757c838c728f3 100644
+--- a/src/output/Monitor.cpp
++++ b/src/output/Monitor.cpp
+@@ -61,6 +61,40 @@
+ #include <ranges>
+ #include <vector>
+ #include <algorithm>
++#include <unordered_set>
++
++// DPMS bookkeeping shared by setDPMS(), onConnect() and onDisconnect().
++//
++// g_pCompositor->m_dpmsStateOn drives misc:mouse_move_enables_dpms and
++// misc:key_press_enables_dpms: any input while it is false turns every
++// monitor on. It used to be assigned by the dpms dispatcher from the last
++// monitor it touched, so blanking ONE monitor (`dpms off DP-3`, or a
++// wlr-output-power client, which never updated the flag at all) left it
++// false and the next mouse move re-lit that monitor from anywhere. It is
++// now derived here: false only when every enabled monitor is DPMS-off.
++//
++// s_dpmsOffOutputs remembers, by output name, monitors that were switched
++// off individually, so that a panel dropping HPD after losing signal and
++// reconnecting a second later (input auto-scan) comes back dark like its
++// peers do under the compositor-wide state. An unfiltered `dpms on` forgets
++// all of them; a per-monitor `dpms on` forgets that one.
++static std::unordered_set<std::string> s_dpmsOffOutputs;
++
++static void recheckCompositorDPMSState() {
++    bool anyEnabled = false, anyOn = false;
++    for (auto const& m : State::monitorState()->allMonitors()) {
++        if (!m->m_enabled)
++            continue;
++        anyEnabled = true;
++        if (m->m_dpmsStatus)
++            anyOn = true;
++    }
++    g_pCompositor->m_dpmsStateOn = !anyEnabled || anyOn;
++}
++
++void Monitor::forgetDPMSOffOutputs() {
++    s_dpmsOffOutputs.clear();
++}
+ 
+ using namespace Hyprutils::String;
+ using namespace Hyprutils::Utils;
+@@ -305,9 +339,10 @@ void CMonitor::onConnect(bool noRule) {
+     // DPMS is off — typically a panel that dropped HPD after losing signal and
+     // reconnected — must not come up lit and must not retrain its link. Bring
+     // it up disabled; the normal dpms-on paths enable it later.
+-    m_dpmsStatus = g_pCompositor->m_dpmsStateOn;
++    m_dpmsStatus = g_pCompositor->m_dpmsStateOn && !s_dpmsOffOutputs.contains(m_name);
+     if (!m_dpmsStatus)
+-        Log::logger->log(Log::DEBUG, "Monitor {} connected while DPMS is off; bringing it up disabled", m_name);
++        Log::logger->log(Log::DEBUG, "Monitor {} connected while DPMS is off ({}); bringing it up disabled", m_name,
++                         g_pCompositor->m_dpmsStateOn ? "this output" : "compositor-wide");
+ 
+     m_output->state->resetExplicitFences();
+     m_output->state->setEnabled(m_dpmsStatus);
+@@ -470,6 +505,8 @@ void CMonitor::onDisconnect(bool destroy) {
+     m_enabled             = false;
+     m_renderingInitPassed = false;
+ 
++    recheckCompositorDPMSState();
++
+     std::vector<PHLWORKSPACE> wspToMove;
+     for (auto const& w : State::workspaceState()->workspaces()) {
+         if (w->m_monitor == m_self || !w->m_monitor)
+@@ -2321,6 +2358,11 @@ void CMonitor::setDPMS(bool on) {
+         return;
+ 
+     m_dpmsStatus = on;
++    if (on)
++        s_dpmsOffOutputs.erase(m_name);
++    else
++        s_dpmsOffOutputs.insert(m_name);
++    recheckCompositorDPMSState();
+     m_events.dpmsChanged.emit();
+ 
+     if (on) {
+diff --git a/src/output/Monitor.hpp b/src/output/Monitor.hpp
+index 945fecd1ba106f23efcb7768ef1d89b5cbeab1ea..29a127f8bcd042a10c06c58e22088a03886a240b 100644
+--- a/src/output/Monitor.hpp
++++ b/src/output/Monitor.hpp
+@@ -42,6 +42,10 @@ namespace Monitor {
+     class CMonitorFrameScheduler;
+     class CMonitor;
+ 
++    // Drop the per-output "switched off individually" memory that onConnect()
++    // consults; called when DPMS is enabled compositor-wide.
++    void forgetDPMSOffOutputs();
++
+     class CMonitorState {
+       public:
+         CMonitorState(CMonitor* owner);

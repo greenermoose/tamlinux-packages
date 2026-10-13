@@ -15,6 +15,8 @@ let
     version = "0.9.1";
     passthru.features.manWrapper = true;
     src = sources.tam;
+    patches = pkgs.lib.optional (builtins.pathExists "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch")
+      "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch";
     postPatch = "patchShebangs tests";
     # The command tests read the guide from the source tree, not from $HOME.
     preCheck = "export TAM_KNOWLEDGE_DIR=$PWD/knowledge";
@@ -55,6 +57,12 @@ let
   lib = pkgs.lib;
   product = sources.tamlinux;
   has = path: builtins.pathExists "${product}/${path}";
+  ttfx = if has "desktop/vendor/ttfx/Cargo.lock"
+    then import ../native/ttfx.nix { inherit pkgs product; } else null;
+  tensaku = if has "desktop/vendor/tensaku/Cargo.lock"
+    then import ../native/tensaku.nix { inherit pkgs product; } else null;
+  asdcontrol = if has "desktop/native/providers/asdcontrol/asdcontrol.cpp"
+    then import ../native/asdcontrol.nix { inherit pkgs product; } else null;
   productVersion = lib.trim (builtins.readFile "${product}/VERSION");
   # VERSION keeps SemVer spelling; package managers must sort letter
   # candidates before the corresponding release.
@@ -65,6 +73,7 @@ let
     menu = has "desktop/menu/default.jsonc" && has "desktop/menu/tam-menu";
     protocolShadow = has "desktop/protocol-shadow";
     documentation = has "desktop/README.md";
+    sessionProviders = has "desktop/session/providers.json";
   };
   # Hash only trial code so unrelated shell/menu commits preserve the 0.4.1
   # protocol shadow observation identity.
@@ -247,7 +256,7 @@ let
     tam-system-wake = [  ];
     suspend-unless-stay-awake = [ pkgs.coreutils pkgs.procps pkgs.util-linux pkgs.gnugrep pkgs.gnused pkgs.systemd ];
     tam-launch-screensaver = [ pkgs.coreutils pkgs.procps pkgs.jq pkgs.socat ];
-    tam-screensaver = [ pkgs.coreutils pkgs.procps pkgs.jq ];
+    tam-screensaver = [ pkgs.coreutils pkgs.procps pkgs.jq ] ++ lib.optional (ttfx != null) ttfx;
     tam-toggle = [ pkgs.coreutils ];
     tam-toggle-enabled = [  ];
     tam-toggle-screensaver = [  ];
@@ -286,6 +295,10 @@ let
         cp ${product}/VERSION $out/share/tamlinux/version
         printf '%s\n' ${lib.escapeShellArg product.rev} > $out/share/tamlinux/source-revision
         ${lib.optionalString features.documentation "cp ${product}/desktop/README.md $out/share/tamlinux/README.md"}
+        ${lib.optionalString features.sessionProviders ''
+          cp -R ${product}/desktop/session $out/share/tamlinux/session
+          install -m755 ${product}/desktop/session/start $out/bin/tamlinux-hyprland-session
+        ''}
         ${lib.optionalString features.menu ''
           mkdir -p $out/share/tamlinux/menu
           cp ${product}/desktop/menu/default.jsonc $out/share/tamlinux/menu/default.jsonc
@@ -355,6 +368,12 @@ let
         make -C commands/${name} install PREFIX=$out
       '') commandNames}
       mkdir -p $out/bin
+      ${lib.optionalString (ttfx != null) ''
+        mkdir -p $out/share/tamlinux
+        cp ${pkgs.writeText "tamlinux-provider-tools.json" (builtins.toJSON ({ ttfx = "${ttfx}/bin/ttfx"; }
+          // lib.optionalAttrs (tensaku != null) { tensaku = "${tensaku}/bin/tensaku"; }
+          // lib.optionalAttrs (asdcontrol != null) { asdcontrol = "${asdcontrol}/bin/asdcontrol"; }))} $out/share/tamlinux/provider-tools.json
+      ''}
       ${lib.optionalString (has "desktop/assets") ''
         mkdir -p $out/share/tamlinux
         cp -R desktop/assets $out/share/tamlinux/assets
@@ -377,7 +396,7 @@ let
     postFixup = lib.concatMapStrings (name:
       lib.optionalString (lib.elem name commandNames) ''
         wrapProgram $out/bin/${name} \
-          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (lib.elem name [ "tam-display-text-size" "tam-theme-set-gnome" ]) "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
+          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (name == "tam-shell") "--set-default TAMLINUX_QUICKSHELL_IPC ${pkgs.quickshell}/bin/qs"} ${lib.optionalString (name == "tam-capture-edit" && tensaku != null) "--set-default TAMLINUX_TENSAKU ${tensaku}/bin/tensaku"} ${lib.optionalString (lib.elem name [ "tam-display-text-size" "tam-theme-set-gnome" ]) "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
       ''
     ) (lib.attrNames commandRuntimeDeps);
     passthru = {
@@ -393,4 +412,6 @@ in
   tamlinux-shell = shell;
   tamlinux-plugins = plugins;
   tamlinux-commands = commands;
-}
+} // lib.optionalAttrs (ttfx != null) { tamlinux-ttfx = ttfx; }
+  // lib.optionalAttrs (tensaku != null) { tamlinux-tensaku = tensaku; }
+  // lib.optionalAttrs (asdcontrol != null) { tamlinux-asdcontrol = asdcontrol; }

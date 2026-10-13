@@ -14,7 +14,7 @@ from pathlib import Path
 import re
 import subprocess
 
-VERSION = "1"
+VERSION = "2"
 INHERITED = re.compile(b"omarchy", re.IGNORECASE)
 SKIP = {".git", "docs", "tests", "upstream", "__pycache__"}
 
@@ -54,8 +54,35 @@ def command(tool, args):
     return result.stdout
 
 
-def inspect(outputs, readelf, scanner, qml_roots, library_roots):
+def inspect(outputs, readelf, scanner, qml_roots, library_roots, static_provider_reports=()):
     roots = list(outputs.values()) + qml_roots + library_roots
+    static_proofs = {}
+    proof_refs = []
+    for report_path in static_provider_reports:
+        report = json.loads(report_path.read_text())
+        provider = Path(report['provider']['path'])
+        if report.get('schema') != 1 or report.get('passed') is not True or not within(provider, roots) \
+                or sha(provider) != report['provider']['sha256'] \
+                or report.get('runner', {}).get('name') != 'tamlinux-qml-provider' \
+                or not re.fullmatch(r'[0-9a-f]{64}', report['runner'].get('sourceDigest', '')):
+            raise ValueError('Invalid/stale static provider report')
+        # The selected provider must be part of inspected outputs, rather than
+        # a reference-host binary that happens to import the same module names.
+        if not within(provider, list(outputs.values())):
+            raise ValueError('Static provider is not a selected inspected output')
+        seen = set()
+        for item in report['imports']:
+            definition = Path(item['qmldir'])
+            if item['name'] in seen or item.get('passed') is not True or type(item.get('exit')) is not int or item['exit'] != 0 \
+                    or not re.fullmatch(r'[0-9a-f]{64}', item.get('configDigest', '')) \
+                    or not within(definition, qml_roots) or sha(definition) != item['qmldirDigest']:
+                raise ValueError('Invalid/stale static module import proof')
+            seen.add(item['name'])
+            static_proofs[(item['name'], str(definition.resolve()))] = item
+        if not seen:
+            raise ValueError('Empty static module import proof')
+        proof_refs.append({'path': str(report_path), 'sha256': sha(report_path),
+                           'provider': report['provider'], 'modules': sorted(seen)})
     byte_hits, metadata, errors, qml_errors = [], [], [], []
     visited = set()
     identities = {}
@@ -158,6 +185,8 @@ def inspect(outputs, readelf, scanner, qml_roots, library_roots):
                             shared = directory / ("lib" + plugin + ".so")
                             if shared.is_file() and within(shared, roots):
                                 binary(shared, str(shared.resolve()))
+                            elif (module.get('name'), str(qmldir.resolve())) in static_proofs:
+                                module['staticProviderProof'] = static_proofs[(module['name'], str(qmldir.resolve()))]['configDigest']
                             else:
                                 # Qt marks statically linked providers optional. Do not
                                 # infer that the selected executable registered them.
@@ -171,12 +200,13 @@ def inspect(outputs, readelf, scanner, qml_roots, library_roots):
                       "qmlimportscanner": {"path": str(scanner), "sha256": sha(scanner)}},
             "outputs": {k: str(v) for k, v in outputs.items()},
             "qmlRoots": list(map(str, qml_roots)), "libraryRoots": list(map(str, library_roots)),
+            "staticProviderReports": proof_refs,
             "filesInspected": len(files), "fileDigests": identities,
             "compiledPayloadPassed": not byte_hits and not errors,
             "resolvedQmlPassed": not qml_errors,
             "inheritedBinaryLocations": byte_hits, "elf": metadata,
             "compiledErrors": errors, "qmlErrors": qml_errors, "qmlImports": qml,
-            "limits": "Compiled/NUL payloads and ELF closure inspected. Text/config/assets/helper semantics need other I03 cases. Static QML registrations and actual loading require provider/runtime proof; scanner success alone is insufficient."}
+            "limits": "Compiled/NUL payloads and ELF closure inspected. Text/config/assets/helper semantics need other I03 cases. Validated selected-provider import reports prove static module registration; effective desktop loading remains I04. Scanner success alone is insufficient."}
 
 
 def main():
@@ -186,6 +216,7 @@ def main():
     parser.add_argument("--qml-scanner", type=Path, required=True)
     parser.add_argument("--qml-root", type=Path, action="append", default=[])
     parser.add_argument("--library-root", type=Path, action="append", default=[])
+    parser.add_argument("--static-provider-report", type=Path, action="append", default=[])
     parser.add_argument("--report", type=Path, required=True)
     parser.add_argument("--tuple-digest")
     parser.add_argument("--check-report", type=Path)
@@ -207,7 +238,8 @@ def main():
                 raise ValueError("Dependency roots must be absolute directories")
         if args.check_report and not re.fullmatch(r"[0-9a-f]{64}", args.tuple_digest or ""):
             raise ValueError("Check report requires selection tuple SHA-256")
-        result = inspect(outputs, args.readelf, args.qml_scanner, args.qml_root, args.library_root)
+        result = inspect(outputs, args.readelf, args.qml_scanner, args.qml_root, args.library_root,
+                         args.static_provider_report)
         result["tupleDigest"] = args.tuple_digest
         args.report.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
         if args.check_report:
@@ -219,7 +251,7 @@ def main():
                           for name, field in (("compiled-payload", "compiledPayloadPassed"),
                                               ("resolved-qml", "resolvedQmlPassed"))]}
             args.check_report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    except (OSError, ValueError, TypeError) as error:
+    except (OSError, ValueError, TypeError, KeyError) as error:
         parser.exit(2, f"compiled-qml-audit: {error}\n")
     print(f"Inspected {result['filesInspected']} payloads / {len(result['elf'])} ELF objects; "
           f"compiled={result['compiledPayloadPassed']}, QML={result['resolvedQmlPassed']}. Evidence: {args.report}")

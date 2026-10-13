@@ -91,3 +91,8 @@ tools/OCR data and isolated decoder fixtures were developed with Codex CLI
 2026-10-13: owned theme/font/assets/branding source and tool closure was developed
 with Codex CLI `0.162.1`, model `gpt-6.1-sol`. Native/session and clean-host
 acceptance remain pending. [Session](docs/ai/2026-10-13-0.4.3-theme-closure.md).
+
+2026-10-13: Codex CLI `0.162.1` (`gpt-6.1-sol`) implemented independent
+provider builds and fresh-session defaults, verified paired outputs and prepared
+a signed isolated clean Arch VM. Complete testing readiness remains pending.
+[Session](docs/ai/2026-10-13-0.4.3-provider-session-closure.md).

@@ -60,6 +60,17 @@ class AuditTests(unittest.TestCase):
         finally:
             os.environ["PATH"] = old_path
 
+    def test_session_lua_and_native_configuration_are_audited(self):
+        self.write(self.outputs["shell"] / "share/tamlinux/session/autostart.lua",
+                   '-- Omarchy ancestry\nhl.exec_cmd("tam-unprovided")\n')
+        self.write(self.outputs["shell"] / "share/wayland-sessions/tamlinux.desktop",
+                   '[Desktop Entry]\nExec=/usr/bin/unprovided\n')
+        result = self.run_audit()
+        self.assertEqual(result["filesScanned"], 2)
+        self.assertIn("tam-unprovided", result["missingPackageCommands"])
+        self.assertIn("/usr/bin/unprovided", result["undeclaredAbsoluteTools"])
+        self.assertEqual(result["inheritedIdentifierLocations"], [])
+
     def test_non_executable_installed_file_does_not_supply_command(self):
         self.menu('{"action": "tam-missing"}')
         self.write(self.outputs["commands"] / "bin/tam-missing", "not executable")

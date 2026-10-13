@@ -81,6 +81,7 @@ elif name == 'hyprctl':
                'PATH': str(host_bin), 'LANG': 'C', 'TERM': 'xterm',
                'DBUS_SESSION_BUS_ADDRESS': 'unix:path=' + str(root / 'no-session-bus'),
                'DBUS_SYSTEM_BUS_ADDRESS': 'unix:path=' + str(root / 'no-system-bus'),
+               'TAMLINUX_QUICKSHELL_IPC': str(recorder),
                'TEST_CALL_LOG': str(log), 'TEST_NETWORK_LOG': str(network),
                'TEST_LAUNCH_LOG': str(launch_log)}
 
@@ -491,9 +492,27 @@ elif name == 'hyprctl':
         assert not (root / 'state/tamlinux/toggles/screensaver-off').exists()
         checks.append('packaged screensaver reader/writer share XDG marker and retain both prior states')
 
-        result = run('tam-screensaver', check=False)
-        assert result.returncode != 0  # ttfx is an explicitly unavailable host tool.
-        checks.append('packaged effect helper rejects unavailable native ttfx before compositor changes')
+        provider_tools = args.commands / 'share/tamlinux/provider-tools.json'
+        if provider_tools.is_file():
+            ttfx = Path(json.loads(provider_tools.read_text())['ttfx'])
+            assert ttfx.is_absolute() and ttfx.is_file()
+            result = subprocess.run([str(ttfx), '--version'], env=env, cwd=root,
+                                    text=True, capture_output=True, timeout=10, check=True)
+            assert result.stdout.strip() == 'ttfx 0.3.2'
+            # Probe the effect engine directly; the real screensaver manages
+            # compositor state and signals, which belong to physical acceptance.
+            result = subprocess.run([str(ttfx), '--seed', '1', '--max-frames', '2',
+                                     '--parity-dump', 'beams'], input='TAMLINUX\n',
+                                    env=env, cwd=root, capture_output=True, text=True,
+                                    timeout=10, check=True)
+            assert result.stdout
+            wrapper = (args.commands / 'bin/tam-screensaver').read_text()
+            assert str(ttfx.parent) in wrapper
+            checks.append('owned ttfx renders bounded deterministic frames and screensaver resolves its immutable provider')
+        else:
+            result = run('tam-screensaver', check=False)
+            assert result.returncode != 0
+            checks.append('packaged effect helper rejects unavailable ttfx before compositor changes')
 
         for relative in ('lock/hyprlock.conf', 'lock/LICENSE', 'screensaver/alacritty.toml',
                          'screensaver/foot.ini', 'screensaver/ghostty', 'screensaver/screensaver.txt',
@@ -559,10 +578,28 @@ elif name == 'hyprctl':
         editor = host_bin / 'tensaku'
         editor.write_text(launch_recorder)
         editor.chmod(0o755)
-        run('tam-capture-edit', str(edit))
+        run('tam-capture-edit', str(edit), extra_env={'TAMLINUX_TENSAKU': str(editor)})
         launch = json.loads(launch_log.read_text().splitlines()[-1])
         assert launch['name'] == 'tensaku' and launch['args'][:4] == ['--filename', str(edit), '--output-filename', str(edit)]
-        checks.append('packaged annotation adapter preserves filename argv at declared native Tensaku boundary')
+        checks.append('packaged annotation adapter preserves filename argv at the explicit recorded provider boundary')
+        if provider_tools.is_file():
+            selected = json.loads(provider_tools.read_text())
+            if 'tensaku' in selected:
+                provider = Path(selected['tensaku'])
+                result = subprocess.run([str(provider), '--version'], env=env, cwd=root,
+                    text=True, capture_output=True, timeout=10, check=True)
+                assert '0.29.0' in result.stdout
+                result = subprocess.run([str(provider), '--help'], env=env, cwd=root,
+                    text=True, capture_output=True, timeout=10, check=True)
+                assert '--wire-omarchy' not in result.stdout and '--install-omarchy-wrapper' not in result.stdout
+                assert '--filename' in result.stdout and '--wire-capture-key' in result.stdout
+                assert str(provider) in (args.commands / 'bin/tam-capture-edit').read_text()
+                checks.append('maintained annotation provider retains image/capture interfaces and excludes inherited self-install wiring')
+            if 'asdcontrol' in selected:
+                result = subprocess.run([selected['asdcontrol'], '--help'], env=env, cwd=root,
+                    text=True, capture_output=True, timeout=10, check=True)
+                assert 'brightness' in result.stdout.lower()
+                checks.append('maintained Apple display provider exposes its interface without opening a device')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))

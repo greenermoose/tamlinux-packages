@@ -1,0 +1,304 @@
+{
+  "imports": [
+    {
+      "configDigest": "7cb07e3b459876172e954ac7b3ace0138451f625908e1a24ba611797abafd54b",
+      "exit": 0,
+      "name": "Quickshell.Bluetooth",
+      "outputDigest": "7a9b8e7df88d4a394ff80ec342b622d7de586f4c44567703bb7bd56e13315bbf",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Bluetooth/qmldir",
+      "qmldirDigest": "4daf20aa7ec2c88e303bc3e630ff6cf3a28a67b8b44af3680794f81a238a7d82"
+    },
+    {
+      "configDigest": "153559e010780513d079d1b41947fb0ba4f0704285839f18cab06635f64b6327",
+      "exit": 0,
+      "name": "Quickshell.DBusMenu",
+      "outputDigest": "e1026f52e25e9dba48fe05c168e5ec958b3d665b3491f9fff98adfbf289fd497",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/DBusMenu/qmldir",
+      "qmldirDigest": "ac9d3dd65a817c98dc9b78031453a41d2189e02f1c379e9f570c96af5d09b225"
+    },
+    {
+      "configDigest": "7e28ae8e74966a7638c92bdfaa4505a16d77e9b2e78188117369f9926a57e711",
+      "exit": 0,
+      "name": "Quickshell.Hyprland._FocusGrab",
+      "outputDigest": "5b39a4539379c7fae706441e8dc805495fbe7069543c4629bd240f62cfbcab8f",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Hyprland/_FocusGrab/qmldir",
+      "qmldirDigest": "a259e755059a517eb5e9198846e3fbb3cdb79f005b41baed5f165ad4e72326d3"
+    },
+    {
+      "configDigest": "93753efc4864e94ce2e5a2c5a4ad04e2248853a34a491d9fc2e8bb07d5afb99b",
+      "exit": 0,
+      "name": "Quickshell.Hyprland._GlobalShortcuts",
+      "outputDigest": "46b869f6ef98e64f24ad4143f8dde7129a3b9906eb434fc77a951d0807e1dbc8",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Hyprland/_GlobalShortcuts/qmldir",
+      "qmldirDigest": "6e7edb4785c5e37ab8fb72f0a4de37b7024d9f404d0224a8d94a25ce6ebcab5d"
+    },
+    {
+      "configDigest": "f75e33442b25d6e7bec1e3088df6b3e6a41b311be984d88fd175eea96969c30b",
+      "exit": 0,
+      "name": "Quickshell.Hyprland._Ipc",
+      "outputDigest": "20e5d29c277392fb8fdea1d19efe33f64cff73072e44f1af27d5c32588c0f3e9",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Hyprland/_Ipc/qmldir",
+      "qmldirDigest": "2ee5d32751c44a27724135991e56d40d751cf5a50618bad63b03f9b931a55811"
+    },
+    {
+      "configDigest": "e3522f6456b84c860c27666ebc56ebca6bffa325f6339a876b9ac5b76b84a94c",
+      "exit": 0,
+      "name": "Quickshell.Hyprland._SurfaceExtensions",
+      "outputDigest": "a3a4de95f7b8ae9b69f1c96d549e7195690d638570421393a9fb0b5ec2b2a69d",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Hyprland/_SurfaceExtensions/qmldir",
+      "qmldirDigest": "3c7cfd213748eae5d899d3eb366c8f1e2691d60ecf5def260dd8708786af5f4f"
+    },
+    {
+      "configDigest": "2253e75c17a485a6b2712b8f1f869cd3b2d485969e45d51e34d451561452ca61",
+      "exit": 0,
+      "name": "Quickshell.Hyprland",
+      "outputDigest": "39e8d0053d4ee941c91b0aaa270ea7b9bc921e62f65163a5667b0784d58c72e4",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Hyprland/qmldir",
+      "qmldirDigest": "57c56e195e8843de4c3ea4c5e46a9e4c2cd906a0d19ebe59e78eb588e47420ad"
+    },
+    {
+      "configDigest": "ad6c3f95e0905ca3aa3775661f52dab5681f5976f7e9cde0098a3f2af09cf0e8",
+      "exit": 0,
+      "name": "Quickshell.I3._Ipc",
+      "outputDigest": "84f818e49f7706486eeee540e366ff6be3102f6539d6038d62315a439d7b716b",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/I3/_Ipc/qmldir",
+      "qmldirDigest": "55c3fbf9dd532768b9495feadb30f3e8da7f1ab797399456d2efcdaf10a9f7a4"
+    },
+    {
+      "configDigest": "0057b0141c5c48b3c3b739bd1edfd67b5b19bcd989ff9ef15c1bf39eea001357",
+      "exit": 0,
+      "name": "Quickshell.I3",
+      "outputDigest": "71a07c4a056f1e4d76bd87704ac434b52da2dcfc6e5732245faf701d6951fb58",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/I3/qmldir",
+      "qmldirDigest": "b4c0601f9a15d29793aa05fed61c247c0a72164b0eb7f4260e57a40cabf9cb73"
+    },
+    {
+      "configDigest": "b4395807ff648c866e21248c936c36fd63455161c829022f21c2aa96804e8ad1",
+      "exit": 0,
+      "name": "Quickshell.Io",
+      "outputDigest": "0d33c3c411c3540516cbe422bc294991dae16b8f6e4ad2029be7570b7ff4965c",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Io/qmldir",
+      "qmldirDigest": "7dfeb1c6c0d24b5b71752ecd1927968a52fdcaa4cad60a4e8b25bbde54376091"
+    },
+    {
+      "configDigest": "edf332149588c0457958197ecd693ccacbde7732a4481cb14ef0c0ec972e3c38",
+      "exit": 0,
+      "name": "Quickshell.Networking",
+      "outputDigest": "2889aca004237d99aabcf17887c46304b2cfd6bf1234878cdaad2866cf647d59",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Networking/qmldir",
+      "qmldirDigest": "58d20e70914d41362276b730d074c3cbda840877aa10606640a5380781b3a28a"
+    },
+    {
+      "configDigest": "2af188467a0dc3a5cbd8e374b01c7ff58e3a5ea9fc27459781223be5454d6b4d",
+      "exit": 0,
+      "name": "Quickshell.Services.Greetd",
+      "outputDigest": "886e2e6c8b4ea443c46b7f18d2332d2f9edd77a3b29a852fce463c89ed2bf46c",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/Greetd/qmldir",
+      "qmldirDigest": "52b7c30fcaecb333cc00c5294884ec445a30bd6c45ff46f91cd606cb2c0bc5b9"
+    },
+    {
+      "configDigest": "5bd96aaf5ae24764ae8687e1c3a9c324dfc8e30774c231d4750ce0be0f1d38fa",
+      "exit": 0,
+      "name": "Quickshell.Services.Mpris",
+      "outputDigest": "ed6bc45c2b551e00c9338494973f6bee93acf9ba4878895118dbb66ae1e23031",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/Mpris/qmldir",
+      "qmldirDigest": "d8b98875a8795cd1080ed92a7b1fb599f8c62d54388925e17fcf200b0eecc79d"
+    },
+    {
+      "configDigest": "5f18de6abfe96934212202c566ff784e5d081f4d7fc727193fcc55db4e771f12",
+      "exit": 0,
+      "name": "Quickshell.Services.Notifications",
+      "outputDigest": "462934b358ea55f6dce8df442caf80851f9d2a4aa8f7949d4f51a8e9fb1826a0",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/Notifications/qmldir",
+      "qmldirDigest": "3d22ab9561cfd898e5e6b4bf055a23fb084d7c81027bae8a14bc4249922ac411"
+    },
+    {
+      "configDigest": "2198fec7c2e0871cc6f64cb32117a28648a698efcd1b4ccdb7e10d21624c99fb",
+      "exit": 0,
+      "name": "Quickshell.Services.Pam",
+      "outputDigest": "0b8c2642408742d3ffbac189606a34320215667d45f07ecc679eaf2e6a667525",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/Pam/qmldir",
+      "qmldirDigest": "b294db309da2cf0e206ad2082f1a6f0576c8944aedd4092ad3eb7772204a5be4"
+    },
+    {
+      "configDigest": "2f4d59cc527a7ec50c59fcdfb168f5c2d6faf18f9d112a938da26a35a5120c19",
+      "exit": 0,
+      "name": "Quickshell.Services.Pipewire",
+      "outputDigest": "26d9bd60a09f65c59c07b0e123e01f5ca3f667c69609d12471af83f44b652f90",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/Pipewire/qmldir",
+      "qmldirDigest": "ac607c34fee961d5fe343785383188c14d68c6429fd03ba295c88420803d8b5f"
+    },
+    {
+      "configDigest": "52de69b7a8e4893a14601703b13d44c7d5526da206c65b62a1c2348b37440dd1",
+      "exit": 0,
+      "name": "Quickshell.Services.Polkit",
+      "outputDigest": "69ea83560ca3eb2864be56e4b8d777a73cb65c5cb91f1956f359ac58089c443a",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/Polkit/qmldir",
+      "qmldirDigest": "50d631e66e8a6d8463a71e5dd5c9943329c80bd06dc3f6b1216463da5c36f3d3"
+    },
+    {
+      "configDigest": "bb6a75f90bf6d9ea9610fc7792b7925b47872ffd179675f5c356111ca3b29711",
+      "exit": 0,
+      "name": "Quickshell.Services.SystemTray",
+      "outputDigest": "20fe489fc3219ebebcad644a78f271cbf5cb59667085ebd045dac544c33fbcbe",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/SystemTray/qmldir",
+      "qmldirDigest": "961f180fbae318a72df3e0bd08294e880661879eb43c2cfbe562fab408510f49"
+    },
+    {
+      "configDigest": "96fc5a4e6d9c494bf9c84dd58290cb03dd556da50e015bc8a5ed44a95eba5e45",
+      "exit": 0,
+      "name": "Quickshell.Services.UPower",
+      "outputDigest": "14de9c63e02917cdea3708e5d448282a5a1f1bf9117ea8a78240dd3b744de9a2",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Services/UPower/qmldir",
+      "qmldirDigest": "a32e3fffb07bd57897d95cf209e47e9b83d9e7865b24510e1714e630205dc5e0"
+    },
+    {
+      "configDigest": "082b59e26906de8955d0e26d0cbeca2c9902cafdcecfc023cb1af7f3855c2f6a",
+      "exit": 0,
+      "name": "Quickshell.Wayland._BackgroundEffect",
+      "outputDigest": "6c345e25f418024f2cb9de12e9584b7f467926ccac7209cc6206847a5ed162c5",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/_BackgroundEffect/qmldir",
+      "qmldirDigest": "94d629a538f3b064ddf3421f292747fabab0916000c6923c68a0388cdd52249c"
+    },
+    {
+      "configDigest": "15eb5a98ac442b176846f99c6d1c8f5b47d4b463a69bc3e1bc37571b5d801dbc",
+      "exit": 0,
+      "name": "Quickshell.Wayland._IdleInhibitor",
+      "outputDigest": "579c0e8c9cc060c879dac28378e89b116900e5000108f2d306ced3f695bba321",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/_IdleInhibitor/qmldir",
+      "qmldirDigest": "2f0e109771f5e6f354c01ee44398ea3c5996d30ab3bb8507816fbc2eea0911eb"
+    },
+    {
+      "configDigest": "03efc72d4fe9acff338bdf76c556bc712dda0cf15a1aa388162c157aa5aa75a0",
+      "exit": 0,
+      "name": "Quickshell.Wayland._IdleNotify",
+      "outputDigest": "9de06379154a1572ea8d51f6b1ef3329be019147f38ac0df7c5871cc56b25c5a",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/_IdleNotify/qmldir",
+      "qmldirDigest": "7a1d3bb367b0ccc0b4a349177813b386247463cbef0f0e8172f3152e655cad53"
+    },
+    {
+      "configDigest": "b381f92d46235e6ccef645b17d497f921d62c701ea33b7149fc1545cdc567ec2",
+      "exit": 0,
+      "name": "Quickshell.Wayland._Screencopy",
+      "outputDigest": "1de049fdd5677d126ac554d60a9ea329d705d987a3f92868d4f33e82e18458ba",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/_Screencopy/qmldir",
+      "qmldirDigest": "5b2758b2facb13a2d18ef2348439384ed30e76f8649aaa393c183d57cef51cf2"
+    },
+    {
+      "configDigest": "fdb0ba028c23e4d402e70eee9e460a03675b95692847050ae3ac4840d8d351d6",
+      "exit": 0,
+      "name": "Quickshell.Wayland._ShortcutsInhibitor",
+      "outputDigest": "de7bfc127746a9122d0b1e2db825eec1acd78c5f4a414c4697776778b9a13a23",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/_ShortcutsInhibitor/qmldir",
+      "qmldirDigest": "fc697422056a1f8448f9c1fde39cf6f30132e29a9c4f9c401cdf2dcf9f1b8ce4"
+    },
+    {
+      "configDigest": "f12a7410fbc4bc25041c99aa339e23e5ebcbdfb54d502586737c5a0cb002a835",
+      "exit": 0,
+      "name": "Quickshell.Wayland._ToplevelManagement",
+      "outputDigest": "b02ca34509eccab084f5ec3917786e378d9a6773205aef1ea52aa0551531b274",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/_ToplevelManagement/qmldir",
+      "qmldirDigest": "3428e85295c3900b0bcb84a9b90970e47fe348106f87e39fbcc7f47ad5f07b73"
+    },
+    {
+      "configDigest": "1d5925cb6aaf1033a1898f8028e973f62a4f86f831a518272932d89853dedd2e",
+      "exit": 0,
+      "name": "Quickshell.Wayland._WlrLayerShell",
+      "outputDigest": "4f0b9106ec03ff5c2c43c4c64392ae5e80a8c0cd4872e3ed7e6ef21c873d7684",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/_WlrLayerShell/qmldir",
+      "qmldirDigest": "d2bd17298e75cc9ac05deb03388595041968c8febab4c99c433bfe5a04a979be"
+    },
+    {
+      "configDigest": "008d601683ce9509781f01c51367945c65e4257fde1dc04c736a2c9545e8e2ec",
+      "exit": 0,
+      "name": "Quickshell.Wayland",
+      "outputDigest": "ea4930c6749c034bf32c8b0532506756be4f2d826e09900af216e6c3c2b7ea0e",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Wayland/qmldir",
+      "qmldirDigest": "decc68c90961e1cc013df0ad6a5340971f4041ec13f252d7bbfbaa44454fe668"
+    },
+    {
+      "configDigest": "e63d03111b05380dc8bb722240cd45ff2da2e930b3482048013696498d63eb8c",
+      "exit": 0,
+      "name": "Quickshell.Widgets",
+      "outputDigest": "aba659501c8fd73574f42c2387e1142ab6290e0d10e6397fa468612a1c9563b0",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/Widgets/qmldir",
+      "qmldirDigest": "d421abb6d8cc5bf5aec88a7a9ed8527bbf34f5871bb507a89dbf19dcee6aee6a"
+    },
+    {
+      "configDigest": "ef93f82dc0d688cb222b2cdda8294b44fa69a7fe4c77d794d9e6120bc0159214",
+      "exit": 0,
+      "name": "Quickshell.WindowManager",
+      "outputDigest": "3fb5cf4ff5b891c4637373218cf7e7c22264e6e199d9c4a5bf724be0169b3e3e",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/WindowManager/qmldir",
+      "qmldirDigest": "886cfbba1c1aa763e0aa9733af2a1a28cb8fa81c04637215a2cdc55bdc05057a"
+    },
+    {
+      "configDigest": "7aeebfe0fa4fca931718413fe5e791f6351e09daec419b018b5986b35cdfda62",
+      "exit": 0,
+      "name": "Quickshell.X11",
+      "outputDigest": "81bd5cc0d4c9d448af3bca9caf44ae53314d56d1f043060cdb48226409515b47",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/X11/qmldir",
+      "qmldirDigest": "8e89f9b1839dc2f982e25a4d7c7e4883884ddfb1b1fc515ea87018ff8d177f49"
+    },
+    {
+      "configDigest": "3924ec0ffa36299a20e9c5dcd081c896669b4fe94c61f930b59d90423a02b176",
+      "exit": 0,
+      "name": "Quickshell._Window",
+      "outputDigest": "35c79deb45279e1eb384c2ee37645cd7d2fd6cafad4a9623150e422c9717778f",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/_Window/qmldir",
+      "qmldirDigest": "9f137a0eb88c2911da6340d04056828ad37fa82001a3924db4903b1be48319f1"
+    },
+    {
+      "configDigest": "6995a71f6f2b889c5c481d0f04e8fcef1fb8a3820fafde74f88e83baf029289c",
+      "exit": 0,
+      "name": "Quickshell",
+      "outputDigest": "a4cbad83a5ddd408a1728de4c1af6c69243f939b963f27556a1059697e0d8c16",
+      "passed": true,
+      "qmldir": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml/Quickshell/qmldir",
+      "qmldirDigest": "dfa0b122d5c4671a817cc7ea10d5ce430de9c51893ac4ae8660408f53ac04edd"
+    }
+  ],
+  "limits": "Offscreen import registration with isolated state and unavailable buses. No desktop QML, service actions, fresh graphical login, rendering or physical acceptance.",
+  "passed": true,
+  "provider": {
+    "path": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/bin/quickshell",
+    "sha256": "2cc24ab1c46fc68c259d5d33c4bfc58d8ea6317cb745f93ce869c37cf884ecd6"
+  },
+  "qmlRoot": "/nix/store/bizld3m6skqh1fsjf6invqgaicyfvkyz-quickshell-0.3.1/lib/qt-6/qml",
+  "runner": {
+    "name": "tamlinux-qml-provider",
+    "sourceDigest": "fcbe600a97b4afd11dee5adff1712d1abaf50882eb89b248142b561c0fc55726"
+  },
+  "schema": 1
+}

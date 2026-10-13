@@ -1,0 +1,70 @@
+From 68a4dfe2ace0bcf7cd49373160e4fa8f9d5cf0d2 Mon Sep 17 00:00:00 2001
+From: Fred Horch <fred.horch@gmail.com>
+Date: Thu, 17 Sep 2026 12:35:37 -0400
+Subject: Inherit the compositor-wide DPMS state when a monitor connects
+
+Bug: CMonitor::onConnect() brings every new monitor up enabled (m_dpmsStatus defaults to
+true and the output is committed with setEnabled(true) before applyMonitorRule()), without
+consulting g_pCompositor->m_dpmsStateOn. Many panels drop HPD a few seconds after losing
+signal and reconnect shortly after (input auto-scan; see hyprwm/Hyprland#5557). With DPMS
+off that hotplug destroys and re-creates the CMonitor, and the new one is modeset and lit:
+"dpms off" lasts about 8 seconds and the desktop comes back on with nobody at the keyboard.
+On this machine (amdgpu, HP 22cwa on HDMI-A-1 and a bus-powered MSI MP161 on USB-C DP Alt
+Mode, DP-2) hypridle's journal shows one wl_output removed/re-added pair per panel at +6.3 s
+and +8.4 s after every DPMS-off, and the compositor log shows a fresh "Modesetting" for each.
+Confirmed by eye 2026-09-13 with a 15 s idle timeout: dark at 15 s, lit again at ~23 s.
+Each re-creation is also a cold DisplayPort link training of the bus-powered panel, which is
+what intermittently trains into a marginal, visibly jittering link (Fault C in
+docs/agent-runbooks/display-output-instability.md) - observed the same day at 10:14:15
+with no suspend involved.
+
+Fix: in the new-monitor path of onConnect(), set m_dpmsStatus from
+g_pCompositor->m_dpmsStateOn and commit the output with that enabled-state. When DPMS is
+globally off the monitor is still registered (wl_output, workspaces, layout, mode recorded by
+applyMonitorRule() - whose commit is then a harmless disable commit) but not lit and not
+link-trained. Every existing DPMS-on path (the dpms dispatcher, misc:mouse_move_enables_dpms,
+misc:key_press_enables_dpms, wlr-output-power) goes through setDPMS(true), which enables a
+monitor whose m_dpmsStatus is false exactly as it does for any other DPMS-off monitor. While
+DPMS is on (the default, and at startup) behaviour is unchanged.
+
+Upstream: unfixed on main as of 2026-09-13 (onConnect still enables unconditionally);
+#5557 and #8377 were closed in the move to discussions, not fixed. PR draft in
+upstream-pr.md next to this file.
+
+Retires when: an Arch hyprland release whose CMonitor::onConnect() honours the compositor
+DPMS state on connect. Packaged locally as 0.56.2-3.1; any Arch pkgrel or pkgver bump
+outranks it automatically (the pacman hook then says whether to rebase or retire).
+
+diff -ruN a/src/output/Monitor.cpp b/src/output/Monitor.cpp
+
+(Patch carried in ~/pkgs by Fred's Omarchy workstation; registry: https://github.com/greenermoose/omarchy-fred-ecosystem)
+
+AI-Tool: claude 2.1.274
+AI-Model: Claude Opus 5
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+---
+ src/output/Monitor.cpp | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/src/output/Monitor.cpp b/src/output/Monitor.cpp
+index e69d8dda5784f1ce470f49201b17d201928ebd79..431621f62b6c88206fb9b728108a798306dfb6fe 100644
+--- a/src/output/Monitor.cpp
++++ b/src/output/Monitor.cpp
+@@ -301,8 +301,16 @@ void CMonitor::onConnect(bool noRule) {
+ 
+     m_enabled = true;
+ 
++    // Inherit the compositor-wide DPMS state. A monitor that (re)appears while
++    // DPMS is off — typically a panel that dropped HPD after losing signal and
++    // reconnected — must not come up lit and must not retrain its link. Bring
++    // it up disabled; the normal dpms-on paths enable it later.
++    m_dpmsStatus = g_pCompositor->m_dpmsStateOn;
++    if (!m_dpmsStatus)
++        Log::logger->log(Log::DEBUG, "Monitor {} connected while DPMS is off; bringing it up disabled", m_name);
++
+     m_output->state->resetExplicitFences();
+-    m_output->state->setEnabled(true);
++    m_output->state->setEnabled(m_dpmsStatus);
+ 
+     // set mode, also applies
+     if (!noRule) {

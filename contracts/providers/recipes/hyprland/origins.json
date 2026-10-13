@@ -1,0 +1,11 @@
+{
+  "files": {
+    "PKGBUILD": "64d6fa05f44023fb974c389983b6d2e0286b81e190f76bd3a70a59526f19df85",
+    "hyprland-dpms-off-on-connect.patch": "348e93ae29a988dbca4a42d24ad0e98f84ca026eb8d32c4a916db2f8a880ec13",
+    "hyprland-dpms-state-per-monitor.patch": "fee516e2593ba537584e32a44e7e3de51acb368274fa9557c6a9217b77e0836e",
+    "hyprland-idle-inhibit-unchanged-noop.patch": "84e474cf7f1c257f0d7450a7e2a5131fa355f650e31ce8b04e71e64ad4ec220c"
+  },
+  "origin": "https://gitlab.archlinux.org/archlinux/packaging/packages/hyprland",
+  "patchOrigin": "https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/hyprland",
+  "schema": 1
+}

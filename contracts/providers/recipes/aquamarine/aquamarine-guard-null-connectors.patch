@@ -1,0 +1,29 @@
+From 1291a490232c3594cb68993f0f4a645150a59325 Mon Sep 17 00:00:00 2001
+From: Fred Horch <fred.horch@gmail.com>
+Date: Tue, 22 Sep 2026 20:48:20 -0400
+Subject: drm: skip null connectors when flushing async commit events
+
+The backend destructor resets connector slots as it disconnects outputs. Disconnecting a later output flushes async events across the full vector, including those cleared slots. Guard the slot before dereferencing it. This fixes the shutdown SIGSEGV at DRM.cpp:500 (aquamarine #383) without changing the existing disconnect behavior.
+
+Keep this patch until upstream includes an equivalent null guard; review each new Arch aquamarine release before retiring the local package.
+
+Co-authored-by: Codex <noreply@openai.com>
+AI-Tool: Codex API
+AI-Model: GPT-6
+---
+ src/backend/drm/DRM.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/backend/drm/DRM.cpp b/src/backend/drm/DRM.cpp
+index 431247b5f958f24512e964b45e89a5e6237d8651..75007bf67d46ae003362363a3e4d57bc3ce222bb 100644
+--- a/src/backend/drm/DRM.cpp
++++ b/src/backend/drm/DRM.cpp
+@@ -497,7 +497,7 @@ void Aquamarine::CDRMBackend::emitAsyncCommitEvent(SP<CDRMOutput> output) {
+ 
+ void Aquamarine::CDRMBackend::flushAsyncCommitEvents() {
+     for (const auto& connector : connectors) {
+-        if (connector->output && connector->output->asyncCommitEventPending)
++        if (connector && connector->output && connector->output->asyncCommitEventPending)
+             emitAsyncCommitEvent(connector->output);
+     }
+ }

@@ -1,0 +1,67 @@
+From a7a03d6fe76dc052774e0f7c9007576e7075b6b3 Mon Sep 17 00:00:00 2001
+From: Fred Horch <fred.horch@gmail.com>
+Date: Thu, 17 Sep 2026 12:35:38 -0400
+Subject: Do not reset ext-idle-notify notifications when the inhibit state is
+ unchanged
+
+Bug: CIdleNotifyProtocol::setInhibit() (src/protocols/IdleNotify.cpp) calls update(0) on every
+inhibitor-obeying ext_idle_notification each time it is invoked, whether or not `inhibited`
+differs from the current state. update(0) reset()s the notification (sending `resumed` if it
+was idled) and restarts its timer from zero. setInhibit() is reached from
+CInputManager::recheckIdleInhibitorStatus(), which runs on every window focus change
+(CFocusState::rawWindowFocus) and always ends in setInhibit(false) when no inhibitor is
+active. Result: any focus change while the desktop is idle counts as user activity for
+every ext-idle-notify client, even though no input happened and no inhibitor appeared or
+went away. hypridle's shorter rules keep firing and its longer rules are never reached.
+
+On this machine (2026-09-17 incident, docs/incidents/2026-09-17-idle-loop-no-suspend.md):
+hypridle's 300 s DPMS-off rule fired 85 times overnight and got `resumed` 7-8 s later every
+time. The HP 22cwa (HDMI-A-1) drops HPD ~6.5 s after losing signal; the wl_output removal
+made fred.workspaces re-anchor focus (hyprctl --batch of focus dispatches), each of which
+re-evaluated the (unchanged, false) inhibit state and reset the timers. The 1800 s
+suspend-then-hibernate rule never ran; the machine stayed up all night.
+
+Fix: return early from setInhibit() when the state is unchanged. A real transition still
+restarts timers: true -> false is the spec's "inhibitor went away, start counting" and
+false -> true still resets idled notifications. Only the no-op re-evaluation stops being
+treated as activity. Hardware input still goes through onActivity() (PointerManager /
+InputManager), which is untouched. A DEBUG log line marks the skipped case so the binary
+can be checked for the patch (strings /usr/bin/Hyprland | grep 'inhibit state unchanged').
+
+Upstream: same code on hyprwm/Hyprland main as of 2026-09-17 (fetched raw file). PR draft
+in upstream-pr.md next to this file.
+
+Retires when: an Arch hyprland release whose setInhibit() guards the unchanged case.
+Packaged locally as 0.56.2-3.2 together with hyprland-dpms-off-on-connect.patch; any
+Arch pkgrel or pkgver bump outranks it automatically (the pacman hook then says whether
+to rebase or retire).
+
+diff -ruN a/src/protocols/IdleNotify.cpp b/src/protocols/IdleNotify.cpp
+
+(Patch carried in ~/pkgs by Fred's Omarchy workstation; registry: https://github.com/greenermoose/omarchy-fred-ecosystem)
+
+AI-Tool: claude 2.1.274
+AI-Model: Claude Opus 5
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+---
+ src/protocols/IdleNotify.cpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/src/protocols/IdleNotify.cpp b/src/protocols/IdleNotify.cpp
+index b80bf5c66189c4b401cc58b3b6e99c1d7f4edb8b..fb647a602bf533dc3314951aa7e8d56e48de46a3 100644
+--- a/src/protocols/IdleNotify.cpp
++++ b/src/protocols/IdleNotify.cpp
+@@ -116,6 +116,13 @@ void CIdleNotifyProtocol::onActivity() {
+ }
+ 
+ void CIdleNotifyProtocol::setInhibit(bool inhibited) {
++    // Re-evaluations that do not change the inhibit state (every window focus
++    // change ends up here via recheckIdleInhibitorStatus) are not activity:
++    // do not reset the notifications or their timers.
++    if (isInhibited == inhibited) {
++        LOGM(Log::DEBUG, "idle: inhibit state unchanged ({}), ignoring", inhibited);
++        return;
++    }
+     isInhibited = inhibited;
+     for (auto const& n : m_notifications) {
+         if (n->inhibitorsAreObeyed())

@@ -1,0 +1,9 @@
+{
+  "files": {
+    "PKGBUILD": "e3bca28ed22c4ffaac7a071d95eb98caaedb023e2aa514f52182351389a30a89",
+    "aquamarine-guard-null-connectors.patch": "91b97d3fc9e6a7f78f9f66bb68cecd946329027d246a3162c591ac3b5a04721a"
+  },
+  "origin": "https://gitlab.archlinux.org/archlinux/packaging/packages/aquamarine",
+  "patchOrigin": "https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/aquamarine",
+  "schema": 1
+}

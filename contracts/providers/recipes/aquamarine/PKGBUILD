@@ -1,0 +1,57 @@
+# Maintainer: Caleb Maclennan <caleb@alerque.com>
+# Contributor: Aaron Blasko <blaskoazzolaaaron [at] gmail.com>
+
+pkgname=aquamarine
+pkgver=0.15.1
+pkgrel=1.1
+# patches: exported from https://github.com/greenermoose/aquamarine tag v0.15.1-fred.1 by 'tam-ecosystem export aquamarine'
+# (registry: https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/aquamarine)
+pkgdesc='a very light linux rendering backend library'
+arch=(x86_64 aarch64)
+url="https://github.com/hyprwm/$pkgname"
+license=(BSD-3-Clause)
+depends=(libgcc
+         libstdc++
+         glibc # libc.so libm.so
+         hyprutils libhyprutils.so
+         libdisplay-info libdisplay-info.so
+         libdrm # libdrm.so
+         libglvnd libEGL.so
+         libinput # libinput.so
+         mesa # libgbm.so
+         opengl-driver
+         pixman
+         seatd libseat.so
+         systemd-libs libudev.so
+         wayland libwayland-client.so
+         wayland-protocols)
+makedepends=(cmake
+             hyprwayland-scanner)
+provides=("lib$pkgname.so")
+_archive="$pkgname-$pkgver"
+source=("$url/archive/v$pkgver/$_archive.tar.gz"
+        aquamarine-guard-null-connectors.patch)
+sha256sums=('2f9de98c0bd1b7b1b09c576e390a2fef436449762fb334163c414f0c300296f2'
+            '91b97d3fc9e6a7f78f9f66bb68cecd946329027d246a3162c591ac3b5a04721a')
+
+prepare() {
+	cd "$_archive"
+	# Local patch (see the .patch header): guard connector slots cleared by the
+	# destructor before later outputs flush async commit events (aquamarine #383).
+	# The patch and the local pkgrel suffix retire when Arch ships that fix.
+	patch -Np1 -i "$srcdir/aquamarine-guard-null-connectors.patch"
+}
+
+build() {
+	cd "$_archive"
+	cmake -B build \
+		-D CMAKE_INSTALL_PREFIX=/usr \
+		-D CMAKE_BUILD_TYPE=Release
+	cmake --build build
+}
+
+package() {
+	cd "$_archive"
+	DESTDIR="$pkgdir" cmake --install build
+	install -Dm0644 -t "$pkgdir/usr/share/licenses/$pkgname" LICENSE
+}
