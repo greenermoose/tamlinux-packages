@@ -17,6 +17,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--commands', type=Path, required=True)
     parser.add_argument('--shell', type=Path, required=True)
+    parser.add_argument('--capture-fixtures', type=Path,
+                        default=Path(__file__).resolve().parent / 'fixtures/capture')
     args = parser.parse_args()
     checks = []
     with tempfile.TemporaryDirectory(prefix='tamlinux-installed-helpers-') as temporary:
@@ -462,6 +464,53 @@ elif name == 'hyprctl':
                      extra_env={'XDG_STATE_HOME': str(root / 'blocked-state')})
         assert result.returncode != 0 and not (root / 'blocked-state/tamlinux/toggles/screensaver-off').exists()
         checks.append('packaged screensaver preservation failure prevents marker writes')
+
+        # Exercise immutable capture tools without a Wayland server or devices.
+        # Fixtures stay with this exact delivery snapshot, rather than user data.
+        capture = json.loads((args.commands / 'share/tamlinux/capture-tools.json').read_text())
+        for name, value in capture.items():
+            path = Path(value)
+            assert value.startswith('/nix/store/') and path.is_file(), (name, value)
+        assert Path(capture['englishData']).stat().st_size > 1_000_000
+        checks.append('capture manifest names delivered immutable tools and English OCR data')
+
+        fixtures = args.capture_fixtures
+        decoded = subprocess.run([capture['zbarimg'], '-q', '--raw', '-Sdisable', '-Sqrcode.enable',
+                                  str(fixtures / 'qr.png')], env=env, text=True, capture_output=True, timeout=10)
+        assert decoded.returncode == 0 and decoded.stdout.strip() == 'tamlinux capture fixture', decoded.stderr
+        checks.append('actual packaged QR decoder recognizes the fixed offline QR fixture')
+        ocr = subprocess.run([capture['tesseract'], str(fixtures / 'ocr.png'), 'stdout', '--oem', '1',
+                              '--psm', '6', '-l', 'eng'], env=env, text=True, capture_output=True, timeout=10)
+        assert ocr.returncode == 0 and ocr.stdout.strip() == 'Tamlinux capture test', ocr.stderr
+        checks.append('actual packaged OCR and English language data recognize the fixed text fixture')
+
+        invalid = run('tam-capture-screenshot', 'invalid', check=False)
+        assert invalid.returncode != 0 and 'Invalid capture mode' in invalid.stderr
+        checks.append('installed screenshot rejects invalid input before picker or cursor side effects')
+        for name, values in [('tam-capture-screenrecording', ('--status',)),
+                             ('tam-capture-screenrecording', ('--stop-recording',)),
+                             ('tam-capture-screenrecording', ('--unknown',))]:
+            result = run(name, *values, check=False)
+            assert result.returncode != 0 and 'command not found' not in result.stderr.lower()
+        checks.append('packaged recording lifecycle status/stop reject absent recording without starting a backend')
+
+        capture_monitor = {'name': 'DP-fixture', 'focused': True, 'x': -1280, 'y': 0,
+                           'width': 2560, 'height': 1440, 'scale': 2, 'transform': 0,
+                           'activeWorkspace': {'id': 1}}
+        extra = {'TEST_MONITORS': json.dumps([capture_monitor])}
+        assert run('tam-capture-region', 'fullscreen', extra_env=extra).stdout == '-1280,0 1280x720\n'
+        assert run('tam-capture-region', 'fullscreen', '--match-monitor', extra_env=extra).stdout == 'monitor:DP-fixture\n'
+        checks.append('installed capture geometry and monitor matching resolve packaged jq against recorded compositor')
+
+        edit = root / 'capture image; literal.png'
+        edit.touch()
+        editor = host_bin / 'tensaku'
+        editor.write_text(launch_recorder)
+        editor.chmod(0o755)
+        run('tam-capture-edit', str(edit))
+        launch = json.loads(launch_log.read_text().splitlines()[-1])
+        assert launch['name'] == 'tensaku' and launch['args'][:4] == ['--filename', str(edit), '--output-filename', str(edit)]
+        checks.append('packaged annotation adapter preserves filename argv at declared native Tensaku boundary')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))

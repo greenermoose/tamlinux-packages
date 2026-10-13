@@ -91,8 +91,37 @@ let
   # Host session facilities (Quickshell, UWSM and xdg-terminal-exec) remain
   # independently supplied prerequisites. These helpers own their other tools
   # and resolve one another from the same command output, before user PATH.
+  englishOcr = pkgs.tesseract.override { enableLanguages = [ "eng" ]; };
+  captureTools = {
+    grim = "${pkgs.grim}/bin/grim";
+    slurp = "${pkgs.slurp}/bin/slurp";
+    hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
+    gpu-screen-recorder = "${pkgs.gpu-screen-recorder}/bin/gpu-screen-recorder";
+    wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
+    tesseract = "${englishOcr}/bin/tesseract";
+    englishData = "${englishOcr}/share/tessdata/eng.traineddata";
+    zbarimg = "${pkgs.zbar}/bin/zbarimg";
+    v4l2-ctl = "${pkgs.v4l-utils}/bin/v4l2-ctl";
+    mpv = "${pkgs.mpv}/bin/mpv";
+    ffmpeg = "${lib.getBin pkgs.ffmpeg}/bin/ffmpeg";
+    ffprobe = "${lib.getBin pkgs.ffmpeg}/bin/ffprobe";
+  };
   commandRuntimeDeps = {
     tam-notification-send = [ pkgs.jq pkgs.systemd ];
+    # Capture tools are delivered; compositor, portal/device policy and native
+    # Tensaku remain explicit host capabilities. English OCR data is immutable.
+    tam-capture-region = [ pkgs.coreutils pkgs.procps pkgs.jq pkgs.slurp pkgs.hyprpicker ];
+    tam-capture-screenshot = [ pkgs.coreutils pkgs.procps pkgs.jq pkgs.grim pkgs.wl-clipboard ];
+    tam-capture-text = [ pkgs.coreutils pkgs.hyprpicker pkgs.slurp pkgs.grim
+      pkgs.wl-clipboard englishOcr ];
+    tam-capture-qr = [ pkgs.coreutils pkgs.hyprpicker pkgs.slurp pkgs.grim pkgs.wl-clipboard pkgs.zbar ];
+    tam-capture-screenrecording = [ pkgs.coreutils pkgs.util-linux pkgs.jq
+      pkgs.gnugrep pkgs.gnused pkgs.v4l-utils pkgs.mpv pkgs.gpu-screen-recorder pkgs.ffmpeg ];
+    tam-capture-screenrecording-with-webcam = [ ];
+    tam-capture-webcam-list = [ pkgs.v4l-utils pkgs.gawk ];
+    tam-capture-webcam-resize = [ pkgs.jq ];
+    tam-capture-edit = [ pkgs.wl-clipboard ];
+
     tam-shell = [ pkgs.coreutils pkgs.gnugrep ];
     tam-menu-select = [ pkgs.perl pkgs.coreutils ];
     tam-menu-timezone = [ pkgs.systemd ];
@@ -274,6 +303,10 @@ let
         make -C commands/${name} install PREFIX=$out
       '') commandNames}
       mkdir -p $out/bin
+      ${lib.optionalString (lib.elem "tam-capture-region" commandNames) ''
+        mkdir -p $out/share/tamlinux
+        cp ${pkgs.writeText "tamlinux-capture-tools.json" (builtins.toJSON captureTools)} $out/share/tamlinux/capture-tools.json
+      ''}
       runHook postInstall
     '';
     postFixup = lib.concatMapStrings (name:

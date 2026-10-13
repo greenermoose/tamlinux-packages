@@ -17,7 +17,8 @@ pkgs.runCommand "tamlinux-installed-components"
       ${pkgs.python3}/bin/python3 -B ${productSource}/desktop/tests/test_plugin_storage.py
     ${pkgs.lib.optionalString (pkgs.lib.elem "tam-shell" components.tamlinux-commands.passthru.names) ''
       ${pkgs.python3}/bin/python3 -B ${./installed-desktop-helpers.py} \
-        --commands ${components.tamlinux-commands} --shell ${components.tamlinux-shell}
+        --commands ${components.tamlinux-commands} --shell ${components.tamlinux-shell} \
+        --capture-fixtures ${./fixtures/capture}
     ''}
     set +e
     ${components.tamlinux-tools}/bin/tam-file-select --bogus >stdout 2>stderr

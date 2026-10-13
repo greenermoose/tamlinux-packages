@@ -288,3 +288,24 @@ or cutover. All scanned import paths resolve, but 39 Quickshell plugin records
 lack static-provider registration proof. This is partial output/reference-host
 inspection, not clean-host evidence. [Retained summary](evidence/0.4.3-independence-gate.json)
 records exact output/tool/report identities and limits. Readiness remains false.
+
+## Packaged capture chain — 2026-10-13
+
+The product's retained screenshot/region/recording/webcam/OCR/QR helpers and owned
+Tensaku adapter are delivered with explicit capture clients and English OCR data.
+`share/tamlinux/capture-tools.json` names the immutable tool/data paths. Fixed
+QR and text fixtures test the real packaged decoders with no graphical server.
+
+21 source capture cases, 429 desktop checks (two skips), all 50 delivery unit
+checks, the offline Nix build and installed integration pass. 61 isolated output
+probes pass. [Exact output inventory and observations](evidence/0.4.3-capture-closure.json)
+retain 382 runtime files, 61 unresolved lexical names, 51 inherited locations and
+false readiness. Client packaging does not provide native Tensaku, KMS helper
+privileges, camera/DRM permissions, graphics drivers or portal/session services.
+The raw packaged GPU recorder prefixes `/run/wrappers/bin` for its KMS helper;
+the selected native adapter must provide/verify that privilege boundary or a
+reviewed independently packaged equivalent before clean-host recording proof.
+
+[Product behavior, import licenses/digests and remaining native/physical proof](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/0.4.3-capture-closure.md).
+Accepted Run and source pins are unchanged. New dependency outputs in the cache
+are build inputs, not desktop activation or a selected Test candidate.

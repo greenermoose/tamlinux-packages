@@ -82,3 +82,8 @@ in Develop with Codex CLI `0.162.1`, model `gpt-6.1-sol`; see the
 verification were developed with Codex CLI `0.162.1`, model `gpt-6.1-sol`.
 50 audit/gate/collector tests pass; clean-host acceptance remains blocked.
 [Session](docs/ai/2026-10-12-0.4.3-independence-gate.md).
+
+2026-10-13: the retained capture chain, paired recording status, delivered
+tools/OCR data and isolated decoder fixtures were developed with Codex CLI
+`0.162.1`, model `gpt-6.1-sol`.
+[Session](docs/ai/2026-10-13-0.4.3-capture-closure.md).
