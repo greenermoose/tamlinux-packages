@@ -4,10 +4,93 @@
   "architecture": "x86_64-linux",
   "stage": "Develop; clean installation not yet proven",
   "independenceGate": {
-    "requiredChecks": ["I01", "I02", "I03", "I04", "I05", "I06", "I07", "I08", "I09"],
+    "requiredChecks": [
+      "I01",
+      "I02",
+      "I03",
+      "I04",
+      "I05",
+      "I06",
+      "I07",
+      "I08",
+      "I09"
+    ],
     "identity": "artifact tuple SHA-256",
     "passRule": "Every required ID passes with runner identity and evidence digests for the same artifact tuple; missing, blocked or stale evidence fails closed",
-    "implementation": "Pending: this static inventory supports part of I03, not the complete gate"
+    "implementation": "Implemented tuple-bound evidence aggregation and partial compiled/QML I03 collector; complete runtime/network/migration/native/physical proof pending",
+    "checks": {
+      "I01": {
+        "requiredCases": [
+          "artifact-identity",
+          "provider-origins"
+        ]
+      },
+      "I02": {
+        "requiredCases": [
+          "clean-native-packages",
+          "repositories-keyrings",
+          "system-owners"
+        ]
+      },
+      "I03": {
+        "requiredCases": [
+          "text-payload",
+          "compiled-payload",
+          "resolved-qml",
+          "helper-closure",
+          "assets-generated-config"
+        ]
+      },
+      "I04": {
+        "requiredCases": [
+          "fresh-login-environment",
+          "loaded-modules-fonts-assets",
+          "units-command-resolution",
+          "browser-notification-endpoints"
+        ]
+      },
+      "I05": {
+        "requiredCases": [
+          "offline-install",
+          "attempted-egress"
+        ]
+      },
+      "I06": {
+        "requiredCases": [
+          "fresh-defaults",
+          "in-place-conversion",
+          "conflict-interruption-retry",
+          "rollback-new-writes"
+        ]
+      },
+      "I07": {
+        "requiredCases": [
+          "startup-login",
+          "menu-launches",
+          "eight-plugins",
+          "notifications-reminders",
+          "editor-browser",
+          "theme-background-fonts",
+          "capture-recording-ocr-qr",
+          "panels-authorization-portals"
+        ]
+      },
+      "I08": {
+        "requiredCases": [
+          "native-update-boot",
+          "fallback-recovery",
+          "sleep-resume",
+          "removal-transaction"
+        ]
+      },
+      "I09": {
+        "requiredCases": [
+          "old-new-recovery-artifacts",
+          "reference-test-install",
+          "reference-rollback-new-writes"
+        ]
+      }
+    }
   },
   "outputs": ["shell", "plugins", "commands", "tools", "tam"],
   "requiredFiles": {
@@ -72,7 +155,7 @@
     {"id": "display-power", "providers": ["Hyprland", "hyprlock/PAM", "hypridle/logind", "kernel backlight/LED/I2C/HID", "Polkit/asdcontrol", "ttfx"], "proof": "Brightness and native authorization, actual lock acquisition/authentication, inhibitor timing, display wake, clamshell layouts, shared Stay Awake and suspend/hibernate resume on capable hardware; no idle service enabled by command packaging"}
   ],
   "pending": [
-    {"id": "independence-gate", "owner": "delivery", "proof": "Implement and run all nine tuple-bound checks from the product plan; static scan success cannot substitute for runtime, migration, network or recovery evidence"},
+    {"id": "independence-gate", "owner": "delivery", "proof": "Aggregation implemented; collect and pass all nine tuple-bound checks. Partial compiled/QML and static inventory do not replace effective runtime, network, migration, native or physical proof"},
     {"id": "menu-command-closure", "owner": "product", "proof": "All retained actions, conditions and provider-generated calls resolve from declared packages, including transitive helpers"},
     {"id": "theme-assets-fonts", "owner": "product", "proof": "Owned default theme/background, icon and text fonts render today's desktop without inherited assets or pre-existing XDG state"},
     {"id": "hyprland-session-defaults", "owner": "product/native host", "proof": "Packaged fresh-host compositor/session/keybinding defaults; consumer contributes only selections and machine values"},

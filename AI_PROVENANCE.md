@@ -77,3 +77,8 @@ with Codex CLI `0.162.1`, model `gpt-6.1-sol`; see the
 2026-10-12: display/brightness and lock/screensaver/suspend/wake closure verified
 in Develop with Codex CLI `0.162.1`, model `gpt-6.1-sol`; see the
 [session record](docs/ai/2026-10-12-0.4.3-display-power-closure.md).
+
+2026-10-12: independence plan reconciliation and tuple-bound gate/compiled-QML
+verification were developed with Codex CLI `0.162.1`, model `gpt-6.1-sol`.
+50 audit/gate/collector tests pass; clean-host acceptance remains blocked.
+[Session](docs/ai/2026-10-12-0.4.3-independence-gate.md).

@@ -1,0 +1,213 @@
+{
+  "compiledQml": {
+    "classification": "tam host-profile recognition needs owner review/cutover; Quickshell static provider registration proof absent. All reported import paths resolve.",
+    "compiledErrors": [],
+    "elfObjects": 142,
+    "filesInspected": 483,
+    "inheritedBinaryLocations": [
+      "tam:bin/tam"
+    ],
+    "qmlBlockerRecords": 39,
+    "report": "0.4.3-compiled-qml-audit.json",
+    "scope": "Previous immutable development outputs plus declared Nix/native libraries and reference-host QML; not a clean host or a prepared 0.4.3 tuple",
+    "sha256": "ccb5d90f3da59882f97c82a9f17cdc7e61061f4dd4cb6fa857bfa7c13a49447b",
+    "tools": {
+      "qmlimportscanner": {
+        "path": "/usr/lib/qt6/qmlimportscanner",
+        "sha256": "166b41e813fe6202eab85617211f80623bdfd9e0b9d17946d077f3c7f81aacfa"
+      },
+      "readelf": {
+        "path": "/usr/bin/readelf",
+        "sha256": "a72f12f3dd8c560554a3ba818bcecbda9178db5befbcc64d91bbb6a241fc21bc"
+      }
+    },
+    "uniqueQmlBlockers": 28
+  },
+  "deliverySnapshot": "/nix/store/kbkix90zczg6hvgar298h4s6847fysyr-tamlinux-delivery-development",
+  "gate": {
+    "candidateReady": false,
+    "capabilities": null,
+    "checks": [
+      {
+        "id": "I01",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "artifact-identity",
+          "provider-origins"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I02",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "clean-native-packages",
+          "repositories-keyrings",
+          "system-owners"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I03",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "text-payload",
+          "compiled-payload",
+          "resolved-qml",
+          "helper-closure",
+          "assets-generated-config"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I04",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "fresh-login-environment",
+          "loaded-modules-fonts-assets",
+          "units-command-resolution",
+          "browser-notification-endpoints"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I05",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "offline-install",
+          "attempted-egress"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I06",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "fresh-defaults",
+          "in-place-conversion",
+          "conflict-interruption-retry",
+          "rollback-new-writes"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I07",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "startup-login",
+          "menu-launches",
+          "eight-plugins",
+          "notifications-reminders",
+          "editor-browser",
+          "theme-background-fonts",
+          "capture-recording-ocr-qr",
+          "panels-authorization-portals"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I08",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "native-update-boot",
+          "fallback-recovery",
+          "sleep-resume",
+          "removal-transaction"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      },
+      {
+        "id": "I09",
+        "reasons": [
+          "No complete immutable selection supplied",
+          "Check not run"
+        ],
+        "reportDigest": null,
+        "requiredCases": [
+          "old-new-recovery-artifacts",
+          "reference-test-install",
+          "reference-rollback-new-writes"
+        ],
+        "runner": null,
+        "status": "blocked",
+        "verifiedEvidence": []
+      }
+    ],
+    "contractDigest": "7a3c6c0c0d110a15bf5ea82044cf87a3e74a9cbfd405317c4f4dfb4021671b9e",
+    "limits": "Evidence integrity and declared runner outcomes only; inspect underlying proof. Does not authorize Test/Run/Release.",
+    "runner": {
+      "name": "tamlinux-independence-gate",
+      "sourceDigest": "813c2e33a2b1b77bfcbdf21bb70a0ec1c95166ddc3950f8298f6f5dd45eac172",
+      "version": "1"
+    },
+    "schema": 1,
+    "tupleDigest": null
+  },
+  "limits": "Passing synthetic reports test integrity logic only. No complete immutable selection or I01\u2013I09 acceptance reports exist. No runtime/network/migration/native/physical proof is claimed.",
+  "outputs": {
+    "commands": "/nix/store/zbz4aii21x28bgmb338i371lqb1ac8z8-tamlinux-commands-0.4.2pre.d",
+    "plugins": "/nix/store/w6frbnkxcfdwxha91lkqglrw50bkdbzn-tamlinux-plugins-0.4.2pre.d",
+    "shell": "/nix/store/bhagnbdsjgrziqlg9c5klfzawx871sfx-tamlinux-shell-0.4.2pre.d",
+    "tam": "/nix/store/rv4144ihy9s28aby1bqvmdyzh1nsbw4i-tam-0.9.1",
+    "tools": "/nix/store/gv0f62gj9dq1fc4idg739vds4rlykiv6-tamlinux-tools-0-unstable-194d675"
+  },
+  "previousOutputEvidence": "0.4.3-display-power-closure.json",
+  "schema": 1,
+  "sourceSnapshot": "/nix/store/4rwdgzajc4fa3zq8l7ba9w8pkhs0ya4m-tamlinux-development",
+  "stage": "Develop; no selection, candidate, pin or installation changed",
+  "verification": {
+    "compiledMutation": "Real -nostdlib shared-library fixture passes with tamlinux bytes and fails with omarchy bytes; malformed real ELF also rejected",
+    "compiledQmlTests": 14,
+    "existingAuditTests": 21,
+    "gateTests": 15,
+    "isolatedNixCheck": "/nix/store/fzbi6bq6c8nfxjfqaj6szpkxkiqdg47s-tamlinux-clean-host-audit-tests"
+  }
+}

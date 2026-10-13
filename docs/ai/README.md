@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-12 | 0.4.3 independence gate and compiled/QML evidence | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-0.4.3-independence-gate.md) |
 | 2026-10-12 | 0.4.3 display and power helper closure | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-0.4.3-display-power-closure.md) |
 | 2026-10-12 | 0.4.3 network/power delivery and paired settings recovery | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-0.4.3-control-closure.md) |
 | 2026-10-12 | 0.4.3 audio delivery and reusable verification | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-0.4.3-audio-output-closure.md) |

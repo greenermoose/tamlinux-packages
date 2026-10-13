@@ -151,8 +151,10 @@ now fixes nine acceptance checks (I01–I09): artifact/source identity, native
 ownership, delivered software, effective runtime, network independence, data
 migration, baseline behavior, native update/recovery and promotion/rollback.
 Their result must bind every required pass and evidence digest to one artifact
-tuple. The contract enumerates those IDs; complete aggregation/collectors remain
-pending. The 108/54 inventory supports part of I03 only.
+tuple. The contract now enumerates their required cases and delivery implements
+aggregation plus partial compiled/QML collection below. Effective-runtime,
+network, migration, native and physical proof remains pending. The original
+108/54 inventory supports part of I03 only.
 
 The plan also requires a pinned host image/native snapshot and staged offline
 installation, observation of attempted inherited network requests, a per-interface
@@ -178,3 +180,111 @@ unproven. Snapshot identities precede documentation; no pin or activation change
 [Source/recovery inventory](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/0.4.3-control-closure.md)
 tracks the next brightness/display/lock/suspend, theme/assets/capture and
 session/native/complete-install work.
+
+## Executable independence evidence gate — 2026-10-12
+
+`tools/independence-gate.py` implements the finite I01–I09 evidence gate. It
+verifies runner outcomes and evidence integrity; it does not execute workflows
+or establish that a runner's assertion is true. Review the underlying observations.
+Every case in `independenceGate.checks` is required, alongside the selected
+capability cases for I07. Partial component proofs cannot pass a whole check.
+
+The immutable selection is a schema-1 JSON object with these fields:
+
+| Field | Required identities |
+| --- | --- |
+| `sources` | Full 40-character Git revisions for `product`, `tam`, `libtam`, `tools`. |
+| `delivery` | Full `revision`; SHA-256 `lockDigest` and `contractDigest`. |
+| `outputs` | Exactly shell/plugins/commands/tools/tam, each with `path` and `narHash`. |
+| `native` | SHA-256 `imageDigest`, `manifestDigest`, `providersDigest`. The referenced manifests record signatures, independent source/channel and exact native artifacts. |
+| `consumer`, `recovery` | Each has a SHA-256 `digest` identifying prepared configuration/recovery manifests; no private data in public records. |
+| `capabilities` | List of unique `{id, required}` objects; optional entries also declare `unavailableBehavior`. Mandatory baseline cases remain required regardless of optional capabilities. |
+
+The tuple digest is SHA-256 of UTF-8 JSON with sorted keys, compact separators,
+unescaped Unicode and no NaN/Infinity. `contractDigest` uses the same canonical
+encoding for the complete contract. Gate results and activation observations are
+outside the selection hash. A source, dependency, capability, contract or recovery
+change invalidates prior reports. The first run with a selection and no checks
+provides its digest while correctly returning blocked.
+
+Each check report has `schema: 1`, `id`, `tupleDigest`, `status: "pass"`,
+`runner: {name, version}` and `cases`. Each case names an exact required `id`,
+its `status` and nonempty `evidence: [{path, sha256}]`. Relative evidence paths
+resolve from the check report's directory. I07 adds `capability:<id>` cases.
+An optional capability may return `unavailable` only with the exact selected
+`unavailableBehavior` and evidence that it behaved accordingly. A required
+capability cannot use that exclusion. Any other unrun/failed case blocks.
+
+```sh
+python3 -B tools/independence-gate.py --format compact --report /tmp/gate.json
+python3 -B tools/independence-gate.py --selection /protected/selection.json \
+  --check /protected/I01.json --check /protected/I02.json \
+  --check /protected/I03.json --check /protected/I04.json \
+  --check /protected/I05.json --check /protected/I06.json \
+  --check /protected/I07.json --check /protected/I08.json \
+  --check /protected/I09.json --format compact --report /protected/gate.json
+```
+
+Exit 0 means every required check/case has passing, tuple-bound, digest-verified
+evidence; exit 1 means blocked; exit 2 means invalid input or an inspection/write
+error. Duplicate/unknown check IDs and duplicate JSON keys are invalid. Duplicate,
+unknown or missing cases block. The result retains all nine checks, the canonical
+contract/report digests, verified evidence references and checker source digest.
+Re-run before consuming a stored result to detect evidence changes. A gate pass
+authorizes no installation, package retirement or promotion. I01–I08 build and
+clean-host evidence supports a reference Test proposal; I09 adds actual reference
+Test/rollback evidence before Run. The current assembly has no complete selection
+or required check evidence and correctly returns nine blocked checks.
+
+## Compiled payload and QML collector
+
+`tools/compiled-qml-audit.py` inspects actual supplied output files, including
+symlinked directories, non-UTF-8/NUL payloads and ELF objects. It detects inherited
+byte/UTF-16 spellings, records file digests and `readelf` NEEDED/RPATH/RUNPATH and
+interpreter metadata, resolves libraries from explicit roots and recursively
+inspects dependencies. It does not execute inspected programs, use ldd or infer
+providers from the caller's PATH. Its own trusted inspection tools are absolute
+paths with recorded binary digests.
+
+Qt's `qmlimportscanner` receives explicit delivered roots and declared QML import
+paths. An exit-zero unresolved import, missing qmldir, undeclared module root,
+missing plugin or missing static-provider proof blocks resolution. Optional
+plugins are not assumed to be registered in the selected executable. Static
+Quickshell registrations require pinned provider/build proof and a future
+collector; effective loading remains I04. This deliberately blocks rather than
+treating the presence of a qmldir as runtime proof.
+
+```sh
+python3 -B tools/compiled-qml-audit.py \
+  --output shell=/nix/store/SELECTED-shell \
+  --output plugins=/nix/store/SELECTED-plugins \
+  --output commands=/nix/store/SELECTED-commands \
+  --output tools=/nix/store/SELECTED-tools --output tam=/nix/store/SELECTED-tam \
+  --readelf /DECLARED/bin/readelf --qml-scanner /DECLARED/bin/qmlimportscanner \
+  --qml-root /DECLARED/qml --qml-root /nix/store/SELECTED-shell/share/tamlinux/shell/modules \
+  --library-root /DECLARED/lib --report /tmp/compiled-qml.json
+```
+
+Repeat library-root for each declared dependency directory. Explicit native roots
+are inspection inputs, not evidence of independent providers or a clean host.
+Add `--tuple-digest <selection SHA-256> --check-report /tmp/I03-partial.json` to
+emit the compiled-payload/resolved-qml case fragment. It always marks the complete
+I03 check blocked: text/helper/assets/generated-config cases must also be
+collected by their owners. Never assign a tuple digest to observations of a
+different selection. No complete 0.4.3 selection exists yet.
+
+The 15 gate tests and 14 collector tests include stale selections, changed/missing
+evidence, case/check substitutions, post-selection capability exclusions,
+exit-zero unresolved QML, missing static plugin proof, symlink escapes/cycles,
+real malformed ELF and a real compiled inherited-string mutation. With the prior
+21 inventory tests, all 50 pass locally and in the isolated Nix check. Synthetic
+passing records establish checker behavior only.
+
+The first actual-output observation scanned the previous display/power slice's
+five immutable outputs: 483 payload files and 142 ELF objects, with no unresolved
+ELF library/interpreter dependencies. `tam:bin/tam` contains the inherited name
+in host-profile detection (`tam/src/install.c`), requiring owner classification
+or cutover. All scanned import paths resolve, but 39 Quickshell plugin records
+lack static-provider registration proof. This is partial output/reference-host
+inspection, not clean-host evidence. [Retained summary](evidence/0.4.3-independence-gate.json)
+records exact output/tool/report identities and limits. Readiness remains false.
