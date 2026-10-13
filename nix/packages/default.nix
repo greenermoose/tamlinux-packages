@@ -106,7 +106,59 @@ let
     ffmpeg = "${lib.getBin pkgs.ffmpeg}/bin/ffmpeg";
     ffprobe = "${lib.getBin pkgs.ffmpeg}/bin/ffprobe";
   };
+  # Outline-preserving font rename: build input retains ancestry, installed
+  # font advertises only the owned family and PostScript identities.
+  themeFontPython = pkgs.python3.withPackages (python: [ python.fonttools ]);
+  themeTools = [ pkgs.coreutils pkgs.python3 pkgs.gawk pkgs.gnused pkgs.gnugrep
+    pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq ];
   commandRuntimeDeps = {
+    tam-theme-set = themeTools;
+    tam-theme-journal = themeTools;
+    tam-theme-refresh = themeTools;
+    tam-theme-current = themeTools;
+    tam-theme-list = themeTools;
+    tam-theme-remove = themeTools;
+    tam-theme-install = themeTools ++ [ pkgs.git pkgs.gum ];
+    tam-theme-switcher = themeTools;
+    tam-theme-bg-set = themeTools;
+    tam-theme-bg-next = themeTools;
+    tam-theme-bg-install = themeTools ++ [ pkgs.xdg-utils ];
+    tam-theme-bg-switcher = themeTools;
+    tam-theme-color = themeTools;
+    tam-theme-colors-from-alacritty = themeTools;
+    tam-theme-set-templates = themeTools;
+    tam-theme-osc = themeTools;
+    tam-theme-set-foot = themeTools;
+    tam-theme-set-tmux = themeTools ++ [ pkgs.tmux ];
+    tam-theme-set-gnome = themeTools ++ [ pkgs.glib ];
+    tam-theme-set-browser = themeTools;
+    tam-theme-set-pi = themeTools;
+    tam-theme-set-claude = themeTools;
+    tam-theme-set-t3code = themeTools;
+    tam-theme-set-vscode = themeTools;
+    tam-theme-set-obsidian = themeTools;
+    tam-theme-set-keyboard = themeTools;
+    tam-theme-set-keyboard-asus-rog = themeTools;
+    tam-theme-set-keyboard-f16 = themeTools;
+    tam-font-set = themeTools ++ [ pkgs.fontconfig ];
+    tam-font-list = themeTools ++ [ pkgs.fontconfig ];
+    tam-font-current = themeTools ++ [ pkgs.fontconfig ];
+    tam-install-font = themeTools;
+    tam-pkg-add = themeTools;
+    tam-pkg-present = themeTools;
+    tam-pkg-missing = themeTools;
+    tam-branding-about = themeTools;
+    tam-branding-screensaver = themeTools;
+    tam-transcode-ascii = themeTools ++ [ pkgs.imagemagick ];
+    tam-launch-about = themeTools ++ [ pkgs.fastfetch ];
+    tam-hook = themeTools;
+    tam-menu-images = themeTools ++ [ pkgs.vips ];
+    tam-restart-terminal = themeTools;
+    tam-restart-hyprctl = themeTools;
+    tam-restart-btop = themeTools;
+    tam-restart-opencode = themeTools;
+    tam-restart-helix = themeTools;
+
     tam-notification-send = [ pkgs.jq pkgs.systemd ];
     # Capture tools are delivered; compositor, portal/device policy and native
     # Tensaku remain explicit host capabilities. English OCR data is immutable.
@@ -267,7 +319,7 @@ let
     src = product;
     dontConfigure = true;
     dontBuild = true;
-    nativeBuildInputs = [ pkgs.makeWrapper ];
+    nativeBuildInputs = [ pkgs.makeWrapper themeFontPython ];
     buildInputs = [
       pkgs.bash
       pkgs.python3
@@ -303,6 +355,19 @@ let
         make -C commands/${name} install PREFIX=$out
       '') commandNames}
       mkdir -p $out/bin
+      ${lib.optionalString (has "desktop/assets") ''
+        mkdir -p $out/share/tamlinux
+        cp -R desktop/assets $out/share/tamlinux/assets
+        chmod -R u+w $out/share/tamlinux/assets
+        mkdir -p $out/share/fonts/truetype
+        ${themeFontPython}/bin/python3 desktop/theme/rename-font.py \
+          desktop/assets/fonts/source.ttf $out/share/fonts/truetype/TamlinuxIcons.ttf
+        rm $out/share/tamlinux/assets/fonts/source.ttf
+        find $out/share/tamlinux/assets/themes -name vscode.json -delete
+        cp -R ${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/. $out/share/fonts/
+        cp VERSION $out/share/tamlinux/assets/version
+        cp desktop/assets/LICENSE-omarchy $out/share/tamlinux/assets/fonts/LICENSE
+      ''}
       ${lib.optionalString (lib.elem "tam-capture-region" commandNames) ''
         mkdir -p $out/share/tamlinux
         cp ${pkgs.writeText "tamlinux-capture-tools.json" (builtins.toJSON captureTools)} $out/share/tamlinux/capture-tools.json
@@ -312,7 +377,7 @@ let
     postFixup = lib.concatMapStrings (name:
       lib.optionalString (lib.elem name commandNames) ''
         wrapProgram $out/bin/${name} \
-          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (name == "tam-display-text-size") "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
+          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (lib.elem name [ "tam-display-text-size" "tam-theme-set-gnome" ]) "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
       ''
     ) (lib.attrNames commandRuntimeDeps);
     passthru = {

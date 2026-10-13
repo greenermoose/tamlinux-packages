@@ -95,6 +95,58 @@ elif name == 'hyprctl':
         assert payload['palette']
         checks.append('theme helper executes with its packaged Python interpreter')
 
+        if (args.commands / 'share/tamlinux/assets').is_dir():
+            current = root / 'state/tamlinux/current'
+            assets = args.commands / 'share/tamlinux/assets'
+            run('tam-theme-set', 'Tokyo Night', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
+            assert (current / 'theme').is_symlink()
+            assert (current / 'theme.name').read_text() == 'tokyo-night\n'
+            assert (current / 'theme/colors.toml').read_bytes() == (assets / 'themes/tokyo-night/colors.toml').read_bytes()
+            assert '{{' not in (current / 'theme/shell.toml').read_text()
+            checks.append('empty-state theme generation uses immutable templates and owned readers')
+            selected = (current / 'theme').resolve()
+            assert run('tam-theme-set', '../bad', check=False).returncode
+            assert (current / 'theme').resolve() == selected
+            run('tam-theme-set', 'nord', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
+            run('tam-theme-set', 'tokyo-night', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
+            assert run('tam-theme-current').stdout == 'Tokyo Night\n'
+            checks.append('packaged switching returns to baseline and invalid names preserve selection')
+            image = root / 'image with spaces.png'
+            image.write_bytes(b'probe image')
+            run('tam-theme-bg-set', str(image))
+            run('tam-theme-refresh', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
+            assert (current / 'background').resolve() == image
+            assert run('tam-theme-bg-set', str(root / 'missing.png'), check=False).returncode
+            assert (current / 'background').resolve() == image
+            checks.append('packaged background writer and refresh share the effective owned link')
+            fontconfig = root / 'fonts.conf'
+            fontconfig.write_text('<fontconfig><dir>' + str(args.commands / 'share/fonts') +
+                                  '</dir><cachedir>' + str(root / 'font-cache') + '</cachedir></fontconfig>')
+            fontenv = {'FONTCONFIG_FILE': str(fontconfig)}
+            fonts = run('tam-font-list', extra_env=fontenv).stdout
+            assert 'JetBrainsMono Nerd Font' in fonts
+            assert 'omarchy' not in fonts.lower()
+            assert (args.commands / 'share/fonts/truetype/TamlinuxIcons.ttf').is_file()
+            assert not (assets / 'fonts/source.ttf').exists()
+            run('tam-font-set', 'JetBrainsMono Nerd Font', extra_env=fontenv)
+            assert 'JetBrainsMono Nerd Font' in (root / 'config/fontconfig/conf.d/99-tamlinux-monospace.conf').read_text()
+            checks.append('actual packaged monospace baseline and owned icon font resolve in isolated Fontconfig')
+            run('tam-branding-about', 'reset')
+            run('tam-branding-screensaver', 'reset')
+            assert (root / 'config/tamlinux/branding/about.txt').read_text() == 'TAMLINUX\n'
+            assert (root / 'config/tamlinux/branding/screensaver.txt').read_text() == 'TAMLINUX\n'
+            checks.append('packaged About and screensaver restore owned default identity')
+            assert run('tam-transcode-ascii', str(image), str(root / 'art.txt'), '--width', 'invalid', check=False).returncode
+            assert not (root / 'art.txt').exists()
+            checks.append('packaged image conversion rejects malformed numeric options before publication')
+            logo = root / 'logo.svg'
+            logo.write_text('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="white"/><rect x="4" y="4" width="8" height="8" fill="black"/></svg>')
+            run('tam-transcode-ascii', str(logo), str(root / 'art.txt'), '--width', '8', '--height', '4')
+            assert (root / 'art.txt').read_text().strip()
+            assert any(0x2800 <= ord(c) <= 0x28ff for c in (root / 'art.txt').read_text())
+            checks.append('actual packaged ImageMagick and UTF-8 gawk perform offline SVG to braille conversion')
+
+
         assert run('tam-shell', 'menu', 'ping').stdout == 'pong\n'
         ipc = json.loads(log.read_text().splitlines()[-1])
         assert ipc == ['ipc', '-n', '-p', str(shell), 'call', '--', 'menu', 'ping']

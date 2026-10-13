@@ -68,6 +68,10 @@ in
   };
   config = lib.mkIf cfg.enable {
     tamlinux.developer.enable = lib.mkDefault true;
+    # Home Manager's fontconfig discovers fonts in the immutable command
+    # profile; the mono baseline and menu glyphs are delivered by that tuple.
+    fonts.fontconfig.enable = lib.mkDefault true;
+    home.packages = [ cfg.commandPackage ];
     assertions = [
       {
         assertion = config.tamlinux.developer.enable;
