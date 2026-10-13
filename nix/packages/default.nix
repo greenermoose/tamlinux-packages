@@ -141,6 +141,35 @@ let
     tam-restart-hyprsunset = [ pkgs.procps pkgs.util-linux ];
     tam-display-text-size = [ pkgs.coreutils pkgs.gawk pkgs.gnused pkgs.gnugrep
       pkgs.procps pkgs.glib pkgs.dconf ];
+    # Native Hyprland/locker/PAM, Polkit/asdcontrol and ttfx remain host boundaries.
+    tam-brightness-display = [ pkgs.coreutils pkgs.jq pkgs.gawk pkgs.util-linux pkgs.brightnessctl ];
+    tam-brightness-display-ddc = [ pkgs.coreutils pkgs.gawk pkgs.ddcutil ];
+    tam-brightness-display-apple = [ pkgs.coreutils pkgs.gawk ];
+    tam-brightness-keyboard = [ pkgs.coreutils pkgs.brightnessctl ];
+    tam-brightness-keyboard-mute = [ pkgs.coreutils pkgs.brightnessctl ];
+    tam-hw-display = [ pkgs.coreutils pkgs.gnugrep ];
+    tam-hyprland-monitor-focused = [ pkgs.jq ];
+    tam-hyprland-monitor-focused-apple = [ pkgs.jq ];
+    tam-hyprland-monitor-laptop = [ pkgs.jq pkgs.coreutils ];
+    tam-hyprland-monitor-external-active = [ pkgs.jq ];
+    tam-hyprland-monitor-clamshell = [ pkgs.coreutils pkgs.gawk pkgs.gnused pkgs.jq ];
+    tam-hyprland-monitor-internal = [ pkgs.coreutils ];
+    tam-hyprland-monitor-internal-mirror = [ pkgs.coreutils pkgs.jq ];
+    tam-hyprland-toggle = [ pkgs.coreutils ];
+    tam-hyprland-toggle-enabled = [  ];
+    tam-hyprland-toggle-disabled = [  ];
+    tam-hw-clamshell = [  ];
+    tam-hw-laptop-closed = [  ];
+    tam-hw-external-monitors = [  ];
+    tam-system-lock = [ pkgs.coreutils pkgs.procps pkgs.util-linux ];
+    tam-system-sleep-lock = [ pkgs.coreutils pkgs.procps pkgs.systemd ];
+    tam-system-wake = [  ];
+    suspend-unless-stay-awake = [ pkgs.coreutils pkgs.procps pkgs.util-linux pkgs.gnugrep pkgs.gnused pkgs.systemd ];
+    tam-launch-screensaver = [ pkgs.coreutils pkgs.procps pkgs.jq pkgs.socat ];
+    tam-screensaver = [ pkgs.coreutils pkgs.procps pkgs.jq ];
+    tam-toggle = [ pkgs.coreutils ];
+    tam-toggle-enabled = [  ];
+    tam-toggle-screensaver = [  ];
     tam-weather-location = [ pkgs.coreutils pkgs.jq pkgs.curl ];
     tam-audio-input-set-default = [ pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
     tam-browser-command = [ pkgs.python3 ];
@@ -215,6 +244,8 @@ let
       pkgs.python3
     ];
     nativeCheckInputs = [
+      (lib.getBin pkgs.util-linux)
+      (lib.getBin pkgs.procps)
       pkgs.git
       pkgs.python3
       pkgs.jq

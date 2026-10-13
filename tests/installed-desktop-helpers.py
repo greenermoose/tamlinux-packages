@@ -65,6 +65,7 @@ elif name == 'xdg-terminal-exec':
         os.execvp(args[i+1], args[i+1:])
 elif name == 'hyprctl':
     if args[:2] == ['clients', '-j']: print(os.environ.get('TEST_CLIENTS', '[]'))
+    elif args[0] == 'monitors': print(os.environ.get('TEST_MONITORS', '[]'))
     else: print('{}')
 '''
         for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'code', 'chromium', 'codex'):
@@ -378,6 +379,89 @@ elif name == 'hyprctl':
 
         assert json.loads(run('tam-toggle-nightlight', '--status').stdout)['enabled'] is False
         checks.append('night-light status uses the declared host IPC boundary without launching a daemon')
+
+        # Device writers never see real hardware: only selectors/invalid requests
+        # run with packaged clients. Host DPMS/sleep/lock boundaries are recorded.
+        (root / 'runtime').mkdir(exist_ok=True)
+        backlight = root / 'backlight'
+        backlight.mkdir()
+        (backlight / 'appletb_backlight').mkdir()
+        (backlight / 'intel_backlight').mkdir()
+        assert run('tam-hw-display', extra_env={'TAMLINUX_BACKLIGHT_PATH': str(backlight)}).stdout == 'intel_backlight\n'
+        checks.append('packaged backlight selector uses supplied fixture and excludes Touch Bar')
+
+        monitors = [{'name': 'eDP-1', 'focused': True, 'disabled': False, 'dpmsStatus': True,
+                     'make': 'Fixture', 'model': 'LCD', 'scale': 2}]
+        monitor_env = {'TEST_MONITORS': json.dumps(monitors)}
+        assert run('tam-hyprland-monitor-focused', extra_env=monitor_env).stdout == 'eDP-1\n'
+        assert run('tam-hyprland-monitor-laptop', extra_env=monitor_env).stdout == 'eDP-1\n'
+        assert run('tam-hyprland-monitor-focused-apple', extra_env=monitor_env, check=False).returncode != 0
+        assert run('tam-hyprland-monitor-external-active', extra_env=monitor_env, check=False).returncode != 0
+        checks.append('packaged monitor selectors use complete jq/coreutils and recorded native IPC')
+
+        before = launch_log.read_text()
+        run('tam-brightness-display', 'on', extra_env=monitor_env)
+        after = [json.loads(line) for line in launch_log.read_text()[len(before):].splitlines()]
+        assert all(item['args'][0] != 'dispatch' for item in after)
+        run('tam-brightness-display', 'off', extra_env=monitor_env)
+        checks.append('packaged DPMS skips redundant enable and reaches recorded disable dispatcher')
+
+        for name, values in [('tam-brightness-display', ('--monitor', 'eDP-1', 'invalid')),
+                             ('tam-brightness-display-ddc', ('DP-2', 'invalid')),
+                             ('tam-brightness-display-apple', ('invalid',)),
+                             ('tam-brightness-keyboard', ('invalid',))]:
+            result = run(name, *values, check=False, extra_env=monitor_env)
+            assert result.returncode != 0 and 'command not found' not in result.stderr.lower()
+        checks.append('packaged brightness writers reject invalid requests without hardware/authorization')
+
+        run('tam-toggle-idle', 'stay-awake')
+        run('suspend-unless-stay-awake')
+        explicit = root / 'awake-override'
+        explicit.touch()
+        run('suspend-unless-stay-awake', extra_env={'TAMLINUX_STAY_AWAKE_FILE': str(explicit)})
+        run('tam-toggle-idle', 'allow-idle')
+        checks.append('packaged idle suspend honors the same XDG marker and explicit override without calling logind')
+
+        missing_pam = {'TAMLINUX_HYPRLOCK_PAM': str(root / 'absent-pam')}
+        for name, values in [('tam-system-lock', ()), ('tam-system-sleep-lock', ('20',))]:
+            result = run(name, *values, check=False, extra_env=missing_pam)
+            assert result.returncode != 0 and 'command not found' not in result.stderr.lower()
+        checks.append('packaged lock/sleep-lock stop at missing PAM without launching a locker or suspending')
+
+        result = run('tam-toggle-screensaver', check=False)
+        assert result.returncode != 0 and 'bus' in result.stderr.lower()
+        assert (root / 'state/tamlinux/toggles/screensaver-off').is_file()
+        assert run('tam-launch-screensaver', check=False).returncode != 0
+        result = run('tam-toggle-screensaver', check=False)
+        assert result.returncode != 0 and 'bus' in result.stderr.lower()
+        assert not (root / 'state/tamlinux/toggles/screensaver-off').exists()
+        checks.append('packaged screensaver reader/writer share XDG marker and retain both prior states')
+
+        result = run('tam-screensaver', check=False)
+        assert result.returncode != 0  # ttfx is an explicitly unavailable host tool.
+        checks.append('packaged effect helper rejects unavailable native ttfx before compositor changes')
+
+        for relative in ('lock/hyprlock.conf', 'lock/LICENSE', 'screensaver/alacritty.toml',
+                         'screensaver/foot.ini', 'screensaver/ghostty', 'screensaver/screensaver.txt',
+                         'screensaver/LICENSE-omarchy'):
+            assert (args.commands / 'share/tamlinux' / relative).is_file()
+        checks.append('packaged screensaver terminal/text and lock defaults exist without pre-existing user config')
+
+        run('tam-hyprland-monitor-internal', 'recover', extra_env=monitor_env)
+        run('tam-hyprland-monitor-internal-mirror', 'recover', extra_env=monitor_env)
+        run('tam-hyprland-monitor-clamshell', extra_env=monitor_env | {'TAMLINUX_LID_PATH': str(root / 'no-lid')})
+        assert not (root / 'state/tamlinux/toggles/hypr').exists()
+        checks.append('packaged transitive monitor recovery is a no-op for lit outputs without saved flags')
+
+        for name in ('tam-toggle', 'tam-hyprland-toggle'):
+            result = run(name, '../escape', check=False)
+            assert result.returncode != 0
+        checks.append('packaged generic and compositor flag writers reject path traversal')
+
+        result = run('tam-toggle-screensaver', check=False,
+                     extra_env={'XDG_STATE_HOME': str(root / 'blocked-state')})
+        assert result.returncode != 0 and not (root / 'blocked-state/tamlinux/toggles/screensaver-off').exists()
+        checks.append('packaged screensaver preservation failure prevents marker writes')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))
