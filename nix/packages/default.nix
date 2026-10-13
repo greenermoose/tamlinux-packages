@@ -107,6 +107,17 @@ let
     tam-default-editor = [ pkgs.coreutils ];
     tam-default-terminal = [ pkgs.coreutils ];
     tam-default-agent = [ pkgs.coreutils pkgs.gnugrep pkgs.mise ];
+    tam-audio-output-set-default = [ pkgs.coreutils pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
+    tam-audio-output-sink = [ pkgs.pulseaudio pkgs.gawk ];
+    tam-audio-sink-availability = [ pkgs.pulseaudio pkgs.gawk ];
+    tam-audio-tuning = [ pkgs.coreutils pkgs.pulseaudio pkgs.gawk pkgs.gnugrep
+      pkgs.gnused pkgs.diffutils pkgs.procps pkgs.systemd ];
+    tam-hw-match = [ pkgs.gnugrep ];
+    tam-restart-audio = [ pkgs.coreutils pkgs.systemd pkgs.wireplumber
+      pkgs.gawk pkgs.gnused ];
+    tam-osd = [ pkgs.jq ];
+    tam-audio-output-volume = [ pkgs.coreutils pkgs.pulseaudio pkgs.gawk ];
+    tam-audio-output-switch = [ pkgs.coreutils pkgs.pulseaudio pkgs.gawk pkgs.jq ];
     tam-audio-input-set-default = [ pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
     tam-browser-command = [ pkgs.python3 ];
     tam-default-browser = [ pkgs.coreutils pkgs.xdg-utils ];

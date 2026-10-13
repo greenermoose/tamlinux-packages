@@ -187,6 +187,44 @@ elif name == 'hyprctl':
         assert 'command not found' not in result.stderr.lower(), result.stderr
         checks.append('packaged microphone routing reaches isolated unavailable PipeWire/Pulse boundaries')
 
+        result = run('tam-audio-output-set-default', '42', 'development-speaker', check=False)
+        assert result.returncode == 0 and 'command not found' not in result.stderr.lower(), result.stderr
+        checks.append('packaged output routing reaches unavailable sound servers with complete client tools')
+        result = run('tam-audio-output-sink', 'alsa_output.development')
+        assert result.stdout == 'alsa_output.development\n'
+        result = run('tam-audio-output-sink', 'idle_development_dsp')
+        assert result.stdout == 'idle_development_dsp\n'
+        assert 'command not found' not in result.stderr.lower(), result.stderr
+        checks.append('output resolver executes real packaged Pulse/awk with physical and idle DSP fallback')
+        result = run('tam-audio-sink-availability', check=False)
+        assert 'command not found' not in result.stderr.lower(), result.stderr
+        checks.append('sink availability resolves packaged tuning and client tool chain without live services')
+        result = run('tam-audio-tuning', 'status')
+        assert 'Installed:    no' in result.stdout and 'command not found' not in result.stderr.lower()
+        audio_data = args.commands / 'share/tamlinux/audio'
+        for relative in ('LICENSE', 'speaker-tuning.service', 'filter-chain-host.conf',
+                         'tunings/dell-xps-2026/tuning.conf', 'tunings/dell-xps-2026/filter-chain.conf'):
+            assert (audio_data / relative).is_file(), relative
+        assert 'omarchy' not in (audio_data / 'speaker-tuning.service').read_text().lower()
+        assert not (root / 'config/pipewire').exists()
+        checks.append('tuning reads immutable packaged assets, owned unit identity and isolated XDG state')
+        empty_tunings = root / 'empty-audio/tunings'
+        empty_tunings.mkdir(parents=True)
+        env['TAMLINUX_AUDIO_DATA'] = str(empty_tunings.parent)
+        result = run('tam-audio-tuning', 'on')
+        assert 'No speaker tuning matches' in result.stdout
+        assert not (root / 'config/pipewire').exists()
+        del env['TAMLINUX_AUDIO_DATA']
+        checks.append('unmatched tuning activation has no state or service effects')
+        run('tam-osd', '-i', 'volume-high', '-m', 'quotes \" and $(literal message)' , '-p', '42')
+        payload = json.loads(json.loads(log.read_text().splitlines()[-1])[8])
+        assert payload['value'] == '42' and payload['progressText'] == '42%'
+        checks.append('OSD reaches recorded shell IPC through packaged jq and sibling launchers')
+        result = run('tam-audio-output-volume', 'raise', check=False)
+        assert result.returncode != 0 and 'Could not resolve an audio sink' in result.stderr
+        assert 'command not found' not in result.stderr.lower(), result.stderr
+        checks.append('volume controls fail safely at an unavailable server with complete packaged tools')
+
         assert run('tam-default-editor').stdout == 'nvim\n'
         assert run('tam-default-terminal').stdout == 'foot\n'
         assert not (root / 'state/tamlinux/defaults/editor').exists()

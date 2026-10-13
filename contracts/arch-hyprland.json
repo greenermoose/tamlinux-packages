@@ -12,15 +12,20 @@
   "outputs": ["shell", "plugins", "commands", "tools", "tam"],
   "requiredFiles": {
     "shell": ["share/tamlinux/shell/shell.qml", "share/tamlinux/shell/host/session_start.py", "share/tamlinux/menu/default.jsonc", "share/tamlinux/version", "share/tamlinux/source-revision"],
+    "commands": ["share/tamlinux/audio/LICENSE", "share/tamlinux/audio/speaker-tuning.service", "share/tamlinux/audio/filter-chain-host.conf", "share/tamlinux/audio/tunings/dell-xps-2026/tuning.conf", "share/tamlinux/audio/tunings/dell-xps-2026/filter-chain.conf"],
     "plugins": ["share/tamlinux/plugins/fred.agents/manifest.json", "share/tamlinux/plugins/fred.clock/manifest.json", "share/tamlinux/plugins/fred.keyboard/manifest.json", "share/tamlinux/plugins/fred.monitor/manifest.json", "share/tamlinux/plugins/fred.sysinfo/manifest.json", "share/tamlinux/plugins/fred.tides/manifest.json", "share/tamlinux/plugins/fred.weather/manifest.json", "share/tamlinux/plugins/fred.workspaces/manifest.json"]
   },
   "requiredExecutables": {
     "shell": ["bin/tam-menu"],
-    "commands": ["bin/tam-agent", "bin/tam-cmd-present", "bin/tam-cmd-terminal-cwd", "bin/tam-default-editor", "bin/tam-default-terminal", "bin/tam-deploy", "bin/tam-launch-config-editor", "bin/tam-launch-editor", "bin/tam-launch-floating-terminal-with-presentation", "bin/tam-launch-terminal", "bin/tam-launch-tui", "bin/tam-menu-select", "bin/tam-menu-timezone", "bin/tam-notification-send", "bin/tam-plugin", "bin/tam-qmlcache-purge", "bin/tam-restart-shell", "bin/tam-shell", "bin/tam-show-done", "bin/tam-show-logo", "bin/tam-theme-payload", "bin/tam-work"],
+    "commands": ["bin/tam-agent", "bin/tam-cmd-present", "bin/tam-cmd-terminal-cwd", "bin/tam-default-editor", "bin/tam-default-terminal", "bin/tam-deploy", "bin/tam-launch-config-editor", "bin/tam-launch-editor", "bin/tam-launch-floating-terminal-with-presentation", "bin/tam-launch-terminal", "bin/tam-launch-tui", "bin/tam-menu-select", "bin/tam-menu-timezone", "bin/tam-notification-send", "bin/tam-plugin", "bin/tam-qmlcache-purge", "bin/tam-restart-shell", "bin/tam-shell", "bin/tam-show-done", "bin/tam-show-logo", "bin/tam-theme-payload", "bin/tam-work", "bin/tam-audio-input-set-default", "bin/tam-audio-output-set-default", "bin/tam-audio-output-sink", "bin/tam-audio-sink-availability", "bin/tam-audio-tuning", "bin/tam-hw-match", "bin/tam-restart-audio", "bin/tam-osd", "bin/tam-audio-output-volume", "bin/tam-audio-output-switch"],
     "tools": ["bin/tam-file-select"],
     "tam": ["bin/tam", "bin/tam-man"]
   },
   "native": [
+    {"package": "polkit", "binaries": ["pkexec"], "purpose": "Native privileged helper authorization for explicitly requested stuck USB audio recovery"},
+    {"package": "pipewire", "binaries": ["pipewire"], "purpose": "Independent native daemon, SPA/modules and optional speaker tuning client; /usr/bin/pipewire in owned user unit"},
+    {"package": "usbutils", "binaries": ["usbreset"], "purpose": "Optional explicit stuck USB audio recovery through pkexec; no reset during package checks"},
+    {"package": "lsp-plugins-lv2", "binaries": [], "purpose": "Native /usr/lib/lv2/lsp-plugins.lv2/limiter_stereo.ttl and plugin for optional speaker tuning; checked before writes"},
     {"package": "bash", "binaries": ["bash"], "purpose": "Desktop process launch and shell helpers"},
     {"package": "python", "binaries": ["python3"], "purpose": "Session launcher and plugin probes"},
     {"package": "coreutils", "binaries": ["env", "install", "ls", "mkdir", "readlink", "rm", "timeout"], "purpose": "Absolute host actions and state files"},
