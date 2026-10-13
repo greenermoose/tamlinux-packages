@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-12 | 0.4.3 network/power delivery and paired settings recovery | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-0.4.3-control-closure.md) |
 | 2026-10-12 | 0.4.3 audio delivery and reusable verification | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-0.4.3-audio-output-closure.md) |
 | 2026-10-12 | Retained agent defaults and first microphone controls | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-12-agent-default-closure.md) |
 | 2026-10-10 | 0.4.3 menu disposition and browser launch closure | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-10-0.4.3-menu-launch-closure.md) |

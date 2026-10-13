@@ -17,18 +17,18 @@
   },
   "requiredExecutables": {
     "shell": ["bin/tam-menu"],
-    "commands": ["bin/tam-agent", "bin/tam-cmd-present", "bin/tam-cmd-terminal-cwd", "bin/tam-default-editor", "bin/tam-default-terminal", "bin/tam-deploy", "bin/tam-launch-config-editor", "bin/tam-launch-editor", "bin/tam-launch-floating-terminal-with-presentation", "bin/tam-launch-terminal", "bin/tam-launch-tui", "bin/tam-menu-select", "bin/tam-menu-timezone", "bin/tam-notification-send", "bin/tam-plugin", "bin/tam-qmlcache-purge", "bin/tam-restart-shell", "bin/tam-shell", "bin/tam-show-done", "bin/tam-show-logo", "bin/tam-theme-payload", "bin/tam-work", "bin/tam-audio-input-set-default", "bin/tam-audio-output-set-default", "bin/tam-audio-output-sink", "bin/tam-audio-sink-availability", "bin/tam-audio-tuning", "bin/tam-hw-match", "bin/tam-restart-audio", "bin/tam-osd", "bin/tam-audio-output-volume", "bin/tam-audio-output-switch"],
+    "commands": ["bin/tam-agent", "bin/tam-cmd-present", "bin/tam-cmd-terminal-cwd", "bin/tam-default-editor", "bin/tam-default-terminal", "bin/tam-deploy", "bin/tam-launch-config-editor", "bin/tam-launch-editor", "bin/tam-launch-floating-terminal-with-presentation", "bin/tam-launch-terminal", "bin/tam-launch-tui", "bin/tam-menu-select", "bin/tam-menu-timezone", "bin/tam-notification-send", "bin/tam-plugin", "bin/tam-qmlcache-purge", "bin/tam-restart-shell", "bin/tam-shell", "bin/tam-show-done", "bin/tam-show-logo", "bin/tam-theme-payload", "bin/tam-work", "bin/tam-audio-input-set-default", "bin/tam-audio-output-set-default", "bin/tam-audio-output-sink", "bin/tam-audio-sink-availability", "bin/tam-audio-tuning", "bin/tam-hw-match", "bin/tam-restart-audio", "bin/tam-osd", "bin/tam-audio-output-volume", "bin/tam-audio-output-switch", "bin/tam-settings-preserve", "bin/tam-network-status", "bin/tam-network-band", "bin/tam-network-password", "bin/tam-network-qr", "bin/tam-network-speedtest", "bin/tam-dns", "bin/tam-restart-wifi", "bin/tam-bluetooth-power", "bin/tam-bluetooth-device", "bin/tam-restart-bluetooth", "bin/tam-powerprofiles-list", "bin/tam-powerprofiles-set", "bin/tam-battery-status", "bin/tam-system-stats", "bin/tam-toggle-idle", "bin/tam-toggle-nightlight", "bin/tam-restart-hyprsunset", "bin/tam-display-text-size", "bin/tam-weather-location"],
     "tools": ["bin/tam-file-select"],
     "tam": ["bin/tam", "bin/tam-man"]
   },
   "native": [
-    {"package": "polkit", "binaries": ["pkexec"], "purpose": "Native privileged helper authorization for explicitly requested stuck USB audio recovery"},
+    {"package": "polkit", "binaries": ["pkexec"], "purpose": "Native immutable DNS helper authorization and explicit stuck USB audio recovery"},
     {"package": "pipewire", "binaries": ["pipewire"], "purpose": "Independent native daemon, SPA/modules and optional speaker tuning client; /usr/bin/pipewire in owned user unit"},
     {"package": "usbutils", "binaries": ["usbreset"], "purpose": "Optional explicit stuck USB audio recovery through pkexec; no reset during package checks"},
     {"package": "lsp-plugins-lv2", "binaries": [], "purpose": "Native /usr/lib/lv2/lsp-plugins.lv2/limiter_stereo.ttl and plugin for optional speaker tuning; checked before writes"},
     {"package": "bash", "binaries": ["bash"], "purpose": "Desktop process launch and shell helpers"},
     {"package": "python", "binaries": ["python3"], "purpose": "Session launcher and plugin probes"},
-    {"package": "coreutils", "binaries": ["env", "install", "ls", "mkdir", "readlink", "rm", "timeout"], "purpose": "Absolute host actions and state files"},
+    {"package": "coreutils", "binaries": ["env", "install", "ls", "mkdir", "readlink", "rm", "timeout", "cp", "mktemp", "stat", "tee", "touch", "tr", "dirname"], "purpose": "Absolute host actions and state files"},
     {"package": "util-linux", "binaries": ["setpriv", "setsid"], "purpose": "Process lifetime and terminal launch"},
     {"package": "systemd", "binaries": ["busctl", "systemctl", "timedatectl"], "purpose": "User units, login/sleep and notification bus"},
     {"package": "hyprland", "binaries": ["Hyprland", "hyprctl"], "purpose": "Wayland session and Hyprland IPC; selected build must support the product's Lua dispatches"},
@@ -44,7 +44,13 @@
     {"package": "procps-ng", "binaries": ["pgrep", "pkill"], "purpose": "Clipboard/recording process control"},
     {"package": "libnotify", "binaries": ["notify-send"], "purpose": "Plugin notifications"},
     {"package": "pciutils", "binaries": ["lspci"], "purpose": "Hardware information probe"},
-    {"package": "power-profiles-daemon", "binaries": ["powerprofilesctl"], "optional": true, "purpose": "Power profile controls; unavailable service must degrade explicitly"}
+    {"package": "power-profiles-daemon", "binaries": ["powerprofilesctl"], "optional": true, "purpose": "Power profile controls; unavailable service must degrade explicitly"},
+    {"package": "networkmanager", "binaries": ["nmcli"], "purpose": "Native DNS root executor and NetworkManager D-Bus daemon, profiles and policy"},
+    {"package": "gawk", "binaries": ["awk"], "purpose": "Native fixed-PATH DNS root executor"},
+    {"package": "findutils", "binaries": ["xargs"], "purpose": "Native fixed-PATH custom DNS normalization"},
+    {"package": "bluez", "binaries": [], "purpose": "Bluetooth daemon/pairing state; wrapped bluez client does not enable service"},
+    {"package": "upower", "binaries": [], "purpose": "Native battery/power-source D-Bus telemetry"},
+    {"package": "dconf", "binaries": [], "purpose": "User GTK settings D-Bus backend; wrapped glib/dconf clients and schemas supplied by commands"}
   ],
   "facilities": [
     {"id": "session", "providers": ["dbus", "systemd", "uwsm"], "proof": "Fresh graphical login imports WAYLAND_DISPLAY and Hyprland IPC identity into the user manager and starts graphical-session.target"},
@@ -57,7 +63,8 @@
     {"id": "credentials", "providers": ["host Secret Service/keyring"], "proof": "Selected application and portal credentials survive login and remain outside public defaults"},
     {"id": "capture", "providers": ["pending declared capture/recording/OCR/QR dependencies"], "proof": "Preserved capture workflows from packaged helper chains; exact independent tools/providers selected with their implementations"},
     {"id": "applications", "providers": ["consumer selections"], "proof": "Independently installed terminal, editor and browser desktop entries resolve without workstation overrides"},
-    {"id": "boot-recovery", "providers": ["Arch host", "pending Tamlinux native integration"], "proof": "Host-specific IDs, boot/initramfs update, fallback/recovery and sleep/resume after every changed root integration"}
+    {"id": "boot-recovery", "providers": ["Arch host", "pending Tamlinux native integration"], "proof": "Host-specific IDs, boot/initramfs update, fallback/recovery and sleep/resume after every changed root integration"},
+    {"id": "settings-recovery", "providers": ["Tamlinux snapshots", "native NetworkManager/systemd-resolved", "dconf"], "proof": "Preserve paired DNS files/profile fields and user text-size/state before mutations; restoration must preserve new writes, service and privilege proof pending"}
   ],
   "pending": [
     {"id": "independence-gate", "owner": "delivery", "proof": "Implement and run all nine tuple-bound checks from the product plan; static scan success cannot substitute for runtime, migration, network or recovery evidence"},

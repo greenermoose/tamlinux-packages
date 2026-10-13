@@ -118,6 +118,30 @@ let
     tam-osd = [ pkgs.jq ];
     tam-audio-output-volume = [ pkgs.coreutils pkgs.pulseaudio pkgs.gawk ];
     tam-audio-output-switch = [ pkgs.coreutils pkgs.pulseaudio pkgs.gawk pkgs.jq ];
+    tam-settings-preserve = [ pkgs.python3 ];
+    tam-network-status = [ pkgs.coreutils pkgs.iproute2 pkgs.networkmanager
+      pkgs.iw pkgs.iputils pkgs.gawk pkgs.jq ];
+    tam-network-band = [ pkgs.coreutils pkgs.networkmanager pkgs.iw pkgs.gawk pkgs.gnused ];
+    tam-network-password = [ pkgs.coreutils pkgs.networkmanager ];
+    tam-network-qr = [ pkgs.coreutils pkgs.networkmanager pkgs.iproute2 pkgs.gawk pkgs.qrencode ];
+    tam-network-speedtest = [ pkgs.coreutils pkgs.iproute2 pkgs.curl pkgs.jq pkgs.gawk pkgs.procps ];
+    # The elevated, immutable body resets PATH to native system tools.
+    # Polkit, NetworkManager and resolved are native service/policy owners.
+    tam-dns = [ pkgs.coreutils pkgs.networkmanager pkgs.gawk pkgs.findutils ];
+    tam-restart-wifi = [ pkgs.networkmanager pkgs.util-linux ];
+    tam-bluetooth-power = [ pkgs.coreutils pkgs.bluez pkgs.util-linux pkgs.gawk ];
+    tam-bluetooth-device = [ pkgs.coreutils pkgs.bluez ];
+    tam-restart-bluetooth = [ pkgs.util-linux ];
+    tam-powerprofiles-list = [ pkgs.power-profiles-daemon pkgs.gawk pkgs.coreutils ];
+    tam-powerprofiles-set = [ pkgs.power-profiles-daemon pkgs.systemd pkgs.coreutils ];
+    tam-battery-status = [ pkgs.upower pkgs.gnugrep pkgs.gawk pkgs.coreutils ];
+    tam-system-stats = [ pkgs.procps pkgs.gawk ];
+    tam-toggle-idle = [ pkgs.coreutils ];
+    tam-toggle-nightlight = [ pkgs.coreutils pkgs.procps pkgs.util-linux pkgs.gnugrep pkgs.jq ];
+    tam-restart-hyprsunset = [ pkgs.procps pkgs.util-linux ];
+    tam-display-text-size = [ pkgs.coreutils pkgs.gawk pkgs.gnused pkgs.gnugrep
+      pkgs.procps pkgs.glib pkgs.dconf ];
+    tam-weather-location = [ pkgs.coreutils pkgs.jq pkgs.curl ];
     tam-audio-input-set-default = [ pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
     tam-browser-command = [ pkgs.python3 ];
     tam-default-browser = [ pkgs.coreutils pkgs.xdg-utils ];
@@ -224,7 +248,7 @@ let
     postFixup = lib.concatMapStrings (name:
       lib.optionalString (lib.elem name commandNames) ''
         wrapProgram $out/bin/${name} \
-          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}"
+          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (name == "tam-display-text-size") "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
       ''
     ) (lib.attrNames commandRuntimeDeps);
     passthru = {

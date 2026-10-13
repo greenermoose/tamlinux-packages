@@ -69,3 +69,7 @@ locations. No candidate was activated.
 2026-10-12: retained audio source/delivery and recovery interfaces were implemented
 with Codex CLI `0.162.1`, model `gpt-6.1-sol`; see the
 [session record](docs/ai/2026-10-12-0.4.3-audio-output-closure.md).
+
+2026-10-12: network/power controls and paired settings preservation were implemented
+with Codex CLI `0.162.1`, model `gpt-6.1-sol`; see the
+[session record](docs/ai/2026-10-12-0.4.3-control-closure.md).

@@ -81,9 +81,9 @@ elif name == 'hyprctl':
                'TEST_CALL_LOG': str(log), 'TEST_NETWORK_LOG': str(network),
                'TEST_LAUNCH_LOG': str(launch_log)}
 
-        def run(name, *values, check=True):
+        def run(name, *values, check=True, extra_env=None):
             result = subprocess.run([str(args.commands / 'bin' / name), *values],
-                                    env=env, cwd=root, text=True, capture_output=True, timeout=10)
+                                    env=env | (extra_env or {}), cwd=root, text=True, capture_output=True, timeout=10)
             if check and result.returncode:
                 raise AssertionError(f'{name} failed: {result.stderr}')
             return result
@@ -306,6 +306,78 @@ elif name == 'hyprctl':
         assert result.returncode != 0 and 'bus' in result.stderr.lower(), result.stderr
         assert 'command not found' not in result.stderr.lower(), result.stderr
         checks.append('browser launch resolves packaged tools before the deliberately unavailable user bus')
+
+        run('tam-toggle-idle', 'stay-awake')
+        stay_awake = root / 'state/tamlinux/stay-awake'
+        assert stay_awake.exists()
+        assert json.loads(run('tam-toggle-idle', 'status').stdout)['enabled'] is True
+        run('tam-toggle-idle', 'allow-idle')
+        assert not stay_awake.exists()
+        checks.append('idle writer uses the paired shell XDG path and preserves prior states')
+
+        name = 'Fixture City; literal "name"'
+        run('tam-weather-location', '--set', name, '34.1,-118.5')
+        location = root / 'state/tamlinux/settings/weather.json'
+        assert json.loads(location.read_text()) == {'name': name, 'latitude': 34.1, 'longitude': -118.5}
+        assert run('tam-weather-location').stdout == name + '\n'
+        run('tam-weather-location', '--clear')
+        assert not location.exists()
+        assert len(list((root / 'state/tamlinux/settings-recovery').glob('weather.*/manifest.json'))) == 2
+        checks.append('weather/tides shared location round-trips literal data without network and retains originals')
+
+        assert run('tam-weather-location', '--set', 'Fixture', '91,0', check=False).returncode != 0
+        checks.append('packaged location rejects invalid coordinates before writing')
+
+        blocked_state = root / 'blocked-state/tamlinux/settings-recovery'
+        blocked_state.parent.mkdir(parents=True)
+        blocked_state.write_text('blocked')
+        result = run('tam-toggle-idle', 'stay-awake', check=False,
+                     extra_env={'XDG_STATE_HOME': str(root / 'blocked-state')})
+        assert result.returncode != 0
+        assert not (blocked_state.parent / 'stay-awake').exists()
+        checks.append('packaged snapshot failure stops settings writes')
+
+        fixtures = root / 'dns-fixtures'
+        fixtures.mkdir()
+        (fixtures / 'resolved.conf').write_text('[Resolve]\nDNS=8.8.8.8#dns.google\n')
+        assert run('tam-dns', extra_env={'TAMLINUX_NM_DNS_CONF': str(fixtures / 'absent'),
+                                        'TAMLINUX_RESOLVED_CONF': str(fixtures / 'resolved.conf')}).stdout == 'Google\n'
+        assert run('tam-dns', 'invalid', check=False).returncode != 0
+        checks.append('DNS read uses declared tools and invalid mutation stops before authorization')
+
+        for name, arguments in [('tam-network-band', ('invalid',)),
+                                ('tam-network-speedtest', ('invalid',)),
+                                ('tam-bluetooth-device', ('pair', 'invalid'))]:
+            assert run(name, *arguments, check=False).returncode != 0
+        checks.append('radio/speedtest controls reject invalid requests without effectful calls')
+
+        for name, arguments in [('tam-network-band', ()), ('tam-network-password', ('wlan-fixture',)),
+                                ('tam-network-qr', ('wlan-fixture',)), ('tam-powerprofiles-list', ()),
+                                ('tam-powerprofiles-set', ('battery', 'balanced'))]:
+            result = run(name, *arguments, check=False)
+            assert result.returncode != 0, (name, result.stdout, result.stderr)
+            assert 'command not found' not in result.stderr.lower(), (name, result.stderr)
+        assert not (root / 'state/tamlinux/powerprofiles/battery').exists()
+        checks.append('network/power clients reach unavailable native services with complete runtime tools')
+
+        run('tam-battery-status', '--shell')
+        assert 'memory\t' in run('tam-system-stats', '--bar-widget').stdout
+        assert 'command not found' not in run('tam-system-stats').stderr.lower()
+        checks.append('battery/system telemetry runs without caller tools or a real battery service')
+
+        result = run('tam-display-text-size')
+        assert 'gtk text-scaling-factor: 1.0' in result.stdout, result.stdout
+        result = run('tam-display-text-size', '16', check=False)
+        assert result.returncode != 0, result.stderr
+        assert 'command not found' not in result.stderr.lower(), result.stderr
+        assert not (root / 'state/tamlinux/shell.toml').exists()
+        checks.append('GTK schema/backend are delivered and failed service commit stops paired file changes')
+
+        assert run('tam-display-text-size', '99', check=False).returncode != 0
+        checks.append('text size validates the retained range before state mutation')
+
+        assert json.loads(run('tam-toggle-nightlight', '--status').stdout)['enabled'] is False
+        checks.append('night-light status uses the declared host IPC boundary without launching a daemon')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))

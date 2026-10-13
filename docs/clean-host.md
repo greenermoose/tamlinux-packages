@@ -159,3 +159,22 @@ installation, observation of attempted inherited network requests, a per-interfa
 rename/migration table, upgrade/rollback proof preserving new user writes, fixed
 0.4.2-d parity and a bounded capture-defect admission rule. These refine the
 already agreed 0.4.3 scope; they do not establish a completed clean-host recipe.
+
+## Network/power and paired settings follow-through — 2026-10-12
+
+[Control delivery evidence](evidence/0.4.3-control-closure.json) records 20 added
+command entries (19 retained controls and a preservation helper), wrapped clients,
+GTK schemas/dconf backend and declared native service/privilege owners. DNS
+preserves paired root files and profile fields; text size and user settings retain
+originals before writes. Shell/CLI Stay Awake share the XDG path and preserving
+writer. 64 staged helpers, 18 service checks, 21 auditor regressions, Nix
+build/integration and 42 real-output probes pass; five cases reject original code.
+
+Audit: 307 runtime files, 75 unresolved lexical names, 51 inherited locations, no
+missing outputs/files or undeclared absolute tools. Nine pending requirements and
+absent clean-host inspection keep readiness false. Privileged DNS, native service
+recovery, physical radios/displays, migration and new-user-write rollback remain
+unproven. Snapshot identities precede documentation; no pin or activation changed.
+[Source/recovery inventory](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/0.4.3-control-closure.md)
+tracks the next brightness/display/lock/suspend, theme/assets/capture and
+session/native/complete-install work.
