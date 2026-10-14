@@ -1,0 +1,67 @@
+{
+  "candidateReady": false,
+  "deliveryRevision": "ec3e337130c19c552c517b74d9febf46ad40ca14",
+  "deliverySnapshot": "/nix/store/8mcfxd54w1253ns63jmw2j6f3xww04xg-tamlinux-delivery-development",
+  "diagnosis": {
+    "cause": "Layout reader used the prior path; connector-only topology state fabricated geometry and replaced saved positions",
+    "traceSha256": "4225fed3053623e3cdaf6c3a807ccc2f7e2eb7cdae5752658ec182847df19560",
+    "writer": "fred.workspaces/tam-desktop-mode"
+  },
+  "limits": "The long-running physical preview compositor still retains OMARCHY_PATH; its shell is clean. A fresh owned session and complete native recovery/acceptance tuple remain required.",
+  "outputs": {
+    "commands": "/nix/store/2dnsz3km3fpcky5nw3j21w46k1xc2ziq-tamlinux-commands-0.4.2pre.d",
+    "plugins": "/nix/store/6m3rwl73w1wrygflxinm9j06m4zvz8wk-tamlinux-plugins-0.4.2pre.d",
+    "shell": "/nix/store/8i6cabd93n6lbn8d5g55376nh8w9hq5h-tamlinux-shell-0.4.2pre.d"
+  },
+  "productRevision": "0a38687372292df94ab3967e81c868621e42ac5e",
+  "schema": 1,
+  "sourceSnapshot": "/nix/store/p823ixbh1myhjmmq60k3d394z0f7j63z-tamlinux-development",
+  "stage": "Develop; monitor persistence verification",
+  "verification": {
+    "desktopTests": {
+      "existingSkips": 1,
+      "passed": 512
+    },
+    "installedOutputProbes": 76,
+    "physicalPreview": {
+      "generation": "/nix/store/6kw1bc609lwkmz9gxy1w4lwq5x54giiy-home-manager-generation",
+      "humanObservation": "Order and mouse path stay correct",
+      "priorGenerationRetained": true,
+      "reportSha256": "46ecee18c1208ac0be051eecc524c98ed15578755c370f51498fca46ec460fc9",
+      "runtimeFindings": [
+        "Running compositor retains inherited environment variables"
+      ],
+      "runtimeReportSha256": "f2bf5abc8604861b07a7a161cf64a28b6fc559636b175c3be2774de0e46ef2c5",
+      "savedLayoutUnchanged": true,
+      "settingsAndGtkPreserved": true,
+      "testedTransitions": "TTY1 \u2192 TTY2 \u2192 TTY1 \u2192 TTY2"
+    },
+    "sessionContractBuilt": true,
+    "vm": {
+      "generation": "/nix/store/icdlc0clgj6kfpm24dwwaap3ixi8cqkb-home-manager-generation",
+      "trials": [
+        {
+          "afterReconnection": true,
+          "afterVT": true,
+          "layoutRestoredByCleanup": true,
+          "reportSha256": "eef4074449895e65c380a3eea337bbb10e2070ff4cac1ae4109c193fad472706"
+        },
+        {
+          "afterReconnection": true,
+          "afterVT": true,
+          "layoutRestoredByCleanup": true,
+          "reportSha256": "8894c7aa1c913b6e0c596e32006461b6d9946d9cd248381f5eaa3561b33fb322"
+        },
+        {
+          "afterReconnection": true,
+          "afterVT": true,
+          "layoutRestoredByCleanup": true,
+          "reportSha256": "08108af04ef1b43c0a41964aed2f8300c652d82e32e5cd8f775f4cb3f49372dd"
+        }
+      ]
+    },
+    "workspaceTests": {
+      "passed": 57
+    }
+  }
+}

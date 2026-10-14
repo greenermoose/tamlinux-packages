@@ -23,3 +23,14 @@ physical preview were unchanged.
 Paired installed-output verification follows the source correction. Native
 recovery, the complete immutable acceptance tuple and normal-account Test kit
 remain the subsequent work.
+
+The paired immutable package and session contract build offline; all 76 installed
+output probes pass. Three isolated VM trials preserve positions after VT switches
+and output reconnection. The physical preview receives the same outputs with its
+previous generation and GTK/settings retained. The user confirms stable display
+order and mouse path across two returns to that session.
+
+The [monitor evidence envelope](../evidence/0.4.3-monitor-persistence.json) binds
+these checks to the selected outputs. The newly inspected long-running physical
+compositor retains OMARCHY_PATH; the restarted shell does not. A fresh owned session
+is still needed for compositor environment evidence.
