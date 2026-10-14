@@ -46,3 +46,12 @@ services and routing restored. Paired commands output is bound to product
 `8c36863` and delivery `e8b641d`; package checks pass after correcting the
 native-systemctl fixture. This is preparation, with complete recovery and the
 normal-account Test kit still open.
+
+Speaker-tuning recovery now includes its six fixed files and enablement link.
+Optional audio capture binds connected sink/source channel volumes, mutes and
+default names plus the owned tuning unit active/enabled state. Restoration
+archives later values before stopping the owned client, restores files and
+verified audio values, refuses missing devices/channels and supports interrupted
+retry. Delivery supplies the systemd and Pulse clients explicitly. The complete
+desktop suite runs 529 checks with one existing skip; installed PipeWire proof
+follows. Persistent WirePlumber routes and legacy tuning conversion remain open.
