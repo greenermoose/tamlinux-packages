@@ -338,6 +338,9 @@ let
     tam-weather-location = [ pkgs.coreutils pkgs.jq pkgs.curl ];
     tam-audio-input-set-default = [ pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
     tam-browser-command = [ pkgs.python3 ];
+    tam-chromium-copy-url-host = [ pkgs.coreutils pkgs.python3 pkgs.wl-clipboard ];
+    tam-chromium-ytdlp-host = [ pkgs.bash pkgs.python3 pkgs.yt-dlp pkgs.ffmpeg pkgs.mpv
+      pkgs.coreutils pkgs.jq ];
     tam-default-browser = [ pkgs.coreutils pkgs.xdg-utils ];
     tam-launch-browser = [ pkgs.coreutils pkgs.jq pkgs.gnugrep
       pkgs.systemd pkgs.xdg-utils ];
@@ -454,6 +457,12 @@ let
         make -C commands/${name} install PREFIX=$out
       '') commandNames}
       mkdir -p $out/bin
+      ${lib.optionalString (has "desktop/browser/native_host.py") ''
+        mkdir -p $out/share/tamlinux
+        cp -R desktop/browser $out/share/tamlinux/browser
+        chmod -R u+w $out/share/tamlinux/browser
+        patchShebangs $out/share/tamlinux/browser/download-worker
+      ''}
       ${lib.optionalString (ttfx != null) ''
         mkdir -p $out/share/tamlinux
         cp ${pkgs.writeText "tamlinux-provider-tools.json" (builtins.toJSON ({ ttfx = "${ttfx}/bin/ttfx"; }

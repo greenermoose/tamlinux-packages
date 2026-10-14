@@ -62,3 +62,21 @@ a-b r--p 0 00:00 1 /old/provider.so (deleted)
     def test_unit_properties_do_not_copy_unrequested_environment(self):
         result = m.properties('MainPID=12\nEnvironment=API_TOKEN=secret\nActiveState=active\n')
         self.assertEqual(result, {'MainPID':'12', 'ActiveState':'active'})
+
+    def test_wm_instances_preserve_escaped_names_and_ignore_non_units(self):
+        result = m.wm_units(r'''wayland-wm@Hyprland.service loaded active running Main service
+wayland-wm@tamlinux\x2dhyprland.desktop.service loaded inactive dead Main service
+wayland-wm@Hyprland.service loaded active running Duplicate
+tamlinux-shell.service loaded active running Shell
+2 loaded units listed.
+''')
+        self.assertEqual(result, ['wayland-wm@Hyprland.service',
+                                 r'wayland-wm@tamlinux\x2dhyprland.desktop.service'])
+
+    def test_absent_bus_owner_is_not_activated(self):
+        from unittest.mock import patch
+        with patch.object(m, 'command', return_value={'exit': 1, 'stdout': '', 'stderr': ''}) as call:
+            self.assertEqual(m.bus_owner('org.freedesktop.secrets'),
+                             {'exit': 1, 'name': 'org.freedesktop.secrets'})
+        self.assertEqual(call.call_count, 1)
+        self.assertIn('GetNameOwner', call.call_args.args[0])

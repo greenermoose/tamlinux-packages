@@ -23,12 +23,15 @@ ENV_KEYS = {
     'TAMLINUX_MENU_EXTENSION', 'TAMLINUX_MENU_DEFAULT', 'TAMLINUX_BIN',
     'EDITOR', 'TERMINAL', 'BROWSER', 'LIBGL_ALWAYS_SOFTWARE', 'GSK_RENDERER'
 }
-UNITS = ['tamlinux-shell.service', 'wayland-wm@tamlinux-hyprland.service',
+UNITS = ['tamlinux-shell.service',
          'tam-crash-watch.service', 'tamlinux-monitor-watch.service',
          'xdg-desktop-portal.service', 'xdg-desktop-portal-hyprland.service',
          'xdg-desktop-portal-gtk.service']
 PROPERTIES = ['LoadState', 'ActiveState', 'SubState', 'MainPID', 'FragmentPath',
-              'ExecStart', 'EnvironmentFiles']
+              'ExecStart', 'EnvironmentFiles', 'ControlGroup']
+BUS_NAMES = ['org.freedesktop.Notifications', 'org.freedesktop.portal.Desktop',
+             'org.freedesktop.impl.portal.desktop.hyprland',
+             'org.freedesktop.impl.portal.desktop.gtk', 'org.freedesktop.secrets']
 INHERITED = re.compile('omarchy', re.I)
 
 
@@ -50,6 +53,34 @@ def properties(text):
         if separator and key in PROPERTIES:
             result[key] = value
     return result
+
+
+def wm_units(text):
+    """Keep actual instance names, including systemd's escaped desktop IDs."""
+    return sorted({line.split()[0] for line in text.splitlines()
+                   if line.split() and re.fullmatch(r'wayland-wm@[A-Za-z0-9_.:@\\-]+\.service',
+                                                    line.split()[0])})
+
+
+def bus_owner(name):
+    # GetNameOwner does not activate an absent endpoint. Resolve its unique
+    # name before asking for the PID, so a replacement cannot be substituted.
+    owner = command(['busctl', '--user', 'call', 'org.freedesktop.DBus',
+                     '/org/freedesktop/DBus', 'org.freedesktop.DBus', 'GetNameOwner', 's', name])
+    row = {'exit': owner['exit'], 'name': name}
+    match = re.fullmatch(r's "(:[0-9]+\.[0-9]+)"\s*', owner['stdout'])
+    if not match:
+        return row
+    unique = match[1]
+    pid_result = command(['busctl', '--user', 'call', 'org.freedesktop.DBus',
+                          '/org/freedesktop/DBus', 'org.freedesktop.DBus',
+                          'GetConnectionUnixProcessID', 's', unique])
+    pid_match = re.fullmatch(r'u ([0-9]+)\s*', pid_result['stdout'])
+    row.update(uniqueName=unique, pidExit=pid_result['exit'])
+    if pid_result['exit'] == 0 and pid_match:
+        pid = int(pid_match[1])
+        row.update(pid=pid, executable=file_identity(Path('/proc')/str(pid)/'exe'))
+    return row
 
 
 def environment(data):
@@ -127,8 +158,11 @@ def module_root_matches(value, expected):
 
 
 def collect(generation, commands, shell, plugins):
+    discovery = command(['systemctl', '--user', 'list-units', '--all', '--plain',
+                         '--no-legend', '--no-pager', 'wayland-wm@*.service'])
+    discovered = wm_units(discovery['stdout']) if discovery['exit'] == 0 else []
     unit_records = {}
-    for unit in UNITS:
+    for unit in UNITS + discovered:
         observation = command(['systemctl', '--user', 'show', unit,
                                '--property='+','.join(PROPERTIES)])
         unit_records[unit] = {'exit': observation['exit'], 'properties': properties(observation['stdout']),
@@ -171,6 +205,17 @@ def collect(generation, commands, shell, plugins):
                       'family': lines[0] if lines else None,
                       'file': file_identity(Path(lines[1])) if len(lines) > 1 else None})
     findings = []
+    active_wm = [name for name in discovered
+                 if unit_records[name]['properties'].get('ActiveState') == 'active'
+                 and int(unit_records[name]['properties'].get('MainPID', '0')) > 0]
+    compositor = process(int(unit_records[active_wm[0]]['properties']['MainPID'])) if len(active_wm) == 1 else None
+    if discovery['exit'] != 0 or len(active_wm) != 1:
+        findings.append('Exactly one running UWSM compositor instance was not established')
+    elif compositor['inheritedVariableNames']:
+        findings.append('Running compositor retains inherited environment variables')
+    if compositor and any(INHERITED.search(str(row.get('resolved', row['path'])))
+                          for row in compositor['mappedFiles']):
+        findings.append('Running compositor maps inherited paths')
     if not current.exists() or current.resolve() != generation.resolve():
         findings.append('Active Home Manager generation differs from the selection')
     if runtime['inheritedVariableNames']:
@@ -199,6 +244,8 @@ def collect(generation, commands, shell, plugins):
             'selection': {k: str(v) for k, v in [('generation', generation), ('commands', commands),
                                                ('shell', shell), ('plugins', plugins)]},
             'generation': file_identity(current), 'shellProcess': runtime, 'units': unit_records,
+            'wmUnitDiscovery': {'exit': discovery['exit'], 'instances': discovered, 'active': active_wm},
+            'compositorProcess': compositor, 'sessionBusOwners': [bus_owner(name) for name in BUS_NAMES],
             'commands': resolution, 'plugins': plugin_records,
             'configuredResources': [file_identity(p) for p in resources],
             'fontconfigResolution': fonts, 'findings': findings,

@@ -14,7 +14,7 @@ let
         commandPackage = components.tamlinux-commands;
         pluginPackage = components.tamlinux-plugins;
       };
-      tamlinux.session.enable = true;
+      tamlinux.session = { enable = true; chromiumExtensions.enable = true; };
       tamlinux.tools = { tam = components.tam; fileSelect = components.tamlinux-tools; };
     } ];
   };
@@ -43,6 +43,20 @@ pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/systemd/user/tamlinux-monitor-watch.service
   test -f ${files}/.config/systemd/user/tam-crash-watch.service
   test -f ${files}/.config/xdg-desktop-portal/hyprland-portals.conf
+  test -f ${files}/.config/tamlinux/chromium/extensions/copy-url/manifest.json
+  test -f ${files}/.config/chromium/NativeMessagingHosts/org.tamlinux.copy_url.json
+  test -f ${files}/.config/chromium/NativeMessagingHosts/org.tamlinux.ytdlp.json
+  test ! -e ${files}/.config/chromium-flags.conf
+  ${pkgs.python3}/bin/python3 - ${files} ${components.tamlinux-commands} <<'PY'
+import json,sys
+from pathlib import Path
+files,commands=map(Path,sys.argv[1:])
+for name,command,extension in [('copy_url','copy-url','bgpiichlckmfanooecilcjemknkcpngb'),('ytdlp','ytdlp','dedjgknigfeelejglamclffonmophnfl')]:
+    data=json.loads((files/f'.config/chromium/NativeMessagingHosts/org.tamlinux.{name}.json').read_text())
+    assert data['path']==str(commands/f'bin/tam-chromium-{command}-host')
+    assert data['allowed_origins']==[f'chrome-extension://{extension}/']
+    assert Path(data['path']).is_file()
+PY
   grep -q 'tam-toggle-enabled crash-capture-off' ${files}/.config/systemd/user/tam-crash-watch.service
   grep -q 'FileChooser=gtk' ${files}/.config/xdg-desktop-portal/hyprland-portals.conf
   test ! -e ${files}/.config/tamlinux/hypr/monitors.lua

@@ -7,11 +7,12 @@ privately by the author.
 
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
-| Codex CLI | 0.162.1 | gpt-6.1-sol | 2026-10-12 |
+| Codex CLI | 0.162.1 | gpt-6.1-sol | 2026-10-14 |
 | Claude Code | 2.1.295 | claude-opus-5-5 | 2026-10-09 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-14 | Paired browser registrations and effective desktop endpoint checks | [Session](docs/ai/2026-10-14-desktop-endpoint-checks.md) |
 | 2026-10-13–14 | Settings recovery delivery and effective runtime observations | [Session](docs/ai/2026-10-13-0.4.3-recovery-continuation.md) |
 | 2026-10-10 | 0.4.3 clean Arch/Hyprland contract, package gap inventory and 17 audit regression tests | [Session](docs/ai/2026-10-10-0.4.3-clean-host-contract.md) |
 | 2026-10-10 | 0.4.3 desktop helper runtime dependencies; no candidate activation | [Session](docs/ai/2026-10-10-0.4.3-helper-dependencies.md) |
