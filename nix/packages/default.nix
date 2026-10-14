@@ -124,6 +124,9 @@ let
     tam-theme-set = themeTools;
     tam-theme-journal = themeTools;
     tam-theme-refresh = themeTools;
+    tam-theme-init = themeTools;
+    tam-session-init = [ pkgs.python3 pkgs.coreutils ];
+    tam-migrate-desktop = [ pkgs.python3 pkgs.coreutils ];
     tam-theme-current = themeTools;
     tam-theme-list = themeTools;
     tam-theme-remove = themeTools;
@@ -169,6 +172,76 @@ let
     tam-restart-helix = themeTools;
 
     tam-notification-send = [ pkgs.jq pkgs.systemd ];
+    tam-audio-input-mute = [ pkgs.wireplumber pkgs.gnugrep ];
+    tam-audio-source-switch = [ ];
+    tam-battery-low = [ ];
+    tam-notification-battery = [ ];
+    tam-notification-time = [ pkgs.coreutils ];
+    tam-hw-touchpad = [ pkgs.jq ];
+    tam-hw-touchscreen = [ pkgs.jq ];
+    tam-hw-laptop = [ ];
+    tam-hw-fingerprint = [ pkgs.coreutils ];
+    tam-hw-hybrid-gpu = [ pkgs.pciutils pkgs.gnugrep ];
+    tam-hw-dell-xps-haptic-touchpad = [ ];
+    tam-hyprland-window-close-all = [ pkgs.jq ];
+    tam-hyprland-window-pop = [ pkgs.jq ];
+    tam-hyprland-window-tiled-fullscreen-toggle = [ pkgs.jq ];
+    tam-hyprland-window-transparency-toggle = [ pkgs.jq ];
+    tam-hyprland-window-gaps-toggle = [ ];
+    tam-hyprland-window-single-square-aspect-toggle = [ ];
+    tam-hyprland-workspace-layout-toggle = [ pkgs.jq pkgs.coreutils ];
+    tam-hyprland-window-width = [ pkgs.jq pkgs.coreutils ];
+    tam-toggle-notification-silencing = [ ];
+    tam-toggle-input-device = [ pkgs.coreutils ];
+    tam-menu-keybindings = [ pkgs.lua pkgs.jq pkgs.coreutils ];
+    tam-menu-tmux-keybindings = [ pkgs.coreutils pkgs.gnugrep pkgs.gawk pkgs.jq pkgs.tmux ];
+    tam-menu-herdr-keybindings = [ pkgs.coreutils pkgs.gnugrep pkgs.gawk pkgs.jq ];
+    tam-reminder = [ pkgs.coreutils pkgs.systemd pkgs.jq pkgs.gawk pkgs.gnugrep pkgs.findutils ];
+    tam-disk-speedtest = [ pkgs.coreutils pkgs.gawk pkgs.jq pkgs.findutils pkgs.util-linux ];
+    tam-system-lid-close = [ ];
+    tam-system-logout = [ pkgs.coreutils pkgs.bash ];
+    tam-system-reboot = [ pkgs.coreutils pkgs.systemd ];
+    tam-system-shutdown = [ pkgs.coreutils pkgs.systemd ];
+    tam-restart-xcompose = [ pkgs.systemd ];
+    tam-hyprland-monitor-watch = [ pkgs.coreutils pkgs.util-linux pkgs.socat ];
+    tam-hyprland-monitor-modeless = [ pkgs.jq ];
+    tam-hyprland-reload-guard = [ pkgs.coreutils pkgs.jq ];
+    tam-drive-password = [ pkgs.coreutils pkgs.util-linux pkgs.gum ];
+    tam-drive-select = [ pkgs.coreutils pkgs.gum pkgs.gawk pkgs.util-linux pkgs.gnugrep ];
+    tam-drive-info = [ pkgs.coreutils pkgs.gnused pkgs.gawk pkgs.util-linux ];
+    tam-hibernation-available = [ pkgs.coreutils pkgs.gawk ];
+    tam-hyprland-monitor-scaling = [ pkgs.coreutils pkgs.jq pkgs.gawk pkgs.gnused pkgs.gnugrep pkgs.procps pkgs.python3 ];
+    tam-launch-docker-tui = [  ];
+    tam-menu-share = [ pkgs.coreutils ];
+    tam-pkg-aur-install = [ pkgs.fzf pkgs.coreutils pkgs.gnused ];
+    tam-pkg-install = [ pkgs.fzf pkgs.gawk ];
+    tam-pkg-remove = [ pkgs.fzf pkgs.coreutils ];
+    tam-pkg-drop = [  ];
+    tam-sudo-keepalive = [ pkgs.coreutils ];
+    tam-remove-security-fido2 = [ pkgs.coreutils pkgs.gnugrep pkgs.gnused ];
+    tam-remove-security-fingerprint = [ pkgs.coreutils pkgs.gnugrep pkgs.gnused ];
+    tam-remove-security-sshd = [ pkgs.coreutils pkgs.gum ];
+    tam-remove-security-sudoless-docker = [ pkgs.coreutils pkgs.gum ];
+    tam-restart-trackpad = [ pkgs.coreutils pkgs.gnugrep pkgs.kmod ];
+    tam-setup-security-fido2 = [ pkgs.coreutils pkgs.gnugrep pkgs.gnused ];
+    tam-setup-security-fingerprint = [ pkgs.coreutils pkgs.gnugrep pkgs.gnused ];
+    tam-setup-security-sshd = [ pkgs.coreutils pkgs.gnugrep pkgs.openssh pkgs.curl pkgs.gum ];
+    tam-setup-security-sudoless-docker = [ pkgs.coreutils pkgs.gum ];
+    tam-sudo-docker = [ pkgs.coreutils pkgs.gnugrep ];
+    tam-sudo-passwordless = [ pkgs.coreutils pkgs.gum ];
+    tam-toggle-crash-capture = [ pkgs.systemd ];
+    tam-crash-watch = [ pkgs.coreutils pkgs.systemd pkgs.jq pkgs.gnugrep ];
+    tam-notification-wait = [ pkgs.coreutils pkgs.systemd ];
+    tam-agent-crash = [ pkgs.coreutils pkgs.systemd ];
+    tam-toggle-hybrid-gpu = [ pkgs.coreutils pkgs.gnugrep pkgs.gnused pkgs.gum ];
+    tam-transcode = [ pkgs.coreutils pkgs.file pkgs.imagemagick pkgs.ffmpeg pkgs.wl-clipboard ];
+    tam-menu-file = [ pkgs.coreutils pkgs.findutils ];
+    tam-tui-install = [ pkgs.coreutils pkgs.gnused pkgs.curl pkgs.gum pkgs.gtk3 ];
+    tam-tui-remove = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.findutils ];
+    tam-update-time = [  ];
+    tam-webapp-install = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.curl pkgs.gum pkgs.gtk3 ];
+    tam-webapp-remove = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.findutils pkgs.desktop-file-utils ];
+    tam-remove-launcher-entry = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.desktop-file-utils ];
     # Capture tools are delivered; compositor, portal/device policy and native
     # Tensaku remain explicit host capabilities. English OCR data is immutable.
     tam-capture-region = [ pkgs.coreutils pkgs.procps pkgs.jq pkgs.slurp pkgs.hyprpicker ];
@@ -278,20 +351,25 @@ let
     tam-qmlcache-purge = [ pkgs.coreutils pkgs.findutils ];
     tam-restart-shell = [ pkgs.systemd ];
   };
+  shellRuntimeDeps = [ pkgs.coreutils pkgs.findutils pkgs.gnugrep pkgs.gawk
+    pkgs.jq pkgs.perl pkgs.util-linux pkgs.procps pkgs.systemd pkgs.wl-clipboard
+    pkgs.wtype pkgs.inotify-tools pkgs.xdg-utils pkgs.python3 ];
   shell =
     pkgs.runCommand "tamlinux-shell-${packageVersion}"
       {
-        nativeBuildInputs = [ pkgs.bash pkgs.python3 ];
+        nativeBuildInputs = [ pkgs.bash pkgs.python3 pkgs.makeWrapper ];
         passthru = {
           version = productVersion;
           revision = product.rev;
           deploymentSelectionRecord = true;
           inherit features protocolShadowId;
+          runtimePath = lib.makeBinPath shellRuntimeDeps;
         };
       }
       ''
         mkdir -p $out/share/tamlinux $out/bin
         cp -R ${product}/desktop/shell $out/share/tamlinux/
+        chmod -R u+w $out/share/tamlinux/shell
         cp ${product}/VERSION $out/share/tamlinux/version
         printf '%s\n' ${lib.escapeShellArg product.rev} > $out/share/tamlinux/source-revision
         ${lib.optionalString features.documentation "cp ${product}/desktop/README.md $out/share/tamlinux/README.md"}
@@ -305,7 +383,13 @@ let
           install -m755 ${product}/desktop/menu/tam-menu $out/bin/tam-menu
         ''}
         ${lib.optionalString features.protocolShadow "install -m755 ${product}/desktop/protocol-shadow $out/bin/tam-protocol-shadow"}
-        patchShebangs $out/bin
+        patchShebangs $out/bin $out/share/tamlinux/shell
+        # The reminder card and transient timer execute this embedded helper
+        # directly, without entering the tam-reminder command wrapper first.
+        for script in $out/share/tamlinux/shell/services/*/*.sh; do
+          test -f "$script" || continue
+          wrapProgram "$script" --prefix PATH : ${lib.makeBinPath shellRuntimeDeps}
+        done
       '';
   # Plugin payloads come from the same product revision as the shell.
   plugins =

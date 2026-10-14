@@ -58,6 +58,7 @@ args = sys.argv[1:]
 with open(os.environ['TEST_LAUNCH_LOG'], 'a') as out:
     out.write(json.dumps({'name': name, 'args': args, 'cwd': os.getcwd()}) + '\\n')
 if name == 'uwsm-app':
+    if args[:2] == ['-t', 'service']: args = args[2:]
     assert args[0] == '--'
     os.execvp(args[1], args[1:])
 elif name == 'xdg-terminal-exec':
@@ -99,6 +100,12 @@ elif name == 'hyprctl':
         if (args.commands / 'share/tamlinux/assets').is_dir():
             current = root / 'state/tamlinux/current'
             assets = args.commands / 'share/tamlinux/assets'
+            if (args.commands / 'bin/tam-theme-init').is_file():
+                run('tam-theme-init')
+                initialized = (current / 'theme').resolve()
+                run('tam-theme-init')
+                assert (current / 'theme').resolve() == initialized
+                checks.append('fresh owned theme state initializes without application or root adapters and preserves its selection')
             run('tam-theme-set', 'Tokyo Night', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
             assert (current / 'theme').is_symlink()
             assert (current / 'theme.name').read_text() == 'tokyo-night\n'
@@ -600,6 +607,45 @@ elif name == 'hyprctl':
                     text=True, capture_output=True, timeout=10, check=True)
                 assert 'brightness' in result.stdout.lower()
                 checks.append('maintained Apple display provider exposes its interface without opening a device')
+
+        if (args.commands / 'bin/tam-reminder').is_file():
+            reminder = run('tam-reminder', 'show', '--json')
+            assert json.loads(reminder.stdout)['count'] == 0
+            assert 'command not found' not in reminder.stderr
+            checks.append('packaged reminder listing resolves its embedded helper, systemd and jq with an unavailable bus')
+            assert run('tam-hyprland-window-pop', '0', check=False).returncode == 2
+            checks.append('packaged window geometry rejects invalid dimensions before compositor calls')
+
+        if (args.commands / 'bin/tam-session-init').is_file():
+            fresh = root / 'fresh-consumers'
+            extra = {'HOME': str(fresh / 'home'), 'XDG_CONFIG_HOME': str(fresh / 'config'),
+                     'XDG_STATE_HOME': str(fresh / 'state'), 'XDG_DATA_HOME': str(fresh / 'data')}
+            initialized = json.loads(run('tam-session-init', extra_env=extra).stdout)
+            assert len(initialized['created']) == 10
+            config = fresh / 'config'
+            assert str(fresh / 'state/tamlinux/current/theme/alacritty.toml') in (config / 'alacritty/alacritty.toml').read_text()
+            assert (fresh / 'state/tamlinux/defaults/editor').read_text() == 'helix\n'
+            assert (config / 'helix/themes/tamlinux.toml').is_symlink()
+            assert json.loads(run('tam-session-init', extra_env=extra).stdout)['created'] == []
+            checks.append('installed fresh consumer defaults pair custom XDG theme/editor paths without replacing existing files')
+
+        if (args.commands / 'bin/tam-migrate-desktop').is_file():
+            migration = root / 'migration-proof'
+            extra = {'HOME': str(migration / 'home'), 'XDG_CONFIG_HOME': str(migration / 'config'),
+                     'XDG_STATE_HOME': str(migration / 'state'), 'XDG_DATA_HOME': str(migration / 'data')}
+            mode = migration / 'state/tamlinux/desktop-mode'
+            mode.parent.mkdir(parents=True); mode.write_text('omarchy\n')
+            journal = migration / 'state/tamlinux/migration/proof'
+            plan = json.loads(run('tam-migrate-desktop', 'plan', str(journal), extra_env=extra).stdout)
+            assert plan['status'] == 'prepared' and plan['rows'] == 1
+            run('tam-migrate-desktop', 'apply', str(journal), extra_env=extra)
+            assert mode.read_text() == 'tamlinux\n'
+            mode.write_text('windows\n')
+            run('tam-migrate-desktop', 'rollback', str(journal), extra_env=extra)
+            assert mode.read_text() == 'omarchy\n'
+            archives = [json.loads(p.read_text()) for p in (journal / 'new-writes').rglob('*.json')]
+            assert any(p['state'].get('bytes') == 'd2luZG93cwo=' for p in archives)
+            checks.append('installed finite migration converts legacy state and preserves later writes during explicit rollback')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))

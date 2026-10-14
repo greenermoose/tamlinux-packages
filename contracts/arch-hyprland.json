@@ -105,13 +105,15 @@
     "tam": ["bin/tam", "bin/tam-man"]
   },
   "native": [
+    {"package": "tamlinux-native", "binaries": ["tam-theme-set-browser-policy", "tamlinux-session"], "purpose": "Fixed root browser-policy adapter with later-write recovery and native session registration; actual browser/interactive authentication remain pending"},
+    {"package": "pacman", "binaries": ["pacman"], "purpose": "Native package transaction and dependency ownership"},
     {"package": "polkit", "binaries": ["pkexec"], "purpose": "Native immutable DNS helper authorization and explicit stuck USB audio recovery; optional Apple HID brightness through fixed /usr/bin/asdcontrol"},
     {"package": "pipewire", "binaries": ["pipewire"], "purpose": "Independent native daemon, SPA/modules and optional speaker tuning client; /usr/bin/pipewire in owned user unit"},
     {"package": "usbutils", "binaries": ["usbreset"], "purpose": "Optional explicit stuck USB audio recovery through pkexec; no reset during package checks"},
     {"package": "lsp-plugins-lv2", "binaries": [], "purpose": "Native /usr/lib/lv2/lsp-plugins.lv2/limiter_stereo.ttl and plugin for optional speaker tuning; checked before writes"},
-    {"package": "bash", "binaries": ["bash"], "purpose": "Desktop process launch and shell helpers"},
+    {"package": "bash", "binaries": ["bash", "sh"], "purpose": "Desktop process launch and shell helpers"},
     {"package": "python", "binaries": ["python3"], "purpose": "Session launcher and plugin probes"},
-    {"package": "coreutils", "binaries": ["env", "install", "ls", "mkdir", "readlink", "rm", "timeout", "cp", "mktemp", "stat", "tee", "touch", "tr", "dirname"], "purpose": "Absolute host actions and state files"},
+    {"package": "coreutils", "binaries": ["env", "install", "ls", "mkdir", "readlink", "rm", "timeout", "cp", "mktemp", "stat", "tee", "touch", "tr", "dirname", "id", "mv"], "purpose": "Absolute host actions and state files"},
     {"package": "util-linux", "binaries": ["setpriv", "setsid"], "purpose": "Process lifetime and terminal launch"},
     {"package": "systemd", "binaries": ["busctl", "systemctl", "timedatectl"], "purpose": "User units, login/sleep and notification bus"},
     {"package": "hyprland", "binaries": ["Hyprland", "hyprctl"], "purpose": "Wayland session and Hyprland IPC; selected build must support the product's Lua dispatches"},
@@ -134,7 +136,7 @@
     {"package": "bluez", "binaries": [], "purpose": "Bluetooth daemon/pairing state; wrapped bluez client does not enable service"},
     {"package": "upower", "binaries": [], "purpose": "Native battery/power-source D-Bus telemetry"},
     {"package": "dconf", "binaries": [], "purpose": "User GTK settings D-Bus backend; wrapped glib/dconf clients and schemas supplied by commands"},
-    {"package": "asdcontrol", "binaries": ["asdcontrol"], "optional": true, "purpose": "Apple HID brightness only; native character devices and Polkit authorization; independently supplied build still needs proof"},
+    {"package": "tamlinux-native", "binaries": ["asdcontrol"], "optional": true, "purpose": "Owned native Apple HID provider and uncached Polkit action; VM package ownership verified, physical device proof pending"},
     {"package": "ttfx", "binaries": ["ttfx"], "optional": true, "purpose": "Retained screensaver effects; explicit unavailable failure; independently supplied build still needs proof"},
     {"package": "brightnessctl/udev", "binaries": [], "purpose": "Native backlight/LED ACLs, permissions and save/restore state; wrapped client alone grants no access"},
     {"package": "ddcutil/i2c-dev", "binaries": [], "purpose": "Native kernel I2C nodes and permissions; wrapped DDC client alone grants no access"}

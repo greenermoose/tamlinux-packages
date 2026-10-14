@@ -1,0 +1,59 @@
+{
+  "archiveSha256": "28aa4a14c1290c685c1239b38e81a683f13525bd3d4768d4b8e27a051f77edbd",
+  "candidateReady": false,
+  "files": [
+    {
+      "mode": "0o755",
+      "package": "tamlinux-native",
+      "path": "/usr/bin/asdcontrol",
+      "sha256": "aa3a466bb5aa2b1846f9b65ec32b78712eea0451a32910595675221afc47f385",
+      "uid": 0
+    },
+    {
+      "mode": "0o755",
+      "package": "tamlinux-native",
+      "path": "/usr/bin/tam-theme-set-browser-policy",
+      "sha256": "7def276d11ab5e99ada1b25d0874210f347d80ec490b69a89f81fb951d515041",
+      "uid": 0
+    },
+    {
+      "mode": "0o644",
+      "package": "tamlinux-native",
+      "path": "/usr/lib/tamlinux/browser_policy.py",
+      "sha256": "6745034ce7ab6b7aa95377c4b5088b6cedba5e6cfb0515604fbf602f109058d6",
+      "uid": 0
+    },
+    {
+      "mode": "0o755",
+      "package": "tamlinux-native",
+      "path": "/usr/lib/tamlinux/hyprland-reload-guard",
+      "sha256": "f36d066aa54704bf9ca3578364c3bb4c05823f4b12e1001d5f17efc83c0a064d",
+      "uid": 0
+    },
+    {
+      "mode": "0o644",
+      "package": "tamlinux-native",
+      "path": "/usr/share/wayland-sessions/tamlinux.desktop",
+      "sha256": "8615ffc04bcc504ed9d52cbe0f7f5e86b0b47fb65d4a3310a50aa95eed832ca6",
+      "uid": 0
+    },
+    {
+      "mode": "0o644",
+      "package": "tamlinux-native",
+      "path": "/usr/share/polkit-1/actions/org.tamlinux.native.policy",
+      "sha256": "090c580030af63337d1f1540383e0e0b47d7f775fd121d44a2996f44d57bb73d",
+      "uid": 0
+    },
+    {
+      "mode": "0o644",
+      "package": "tamlinux-native",
+      "path": "/usr/lib/tmpfiles.d/tamlinux.conf",
+      "sha256": "97a7a463cafdd10784458f800a2c392dc1ae1730ac5f202154bd04a77d8798c3",
+      "uid": 0
+    }
+  ],
+  "limits": "No physical display or interactive PAM authentication; independent browser policy consumption remains pending.",
+  "nativePolicy": "registered auth_admin; unprivileged authorization denied",
+  "rootBrowserAdapter": "apply and explicit restore preserve a later root write on native filesystem fixture",
+  "schema": 1
+}

@@ -1,0 +1,41 @@
+# Development integration recipe; no workstation installation or candidate tag.
+pkgname=tamlinux-native
+pkgver=0.4.2
+pkgrel=0.1
+pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
+arch=(x86_64)
+url='https://github.com/greenermoose/tamlinux'
+license=(GPL-3.0-or-later GPL-2.0-or-later MIT)
+depends=(bash python polkit hyprland jq glibc 'libstdc++')
+makedepends=(gcc make)
+source=(tamlinux-native-source.tar)
+sha256sums=('@SOURCE_SHA256@')
+
+build() {
+  make -C "$srcdir/tamlinux-native/asdcontrol"
+}
+
+check() {
+  "$srcdir/tamlinux-native/asdcontrol/asdcontrol" --help | grep -q brightness
+  bash -n "$srcdir/tamlinux-native/hyprland-reload-guard"
+  python -m py_compile "$srcdir/tamlinux-native/browser_policy.py"
+}
+
+package() {
+  cd "$srcdir/tamlinux-native"
+  install -Dm755 asdcontrol/asdcontrol "$pkgdir/usr/bin/asdcontrol"
+  install -Dm755 theme-browser-policy "$pkgdir/usr/bin/tam-theme-set-browser-policy"
+  install -Dm644 browser_policy.py "$pkgdir/usr/lib/tamlinux/browser_policy.py"
+  install -Dm755 hyprland-reload-guard "$pkgdir/usr/lib/tamlinux/hyprland-reload-guard"
+  install -Dm755 integration/session "$pkgdir/usr/bin/tamlinux-session"
+  install -Dm644 integration/tamlinux.desktop "$pkgdir/usr/share/wayland-sessions/tamlinux.desktop"
+  install -Dm644 integration/tamlinux.conf "$pkgdir/usr/lib/tmpfiles.d/tamlinux.conf"
+  install -Dm644 integration/org.tamlinux.native.policy "$pkgdir/usr/share/polkit-1/actions/org.tamlinux.native.policy"
+  for file in integration/*.hook; do
+    install -Dm644 "$file" "$pkgdir/usr/share/libalpm/hooks/${file##*/}"
+  done
+  install -Dm644 manifest.json "$pkgdir/usr/share/tamlinux/native-integration.json"
+  install -Dm644 integration/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE"
+  install -Dm644 asdcontrol/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-asdcontrol"
+  install -Dm644 guard-LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-reload-guard"
+}

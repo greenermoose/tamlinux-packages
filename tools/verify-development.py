@@ -70,8 +70,19 @@ def main():
     identities = json.loads(run('identities', ['nix', 'eval', '--json', *common,
                                               '--expr', metadata]).stdout)
     (report / 'identities.json').write_text(json.dumps(identities, indent=2) + '\n')
-    run('build', ['nix', 'build', '--json', '--no-link', *common,
-                  '--expr', expression.replace('RESULT', 'builtins.attrValues outputs')])
+    # Build the already selected snapshots. A later edit cannot silently make
+    # build results differ from the identities recorded above.
+    pinned = expression.replace('builtins.getFlake ' + nix_string(delivery),
+        'builtins.getFlake ' + nix_string(identities['deliverySnapshot']))
+    pinned = pinned.replace('snapshot ' + nix_string(product) + ' "tamlinux-development"',
+        'builtins.storePath ' + nix_string(identities['sourceSnapshot']))
+    pinned = pinned.replace('snapshot ' + nix_string(delivery) + ' "tamlinux-delivery-development"',
+        'builtins.storePath ' + nix_string(identities['deliverySnapshot']))
+    built = run('build', ['nix', 'build', '--json', '--no-link', *common,
+                         '--expr', pinned.replace('RESULT', 'builtins.attrValues outputs')])
+    actual = {value for item in json.loads(built.stdout) for value in item['outputs'].values()}
+    if actual != set(identities['outputs'].values()):
+        raise RuntimeError('Built output identities differ from selected development snapshots')
     outputs = identities['outputs']
     # Run snapshot scripts: the evidence then belongs to the same recipe tuple.
     snapshot = Path(identities['deliverySnapshot'])

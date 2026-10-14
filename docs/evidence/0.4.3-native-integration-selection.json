@@ -1,0 +1,39 @@
+{
+  "archive": "tamlinux-native-0.4.2-0.1-x86_64.pkg.tar.zst",
+  "archiveSha256": "28aa4a14c1290c685c1239b38e81a683f13525bd3d4768d4b8e27a051f77edbd",
+  "builder": "Independent offline Arch VM; native makepkg/GCC",
+  "candidateReady": false,
+  "manifest": {
+    "files": {
+      "asdcontrol/LICENSE": "dcc100d4161cc0b7177545ab6e47216f84857cda3843847c792a25289852dcaa",
+      "asdcontrol/Makefile": "bf6db8bd43fa7061c2b783a71fa68c8ad8591a10c65d10c2993188dba71c0cf9",
+      "asdcontrol/asdcontrol.cpp": "969c278c52a6f6c493f5ec7a84296fbf8462643d6178d79242625f3e0851f3c7",
+      "asdcontrol/origins.json": "0b74160ec1c8c6bfbcf2d91da51cfd30964b6c2e8c0f056aae50089741ea0b57",
+      "browser_policy.py": "6745034ce7ab6b7aa95377c4b5088b6cedba5e6cfb0515604fbf602f109058d6",
+      "guard-LICENSE": "717ba1949502290f8e47688ae2e323acd06c8ca47aec9f7596b15f678c1af4a2",
+      "hyprland-reload-guard": "f36d066aa54704bf9ca3578364c3bb4c05823f4b12e1001d5f17efc83c0a064d",
+      "integration/50-tamlinux-hyprland-pause.hook": "9ec3a0dde00f01b8728a72b6a4315cc911d68b32f36de86fef48fcf216a56633",
+      "integration/50-tamlinux-hyprland-resume.hook": "f5866c4b9eb955f328fad0e15b796bac4ffdbdec27e903a368e277213f17f96c",
+      "integration/LICENSE": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "integration/org.tamlinux.native.policy": "090c580030af63337d1f1540383e0e0b47d7f775fd121d44a2996f44d57bb73d",
+      "integration/session": "d453f21e16904b28a6fbff0dad2e6f2257052d86f1a5de45357c5ad7781fb7d2",
+      "integration/tamlinux.conf": "97a7a463cafdd10784458f800a2c392dc1ae1730ac5f202154bd04a77d8798c3",
+      "integration/tamlinux.desktop": "8615ffc04bcc504ed9d52cbe0f7f5e86b0b47fb65d4a3310a50aa95eed832ca6",
+      "theme-browser-policy": "7def276d11ab5e99ada1b25d0874210f347d80ec490b69a89f81fb951d515041"
+    },
+    "origin": "https://github.com/greenermoose/tamlinux",
+    "pending": [
+      "native root/security/service recovery beyond browser policies",
+      "KMS bridge",
+      "separate boot handoff",
+      "physical authentication/device proof"
+    ],
+    "productRevision": "development-uncommitted",
+    "schema": 1,
+    "scope": "Owned login registration, explicit browser/Apple authorization, reload hooks and transient elevation cleanup.",
+    "stage": "Develop; no candidate promotion"
+  },
+  "recipeSha256": "465e524b9ee982690bead3011f52d72558097e282b2416d40b2f141a4b79be54",
+  "schema": 1,
+  "sourceSha256": "973a25681f8e182c41a37c2e21cc44ac6a23dd7f199ff6e049fa205cc1793ebc"
+}

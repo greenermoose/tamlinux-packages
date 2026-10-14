@@ -204,6 +204,7 @@ in
           "TAMLINUX_QUICKSHELL=${cfg.quickshellPackage}/bin/quickshell"
           "TAMLINUX_QUICKSHELL_IPC=${cfg.quickshellPackage}/bin/qs"
         ] ++ [
+          "PATH=${config.home.homeDirectory}/.local/bin:${shell.passthru.runtimePath or "/usr/bin"}:/usr/bin"
           "QML_IMPORT_PATH=${config.home.homeDirectory}/.local/share/tamlinux/shell/modules"
           "QS_DISABLE_FILE_WATCHER=1"
           "QS_NO_RELOAD_POPUP=1"

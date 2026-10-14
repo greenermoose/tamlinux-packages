@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.tamlinux.session;
   shell = config.tamlinux.shell;
@@ -20,5 +20,39 @@ in {
       export TAMLINUX_QUICKSHELL_IPC=${shell.quickshellPackage}/bin/qs
     '';
     home.file.".local/bin/tamlinux-hyprland-session".source = "${shell.package}/bin/tamlinux-hyprland-session";
+    home.packages = [ pkgs.udiskie ];
+    fonts.fontconfig.enable = true;
+    xdg.configFile."xdg-desktop-portal/hyprland-portals.conf".text = ''
+      [preferred]
+      default=hyprland;gtk
+      org.freedesktop.impl.portal.FileChooser=gtk
+    '';
+    systemd.user.services.tam-crash-watch = {
+      Unit = {
+        Description = "Tamlinux process crash notifications";
+        After = [ "graphical-session.target" "tamlinux-shell.service" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecCondition = "${pkgs.bash}/bin/bash -c '! ${shell.commandPackage}/bin/tam-toggle-enabled crash-capture-off'";
+        ExecStart = "${shell.commandPackage}/bin/tam-crash-watch";
+        Restart = "on-failure";
+        RestartSec = 5;
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+    systemd.user.services.tamlinux-monitor-watch = {
+      Unit = {
+        Description = "Tamlinux Hyprland monitor recovery watch";
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+        ConditionEnvironment = "HYPRLAND_INSTANCE_SIGNATURE";
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${shell.commandPackage}/bin/tam-hyprland-monitor-watch";
+        KillMode = "control-group";
+      };
+    };
   };
 }

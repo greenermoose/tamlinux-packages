@@ -30,6 +30,13 @@ pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/session/hyprland.lua
   test -f ${files}/.config/uwsm/env.d/10-tamlinux.sh
   test -x ${files}/.local/bin/tamlinux-hyprland-session
+  test -x ${files}/.local/bin/tam-session-init
+  test -x ${files}/.local/bin/tam-migrate-desktop
+  test -f ${files}/.config/systemd/user/tamlinux-monitor-watch.service
+  test -f ${files}/.config/systemd/user/tam-crash-watch.service
+  test -f ${files}/.config/xdg-desktop-portal/hyprland-portals.conf
+  grep -q 'tam-toggle-enabled crash-capture-off' ${files}/.config/systemd/user/tam-crash-watch.service
+  grep -q 'FileChooser=gtk' ${files}/.config/xdg-desktop-portal/hyprland-portals.conf
   test ! -e ${files}/.config/tamlinux/hypr/monitors.lua
   grep -q ${q}/bin/qs ${files}/.config/uwsm/env.d/10-tamlinux.sh
   mkdir -p $out
