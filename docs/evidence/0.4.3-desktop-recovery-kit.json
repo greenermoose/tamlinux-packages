@@ -2298,7 +2298,7 @@
   },
   "productRevision": "cefc29873ba11c6010fe0b58eccdc1bfb71594c2",
   "recovery": {
-    "artifactDigest": "d9df2e151e4d1b9648ee612c426cdcf4dfad743001d822fd753583165d539335",
+    "artifactDigest": "92b8df30a30afaf5bbe3647a6ab5119615de23d632e222708404a59d6999d393",
     "installedVMProofs": {
       "absent-audio-proof.json": {
         "candidateReady": false,
@@ -2373,7 +2373,7 @@
   "schema": 1,
   "sourceSnapshot": "/nix/store/0janq0x9i1cshzymjxni61jlsxizgyxk-source",
   "stage": "Develop; inactive 0.4.3-a recovery preparation",
-  "tupleDigest": "adcfb65ff17ec729fb74e1353764da2bf5fa0f1b705ede30804309930ef37cf6",
+  "tupleDigest": "5ca1b13d06b9a6ee2c500902683a916fa79f173f688ab518deb0af2fb348e56a",
   "verification": {
     "deliveryTestsPassed": 89,
     "desktopTestsPassed": 531,
@@ -2381,6 +2381,7 @@
     "desktopTestsSkipped": 1,
     "deviceRecoveryGuardTestsPassed": 5,
     "installedIntegrationPassed": true,
-    "installedOutputProbesPassed": 76
+    "installedOutputProbesPassed": 76,
+    "originalAndProposedConsumerFilesVerified": true
   }
 }
