@@ -126,6 +126,7 @@ let
     tam-theme-refresh = themeTools;
     tam-theme-init = themeTools;
     tam-session-init = [ pkgs.python3 pkgs.coreutils ];
+    tam-desktop-mode = [ pkgs.python3 pkgs.coreutils ];
     tam-migrate-desktop = [ pkgs.python3 pkgs.coreutils pkgs.dconf pkgs.systemd pkgs.pulseaudio ];
     tam-theme-current = themeTools;
     tam-theme-list = themeTools;

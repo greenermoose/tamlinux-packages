@@ -75,3 +75,11 @@ bundle previously claimed that same binary path. It now owns
 collector agree on that endpoint. Existing native packages can remain installed
 through Desktop Test. The native development recipe advances to release 0.2;
 source staging checks pass, with archive/build validation following.
+
+The fresh preview keypad callbacks still could not switch desktops after the
+personal overrides were copied. Their standalone helper endpoint was absent,
+and the raw plugin script depends on backend/live-action variables supplied
+only by the shell. A new `tam-desktop-mode` command installs the same engine
+with paired immutable backend modules and an explicit live-action environment.
+Existing direct consumer links to the raw plugin need removal from the eventual
+Test consumer. The current normal-account session remains unchanged.
