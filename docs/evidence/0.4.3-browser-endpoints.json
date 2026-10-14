@@ -2255,7 +2255,7 @@
   "deliveryRevision": "021ab7cc72a7a3099de3651a48d7e26f4bb86c42",
   "deliverySnapshot": "/nix/store/2fln4pqz6n0mkzdrjgv0r0jq3jllna7x-tamlinux-delivery-development",
   "generation": "/nix/store/7y675q86nzs14pj05w9irl0pmabzk7wm-home-manager-generation",
-  "limits": "The browser, authorization, runtime and installed browser recovery checks bind to the committed outputs. Portal workflow observations precede the final generation. Formal tuple-bound gate acceptance, physical cases, native recovery and the reference Test kit remain open.",
+  "limits": "Browser, portal, authorization, runtime and installed browser recovery checks bind to the committed outputs. Formal tuple-bound gate acceptance, physical cases, native recovery and the reference Test kit remain open.",
   "outputs": {
     "commands": "/nix/store/fs6bwq9k8qv5q0bh5wj7axk0v2fj1c75-tamlinux-commands-0.4.2pre.d",
     "plugins": "/nix/store/lapqmn60wmcfxkxmy9ndjwpga22bl042-tamlinux-plugins-0.4.2pre.d",
@@ -2299,11 +2299,20 @@
     },
     "nativeHostTests": 7,
     "portal": {
-      "boundToFinalGeneration": false,
+      "boundToFinalGeneration": true,
       "cancelResponse": 1,
       "fileSelected": true,
-      "precedingGeneration": "/nix/store/hysg92wyyzxk0vhglzi9akb13axaiw6i-home-manager-generation",
-      "reportSha256": "f0904b3c19318e2b1b100a3f28c6de68b1d52b1901b69e08a31b05ca09c959e7",
+      "generation": "/nix/store/7y675q86nzs14pj05w9irl0pmabzk7wm-home-manager-generation",
+      "precedingObservation": {
+        "boundToFinalGeneration": false,
+        "cancelResponse": 1,
+        "fileSelected": true,
+        "precedingGeneration": "/nix/store/hysg92wyyzxk0vhglzi9akb13axaiw6i-home-manager-generation",
+        "reportSha256": "f0904b3c19318e2b1b100a3f28c6de68b1d52b1901b69e08a31b05ca09c959e7",
+        "screenCastStarted": true
+      },
+      "reportSha256": "1e9229f263472ff99132b024bebd4feae3004b4d079c8e6b321cd712af98a131",
+      "runnerSha256": "22e372d0809876c9e20625cd41d8fa4a9e8e61daa83e2b366877dd560621598c",
       "screenCastStarted": true
     },
     "recoveryTests": 16,

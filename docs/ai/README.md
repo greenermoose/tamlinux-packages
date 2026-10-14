@@ -26,3 +26,5 @@
 | 2026-10-09 | Owned menu delivery | Codex CLI 0.162.0 | gpt-6.1-sol | [Session](2026-10-09-menu-ownership.md) |
 | 2026-10-09 | Protect pending shell Test during activation | Codex CLI 0.162.0 | gpt-6.1-sol | [Session](2026-10-09-shell-test-guard.md) |
 | 2026-10-09 | First Nix package and deployment extraction | Codex CLI 0.162.0 | gpt-6.1-sol | [Session](2026-10-09-nix-extraction.md) |
+
+- [2026-10-14 — Final portal binding and monitor persistence](2026-10-14-monitor-persistence.md)

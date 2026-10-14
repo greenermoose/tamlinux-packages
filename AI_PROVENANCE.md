@@ -12,6 +12,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-14 | Final portal generation binding and monitor persistence continuation | [Session](docs/ai/2026-10-14-monitor-persistence.md) |
 | 2026-10-14 | Paired browser registrations and effective desktop endpoint checks | [Session](docs/ai/2026-10-14-desktop-endpoint-checks.md) |
 | 2026-10-13–14 | Settings recovery delivery and effective runtime observations | [Session](docs/ai/2026-10-13-0.4.3-recovery-continuation.md) |
 | 2026-10-10 | 0.4.3 clean Arch/Hyprland contract, package gap inventory and 17 audit regression tests | [Session](docs/ai/2026-10-10-0.4.3-clean-host-contract.md) |
