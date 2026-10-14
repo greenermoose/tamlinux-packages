@@ -28,3 +28,5 @@
 | 2026-10-09 | First Nix package and deployment extraction | Codex CLI 0.162.0 | gpt-6.1-sol | [Session](2026-10-09-nix-extraction.md) |
 
 - [2026-10-14 — Final portal binding and monitor persistence](2026-10-14-monitor-persistence.md)
+
+- [2026-10-14 — Exact desktop recovery kit](2026-10-14-desktop-recovery-kit.md)

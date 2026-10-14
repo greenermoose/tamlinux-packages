@@ -1,7 +1,7 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
-pkgver=0.4.2
-pkgrel=0.2
+pkgver=0.4.3
+pkgrel=0.1
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'

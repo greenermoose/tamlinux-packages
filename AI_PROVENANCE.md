@@ -104,3 +104,6 @@ Continuation: retained helpers, fresh application consumers, finite preserving
 migration and an independently built native integration package were developed
 and checked in the isolated Arch VM. Full readiness and boot handoff remain
 pending; the same session record describes the exact limits.
+
+Desktop recovery kit preparation: Codex CLI 0.162.1, `gpt-6.1-sol`.
+See [session record](docs/ai/2026-10-14-desktop-recovery-kit.md).
