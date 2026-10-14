@@ -1,0 +1,3247 @@
+{
+  "activeNativeKeyring": {
+    "exit": 0,
+    "files": [
+      {
+        "path": "/etc/pacman.d/gnupg/pubring.gpg",
+        "sha256": "e93a8f1b61b20ecdd2c1340186875f068a80cfefdf34eec2040b24a669bfc18e"
+      },
+      {
+        "path": "/etc/pacman.d/gnupg/trustdb.gpg",
+        "sha256": "2ffe0e92348a8639af680dd7cafc97eb5d348cfc5a924aad56f76d64a1d93de8"
+      }
+    ],
+    "inheritedUidKeys": [],
+    "primaryFingerprints": [
+      "02FD1C7A934E614545849F19A6234074498E9CEE",
+      "034D823DA2055BEE6A6BF0BB25EA6900D9EA5EBC",
+      "04CF0CD6F6EE93AE1896F58407D06351CA5B31BE",
+      "04DC3FB1445FECA813C27EFAEA4F7B321A906AD9",
+      "04F7A0E31E08D3E08D39AFEBD147F94364295E8C",
+      "051EAD6A6155389D69DA02E5EB763B4E9DB887A6",
+      "05C7775A9E8B977407FE08E69D4C5AA15426DA0A",
+      "07DFD3A0BC213FA12EDC217559B3122E2FA915EC",
+      "09AC932ED7B1EC1E2DA7C6797A08E72CD906F59E",
+      "0A9DDABB64B993D82AD45E4F32EAB0A976938292",
+      "0B20CA1931F5DA3A70D0F8D2EA6836E1AB441196",
+      "0CADAACF70F64C654E131B3111675C743429DDEF",
+      "0E87D6C3F9AF7FDED0C8588D22E3B67B4A86FDE7",
+      "0E8B644079F599DFC1DDC3973348882F6AC6A4C2",
+      "0F334D8698881578F65D2AE55ED514A45BD5C938",
+      "100A50E46DC2C244F838DCBFABD48F465F4434BD",
+      "109415E692007609CA7EBFE4001CF4810BE8D911",
+      "14E46FE5FD69F2E287E244DB632C3CC0D1C9CAF6",
+      "159F3A43AEB246C5746C033814BC4F30B3B92EBA",
+      "165E0FF7C48C226E1EC363A7F83424824B3E4B90",
+      "169704C6FB490C6892C7F23C37E0AF1FDA48F373",
+      "1A60DC44245D06FEF90623D6EEEEE2EEEE2EEEEE",
+      "1AB6C278FF41229BCF747B2C8DFDB575B0538C5D",
+      "1F7156C2AD7D3B15873C5E2940825C6BDD1A4146",
+      "209A36D43CE2E87DA861FC58539DFD48135182EF",
+      "2191B89431BAC0A8B96DE93D244740D17C7FD0EC",
+      "24E80F8B10FFDDEB4AD3C0D3D11E9FC4F7C9DA3C",
+      "25ACE777F62C5E5ACBF2C0474E532176DBAD6F47",
+      "2612B04099DBD9B9A3DD92A0456C7A9B91B842AE",
+      "262A58EC6C51F7EA395B2E2DFDC3040B92ACA748",
+      "27FFC4769E19F096D41D9265A04F9397CDFD6BB0",
+      "2AC0A42EFB0B5CBC7A0402ED4DC95B6D7BE9892E",
+      "2C118C620F02DB9AC1D0F9FA94DD2393DA2EE423",
+      "2E36D8620221482FC45CB7F2A91764759326B440",
+      "335A1BAD44C6A737C6ACB3D4B817191D947490D3",
+      "34C5D94FE7E7913E86DC427E7FB1A3800C84C0A5",
+      "355BDB97ED4724E6B3A450E7A3D9562A589874AB",
+      "3572FA2A1B067F22C58AF155F8B821B42A6FDCD7",
+      "38100C24376CD5F6ED4FF4B46918400C2703040C",
+      "38EDD1886756924E1224E49524E4CDB0013C2580",
+      "39F880E50E49A4D11341E8F939E4F17F295AFBF4",
+      "3DCE51D60930EBA47858BA4146F633CBB0EB4BF2",
+      "3E518BF2526FD1979E8AAE4965C110C1EA433FC7",
+      "3E80CA1A8B89F69CBA57D98A76A5EF9054449A5C",
+      "3FFA6AB7B69AAE6CCA263DDE019A7474297D8577",
+      "40440DC037C05620984379A6761FAD69BA06C6A9",
+      "40776A5221EF5AD468A4906D42A1DB15EC133BAD",
+      "42DFAFB7C03B2E4E7BBDBA69930B82BFC2BDA011",
+      "44A62127789A949F2F082ED429C71CE612B57264",
+      "44D4A033AC140143927397D47EFD567D4C7EA887",
+      "44EA62ACDBC81B6A0D1FD267206CBC892D1493D2",
+      "481C4474AF1572165AE4C6AF3FDDD575826C5C30",
+      "487EACC08557AD082088DABA1EB2638FF56C0C53",
+      "48C3B1F30DDD0FE67E516D16396E3E25BAB142C1",
+      "4A8B17E20B88ACA61860009B5CED81B7C2E5C0D2",
+      "4AA4767BBC9C4B1D18AE28B77F2D434B9741E8AC",
+      "4B1DE545A801D4549BFD3FEF90CB3D62C13D4796",
+      "4BE61D684CB4E31741614E7089AA27231C530226",
+      "4D913AECD81726D9A6C74F0ADA6426DD215B37AD",
+      "4FCF887689C41B09506BE8D5F3E1D5C5D30DB0AD",
+      "50F33E2E5B0C3D900424ABE89BDCF497A4BBCC7F",
+      "5134EF9EAF65F95B6BB1608E50FB9B273A9D0BB5",
+      "531ECF3644A44FEA0B47DBCDE1E3CF0539448BFF",
+      "5357F3B111688D88C1D88119FCF2CB179205AC90",
+      "535F8C0339450F054A4D282706096A6AD1CEDDAC",
+      "54C1FD273361EA514A237793F296BDE50368C6CE",
+      "54EB4D6DB209862C8945CACCED84945B35B2555C",
+      "5559BC1A32B8F76B3FCCD9555FA5E5544F010D48",
+      "5696C003B0854206450C8E5BE613C09CB4440678",
+      "56C3E775E72B0C8B1C0C1BD0B5DB77409B11B601",
+      "5A2257D19FF7E1E0E415968CE62F853100F0D0F0",
+      "5B7E3FB71B7F10329A1C03AB771DF6627EDF681F",
+      "5C81C9D6C8D7475DF65A0C884FE7F4FEAC8EBE67",
+      "5E6D49448958B384301F1F22498EF247F340C1E0",
+      "5E7585ADFF106BFFBBA319DC654B877A0864983E",
+      "601F20F1D1BBBF4A78CF5B6DF6B1610B3ECDBC9F",
+      "60939E55F6D5ABF7EE419F08B1A1D3C5F2DF9BC5",
+      "63F395DE2D6398BBE458F281F2DBB4931985A992",
+      "64B13F7117D6E07D661BBCE0FE763A64F5E54FD6",
+      "65EEFE022108E2B708CBFCF7F9E712E59AF5F22A",
+      "6645B0A8C7005E78DB1D7864F99FFE0FEAE999BD",
+      "66BD74A036D522F51DD70A3C7F2A16726521E06D",
+      "684148BB25B49E986A4944C55184252D824B18E8",
+      "69DA34D78FE0EFD596AC6D049D893EC4DAAF9129",
+      "69E6471E3AE065297529832E6BA0F5A2037F4F41",
+      "69F8E5E5E85F771020A0777C3D309011083BA25E",
+      "6C7F7F22E0152A6FD5728592DAD6F3056C897266",
+      "6DAF7B808F9DF25139620000D21461E3DFE2060D",
+      "6EA3F3F3B9082632A9CBE931D53A0445B47A0DAB",
+      "717026A9D4779FC53940726640F557B731496106",
+      "75BD80E4D834509F6E740257B1B73B02CC52A02A",
+      "76B4192E902C0A52642C63C273B8ED52F1D357C1",
+      "779CD2942629B7FA04AB8F172E89012331361F01",
+      "7FA647CD89891DEDC060287BB9113D1ED21E1A55",
+      "80247D99EABD3A4D1E3A1836E85B8683EB48BC95",
+      "81D7F8241DB38BC759C80FCE3A726C6170E80477",
+      "8218F88849AAC522E94CF470A5E9288C4FA415FA",
+      "83BC8889351B5DEBBB68416EB8AC08600F108CDF",
+      "86CFFCA918CF3AF47147588051E8B148A9999C34",
+      "8742F7535E7B394A1B048163332C9C40F40D2072",
+      "8840BD07FC24CB7CE394A07CCF7037A4F27FB7DA",
+      "89E7B9331C4AE7D7FAF7D305C132293954BBE4AD",
+      "8A9BC5819C54FEB3DC2A9B48C32217F6F13FF192",
+      "8AA2213C8464C82D879C8127D4B58E897A929F2E",
+      "8CF934E339CAD8ABF342E822E711306E3C4F88BC",
+      "8E1992167465DB5FB045557CB02854ED753E0F1F",
+      "8F76BEEA0289F9E1D3E229C05F946DED983D4366",
+      "8FC15A064950A99DD1BD14DD39E4B877E62EB915",
+      "8FE6A7D4CC42C83C9BCCA8E32DA2ACC3ECE4DCE6",
+      "903BAB73640EB6D65533EFF3468F122CE8162295",
+      "91BD8815FE0040FA7FF5D68754C28F4FF5A1A949",
+      "91FFE0700E80619CEB73235CA88E23E377514E00",
+      "9437DD3815A7A9169E3D3946AFF5D95098BC6FF5",
+      "9515D8A8EAB88E49BB65EDBCE6B456CAF15447D5",
+      "95220BE99CE6FF778AE0DC670F65C7D881506130",
+      "954A3772D62EF90E4B31FBC6C91A9911192C187A",
+      "95DE40F38499D2B47CFD3C827D491221077411FE",
+      "962855F072C7A01846405864FCF3C8CB5CF9C8D4",
+      "9674D4ED3DFB6ADCC4F9F1EA1C736AEF96402E7C",
+      "97312D5EB9D7AE7D0BD4307351DAE9B7C1AE9161",
+      "991F6E3F0765CF6295888586139B09DA5BF0D338",
+      "99B6618472A3B3B814185BAED7D3D823B88BDB9B",
+      "9D74DF6F91B7BDABD5815CA84AC5588F941C2A25",
+      "A2FF3A36AAA56654109064AB19802F8B0D70FC30",
+      "A314827C4E4250A204CE6E13284FC34C8E4B1A25",
+      "A4CBEA7974898599195E4FEC46EC46F39F3E2EF1",
+      "A5CA9D5515DC2CA73DF748CA5C2E46A0F53A76ED",
+      "A667E8A1B61D07A50FC430DF69DF1F2EB44B05BE",
+      "A84B8DC73AB832067BE54C3C976AC6FA3B94FA10",
+      "A9B6710D760F6617C530746EC847B6AEB0544167",
+      "AB19265E5D7D20687D303246BA1DFB64FFF979E7",
+      "ADC8A1FCC15E01D45310419E94657AB20F2A092B",
+      "B1F2C889CB2CCB2ADA36D963097D629E437520BD",
+      "B4B759625D4633430B74877059E43E106B247368",
+      "B5971F2C5C10A9A08C60030F786C63F330D7CB92",
+      "B81B051F2D7FC867AAFF35A58DBD63B82072D77A",
+      "BC08D317EC2DC6E1F337DB4FC4EE8370D5490BD3",
+      "BC1FBE4D2826A0B51E47ED62E2539214C6C11350",
+      "BD27B07A5EF45C2ADAF70E0484818A6819AF4A9B",
+      "BE2DBCF2B1E3E588AC325AEAA06B49470F8E620A",
+      "BFA1ECFEF1524EE4099CDE971F0CD4921ECAA030",
+      "C100346676634E80C940FB9E9C02FF419FECBE16",
+      "C521846436D75A3294795B27B4360204B250F0D3",
+      "C5D2A6E0ED2D11C66B9FA2A306313911057DD5A8",
+      "C7E7849466FE2358343588377258734B41C31549",
+      "CAA1D2323A05219AA2F01AA4E642299183ED727E",
+      "CAAE0C97533C35D3A0C6C34066E60E5F785A6824",
+      "CB33B736591A9CA06098A9A5FCAC9CF5A6EE1209",
+      "CB5F69140E781CBEE262C4E21AB16E76811A0002",
+      "CC5967D4095B4F3B42D45FA081A402D4F382BBBD",
+      "CCB34EBBB9541EF3F7B366C1D4A753468A5A5B67",
+      "CE0BDE71A759A87F23F0F7D8B61DBCE10901C163",
+      "CE536327AED18EABC3B99A17F4AA4E0ED2568E87",
+      "CFA6AF15E5C74149FC1D8C086D1655C14CE1C13E",
+      "D2E95FEC015CF1F911AAAB0C3D4C5008BB5C8D29",
+      "D4DE5ABDE2A7287644EAC7E36D1A9E70E19DAA50",
+      "D89FAAEB4CECAFD199A2F5E612C6F735F7A9A519",
+      "D8AFDDA07A5B6EDFA7D8CCDAD6D055F927843F1C",
+      "D921CABED130A5690EF1896E81AF739EC0711BF1",
+      "DB2277BCD500AA3825610BDDDB323392796CA067",
+      "DB310957BB30360A67311D87886D7ACFED689539",
+      "DB5B4A9546601F945389C66940AC6F48D55AB11D",
+      "DBE7D3DD8C81D58D0A13D0E76BC26A17B9B7018A",
+      "DDB867B92AA789C165EEFA799B729B06A680C281",
+      "E240B57E2C4630BA768E2F26FC1B547C8D8172C8",
+      "E499C79F53C96A54E572FEE1C06086337C50773E",
+      "E62545315B012B69C8C94A1D56EC201BFC794362",
+      "E7210A59715F6940CF9A4E36A001876699AD6E84",
+      "E87E5B39F04A5D889D8C0147F6D84143496F6680",
+      "EA84EA00866F51FB10CD19AE426991CD8406FFF3",
+      "EB4F9E5A60D32232BB52150C12C87A28FEAC6B20",
+      "EC3CBE7F607D11E663149E811D1F0DC78F173680",
+      "ECCAC84C1BA08A6CC8E63FBBF22FB1D78A77AEAB",
+      "F00B96D15228013FFC9C9D0393B11DAA4C197E3D",
+      "F3691687D867B81B51CE07D9BBE43771487328A9",
+      "F378F4968DB4E4A8488259C62BAC87100D5CD322",
+      "F4DDD6DDCEC320B665F502AAE8F18BA1615137BC",
+      "F5A361A3A13554B85E57DDDAAF7EF7873CFD4BB6",
+      "F648622B1715468FD654F45CB7310AE5F04569AE",
+      "F850562FCDA369F80D33000AE48D0A8326DE47C5",
+      "FB871F0131FEA4FB5A9192B4C8880A6406361833",
+      "FE2E6249201CA54A4FB90D066E80CA1446879D04",
+      "FE5AFA6D5DE0070ADFA21BC5E074B83653CBB7BA"
+    ],
+    "scope": "Read existing native public keys without trust-database refresh or key retrieval; staged archive signature checks remain separate."
+  },
+  "candidateReady": false,
+  "collectorSha256": "65a83f6799d8818a0285b298977201dd9fb6c6a5bad451eb9082a46d284e430f",
+  "egress": {
+    "observations": [
+      {
+        "attempted": true,
+        "elapsedSeconds": 0.011,
+        "endpoint": "1.1.1.1:443",
+        "kind": "tcp-connect",
+        "outcome": "OSError"
+      },
+      {
+        "attempted": true,
+        "clientSha256": "450474f8939a71e297282400fc83176a9532da9f8ab84524c2f2ed42e96748cc",
+        "elapsedSeconds": 3.008,
+        "endpoint": "https://archlinux.org/",
+        "exit": 28,
+        "kind": "dns-https",
+        "stderr": "curl: (28) Resolving timed out after 3001 milliseconds\n",
+        "transfer": "000 0"
+      }
+    ],
+    "scope": "Bounded explicit probes to independent endpoints. This does not trace every application or establish absence of inherited fallback attempts."
+  },
+  "limits": "Bind these observations to one complete artifact tuple and required-case proofs; this report alone does not close I02/I05.",
+  "native": {
+    "criticalFiles": [
+      {
+        "mode": "0o755",
+        "packages": [
+          "hyprland"
+        ],
+        "path": "/usr/bin/Hyprland",
+        "present": true,
+        "sha256": "3f24fa0bdd942ce56a263683ef2ef8ad1f464ed75807c6edbde6889bdbc304ba",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "hyprland"
+        ],
+        "path": "/usr/bin/hyprctl",
+        "present": true,
+        "sha256": "216626238918e53a3a8518fb892b4739998d6847711ba7b96ee2be13379f8c66",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "uwsm"
+        ],
+        "path": "/usr/bin/uwsm",
+        "present": true,
+        "sha256": "e70db6575464192ded4f7f80ad309fc26c16a69d5a9a8bda318cbd34b6aa0001",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "uwsm"
+        ],
+        "path": "/usr/bin/uwsm-app",
+        "present": true,
+        "sha256": "8be631abfe3671f618ba4d4866ba85c4d79bd58c15a5afd9065e4cc5a42bbc4c",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "quickshell"
+        ],
+        "path": "/usr/bin/quickshell",
+        "present": true,
+        "sha256": "2dc99382c032710fe495ed115cdee9dc9c69bdb3a21af4d86a9a8ea16733069b",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "quickshell"
+        ],
+        "path": "/usr/bin/qs",
+        "present": true,
+        "sha256": "2dc99382c032710fe495ed115cdee9dc9c69bdb3a21af4d86a9a8ea16733069b",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "xdg-terminal-exec"
+        ],
+        "path": "/usr/bin/xdg-terminal-exec",
+        "present": true,
+        "sha256": "89f2be9a65deb8df93633a9a09b4953a921c83d591ab987f7569280ecd3127ac",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/bin/asdcontrol",
+        "present": true,
+        "sha256": "aa3a466bb5aa2b1846f9b65ec32b78712eea0451a32910595675221afc47f385",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/bin/tam-theme-set-browser-policy",
+        "present": true,
+        "sha256": "7def276d11ab5e99ada1b25d0874210f347d80ec490b69a89f81fb951d515041",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/lib/tamlinux/browser_policy.py",
+        "present": true,
+        "sha256": "6745034ce7ab6b7aa95377c4b5088b6cedba5e6cfb0515604fbf602f109058d6",
+        "uid": 0
+      },
+      {
+        "mode": "0o755",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/lib/tamlinux/hyprland-reload-guard",
+        "present": true,
+        "sha256": "f36d066aa54704bf9ca3578364c3bb4c05823f4b12e1001d5f17efc83c0a064d",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/share/wayland-sessions/tamlinux.desktop",
+        "present": true,
+        "sha256": "8615ffc04bcc504ed9d52cbe0f7f5e86b0b47fb65d4a3310a50aa95eed832ca6",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/share/polkit-1/actions/org.tamlinux.native.policy",
+        "present": true,
+        "sha256": "090c580030af63337d1f1540383e0e0b47d7f775fd121d44a2996f44d57bb73d",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/lib/tmpfiles.d/tamlinux.conf",
+        "present": true,
+        "sha256": "97a7a463cafdd10784458f800a2c392dc1ae1730ac5f202154bd04a77d8798c3",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/share/libalpm/hooks/50-tamlinux-hyprland-pause.hook",
+        "present": true,
+        "sha256": "9ec3a0dde00f01b8728a72b6a4315cc911d68b32f36de86fef48fcf216a56633",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "tamlinux-native"
+        ],
+        "path": "/usr/share/libalpm/hooks/50-tamlinux-hyprland-resume.hook",
+        "present": true,
+        "sha256": "f5866c4b9eb955f328fad0e15b796bac4ffdbdec27e903a368e277213f17f96c",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "hyprlock"
+        ],
+        "path": "/etc/pam.d/hyprlock",
+        "present": true,
+        "sha256": "f4f8c269ef8a2ad86d1ab42bb4ca7b719663e632b12ce21ac9aee19bf6e1272d",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "archlinux-keyring"
+        ],
+        "path": "/usr/share/pacman/keyrings/archlinux.gpg",
+        "present": true,
+        "sha256": "6e5e9373e4684d646f2274e2df54d7fea5f79bc0df981ad8cd7851d1d2454ba3",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "archlinux-keyring"
+        ],
+        "path": "/usr/share/pacman/keyrings/archlinux-trusted",
+        "present": true,
+        "sha256": "384c7daf07a89ec6610859142b009ca5c0b3062ed3ab2d3c50629fef9d002e8f",
+        "uid": 0
+      },
+      {
+        "mode": "0o644",
+        "packages": [
+          "archlinux-keyring"
+        ],
+        "path": "/usr/share/pacman/keyrings/archlinux-revoked",
+        "present": true,
+        "sha256": "aafbc33d6be7e200dd6226dbb467623a38a00db431826258bccfaf5cebfef6a1",
+        "uid": 0
+      }
+    ],
+    "findings": [],
+    "keyrings": [
+      {
+        "packages": [
+          "archlinux-keyring"
+        ],
+        "path": "/usr/share/pacman/keyrings/archlinux-revoked",
+        "sha256": "aafbc33d6be7e200dd6226dbb467623a38a00db431826258bccfaf5cebfef6a1"
+      },
+      {
+        "packages": [
+          "archlinux-keyring"
+        ],
+        "path": "/usr/share/pacman/keyrings/archlinux-trusted",
+        "sha256": "384c7daf07a89ec6610859142b009ca5c0b3062ed3ab2d3c50629fef9d002e8f"
+      },
+      {
+        "packages": [
+          "archlinux-keyring"
+        ],
+        "path": "/usr/share/pacman/keyrings/archlinux.gpg",
+        "sha256": "6e5e9373e4684d646f2274e2df54d7fea5f79bc0df981ad8cd7851d1d2454ba3"
+      }
+    ],
+    "os": {
+      "ID": "arch",
+      "NAME": "Arch Linux"
+    },
+    "packages": [
+      {
+        "metadataSha256": "1aff4b5efedc80f8bc2badfae23eabcc92cbe8c7c7c22ffb62c409c2fa91022d",
+        "name": "abseil-cpp",
+        "version": "20260817.0-2"
+      },
+      {
+        "metadataSha256": "5d8058277254f1a0fb55d955eb538c86351348975b069c4bf737bd3d5a1ca122",
+        "name": "acl",
+        "version": "2.4.0-1"
+      },
+      {
+        "metadataSha256": "d63320a3f2b6c38b79cb95583217c629b6c2463e749d09af0e6cb01dbe91ca95",
+        "name": "adwaita-cursors",
+        "version": "50.0-1"
+      },
+      {
+        "metadataSha256": "e52fcf5b32af6a87106f9afebef72aebb2ea45300f28eee680cf10ab71a21f88",
+        "name": "adwaita-fonts",
+        "version": "51.0-2"
+      },
+      {
+        "metadataSha256": "b434f6f139dedeb2d0e36ed3f52f1fe9a56556808940339332b47955d677740e",
+        "name": "adwaita-icon-theme",
+        "version": "50.0-1"
+      },
+      {
+        "metadataSha256": "6424de4efadbc88c8cb90f299f2907fffbfc60d5937d56361f244b319f7e88be",
+        "name": "adwaita-icon-theme-legacy",
+        "version": "46.2-3"
+      },
+      {
+        "metadataSha256": "661852795df7cd78383aadd8d01003fa4bedf198287552df76b6c32c4a3bdc05",
+        "name": "alacritty",
+        "version": "0.17.0-1"
+      },
+      {
+        "metadataSha256": "32107d2a1dbd7e029ca77b0355290ef49142a4738832bceb6c1b337c4854f6e8",
+        "name": "alsa-card-profiles",
+        "version": "1:1.6.9-1"
+      },
+      {
+        "metadataSha256": "38fba6c2135b2fafa3e19741cd3237c09cef59f6fc1d9d912f79d08d8c3c2a47",
+        "name": "alsa-lib",
+        "version": "1.2.16.1-1"
+      },
+      {
+        "metadataSha256": "2fc6348c93bbab46cb35dbec4856887b189635dca66a56541ef8c073092c6b97",
+        "name": "alsa-topology-conf",
+        "version": "1.2.5.1-4"
+      },
+      {
+        "metadataSha256": "2025a98cb420c6fd3136e46d8e422c893a64b9222a6717125b1dc44b9a81aaa8",
+        "name": "alsa-ucm-conf",
+        "version": "1.2.16.1-1"
+      },
+      {
+        "metadataSha256": "588be23fa8b4f26d8800fc9da788426903ad72499f75bce6fafd6b36a1e96841",
+        "name": "aom",
+        "version": "3.15.1-1"
+      },
+      {
+        "metadataSha256": "58624f84a5a55df1caaffeb6ebae4f66e4f4b4523c4b02c8d3a5fa76256c66d8",
+        "name": "aquamarine",
+        "version": "0.15.1-1.1"
+      },
+      {
+        "metadataSha256": "6dab7c244fc062345a1a34a13967e4ab83a77c0c10251707a4557692e3db17d3",
+        "name": "archlinux-keyring",
+        "version": "20260909-1"
+      },
+      {
+        "metadataSha256": "6b0a0c81d5492dfe062bfa7d693010d1354653f42639cd1cd4cdca7dc8f7918a",
+        "name": "at-spi2-core",
+        "version": "2.60.7-1"
+      },
+      {
+        "metadataSha256": "ddebf15b5a89e7f7610a6aff25f0402663d427e4208157ae4d5126e3490830a0",
+        "name": "attr",
+        "version": "2.6.0-1"
+      },
+      {
+        "metadataSha256": "9bbe9741dad6ee2e9e208973f5de1f77872bbe7e82c632163fa49cd2d6797f14",
+        "name": "audit",
+        "version": "4.2.1-1"
+      },
+      {
+        "metadataSha256": "f341222d99bba2c0c5e553e432b8ebaa3e70b15d6e4c203746112430bbecb7f9",
+        "name": "autoconf",
+        "version": "2.73-1"
+      },
+      {
+        "metadataSha256": "115f1917038b0c12fc96415b5565c2c2c8a0a7bd0204af79df6c7460a6203655",
+        "name": "automake",
+        "version": "1.19-1"
+      },
+      {
+        "metadataSha256": "7e21a5722995183df8d15c07fed7aa35ccdfa9cd97d75e23c2e39c9cb368b3ab",
+        "name": "avahi",
+        "version": "1:0.9rc5-1"
+      },
+      {
+        "metadataSha256": "1730dec701322789bbeb233863466a53710399573d47cf9f6b0d6042f9c77821",
+        "name": "aws-c-auth",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "6b2146693335b03c6a5199a82ea2e1fd6dc0236d05278e180a19d334d19744c4",
+        "name": "aws-c-cal",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "eba91fb3b454238785a72e12f8bb1d456db88ae91c0e6439b377c92d5cf294fa",
+        "name": "aws-c-common",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "df370b6607ae73fa5813dbeb1900599e9311b75fc537e8d1fc4e36bd5cc22098",
+        "name": "aws-c-compression",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "01c526cfba4e5cb1ce469ba1dd841f3bf2724f78193b8f431df2b84a961a0bef",
+        "name": "aws-c-event-stream",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "4070172a3ad687e49d322528480ede5c3ea3b219eb30da284d6ef0f8c3ca5ff1",
+        "name": "aws-c-http",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "58e618256ad9922f794334562dd202295dca22b1ef117b71d40b37ffb4a826d1",
+        "name": "aws-c-io",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "5ddf7594c37e27620a4b5e49fec1b12810913bfd42c5c88a234d6daf2ab313c7",
+        "name": "aws-c-mqtt",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "69316d0171140b32fc90995fe7764fccc69580a819ce81f4946ea73fde361e71",
+        "name": "aws-c-s3",
+        "version": "1.1.2-1"
+      },
+      {
+        "metadataSha256": "011ec6cf75ec147d1332ca439b545fcaf5fbf06e09a56ce99f99dc9808170ef5",
+        "name": "aws-c-sdkutils",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "d141d5dbc07eb12bbdcb5c512f111ad549dc39cd067f4bae15062be95e1e1a69",
+        "name": "aws-checksums",
+        "version": "1.0.0-1"
+      },
+      {
+        "metadataSha256": "6abca9eb025da3910b3843d9c835646eb3e56229f55f42add48723b3fcad034c",
+        "name": "aws-crt-cpp",
+        "version": "0.43.7-1"
+      },
+      {
+        "metadataSha256": "f14b5ae696d46fbf14ea1a467662a39d1baf85c8e9f77a268c7514489d6615c5",
+        "name": "base",
+        "version": "3-3"
+      },
+      {
+        "metadataSha256": "df04de20cb74aae4f2022e86fb2e90e32906665e272638af4825058c1b314ab7",
+        "name": "base-devel",
+        "version": "1-2"
+      },
+      {
+        "metadataSha256": "e1c16fd319c6a00168f3ab03ffb2b82255d0bc5281174794a8c4ace68e68f10d",
+        "name": "bash",
+        "version": "5.3.20-1"
+      },
+      {
+        "metadataSha256": "15bec50e86f0196472054597004e0e0c2904feed09a31bceb11cd61167f768b4",
+        "name": "binutils",
+        "version": "2.47-4"
+      },
+      {
+        "metadataSha256": "b137f7fef84036823cb99afdae84298868256312a77c7e79482ed3599bd25b14",
+        "name": "bison",
+        "version": "3.8.2-8"
+      },
+      {
+        "metadataSha256": "f7e6c3ab912a58cc0fdbf645393e70a1a2ffab8690f25c42d71190ec75dd2d68",
+        "name": "bluez",
+        "version": "5.87-2"
+      },
+      {
+        "metadataSha256": "8c446bf0688279378fd2801e0170b5c920a14180d499f2846bd1dac9abd6f9a7",
+        "name": "bluez-libs",
+        "version": "5.87-2"
+      },
+      {
+        "metadataSha256": "be27809dd85c60099ad0f5d4c76708af1a3d63204f005f690d23c38196e4b7b5",
+        "name": "boost-libs",
+        "version": "1.92.0-1"
+      },
+      {
+        "metadataSha256": "e618740c629f2fde03b4775f9e0fcdf8b02a6761111e676ebeb75c943605eafc",
+        "name": "brightnessctl",
+        "version": "0.5.1-3"
+      },
+      {
+        "metadataSha256": "dd1f439d99d10128b42e86802a22081b0306b4c3424fb5db7200e6701552e9ef",
+        "name": "brotli",
+        "version": "1.2.0-1"
+      },
+      {
+        "metadataSha256": "fae5816ddaf3879002808ad980ec44074ae9474e3573468590c8aef29a5c463f",
+        "name": "btrfs-progs",
+        "version": "7.1-1"
+      },
+      {
+        "metadataSha256": "dc067a95bb01fba676696b0a62d3000871e996e6b64c82b401e917e5f4d4750e",
+        "name": "bubblewrap",
+        "version": "0.13.0-1"
+      },
+      {
+        "metadataSha256": "915d0dd32c5500bdbba9ed28f9ed8c3ce5296e938c348f8a768d523da21c4142",
+        "name": "bzip2",
+        "version": "1.0.8-6"
+      },
+      {
+        "metadataSha256": "22a03fcdc4b88eb47f8334919cb98088aa833d9a9fd8946ba8c42b0b91e07784",
+        "name": "ca-certificates",
+        "version": "20240618-1"
+      },
+      {
+        "metadataSha256": "90b04a86b90b5c40e54c5a437722b22878d289339f824d9d6b6a3370fc1890e3",
+        "name": "ca-certificates-mozilla",
+        "version": "3.130-1"
+      },
+      {
+        "metadataSha256": "c2477e783d6b0c5cfcd8e9c72c449ed0adf56de4624c8e85a3be8012038ce333",
+        "name": "ca-certificates-utils",
+        "version": "20240618-1"
+      },
+      {
+        "metadataSha256": "115d30a963ded89a6578cf45e24b30540eb464511742712d7d797f9cdaa31527",
+        "name": "cairo",
+        "version": "1.18.6-1"
+      },
+      {
+        "metadataSha256": "db043dd84a100dc0725f07fe0531a70cddf18466b236d26f60358446a12c9ce7",
+        "name": "cloud-guest-utils",
+        "version": "0.33-3"
+      },
+      {
+        "metadataSha256": "1d95f90725053cb2b7a82a9fa43f3ba94561bb26aff4c8870390a5f0d4fabfe3",
+        "name": "cloud-init",
+        "version": "26.2-1"
+      },
+      {
+        "metadataSha256": "6b0074b97325313bd9ce24200d8cbd36267cb6deaa831c9aaa969974787aa5c3",
+        "name": "coreutils",
+        "version": "9.12-2"
+      },
+      {
+        "metadataSha256": "ec5be879ff3d6d5387fc6dbc9193056c6b9adebaf4cd2f1c16cccf9b2af31de2",
+        "name": "cpio",
+        "version": "2.15-3"
+      },
+      {
+        "metadataSha256": "63053399dedf5e271784e5352beb7ceaeaf45776b2ef981cc570ec5d6433d0ce",
+        "name": "cpptrace",
+        "version": "1.0.4-2"
+      },
+      {
+        "metadataSha256": "6b1a99fb227e03a79379fee528c588378b9d2ae58052f572ac86535e5ce20855",
+        "name": "cryptsetup",
+        "version": "2.8.8-1"
+      },
+      {
+        "metadataSha256": "b7500c1ec39f30042d0b2ecb037f1e344e5c9c0a5ad3cd2e48d92fa0d1a150ec",
+        "name": "curl",
+        "version": "8.22.0-1"
+      },
+      {
+        "metadataSha256": "a609504be96723424282a786493423248a29f4e9acf91e3a0b59d9aebbaf9939",
+        "name": "dav1d",
+        "version": "1.5.4-1"
+      },
+      {
+        "metadataSha256": "d402196a53e4ca9fd877d5d6dac437a3e67c50a1846dbd3278b52eb1480f391e",
+        "name": "db5.3",
+        "version": "5.3.28-7"
+      },
+      {
+        "metadataSha256": "404132b4145bacb4005feaf71f676eb715fd1497140c31e31798bdbf93e7ab34",
+        "name": "dbus",
+        "version": "1.16.2-1"
+      },
+      {
+        "metadataSha256": "8a755a7e652bf8be1f5ee2c4d1a25cc404a2c32a6f53a8ce008a280b1f671333",
+        "name": "dbus-broker",
+        "version": "37-3"
+      },
+      {
+        "metadataSha256": "6712847ffcaacb250a65a9df128ba6e6aa9b747d27eed5121478f2bbe109e95b",
+        "name": "dbus-broker-units",
+        "version": "37-3"
+      },
+      {
+        "metadataSha256": "d56b1d78db83557eaf7053ad1c2090c9ddaf2ec4ff8ae0cae25aac64126ad366",
+        "name": "dbus-units",
+        "version": "37-3"
+      },
+      {
+        "metadataSha256": "7455783ea088bb3dd6ee140ae05e6d589511ed0bec76732f1afce275d0ea49fe",
+        "name": "dconf",
+        "version": "0.49.0-1"
+      },
+      {
+        "metadataSha256": "dfa37d7a30a62fed4929e5a3876d8b81ffc164fb149ac45620d76bc249599ea4",
+        "name": "ddcutil",
+        "version": "3.0.2-1"
+      },
+      {
+        "metadataSha256": "db0b0067f40e347aa3f3cce7e32e13079d8dbf77bcfe9f696cd7a0fecf253eb4",
+        "name": "debugedit",
+        "version": "5.3-2"
+      },
+      {
+        "metadataSha256": "23aeff7b58c1a16794e0b2cfc8f396e8ac66b66fe4013ac6b3d6beb8250951ee",
+        "name": "default-cursors",
+        "version": "3-1"
+      },
+      {
+        "metadataSha256": "8de45e25c45a54e209f62e47cc1583d1a10d1e4558461071d3134059d8ca470d",
+        "name": "desktop-file-utils",
+        "version": "0.28-1"
+      },
+      {
+        "metadataSha256": "a3af69d09ded87978209ba8d1795d6a4fbaaea5eee4b20849644dfea198c6fd3",
+        "name": "device-mapper",
+        "version": "2.03.43-2"
+      },
+      {
+        "metadataSha256": "f7bed2f7b0d0049951c7ffcc674f55494b14a7b02e09501160b2b38ad7284301",
+        "name": "dhclient",
+        "version": "4.4.3.P1-4"
+      },
+      {
+        "metadataSha256": "20e573c1166be37dbd9ea1eae84153943eb84fd09f03486e0bd45a4bae68fd9d",
+        "name": "diffutils",
+        "version": "3.12-2"
+      },
+      {
+        "metadataSha256": "d5ac7e8b12284cff856fb9cf0d1b507af2178c372ca6609929910a7d7a1a7f77",
+        "name": "dosfstools",
+        "version": "4.2-5"
+      },
+      {
+        "metadataSha256": "63543cce2c6aaad1ebc9c2f349b381647e9859decf1897932f6eaf25ca726d21",
+        "name": "double-conversion",
+        "version": "3.4.0-1"
+      },
+      {
+        "metadataSha256": "b902d1cf80475ef9e2fc8b3d02d234078108169e4eeafb522ca8334007028d43",
+        "name": "duktape",
+        "version": "2.7.0-7"
+      },
+      {
+        "metadataSha256": "987b790bd2130d6010ed7e417aea77db3832f42bf5eae6b24022562b557d55a1",
+        "name": "e2fsprogs",
+        "version": "1.47.4-1"
+      },
+      {
+        "metadataSha256": "9c3fa0d4ae496005680785065b0e3dad9fbc10630dfb75e567b76a693ac3abbf",
+        "name": "editline",
+        "version": "2.1.0-1"
+      },
+      {
+        "metadataSha256": "e9f04f530c99d84e07203cb798b0c718631f24b007d7ad7708a4e8a920cafb26",
+        "name": "efibootmgr",
+        "version": "18-4"
+      },
+      {
+        "metadataSha256": "ac46ba161f2c8796e3a3408dbd74efc19cc36aed2c1bc402b4835680075f2081",
+        "name": "efivar",
+        "version": "39-2"
+      },
+      {
+        "metadataSha256": "a4f69f8ec29a37363e691b1dc7efacb1bac06f7a79cd7df7fc18f6da3bd1763e",
+        "name": "elfutils",
+        "version": "0.196-1"
+      },
+      {
+        "metadataSha256": "349e58ab9417d6f251b0fc93a8a998a2afd0c2b49cf292c236ec604e790bb9af",
+        "name": "expat",
+        "version": "2.8.5-1"
+      },
+      {
+        "metadataSha256": "a5d097f105237907a87d77cac874e5b9cd44aec9d2cdbde4a5badddd8b995995",
+        "name": "fakeroot",
+        "version": "1:1.37.2-3"
+      },
+      {
+        "metadataSha256": "52587e0beef02f00915288919fbc279ddb4a15d7b2f86350eaa1f1c2241e9204",
+        "name": "ffmpeg",
+        "version": "2:9.0.2-2"
+      },
+      {
+        "metadataSha256": "395666a1842f94a0f5a083d2a87faf68a86626aa47f7047959132ddd304e01bd",
+        "name": "fftw",
+        "version": "3.3.11-1"
+      },
+      {
+        "metadataSha256": "7e116391680ac87e0ff1ec35a0d1f065906f9d8008aaec943f7fbc6839359207",
+        "name": "file",
+        "version": "5.48-1"
+      },
+      {
+        "metadataSha256": "b551dc6efc96c2aafab758e9702a8289cdff1f9a719ab3dc3aab12389fcf97be",
+        "name": "filesystem",
+        "version": "2025.10.12-1"
+      },
+      {
+        "metadataSha256": "5894c2e32987a943988f1934ac4590ef4de2b577283cce41ce83e983ff8e3eab",
+        "name": "findutils",
+        "version": "4.11.0-1"
+      },
+      {
+        "metadataSha256": "62ab21f7512caef0f33815780f61a37064ebfed4b3d30a1379f05fb471f34828",
+        "name": "firefox",
+        "version": "157.0-1"
+      },
+      {
+        "metadataSha256": "f39aa35a17e348e7236884349c9748505dc81eb7ae283cc9716a33df04501b25",
+        "name": "flac",
+        "version": "1.5.0-1"
+      },
+      {
+        "metadataSha256": "e7b0c25f37e62957d719d29cbc8a4f1a25d37d6c395bd3586d4a1826b8294a17",
+        "name": "flex",
+        "version": "2.6.4-6"
+      },
+      {
+        "metadataSha256": "c62ca0a82a4af08ddb849c0acb7a03902d76e4c70996662a72147507f616eb79",
+        "name": "fontconfig",
+        "version": "2:2.18.3-2"
+      },
+      {
+        "metadataSha256": "fb032e92aa55be38d10b628503116750a526eb46cf403a5834207a0a884e9c0f",
+        "name": "freetype2",
+        "version": "2.14.3-1"
+      },
+      {
+        "metadataSha256": "d7a827eb7cf7593e9ba27b83b617b7ec01f5bd8c69f9cb578930edf7c73708c7",
+        "name": "fribidi",
+        "version": "1.0.17-1"
+      },
+      {
+        "metadataSha256": "a8b480eab960f99099e34021dec0a24c43bcd7561e4d328a48e522e99942a69f",
+        "name": "fuse-common",
+        "version": "3.18.3-1"
+      },
+      {
+        "metadataSha256": "0c9c2d74f8676053ce03173c41fd8af24db9e6ca388a627115cf6512daef04a5",
+        "name": "fuse3",
+        "version": "3.18.3-1"
+      },
+      {
+        "metadataSha256": "8497220210b252ad21d078aa412b44483454bcd24aa33a5bd4c359ca8de8081c",
+        "name": "gawk",
+        "version": "5.4.1-1"
+      },
+      {
+        "metadataSha256": "65169e4cd18472eada8bfcc3393b1c4a1ab193c67fb3750dde796aa7c32d4829",
+        "name": "gc",
+        "version": "8.2.12-1"
+      },
+      {
+        "metadataSha256": "f0b064ba4965042bc5d06a040391b89f4c3ab5504864004211642f155cead28a",
+        "name": "gcc",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "c80b12447e1c64a9837dc63493859a3409100bb9331f8bf1d7abcb71d1450921",
+        "name": "gcc-libs",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "b0d6f09265f04ff546c8b5ae814734633c7a805054de5db037c1e028f88f00d8",
+        "name": "gcr",
+        "version": "3.41.2-2"
+      },
+      {
+        "metadataSha256": "8f8573102ad97acc21a2c3e171c01393374557f7c55bb7a0cb4d1149e2c75031",
+        "name": "gcr-4",
+        "version": "4.4.1-1"
+      },
+      {
+        "metadataSha256": "b7a5a4589c37052ea68d9370c29794aff2bf2f40cb484a9a7edf5958216439b6",
+        "name": "gdb",
+        "version": "18.1-1"
+      },
+      {
+        "metadataSha256": "fee653be8878bc511b781fa7490e0761b5ac6f863a248af226cde28fbeccc1a2",
+        "name": "gdb-common",
+        "version": "18.1-1"
+      },
+      {
+        "metadataSha256": "79e1e3ceda39e6138415fe75e68a8c2843423fa88d2360c23da5208fb2168ea8",
+        "name": "gdbm",
+        "version": "1.26-2"
+      },
+      {
+        "metadataSha256": "b84e5e0083449c8b3fafb540b7dbfabf97b19d34b44c6a36a9376bb87fcef387",
+        "name": "gdk-pixbuf2",
+        "version": "2.44.7-1"
+      },
+      {
+        "metadataSha256": "f57f49af646148060f51c74389b33a471ca09c65115ee5b738933a7298c88e47",
+        "name": "gettext",
+        "version": "1.0-2"
+      },
+      {
+        "metadataSha256": "47f89bf4d8d4ee723efdd3b755daf5129131256000266ef7ec6dde9c9cea47df",
+        "name": "giflib",
+        "version": "6.1.3-2"
+      },
+      {
+        "metadataSha256": "c088e92dace858bf2309eda408cb571adb3068450038abbb73cb15eacc2851ba",
+        "name": "git",
+        "version": "2.56.0-1"
+      },
+      {
+        "metadataSha256": "f6e644687094bceecd79fc9c6a551279cf593e882f229bd2f697a6421e25934f",
+        "name": "glib-networking",
+        "version": "1:2.80.1-1"
+      },
+      {
+        "metadataSha256": "2e060f2824f69475f5ba6a5678495ed4623e6b2d5cecef06044304cceb501efb",
+        "name": "glib2",
+        "version": "2.88.3-1"
+      },
+      {
+        "metadataSha256": "6045111eb6c052f287fe4c9685934968e2c56f3ccc360b0f16b5e3e9088a6928",
+        "name": "glibc",
+        "version": "2.44+r50+g1848099f063e-1"
+      },
+      {
+        "metadataSha256": "b434761c9026eb4099fa7b7bb899ded41ef99e91a40b2598b03ce0d2b356f75d",
+        "name": "glslang",
+        "version": "1:1.4.363.0-1"
+      },
+      {
+        "metadataSha256": "0e85096433b91c0194af22989a2491629f6ae95ee9c60d44dbc50fd56de2ad83",
+        "name": "glycin",
+        "version": "2.1.5-2"
+      },
+      {
+        "metadataSha256": "3f0579cf823544bffa20539444b8d9772a17a6bf6628bbffa0cac57223fe7082",
+        "name": "gmp",
+        "version": "6.3.0-3"
+      },
+      {
+        "metadataSha256": "75c9602a0780e7ea88edd0fc8389a822a659213939f128673fb60517e79116d2",
+        "name": "gnome-keyring",
+        "version": "1:50.0-1"
+      },
+      {
+        "metadataSha256": "9cae4adb0192fa7cb9412265c15924d2773c0ddc5f0441fadbec8ffd5854666e",
+        "name": "gnu-free-fonts",
+        "version": "20120503-9"
+      },
+      {
+        "metadataSha256": "6f1843dba34bda5236dd3b00683717e2908cd79d559dcff86a44e9f752a0081e",
+        "name": "gnulib-l10n",
+        "version": "20241231-1"
+      },
+      {
+        "metadataSha256": "ec4492f41721aab9fb1c4bfbb1c134b0d2e58d6f5efdd519ad5e23f03c43acf8",
+        "name": "gnupg",
+        "version": "2.4.9-3"
+      },
+      {
+        "metadataSha256": "cc2d0c4de59cd8bd600eb1bae731cb994fd76e4d5e76cf6146a4da701da103f9",
+        "name": "gnutls",
+        "version": "3.8.13-3"
+      },
+      {
+        "metadataSha256": "9e71d3f79c00447376eaa9eb3d305ba60bcd530c1124c304693ae6d36e11946f",
+        "name": "gperftools",
+        "version": "2.18.1-1"
+      },
+      {
+        "metadataSha256": "202c5f72e52445e0dadc1ec87a3f888912e77bfe5a0edf5216da53d20e3fe08f",
+        "name": "gpgme",
+        "version": "2.2.0-1"
+      },
+      {
+        "metadataSha256": "be160679fc4a1390f19255e977026f458a484de0ce8c69e733cd8a73bf904cd5",
+        "name": "gpm",
+        "version": "1.20.7.r38.ge82d1a6-7"
+      },
+      {
+        "metadataSha256": "8f69830924b2a9b7473e55d86b01fe8bbab2cea1dafa58bcfe6d049e92e1d8f9",
+        "name": "gptfdisk",
+        "version": "1.0.10-2"
+      },
+      {
+        "metadataSha256": "3bdd229da84df4995950d9d04bb49449ab34b43e096e0b7de29b92bf2b15fee9",
+        "name": "graphene",
+        "version": "1.10.8-2"
+      },
+      {
+        "metadataSha256": "c5743aee5dd7d629f0fd1e70ac175a7b0ba2daf675b0b942cefb6e9b9bf7c531",
+        "name": "graphite",
+        "version": "1:1.3.15-1"
+      },
+      {
+        "metadataSha256": "34a94b739ccc251a9f0e6f49259c51287f17ad0d6abae5e399245606a804c40a",
+        "name": "grep",
+        "version": "3.12-2"
+      },
+      {
+        "metadataSha256": "64defed909a407a5ef9165b95c3d25ea7a50448e299e78c5efbbd3841fb706de",
+        "name": "groff",
+        "version": "1.24.1-1"
+      },
+      {
+        "metadataSha256": "5aa6fb31d9717c23298a55f886c0ed13d82be0a1c719c5b85e6a2678b4aa3093",
+        "name": "grub",
+        "version": "2:2.16-1"
+      },
+      {
+        "metadataSha256": "4d388e687499c353241b1cbf4bc16ef73848b213e946e00b0dd4e4a31cb4c948",
+        "name": "gsettings-desktop-schemas",
+        "version": "50.1-1"
+      },
+      {
+        "metadataSha256": "79c0ae4077c9abc18346db7df69d1d06dd7b89fdad1bc629d5bd8c240c22f47a",
+        "name": "gsettings-system-schemas",
+        "version": "50.1-1"
+      },
+      {
+        "metadataSha256": "4613f43c1d59f242e83ea8596293d88250d47a0f640cc7512a18cbc2b01d28fb",
+        "name": "gsm",
+        "version": "1.0.24-1"
+      },
+      {
+        "metadataSha256": "9c185a378ba6ee970ab4846a70b2d5f78357c5a174374a87299b1989d8445d26",
+        "name": "gst-plugins-base-libs",
+        "version": "1.28.7-2"
+      },
+      {
+        "metadataSha256": "4a0d0b7524e1cf339b26f6c24c827ab7e2ef63d06457ecb5bf674db9f444da91",
+        "name": "gstreamer",
+        "version": "1.28.7-2"
+      },
+      {
+        "metadataSha256": "6cf2dbad26722c2d66a32e4d8244455f39ba151daa576797a0c46ea32958774d",
+        "name": "gtest",
+        "version": "1.18.0-1"
+      },
+      {
+        "metadataSha256": "f4d5a53fdf759a268ad648e7502d1b753cce66fd70f3685a2f334a90b1c4526e",
+        "name": "gtk-update-icon-cache",
+        "version": "1:4.22.5-1"
+      },
+      {
+        "metadataSha256": "e71d437a2d8fc0fc10fbe6180f0a602c287aca36d015eb3f8611fa716772d7b3",
+        "name": "gtk3",
+        "version": "1:3.24.52-1"
+      },
+      {
+        "metadataSha256": "22cceb78290f7a3212e1da9b26493871a6a631d52a114a710ae89c38df42f7d3",
+        "name": "guile",
+        "version": "3.0.11-1"
+      },
+      {
+        "metadataSha256": "30c21b56efb6d4ab727fbd2496cf3e441feba8b458ef7a7c01240cbbf995978e",
+        "name": "gzip",
+        "version": "1.15-1"
+      },
+      {
+        "metadataSha256": "ce0656a69a2a0beb9fa5cf8313dcd3d6b759faaf7c6985879d13eabf6626a218",
+        "name": "harfbuzz",
+        "version": "14.5.1-1"
+      },
+      {
+        "metadataSha256": "581670d76fb13dbe7389afee1baa919d3b23334aaa5e05c947bc8c8db497173f",
+        "name": "helix",
+        "version": "25.07.1-2"
+      },
+      {
+        "metadataSha256": "78c2a98c85aadfdd1576d6da43196c6db8d1230333aeed476753258a1dbc00c8",
+        "name": "hicolor-icon-theme",
+        "version": "0.18-1"
+      },
+      {
+        "metadataSha256": "0307f918f52903c9609557d2c8e76c38110c3f729aa821c485aea32c9edfa96b",
+        "name": "hidapi",
+        "version": "0.15.0-1"
+      },
+      {
+        "metadataSha256": "257c6b83728e3a2a0ae8b6327440fdf277bfa829c4f2732add966bd4586b9da0",
+        "name": "highway",
+        "version": "1.4.0-1"
+      },
+      {
+        "metadataSha256": "428f7843618b5d0ab8c352a665e49e373994a4f69f72f93939b7fbf863660cdc",
+        "name": "hwdata",
+        "version": "0.411-1"
+      },
+      {
+        "metadataSha256": "ede2b8ca797106efd6536cf884e3b5f8349189b2413c8c695fc0f1ec5399914d",
+        "name": "hwloc",
+        "version": "2.14.0-1"
+      },
+      {
+        "metadataSha256": "a2e82f0e633d588d713f89899754c6c1360e150b57125c4a3fb37ace9e4451a6",
+        "name": "hyprcursor",
+        "version": "0.1.13-7"
+      },
+      {
+        "metadataSha256": "d670d4cc6bf78affaf0e3a92e270a9ffeaac3024d6f5f5800329106b7bf943ab",
+        "name": "hyprgraphics",
+        "version": "0.5.1-4"
+      },
+      {
+        "metadataSha256": "9ac274ab4b5a68274c2a8245bd87014471fc2ec1ac883bb0f3c307b9603bde25",
+        "name": "hypridle",
+        "version": "0.1.8-2"
+      },
+      {
+        "metadataSha256": "c554d102d0376ce29170bed4325fd57eaae58bc3ffb16d48970402940ada900e",
+        "name": "hyprland",
+        "version": "0.56.2-4.1"
+      },
+      {
+        "metadataSha256": "25c6eeebabbf79327d7205fb1d45acc020999554f45456f5820323c3b6e35288",
+        "name": "hyprland-guiutils",
+        "version": "0.2.2-4"
+      },
+      {
+        "metadataSha256": "214a5398f69b3b75bd788e23985358ee15d63f9872175cde0b9bd22539127c1a",
+        "name": "hyprlang",
+        "version": "0.6.8-5"
+      },
+      {
+        "metadataSha256": "14b6a168280f536381af879a3ca917416c2ac9a33ff29a572b1c5e8ef6cec5ca",
+        "name": "hyprlock",
+        "version": "0.9.6-3"
+      },
+      {
+        "metadataSha256": "92673a919fd9cfe1515c41ded3ee0effe7c3be280585462f1d6901f7c9ad71b6",
+        "name": "hyprsunset",
+        "version": "0.4.0-3"
+      },
+      {
+        "metadataSha256": "100cd028a1c85c14b16b3a9e344c94f900b52b9b08f744f3d8e8cc8ee4f04b69",
+        "name": "hyprtoolkit",
+        "version": "0.6.0-1"
+      },
+      {
+        "metadataSha256": "63e71d92bb3975cb65db033dc69a222dbd8b08b4128b79868e26922d740e53d2",
+        "name": "hyprutils",
+        "version": "0.14.2-1"
+      },
+      {
+        "metadataSha256": "36801dafb4ae0d7a8eba35eaa07ec14340f3a7f63520462ee4b7985f02ceb9c3",
+        "name": "hyprwire",
+        "version": "0.3.1-3"
+      },
+      {
+        "metadataSha256": "fe0605dbda7d1ec7f8e3c8002a1ce0c781d2a1373e3a73ad79144b43663379cc",
+        "name": "i2c-tools",
+        "version": "4.4-4"
+      },
+      {
+        "metadataSha256": "cecf8a47d980148c9cdab49e6f596ba8ffb45b9dd9aeab90df79b4f289127a5a",
+        "name": "iana-etc",
+        "version": "20260617-1"
+      },
+      {
+        "metadataSha256": "b4bc3dceb41f569e92f436efbf8aa3bbd3dc52dd4cb410dcd8da7c31c6f41e1a",
+        "name": "icu",
+        "version": "78.3-1"
+      },
+      {
+        "metadataSha256": "b3f803fd571ad54e0ce8504b78c5d19100382a98c18c73c70eb5addbd1dbcc31",
+        "name": "iniparser",
+        "version": "4.3.0-1"
+      },
+      {
+        "metadataSha256": "07c3238d4e25dc0b90698d26680120149714460bfe4e5c46ce80eeed069b7064",
+        "name": "inotify-tools",
+        "version": "4.26.262-1"
+      },
+      {
+        "metadataSha256": "ec76f1a6d73cd97f346269bd5f1e0ddc0221a0fe550e5ccd161f01616bc0ae81",
+        "name": "iproute2",
+        "version": "7.2.0-1"
+      },
+      {
+        "metadataSha256": "bbfd2f86e80dd7663ba3299307c8920ac9df694095c17bfc5a4e952bcc93c127",
+        "name": "iptables",
+        "version": "1:1.8.13-1"
+      },
+      {
+        "metadataSha256": "4d3c49d4be7cd4c6ab0ac708c134bf41ee9cc352875dcc15450042653c33f14b",
+        "name": "iputils",
+        "version": "20250605-1"
+      },
+      {
+        "metadataSha256": "0c12b7fa7a4dc475c5a4604763321eedbab8b03f7e4e023b236cefebe318d265",
+        "name": "iso-codes",
+        "version": "4.20.1-1"
+      },
+      {
+        "metadataSha256": "68825a59633ec8844401f6890c01c1a06ed7648a9973102e9285ea8f4be42aae",
+        "name": "jack2",
+        "version": "1.9.22-2"
+      },
+      {
+        "metadataSha256": "0b7852344a82c2dbef5961d83fa5e445df5a5e87d8869d057b3ecdebc99589de",
+        "name": "jansson",
+        "version": "2.15.1-1"
+      },
+      {
+        "metadataSha256": "812cc4067d3c775ab36b3205f176d1eb63ea80fc436000f540bcba675322f806",
+        "name": "jbigkit",
+        "version": "2.1-8"
+      },
+      {
+        "metadataSha256": "7d34d2606ce54b9f0540de459c9a457debb90a003d528b0421a064767888a6bf",
+        "name": "jemalloc",
+        "version": "1:5.4.0-1"
+      },
+      {
+        "metadataSha256": "1c7ccf5c4032022a99c2f9be7341ddaaa14fe84f1d20640fc9188318e7488b2b",
+        "name": "jq",
+        "version": "1.8.2-1"
+      },
+      {
+        "metadataSha256": "6abf07195f1b789a999c03985565231d6512a4be408d5d4bc3361cbddff1af47",
+        "name": "json-c",
+        "version": "0.19-1"
+      },
+      {
+        "metadataSha256": "5b3e1d70634a68078718f59f0117142e3915a3789666546ad257b40cd2993883",
+        "name": "json-glib",
+        "version": "1.10.8-1"
+      },
+      {
+        "metadataSha256": "487a6532ed7dc0bbf8a24b380031f6e79485f0e9eb38743650555349cf7e3b5f",
+        "name": "kbd",
+        "version": "2.10.0-1"
+      },
+      {
+        "metadataSha256": "93f4c980ea4f2c465dc9659b7ff7ce2d33f794faa5dcb6544e03e81d78e356a2",
+        "name": "keyutils",
+        "version": "1.6.3-4"
+      },
+      {
+        "metadataSha256": "73235fe8c53d9ecdbf7c19e8f3ade769110ca43ca42a77a6d42f6be7577908dd",
+        "name": "kmod",
+        "version": "34.2-1"
+      },
+      {
+        "metadataSha256": "03d0f895a806cf9babc71dcf153e25fdc0493f3b1df5852bb68ae3d27c454936",
+        "name": "krb5",
+        "version": "1.22.2-1"
+      },
+      {
+        "metadataSha256": "698a681e400253397299ac86ccef86706fcb211d0220df3eba0347f8233937e2",
+        "name": "l-smash",
+        "version": "2.14.5-4"
+      },
+      {
+        "metadataSha256": "df21026fc57bdb544822b43deaddff45b38d9ed5702a0a034b8bf63b03c26984",
+        "name": "lame",
+        "version": "4.0-1"
+      },
+      {
+        "metadataSha256": "332c7fbc9cf92bcfdace77da1ce6037047de5e5c39f07f5fcf968281085e73ee",
+        "name": "lcms2",
+        "version": "2.19.1-1"
+      },
+      {
+        "metadataSha256": "0ca4c02970b5085218edcf757d739cd161a53855b7fd37470d55ffa29e14982c",
+        "name": "leancrypto",
+        "version": "1.9.1-1"
+      },
+      {
+        "metadataSha256": "67f7426eee6b9fb919f509e6d6922a049b72959783b18fafa2704e5680379cdb",
+        "name": "libarchive",
+        "version": "3.8.9-1"
+      },
+      {
+        "metadataSha256": "664297ac226f5c8503bd52bb1e81657b590078f9fa0d6d7b8a05b0fe2a76e221",
+        "name": "libasan",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "f44537ae5f376986def91d53ada18c2d76c12140b4cb8508a84e3578cf7a3f7d",
+        "name": "libass",
+        "version": "0.17.5-1"
+      },
+      {
+        "metadataSha256": "af5281ea4faf95ccdfaafc95863b335a70fa4fce2cd48121952f71929a4702b3",
+        "name": "libassuan",
+        "version": "3.0.0-1"
+      },
+      {
+        "metadataSha256": "4f1467042d9d4994a81e1bff89519262b890c6e0fa5b0eba719fc9bf924716f8",
+        "name": "libasyncns",
+        "version": "1:0.8+r3+g68cd5af-3"
+      },
+      {
+        "metadataSha256": "381842da2de942070cb3e7207026627fc1cd08895f9e8ef7c6b36473629d5ce8",
+        "name": "libatomic",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "f07389b8fc235ba124609c9e3e04054e745dc5d2667e8bac2cbfe4669ed79160",
+        "name": "libavc1394",
+        "version": "0.5.4-7"
+      },
+      {
+        "metadataSha256": "adb24b13b189c00489c7cc45e54570b9722e223021636e42d6f942bd595bfffa",
+        "name": "libb2",
+        "version": "0.98.1-3"
+      },
+      {
+        "metadataSha256": "f85f59a98abc1189db23c807d142be74538e319fb09c714e61a17761013890be",
+        "name": "libblake3",
+        "version": "1.8.7-1"
+      },
+      {
+        "metadataSha256": "62bca5aefcf059ab23a6f38c8927b9ad484d7cdfb5c1ab3406ee9e905e83231e",
+        "name": "libbluray",
+        "version": "1.5.1-1"
+      },
+      {
+        "metadataSha256": "47d828864038d01c7d6e490144875f934a9aa8771e57a3e8364c83fdbd62dafa",
+        "name": "libbpf",
+        "version": "1.7.0-1"
+      },
+      {
+        "metadataSha256": "abea8cf403336500c5f47f4e430d46a8da23ba4135740be30c7c7c55aade2157",
+        "name": "libbs2b",
+        "version": "3.1.0-10"
+      },
+      {
+        "metadataSha256": "4a4de47be18e0a5588922d6a6e6fdbee55f48c04f8dcde078193156f3746ae97",
+        "name": "libbsd",
+        "version": "0.12.2-2"
+      },
+      {
+        "metadataSha256": "299739c4638e999cf34c436b933da6e820d24af3b6090801fab50f5c695b9e9d",
+        "name": "libcap",
+        "version": "2.78-1"
+      },
+      {
+        "metadataSha256": "3d96753a64141ed1aee44f4f0815b66b62216952f2219a6eecd89acddf9c8b89",
+        "name": "libcap-ng",
+        "version": "0.9.6-1"
+      },
+      {
+        "metadataSha256": "960d0b9d571de1b0fd407a23b046567964609d872bbccabbce29a14ec5e0fea3",
+        "name": "libcloudproviders",
+        "version": "0.4.1-1"
+      },
+      {
+        "metadataSha256": "3610c2ba751ccd7c8ddb155b3b5ce8f316ee9d91ac0aee0e5325a87746be91ec",
+        "name": "libcolord",
+        "version": "1.4.8-1"
+      },
+      {
+        "metadataSha256": "10887488d8fe6c492663b5bd73d06d9a6eb75550a644b76dbf689ba6aa52834f",
+        "name": "libcpuid",
+        "version": "0.8.2-1"
+      },
+      {
+        "metadataSha256": "56ba329e63b5aa333939acab225f023b8b74b4b5274cd5a0828b8076835bd6da",
+        "name": "libcups",
+        "version": "2:2.4.19-1"
+      },
+      {
+        "metadataSha256": "8d381f08b68bcf8e3b7633fe4dc6af147733bfd491b2e191763d1e00a3f87878",
+        "name": "libdaemon",
+        "version": "0.14-6"
+      },
+      {
+        "metadataSha256": "ac20ed0194ef1f83cdb159638eda78ac759e967d4a895127b32d48eca5b8233d",
+        "name": "libdatrie",
+        "version": "0.2.14-1"
+      },
+      {
+        "metadataSha256": "8466ebfc88e8ec15edb0f9048bad1b95348330790ec412efc5a272ddb836e14d",
+        "name": "libdecor",
+        "version": "0.2.5-1"
+      },
+      {
+        "metadataSha256": "3e7d91834398e023a56eaf0ad460773f51c4340bfc8a225ee269fbf345448686",
+        "name": "libdeflate",
+        "version": "1.26-1"
+      },
+      {
+        "metadataSha256": "6f311a8fe0bee02df516d0f5ba939a62215f702818a16d5b7ad66022b4d85060",
+        "name": "libdisplay-info",
+        "version": "0.3.0-1"
+      },
+      {
+        "metadataSha256": "4bee27fca823193628f85097d8f2be6a2782fbbefce7df295717de35aca0f526",
+        "name": "libdovi",
+        "version": "3.4.0-1"
+      },
+      {
+        "metadataSha256": "ffbf3de15d6f1d6f633165620f538ce1274b3205ae638aaac23c5c97ce677348",
+        "name": "libdrm",
+        "version": "2.4.134-1"
+      },
+      {
+        "metadataSha256": "ed06ecdd0b503b8c9f5d563d13a88fb8a6e25452fa63938659309c5b38ec5c35",
+        "name": "libdvdnav",
+        "version": "7.0.0-1"
+      },
+      {
+        "metadataSha256": "9588c5d32ed4b29bdaf91bf8ecc6933366b1c00aafec3029cd49dc797228756a",
+        "name": "libdvdread",
+        "version": "7.1.1-1"
+      },
+      {
+        "metadataSha256": "0f62ffd231ec6dfd9e008a8492352484a6df27e1951e2c24f729dc3b77125cce",
+        "name": "libdwarf",
+        "version": "1:2.3.3-1"
+      },
+      {
+        "metadataSha256": "35c509be5c822db310bfbac3c69fb398ec1b635632c32a298d9e0ce98b235c10",
+        "name": "libebur128",
+        "version": "1.2.6-2"
+      },
+      {
+        "metadataSha256": "1b52daa869bd4df1b484d4fa008bdd303921a91495d6f2f6819e84d4a33e0666",
+        "name": "libedit",
+        "version": "20260512_3.1-1"
+      },
+      {
+        "metadataSha256": "68c5a40d67344d0bd7ead10008eaca0801593c8e4dd30bbd5c480ec506bec744",
+        "name": "libei",
+        "version": "1.6.0-1"
+      },
+      {
+        "metadataSha256": "d76f7d7c4cdb338ae53727bfd1f8086a7726be3ebf35ec079096cf3db37d3d61",
+        "name": "libelf",
+        "version": "0.196-1"
+      },
+      {
+        "metadataSha256": "9ee378933e6413845b00aa833a95234ef6e9ed11c383823c563ce1740542ab16",
+        "name": "libepoxy",
+        "version": "1.5.10-3"
+      },
+      {
+        "metadataSha256": "bde9aa2d45bb27a63182020ccfeedbb9ae89e0d2f3877cfa89207ad2b3a5a356",
+        "name": "libevdev",
+        "version": "1.13.7-1"
+      },
+      {
+        "metadataSha256": "37da8727c292b9103f742430a9a081e945655c8e9419e07c56d55022be3c1838",
+        "name": "libevent",
+        "version": "2.1.13-2"
+      },
+      {
+        "metadataSha256": "cbbce63342bea8f7dd0ae93f16ecb78d957229886831812646b11d8f26b08bda",
+        "name": "libfdk-aac",
+        "version": "2.0.3-2"
+      },
+      {
+        "metadataSha256": "0528182e26936414dc66708a978c525f59a39378b88cbd9e2df31400d9685daa",
+        "name": "libffi",
+        "version": "3.8.0-1"
+      },
+      {
+        "metadataSha256": "23fca7261b224e954083a0806d2456891db3205d2a25dc9f1fe27514779b4cf2",
+        "name": "libfontenc",
+        "version": "1.1.9-1"
+      },
+      {
+        "metadataSha256": "bc08ff615c3b509a1facf10417dfb62068a022189ae6caebf53cdca15e3ccf69",
+        "name": "libfreeaptx",
+        "version": "0.2.2-1"
+      },
+      {
+        "metadataSha256": "5d2f465adf958837b96f3ca7aa3a15bcc925d30c8c190fe38ffff7612cd3a5ad",
+        "name": "libgcc",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "c4ab8683e0e61d3a0bdd82b76ab91e8aee6e1589e9cd80260c9e0e821801727c",
+        "name": "libgcrypt",
+        "version": "1.12.4-1"
+      },
+      {
+        "metadataSha256": "eb0ee08b2f77f0fc851e0c14a8bda94977e57ff30c68398636131307515de2b0",
+        "name": "libgfortran",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "0eb9ff6e740b320d1fc09ce03791b8850374cf1f80a0f626a5e81b579d2deb95",
+        "name": "libgit2",
+        "version": "1:1.9.7-1"
+      },
+      {
+        "metadataSha256": "52d6d0b1e7339095f0b2a504a303c3cf39e634291dd424f310f3da1ab7d5c62a",
+        "name": "libglvnd",
+        "version": "1.7.0-3"
+      },
+      {
+        "metadataSha256": "6bd1ef9d539de13c6ab8f1daa47e5bc89849b939bf99877b909fa4505a350912",
+        "name": "libgomp",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "742856a00ff93f9306c4250af5771b61c3ae1ce0b3b28eda833844e132d0548e",
+        "name": "libgpg-error",
+        "version": "1.61-1"
+      },
+      {
+        "metadataSha256": "d4897e2402e2531b84fe0c62b792536e58992fde5c57f5d31f1ccd52990dd9ed",
+        "name": "libgudev",
+        "version": "238-3"
+      },
+      {
+        "metadataSha256": "61e105e103672e069f9d3c4df0bb6635416a10b2c52c01abfbf83414e54c373c",
+        "name": "libhwasan",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "16513d37a4af38c7df4fcd4101f6609e587602be7f166aa20bb7eb509f848648",
+        "name": "libice",
+        "version": "1.1.2-1"
+      },
+      {
+        "metadataSha256": "4ff13f83cf647e41e76d37793416592fb9cccb2147f8806943ba69f7f0d3e201",
+        "name": "libidn2",
+        "version": "2.3.8-1"
+      },
+      {
+        "metadataSha256": "fb85d5297b4ef25573333cd2496d3af29fcbfa89c23dc6e63497a032fb694401",
+        "name": "libiec61883",
+        "version": "1.2.0-9"
+      },
+      {
+        "metadataSha256": "073297b475a4916c4f60babac76c65afe32a28c2d1ca5b2f79272106ab382f8b",
+        "name": "libimobiledevice",
+        "version": "1.4.0-2"
+      },
+      {
+        "metadataSha256": "bb0dc29ad904815776827c15c35c7e3e7308c209c5464a54783714aa0497f206",
+        "name": "libimobiledevice-glue",
+        "version": "1.3.2-1"
+      },
+      {
+        "metadataSha256": "646cca02b23b3d4bfd13f35e2d2b1ab51899fbe89667c64f8beb2b5a746fe185",
+        "name": "libinih",
+        "version": "62-2"
+      },
+      {
+        "metadataSha256": "5a04f956ee49136cb81c00472a98030a3c503d718272d2ebc7ccaf8bae26fecc",
+        "name": "libinput",
+        "version": "1.32.0-1"
+      },
+      {
+        "metadataSha256": "692f1874c57bb1787a02f272a74242fa03402be22ba6d96a5e7dfa41b2df7550",
+        "name": "libisl",
+        "version": "0.28-1"
+      },
+      {
+        "metadataSha256": "5fd4e6d294f8625f9641931194eaf6e76b831f5d9269074024694fa3bb796801",
+        "name": "libjpeg-turbo",
+        "version": "3.2.0-2"
+      },
+      {
+        "metadataSha256": "9c4df3ef45e0fd46ceee3d2f3fe64c7db45f9836cf74cc95a342fcea1320b362",
+        "name": "libjxl",
+        "version": "0.12.0-1"
+      },
+      {
+        "metadataSha256": "538001b8162fcdd5293717e1a9b66db93ee74295b54f8b9cc20cf0ee7b6d1bee",
+        "name": "libksba",
+        "version": "1.8.1-1"
+      },
+      {
+        "metadataSha256": "c37e07d87b47586e0eaa3b44fded96771b9018d6c457ffcfd217364d78bc4ad4",
+        "name": "liblc3",
+        "version": "1.1.3-2"
+      },
+      {
+        "metadataSha256": "1964d71941564c54d332a6dfb6784756777af527d38837c393a89ba71ffced0c",
+        "name": "libldac",
+        "version": "2.0.2.6-1"
+      },
+      {
+        "metadataSha256": "b788f2ab7338b4f452f61f44575981745983215c23f13b01250a3d21f27565ac",
+        "name": "libldap",
+        "version": "2.7.1-1"
+      },
+      {
+        "metadataSha256": "b3e58ab933ae3fc90bbc5dbd8bcffab3af068829b61df8adeb935ff892496037",
+        "name": "liblsan",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "cd760d20a15534e26eb69dea2f0b77d813f8570573933ba25bf148bfb48f0182",
+        "name": "libmakepkg-dropins",
+        "version": "20-2"
+      },
+      {
+        "metadataSha256": "175f382ad0643e58d8bffb9b863dd718c1fe7cadb798820e5fde84c0cc809718",
+        "name": "libmd",
+        "version": "1.3.0-1"
+      },
+      {
+        "metadataSha256": "38d2900309b282393c8befa816d5a931338780a4c7f2f3b54ccb22da0ae9afee",
+        "name": "libmm-glib",
+        "version": "1.24.2-1"
+      },
+      {
+        "metadataSha256": "435dde3a16c738e409a1100fb5af95f2e83344b26d53f341f588d1bf7e47e195",
+        "name": "libmnl",
+        "version": "1.0.5-2"
+      },
+      {
+        "metadataSha256": "3b8a9e31a0504d0b0d38256fc3e4241bb24e6389c0d94f25d01e3d659d15ecfc",
+        "name": "libmodplug",
+        "version": "0.8.9.0-7"
+      },
+      {
+        "metadataSha256": "627be61c1bc13f1ae8c61182abc261534697f62fb0e7795259846dbb058c0f0b",
+        "name": "libmpc",
+        "version": "1.4.1-1"
+      },
+      {
+        "metadataSha256": "b3f84c16146ee49b16da4bb6cbb3f0484a58fd56f9b95c4663dc895bbf14d737",
+        "name": "libmysofa",
+        "version": "1.3.5-1"
+      },
+      {
+        "metadataSha256": "aea2163b2f0f8b46640e7b4810dc7d1f00b2550ff368ef366105622ab5536b8e",
+        "name": "libndp",
+        "version": "1.9-1"
+      },
+      {
+        "metadataSha256": "af2d42d02b69beaaaa3b4f75987e124a6733de37b961eff03d342ac97aca3c32",
+        "name": "libnetfilter_conntrack",
+        "version": "1.1.1-1"
+      },
+      {
+        "metadataSha256": "38a0a539d9e6d041b7f002ac47a857a35f909c28a21d1c18e67e3c942833c21b",
+        "name": "libnewt",
+        "version": "0.52.25-2"
+      },
+      {
+        "metadataSha256": "a95456a171b0e2ba97bac21a4a81f5aad75950c670558a377cc88f949ff7b2db",
+        "name": "libnfnetlink",
+        "version": "1.0.2-2"
+      },
+      {
+        "metadataSha256": "2a8ea3738afce07bda82acb3f17376fc027270a10e25ded960f1a562b6344fc2",
+        "name": "libnftnl",
+        "version": "1.3.2-1"
+      },
+      {
+        "metadataSha256": "2e5dec73cb6b35c0dc1fbd3895f299fe8f9a912b2b4a12803f2a822b4441edbe",
+        "name": "libnghttp2",
+        "version": "1.70.0-1"
+      },
+      {
+        "metadataSha256": "b55e320d18096d13ccf67be263fbb0a3a7c990775c3d92622eb840406c0d9af7",
+        "name": "libnghttp3",
+        "version": "1.18.0-1"
+      },
+      {
+        "metadataSha256": "8362ad6dc9dccca67d76d9d8d2f293e98e3b523cc11cd26eef19efd75a4da60c",
+        "name": "libngtcp2",
+        "version": "1.25.0-1"
+      },
+      {
+        "metadataSha256": "94b4f0b8b893fb232d2adc2bf5cdd87212f09390e21afe30ffbc9c0b5a20fc91",
+        "name": "libnl",
+        "version": "3.12.0-1"
+      },
+      {
+        "metadataSha256": "299bb9490eb3a7119fe3fa5a2d2555caf7cffe5a14971465442649d1a4f7c069",
+        "name": "libnm",
+        "version": "1.58.1-2"
+      },
+      {
+        "metadataSha256": "519b06044aace65bc5f4d6e3e86ee7cd04a92a56539450e4fd08bc2f69fbc975",
+        "name": "libnotify",
+        "version": "0.8.8-1"
+      },
+      {
+        "metadataSha256": "ddf43ac2411e9b433e4e7f5357c1f285538ddee2cfb592520457e37b9d7d9c59",
+        "name": "libnsl",
+        "version": "2.0.1-2"
+      },
+      {
+        "metadataSha256": "c8685ce8dd450b2b567dd9b429d67c19d15cc7813f1e47f938547e2e166144cd",
+        "name": "libobjc",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "7ad1b974fed097936324b2b4aa943a33d6438b9676d862ee3020e40f5787fcfe",
+        "name": "libogg",
+        "version": "1.3.6-1"
+      },
+      {
+        "metadataSha256": "d8c5bacd4bff51d6408efe5fe9291680ca991418fc9d5438c4754e8be9cdc8a8",
+        "name": "libopenmpt",
+        "version": "0.8.9-1"
+      },
+      {
+        "metadataSha256": "61aac5658487f513b669bb3016ca67934ddb8b684e112885b08d729d5201211e",
+        "name": "libp11-kit",
+        "version": "0.26.5-1"
+      },
+      {
+        "metadataSha256": "05d5a37fd00f2a2c32857936f7476cc027f54528af05a08903828f267a3c2017",
+        "name": "libpcap",
+        "version": "1.11.0-1"
+      },
+      {
+        "metadataSha256": "33434a8056f1d1af437793cc792caa4653d51d4d9d64c2e7ba5b8f12fa30ce98",
+        "name": "libpciaccess",
+        "version": "0.19-1"
+      },
+      {
+        "metadataSha256": "dba07757599ebc1669848ffa697b6adc32351048cb875c386eebd4eef793c5b7",
+        "name": "libpgm",
+        "version": "5.3.128-4"
+      },
+      {
+        "metadataSha256": "aca056b896542c397eed59ecca0acbf5536ac5ccda8f6a01b629b18c797c892c",
+        "name": "libpipewire",
+        "version": "1:1.6.9-1"
+      },
+      {
+        "metadataSha256": "e430eefd897de12e1ebb13fe1de9f03d2effd7563f69e175fe4246ab5a81bfdd",
+        "name": "libplacebo",
+        "version": "7.360.1-7"
+      },
+      {
+        "metadataSha256": "e5c0cf082def30f0ac21b63a6ee10e2fe62cacf1ef515d83fb50a911a5944927",
+        "name": "libplist",
+        "version": "2.7.0-3"
+      },
+      {
+        "metadataSha256": "f6a619907711a51370fabe270957e4c51c89983cf1f0945fd3bd1ab768711cc6",
+        "name": "libpng",
+        "version": "1.6.59-1"
+      },
+      {
+        "metadataSha256": "c1ed2c797b732db7cd87b4d7a36fdec705086f6d630988ea4ac70577e6254c8d",
+        "name": "libproxy",
+        "version": "0.5.12-1"
+      },
+      {
+        "metadataSha256": "cbeadac652d827a615a96110725b56642937bfd922c10a28a68522dbd6cc1ffa",
+        "name": "libpsl",
+        "version": "0.21.5-2"
+      },
+      {
+        "metadataSha256": "e5d156ab1ca32a3c16caea12695c2fe7f38fac9270fd77da80f020afb1e15c55",
+        "name": "libpulse",
+        "version": "17.0+r98+gb096704c0-1"
+      },
+      {
+        "metadataSha256": "5f7d34ff01d229d99500f5b47b81f135eb7e5afa5d2e31df7471c9655313f5d6",
+        "name": "libquadmath",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "d3c90f1eba6c52b1136a807fb6b3bd976fd58e024ad0ed2cb312b2d4db969bfa",
+        "name": "libraw1394",
+        "version": "2.1.2-4"
+      },
+      {
+        "metadataSha256": "026dd769dee442904dd29646b01b3a7c4b5ed474d9b8322e589543d209703eb5",
+        "name": "librsvg",
+        "version": "2:2.62.4-1"
+      },
+      {
+        "metadataSha256": "2ade7ebfb72bfa72f71ff6e89aa362c66d6483131ea758ed552db5213d7d29d7",
+        "name": "libsamplerate",
+        "version": "0.2.2-3"
+      },
+      {
+        "metadataSha256": "0f6439ff8a3ed727265030f0a9b799894966af7499b11c8540959a0e4e255541",
+        "name": "libsasl",
+        "version": "2.1.28-5"
+      },
+      {
+        "metadataSha256": "0c75ad83720760ff540967d4ed0d2b2e7677d19fb594cec86e63e4c347aa7054",
+        "name": "libseccomp",
+        "version": "2.6.0-1"
+      },
+      {
+        "metadataSha256": "ae8afd526f841f4e613c283e97eb61dfa80e4b080e8b17dd5a5c6de56d8c35b6",
+        "name": "libsecret",
+        "version": "0.21.8.2-1"
+      },
+      {
+        "metadataSha256": "07bb5a5f4bd6d452c037aae3147d9bfb560ddc38114eae50bee05e3012bde2b0",
+        "name": "libsm",
+        "version": "1.2.6-1"
+      },
+      {
+        "metadataSha256": "37a569cdf96c7927fdbe930eadcd0209b59f5bb337b71aaaa199e4079721536b",
+        "name": "libsndfile",
+        "version": "1.2.2-4"
+      },
+      {
+        "metadataSha256": "b788c5ef66444871c19f6150a7b5900ad11620530d5d7bd39cea2f5e94f8009e",
+        "name": "libsodium",
+        "version": "1.0.22-1"
+      },
+      {
+        "metadataSha256": "f43a664ee9e79523054d977841a8a7d57041bc4d6c4df283cdcf8469dda87f87",
+        "name": "libsoup3",
+        "version": "3.6.6-2"
+      },
+      {
+        "metadataSha256": "113506455bd0414349c14946c5fcde5a3860a7f28d62e1d90b57a4fd169132a6",
+        "name": "libsoxr",
+        "version": "0.1.3-5"
+      },
+      {
+        "metadataSha256": "726650c986052974f14ac17ea9bad051edc8157673cc3f0f83e81cd0804af353",
+        "name": "libssh",
+        "version": "0.12.2-1"
+      },
+      {
+        "metadataSha256": "2a435f924f5e6bef969754e69ecdf408da8e123743a1676dd9cda2985b41d96b",
+        "name": "libssh2",
+        "version": "1.11.1-7"
+      },
+      {
+        "metadataSha256": "baeb12daff5772c285e8f14b164181621637e2235eadbf694961efa5e883d045",
+        "name": "libstdc++",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "00f92615f8c36166fa20283357c12da487c5052b84b50d21f45910a1fd65d599",
+        "name": "libstemmer",
+        "version": "3.1.1-1"
+      },
+      {
+        "metadataSha256": "91a06ad32e1a635d31c927870cec51fa02a90cd735318f87f617b778d3bebc2d",
+        "name": "libsysprof-capture",
+        "version": "50.0-6"
+      },
+      {
+        "metadataSha256": "fae11edd4b3bdc1ccfb68b653bf9dd125aaffed57113c82f38442cb54d4ba653",
+        "name": "libtasn1",
+        "version": "4.21.0-1"
+      },
+      {
+        "metadataSha256": "e71d91d9ef758fd0a6fa6d45cc58e1d02cfee8230c47b1ff2546f25849124a9f",
+        "name": "libtatsu",
+        "version": "1.0.5-1"
+      },
+      {
+        "metadataSha256": "e47d6c2ed1c8b13512cbfd6c9fcf60fb89baa189dc9655430c20ec1ee1edae58",
+        "name": "libteam",
+        "version": "1.32-3"
+      },
+      {
+        "metadataSha256": "70b33d15c4a3b0f463a329caea8b3be6c66395da3b58c858d3be566ea8c855bb",
+        "name": "libthai",
+        "version": "0.1.30-1"
+      },
+      {
+        "metadataSha256": "af3454f4f3726061cdd57fb46b13214fee085b51eae9feb330f2fc6ee6dde8b0",
+        "name": "libtheora",
+        "version": "1.2.0-1"
+      },
+      {
+        "metadataSha256": "5a356c85a7630a1f2aa2a9a05cb49290350ad731b6c6e0b2684615ba4cf783a8",
+        "name": "libtiff",
+        "version": "4.7.2-1"
+      },
+      {
+        "metadataSha256": "3bb0b8ba7a5c5b3c2ae1a7f66caa6e869b444d0d29f00445823d1c349e93cbfb",
+        "name": "libtirpc",
+        "version": "1.3.8-1"
+      },
+      {
+        "metadataSha256": "08b7b78d4d1e0a743ff845270fee6777847a7e97d1d73e1bb4b01411b708c331",
+        "name": "libtool",
+        "version": "2.6.2-5"
+      },
+      {
+        "metadataSha256": "621b4dfec9123ade35258c45cbfc91a0ad6c755328ae84601102f52a057039b4",
+        "name": "libtsan",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "567027b508a65976e6fc2514b4b7b48e1491d46e3c5e615cdf6a68df723a9efe",
+        "name": "libubsan",
+        "version": "16.2.1+r23+gd564253eb6c8-1"
+      },
+      {
+        "metadataSha256": "d42528075f87509adf7d0268f9e895972e71beba0b67b225c59a405284d0774d",
+        "name": "libunibreak",
+        "version": "7.0-1"
+      },
+      {
+        "metadataSha256": "b86ae1f16f5448940139817bde91ead806c844078e4960cf76c842c320e0b0c1",
+        "name": "libunistring",
+        "version": "1.4.2-1"
+      },
+      {
+        "metadataSha256": "503e503b7efb89e809d1f99adc49178a26333ffa1ba21f4ac733dfc6d51650c6",
+        "name": "libunwind",
+        "version": "1.8.3-1"
+      },
+      {
+        "metadataSha256": "75013eee271ab3abd98edf014b0302d72878ca5403669655503ba4ce790c2d77",
+        "name": "liburing",
+        "version": "2.15-1"
+      },
+      {
+        "metadataSha256": "b36a474840b172d47a4f356cc6905eea4077a6310ca9659f52217f160680b9ce",
+        "name": "libusb",
+        "version": "1.0.30-1"
+      },
+      {
+        "metadataSha256": "0f5523b61fee8e268a31ff18817f4cb88310d249c3146bd1fe6547b8e9924245",
+        "name": "libusbmuxd",
+        "version": "2.1.1-2"
+      },
+      {
+        "metadataSha256": "9b082dea4a671a43ba27fbff9265bf2f8b0856ab52fb32adf040b4811bab436a",
+        "name": "libva",
+        "version": "2.24.1-1"
+      },
+      {
+        "metadataSha256": "7a1ac9b998936891aa1a6e72607a28e96f7a4080e20fc2463fa6bfa75425e58f",
+        "name": "libvdpau",
+        "version": "1.5-4"
+      },
+      {
+        "metadataSha256": "2d87953122e193e50f40897cb04fb5f7fd7f45fffc64b203b605a25d6f66cb03",
+        "name": "libverto",
+        "version": "0.3.2-6"
+      },
+      {
+        "metadataSha256": "7caf128341cc4f0da51e4fed905f067c2d89f4fa5c5593f5dafab5a5c021ffcc",
+        "name": "libvorbis",
+        "version": "1.3.7-4"
+      },
+      {
+        "metadataSha256": "52cee701e01d262344875d38ee97729eda6ae21e6fcffa5da7423b85aefcdaf2",
+        "name": "libvpl",
+        "version": "2.17.0-1"
+      },
+      {
+        "metadataSha256": "3fbe1e1922f8874d16a7e526c4cc03abd88c8e4989a5727de961b2804959455f",
+        "name": "libvpx",
+        "version": "1.17.0-1"
+      },
+      {
+        "metadataSha256": "f94d6af2e91f28d3472a1de01b6ba2a61e2e94a75b9164d9d19215fe6edeac71",
+        "name": "libwacom",
+        "version": "2.20.0-1"
+      },
+      {
+        "metadataSha256": "279d4c8db04676cad02bf7ba13b37e48f9eec6ea50ea922e7a97e69a059f20b3",
+        "name": "libwebp",
+        "version": "1.6.0-2"
+      },
+      {
+        "metadataSha256": "8f136f69db8ba474484635472e637aa19e24daa13cfa1f0b855eb5cbeaf0347a",
+        "name": "libwireplumber",
+        "version": "0.5.18-1"
+      },
+      {
+        "metadataSha256": "24de6c4ea075050c360afa954c9ab6fdab009220df709d640902e8603936fbd0",
+        "name": "libx11",
+        "version": "1.8.13-1"
+      },
+      {
+        "metadataSha256": "2ab0e9fd2a88fbcc00c15918475729da1f6d8e6a48939f2dd91dcc45e8f6c23b",
+        "name": "libxau",
+        "version": "1.0.12-1"
+      },
+      {
+        "metadataSha256": "71db7900a7b3d983f4f87a8e4fa07ba0767c0d53b6b97f1cf530f41a04c095cb",
+        "name": "libxcb",
+        "version": "1.17.0-1"
+      },
+      {
+        "metadataSha256": "cbb6c4ca8da058a4185ca4c288358c6079b88fc55edd24eed768ff02b8d8b132",
+        "name": "libxcomposite",
+        "version": "0.4.7-1"
+      },
+      {
+        "metadataSha256": "48aafc01bc18253d91d36d896d883559922c08e4cec6d85ad1dfd2766a5e701f",
+        "name": "libxcrypt",
+        "version": "4.5.2-1"
+      },
+      {
+        "metadataSha256": "67000e6c40153e30517c3bd7498e61d00ded53eeb877ebf70ab2e95d7f34fa10",
+        "name": "libxcursor",
+        "version": "1.2.3-1"
+      },
+      {
+        "metadataSha256": "b5fb2e0e386aedd1df42eb6e787086b6e6392c7880a662311ef74417d1e928a3",
+        "name": "libxcvt",
+        "version": "0.1.3-1"
+      },
+      {
+        "metadataSha256": "112fd8660a4bf5b1ab3aa4feefc6ebe5fbcef102e4ae9a01c0204731506d59bf",
+        "name": "libxdamage",
+        "version": "1.1.7-1"
+      },
+      {
+        "metadataSha256": "ee5d7600770136707c7bec59ac2cd3df257333b2244311979c637a4b7d74a695",
+        "name": "libxdmcp",
+        "version": "1.1.5-2"
+      },
+      {
+        "metadataSha256": "0ea6b9483a0b1e47f1aa25dd39bf8c2a7f8189c2d18b228c846522cfa95bdb83",
+        "name": "libxext",
+        "version": "1.3.7-1"
+      },
+      {
+        "metadataSha256": "a20526db2f6a6bd6b021751dd0dc7f6d3670fd54085b7aec05641c67c008f605",
+        "name": "libxfixes",
+        "version": "6.0.2-1"
+      },
+      {
+        "metadataSha256": "252bd6b8dbc52b66dfc9dc6e54336b206cd60cf8a801faf57e9b5eebc4de2d80",
+        "name": "libxfont2",
+        "version": "2.0.9-1"
+      },
+      {
+        "metadataSha256": "9b05636da960a0227266bfa7f540d711e7782ea72bd9fffa2147be7c980b8a65",
+        "name": "libxft",
+        "version": "2.3.9-1"
+      },
+      {
+        "metadataSha256": "6709d70676945452ed5944b7a3847b6534694e95983f5b385fce105a6d4e2ffc",
+        "name": "libxi",
+        "version": "1.8.3-1"
+      },
+      {
+        "metadataSha256": "8dbf62c12d01328b6608d881cfe3994f2d2adf1d7a1140d317d7374b062c6de0",
+        "name": "libxinerama",
+        "version": "1.1.6-1"
+      },
+      {
+        "metadataSha256": "3cca0e4de50ea4ed6267334eb07f01d9a0f00977af2a2dc8d5b1d3e3ae57faaf",
+        "name": "libxkbcommon",
+        "version": "1.13.2-1"
+      },
+      {
+        "metadataSha256": "b276815435028885817bbc3411edde4ff4e81fb5e4497e2debebe79228f6e40d",
+        "name": "libxkbcommon-x11",
+        "version": "1.13.2-1"
+      },
+      {
+        "metadataSha256": "107976e9d41bf5c207f82493fc0b4ef8e9fc90a1a1d73d9bcb9835c197b6a6ef",
+        "name": "libxkbfile",
+        "version": "1.2.0-1"
+      },
+      {
+        "metadataSha256": "f2cd97f9a4c7134863be0015c22a979e0c35e401350c5c30186de1994725e932",
+        "name": "libxml2",
+        "version": "2.15.4-1"
+      },
+      {
+        "metadataSha256": "66d4ac8f22b5ad9d368f90be388e019af6ffa6cb98609aabc4bb6523e1b0efec",
+        "name": "libxrandr",
+        "version": "1.5.5-1"
+      },
+      {
+        "metadataSha256": "908cf7447900c89288828f23faa5e0f8a26d84f35ed8b5063432cd34ad1cb2b6",
+        "name": "libxrender",
+        "version": "0.9.12-1"
+      },
+      {
+        "metadataSha256": "39981f54f496202fbf954332ae12c281fbe76421adeba5f45cc70f64b5cd07d6",
+        "name": "libxshmfence",
+        "version": "1.3.3-1"
+      },
+      {
+        "metadataSha256": "822d0907cd57b98d5c2e72705206a09e00acafb00fd61b7e0eb90d068c8adf6d",
+        "name": "libxss",
+        "version": "1.2.5-1"
+      },
+      {
+        "metadataSha256": "9d587641b240a805bb13ca1701f27d8f04ce92ca5334af47179372a62b6e36c0",
+        "name": "libxt",
+        "version": "1.3.1-1"
+      },
+      {
+        "metadataSha256": "c23b8c6849531b640306c4359b78df1ef3e9dddea98074705fae047328f252d8",
+        "name": "libxtst",
+        "version": "1.2.5-1"
+      },
+      {
+        "metadataSha256": "3d136245d9e590e09245800256b2c53b4c8321a2f83760237e8d2e886f080397",
+        "name": "libxv",
+        "version": "1.0.13-1"
+      },
+      {
+        "metadataSha256": "179543bf018949cb09171f55f70dd4e35b8de07c5a337bda89cf0498b1295ce1",
+        "name": "libxxf86vm",
+        "version": "1.1.7-1"
+      },
+      {
+        "metadataSha256": "b5e712600499a064a55c1337af2ce8635eeb3ed128e353857373c13c2e41ac88",
+        "name": "libyaml",
+        "version": "0.2.5-3"
+      },
+      {
+        "metadataSha256": "db01c002c3267066b56290355e23133f7142a4d7daccc95c0bf9fea702c59ca1",
+        "name": "libzip",
+        "version": "1.11.4-1"
+      },
+      {
+        "metadataSha256": "73f272cf456b601b4a235eaa774f67e78e32da487ba9e08aeed2348474c3afd9",
+        "name": "licenses",
+        "version": "20240728-1"
+      },
+      {
+        "metadataSha256": "8f9f461fa29b9f2e0c70a37130a490555cbe9e996a5fab0f442a3495da4f4cd3",
+        "name": "lilv",
+        "version": "0.28.0-1"
+      },
+      {
+        "metadataSha256": "27c28c542e0a81bc2183bd24ef42315e4429e83831c7a24de9b15f67e9593aaa",
+        "name": "linux",
+        "version": "7.2.8.arch1-2"
+      },
+      {
+        "metadataSha256": "8bddcad54d9b96324461e52f801c683d9d76d401648334fd210cc7f2f397ec62",
+        "name": "linux-api-headers",
+        "version": "7.2-1"
+      },
+      {
+        "metadataSha256": "b98856b30317db49fd8c17e9ef5a1641b07cb26070f269938ca1484c82fcb4b3",
+        "name": "llhttp",
+        "version": "9.3.1-1"
+      },
+      {
+        "metadataSha256": "9da2ae7c7803b5f0af820dc85d2f5cae5d681a45988b16cfe68b8d13c2d60683",
+        "name": "llvm-libs",
+        "version": "23.1.1-1"
+      },
+      {
+        "metadataSha256": "32cd929f1c1b9d2e673e80328663856264dbdc2829b771c8f7ec75a7539d71d7",
+        "name": "lm_sensors",
+        "version": "1:3.6.2-1"
+      },
+      {
+        "metadataSha256": "f54c1f0ff28bcee76fbcedd1592187895b4e048dfc815bc262ce655515379b49",
+        "name": "lmdb",
+        "version": "0.9.35-1"
+      },
+      {
+        "metadataSha256": "848c3f9ac484b3abcd56298c3faa80da8f2bb985c113f066af8b7844c1fe2ba1",
+        "name": "lowdown",
+        "version": "3.2.1-1"
+      },
+      {
+        "metadataSha256": "cd5ef2463b90d0a825bf6ffcdf874cb5ce1b804ce704869890124e19272b050e",
+        "name": "lsp-plugins-lv2",
+        "version": "1.2.35-1"
+      },
+      {
+        "metadataSha256": "c0f593e6259dfe0d1a312b0598a8639a337a0cc8dca341fdbeab162e3d54468d",
+        "name": "lua",
+        "version": "5.5.1-1"
+      },
+      {
+        "metadataSha256": "98e30ef5f72299cee5fb983314ac8c674d6a340296d4eed0c83e8bda972b91cb",
+        "name": "lua54",
+        "version": "5.4.9-1"
+      },
+      {
+        "metadataSha256": "16c5917ae92d67f30fc2d21b71d5cb00ca57fadb17af14ab5d67efff865e8364",
+        "name": "lv2",
+        "version": "1.18.10-2"
+      },
+      {
+        "metadataSha256": "cb104fc65c46b0429ac176df2a214510b7230a4b9d11435dbb8a97dda86d4712",
+        "name": "lz4",
+        "version": "1:1.10.0-2"
+      },
+      {
+        "metadataSha256": "0fc471a304cabee742c5ceaf755f88aef533099d3607ef9a5ed7cecc0f6c0930",
+        "name": "lzo",
+        "version": "2.10-5"
+      },
+      {
+        "metadataSha256": "9fe23f972a3abedf157c1b755d4cbafa531ce62c2900dda2bf2a3ecc3b3e808d",
+        "name": "m4",
+        "version": "1.4.21-2"
+      },
+      {
+        "metadataSha256": "49ad8c29391d032534662378c299e9e6ccc68c3555432ccf19c2dd3dae890b07",
+        "name": "mailcap",
+        "version": "2.1.54-3"
+      },
+      {
+        "metadataSha256": "7905bbc65d18fbdf3a581418a7dc17a836ab9636d015b8e221e83d4a397ab397",
+        "name": "make",
+        "version": "4.4.1-3"
+      },
+      {
+        "metadataSha256": "012032fb3329859fe2289eebe2c339733b43121ea9bd97b1fba98afd0924c69c",
+        "name": "md4c",
+        "version": "0.6.0-2"
+      },
+      {
+        "metadataSha256": "3a7c6528767499fb03aa20c4c71bd33e5791a02cab5ce6cff032743bc04e62ca",
+        "name": "mesa",
+        "version": "1:26.2.4-1"
+      },
+      {
+        "metadataSha256": "f615801d94ed91127b90982005e4f32eb4fb819d9515466978fc89b6779e0531",
+        "name": "mkinitcpio",
+        "version": "42.2-1"
+      },
+      {
+        "metadataSha256": "32bddd38c3265cbf6d9d08ef023f2356f9e2b3affb72a977ad4e3809e7b09a64",
+        "name": "mkinitcpio-busybox",
+        "version": "1.36.1-1"
+      },
+      {
+        "metadataSha256": "601e45d8a4430f919b3411a251b97bb6d632d7c397bdf10b3c05a3bad4d75e91",
+        "name": "mobile-broadband-provider-info",
+        "version": "20251101-1"
+      },
+      {
+        "metadataSha256": "3a9e5dc80a96804a6b7378f29c8236b03068272d9c61df452d4451cae7e1110b",
+        "name": "mpdecimal",
+        "version": "4.0.1-3"
+      },
+      {
+        "metadataSha256": "60aa6b3c2586d1abfed8c2455c3a9b3ba1353667cd92b13b4c907d609bfdebde",
+        "name": "mpfr",
+        "version": "4.2.2-1"
+      },
+      {
+        "metadataSha256": "e7d04247a07c02de17dbb4dcc8859ffadcee0bb30a88787cae40bd9905654ac8",
+        "name": "mpg123",
+        "version": "1.33.7-1"
+      },
+      {
+        "metadataSha256": "0df67947fbf11cfa56e3cc3f29962087b54cc50122e17ecf7c87c8c11d2597d0",
+        "name": "mtdev",
+        "version": "1.1.7-1"
+      },
+      {
+        "metadataSha256": "a1b2145423b651409130fd1423234785c3473283b2b9770b86d994945b8bbfd6",
+        "name": "muparser",
+        "version": "2.3.5-2"
+      },
+      {
+        "metadataSha256": "486d05fe73647561d9506b7b9632f56697e572a4659d10a9ecaecc4dd7cb238b",
+        "name": "ncurses",
+        "version": "6.6-2"
+      },
+      {
+        "metadataSha256": "bcd452f9ceb38998ffa16f86693638537ebb449a06f1a903f2d9a7555e7b450b",
+        "name": "nettle",
+        "version": "4.0-1"
+      },
+      {
+        "metadataSha256": "0c085a84148f9c356c23810fb657d46991340c9123990b424a71b1bee4616772",
+        "name": "networkmanager",
+        "version": "1.58.1-2"
+      },
+      {
+        "metadataSha256": "e6a142f7b7ff46a8506b663381a1c70548c15dbd0abe99cc9f3866f05df0aa6d",
+        "name": "nftables",
+        "version": "1:1.1.7-3"
+      },
+      {
+        "metadataSha256": "f42cc0d003fdce76bc74bf0503a8edca46b00e5282102a0cda932a80fbd43791",
+        "name": "nix",
+        "version": "2.35.2-4"
+      },
+      {
+        "metadataSha256": "16d859fb1efd82e4b9b9baaeef02fd3e9f04da25057650a70b97c8986e80c4f7",
+        "name": "nix-busybox",
+        "version": "1.37.0-1"
+      },
+      {
+        "metadataSha256": "206a57728e5db7a01028b2b7343cc54f70a8e79a5e50ea693b3f16e098a1fb4b",
+        "name": "nlohmann-json",
+        "version": "3.12.0-2"
+      },
+      {
+        "metadataSha256": "b4cf16941f58f5110a16f281443971a4d3696b90d046bb1144338372746e42d1",
+        "name": "npth",
+        "version": "1.8-1"
+      },
+      {
+        "metadataSha256": "60d5a8605497ad725a3c9fe487ad4849a908bd287bb331b6fffe53ffd1b98427",
+        "name": "nspr",
+        "version": "4.40-1"
+      },
+      {
+        "metadataSha256": "fb59d247795bb77902b4031e09cae614d46636642132d1121e04d93e1ff72213",
+        "name": "nss",
+        "version": "3.130-1"
+      },
+      {
+        "metadataSha256": "59a83915f04ad745c9818117c93d7de95c6347e382725de48ccee49827cdaf13",
+        "name": "numactl",
+        "version": "2.0.19-1"
+      },
+      {
+        "metadataSha256": "8b0a29a9e85e0d1ac9131cf8d53db993d8f0264901e1541ee64dea88b5afa66a",
+        "name": "ocl-icd",
+        "version": "2.3.5-1"
+      },
+      {
+        "metadataSha256": "eafb0982cd373dd62fd9b0d14f473f5666fbcd2fa3cb5d920023ad34c054f41d",
+        "name": "onetbb",
+        "version": "2023.1.0-1"
+      },
+      {
+        "metadataSha256": "087250872eff1b23358d9f63e8ae4bc98d4a8fab4600f3638ef0a55010a2fe2c",
+        "name": "oniguruma",
+        "version": "6.9.10-1"
+      },
+      {
+        "metadataSha256": "232eeab40805c102e92b8abe27016d201fcb39e19a36ac779a5f92c61e5ba094",
+        "name": "openbsd-netcat",
+        "version": "1.238_1-1"
+      },
+      {
+        "metadataSha256": "85e3e11eda0604a494fbaedc6448b45b4157a526fa9ae6e98ddd0a8cbeb0382d",
+        "name": "opencore-amr",
+        "version": "0.1.6-2"
+      },
+      {
+        "metadataSha256": "7e43ca2d3ccbbbdabdf24db63c62654e117cf009f8da39b35169114e8b91a74b",
+        "name": "openjpeg2",
+        "version": "2.5.4-1"
+      },
+      {
+        "metadataSha256": "a10416ee6b1f7c556866a9f4423ede42984240325ec0254daae28cbe63581817",
+        "name": "openssh",
+        "version": "10.5p1-1"
+      },
+      {
+        "metadataSha256": "b3cb56a94071d19f321c5f882ef93a15c941756b80207256a54d1873e4545c3c",
+        "name": "openssl",
+        "version": "3.6.5-1"
+      },
+      {
+        "metadataSha256": "a1441c6e1dcf0107490e417e43024571412c896a0f615e92f1c44ee0ed8ee586",
+        "name": "opus",
+        "version": "1.6.1-1"
+      },
+      {
+        "metadataSha256": "7d882b79a216b18a72526d6fd3a80988a916becc015c23cda77c02d4e9577e64",
+        "name": "orc",
+        "version": "0.4.44-1"
+      },
+      {
+        "metadataSha256": "6da71b6139182cc0d7a19038794cd722a134474cd77b47268092df1c4279b256",
+        "name": "p11-kit",
+        "version": "0.26.5-1"
+      },
+      {
+        "metadataSha256": "4370e91e14fbdc01f6e56f128ba12b7652d4ba638a2d8d01b89f8b1ed2ede9f1",
+        "name": "pacman",
+        "version": "7.1.0.r9.g54d9411-2"
+      },
+      {
+        "metadataSha256": "2bb273201f82e52c2b0033a16d95f40c1abb14afebe118c9a3a76cf9d6ceb497",
+        "name": "pacman-mirrorlist",
+        "version": "20260610-1"
+      },
+      {
+        "metadataSha256": "e4bdb8faa4f260742f7386e79c924d2f6708c2cee55c2a9c33feccd98e82ff5a",
+        "name": "pam",
+        "version": "1.7.3-1"
+      },
+      {
+        "metadataSha256": "569ce79a9e5447fd195fac2b37eaf07b518d64c4ade49726aa7df65287cde92e",
+        "name": "pambase",
+        "version": "20260616-1"
+      },
+      {
+        "metadataSha256": "404a080e4316dc1295844da1ab79c890770b1beb2a8c7a9c13ed05dbe580d23f",
+        "name": "pango",
+        "version": "1:1.58.2-1"
+      },
+      {
+        "metadataSha256": "083352fad5e0297a877cf2a706b59092cb35b03c3b7e0b65e84e1463d72e92d8",
+        "name": "patch",
+        "version": "2.8-1"
+      },
+      {
+        "metadataSha256": "1431a7af5e13c896863c93012c8703a3a367250986a8c9ef64543ae4832b172a",
+        "name": "pciutils",
+        "version": "3.15.0-1"
+      },
+      {
+        "metadataSha256": "64c8e244c984e98d1a061aee399c6b84917f78796562d9f4e7c1ff9261f275aa",
+        "name": "pcre",
+        "version": "8.45-5"
+      },
+      {
+        "metadataSha256": "e4a008f9dab03605cae01c6c57c01244d12b414c3c44e9875c4e8bcec2c92d63",
+        "name": "pcre2",
+        "version": "10.49-1"
+      },
+      {
+        "metadataSha256": "40555c1eb3881be7d346bf09fb6dec2c890afbcbbca107152586ea63c72ccdfb",
+        "name": "pcsclite",
+        "version": "2.5.2-1"
+      },
+      {
+        "metadataSha256": "4e03a4c9a597d92920b8e39438fec291429568293e2598b66e77e9338b5fc01a",
+        "name": "perl",
+        "version": "5.42.2-2"
+      },
+      {
+        "metadataSha256": "d9168e349ec4655c21a1e193414b50c782ee483ed3a82b5cd2d1aacd23561ad6",
+        "name": "perl-error",
+        "version": "0.17030-3"
+      },
+      {
+        "metadataSha256": "f114131648ac7137babaf9792913b8f391fdfbf3827f244301505695a57b949d",
+        "name": "perl-mailtools",
+        "version": "2.22-3"
+      },
+      {
+        "metadataSha256": "ea228c8d33de69936e639f2d1b5d1bba76148f069d841ca0052bf9b9f5daa3a9",
+        "name": "perl-timedate",
+        "version": "2.35-1"
+      },
+      {
+        "metadataSha256": "7fe25547837f3bdef2e6de2c6fa9347d526704f67f1a8213337700eb00b5d815",
+        "name": "pinentry",
+        "version": "1.3.3-1"
+      },
+      {
+        "metadataSha256": "596868a7c65236de8b73cb445c9093f2af2043c69e5c5cee9cb06ffb8cdf741c",
+        "name": "pipewire",
+        "version": "1:1.6.9-1"
+      },
+      {
+        "metadataSha256": "18012a3fd22639ea3d2b9367d123e2a124b321f829b98aa27b4cbb3c15f7b498",
+        "name": "pipewire-audio",
+        "version": "1:1.6.9-1"
+      },
+      {
+        "metadataSha256": "0de7bf2461c426c364f1cb519fd81180ca3b50db0eebc285b20139943a2e41e6",
+        "name": "pipewire-pulse",
+        "version": "1:1.6.9-1"
+      },
+      {
+        "metadataSha256": "ccf55a40c6daaa93615b64079516cc906d0271da6e2dfdfd553c8f99fb4483e5",
+        "name": "pixman",
+        "version": "0.46.4-1"
+      },
+      {
+        "metadataSha256": "07a1e65854c49d24287965b722894272cbd88135a4ee095b077bd96979adfa2e",
+        "name": "pkgconf",
+        "version": "3.0.7-1"
+      },
+      {
+        "metadataSha256": "50d7eaddfd810acc088411ff453d53f1e98c552dbc82e6307122a4608647e040",
+        "name": "polkit",
+        "version": "127-3"
+      },
+      {
+        "metadataSha256": "010169b1869789e27520ac03d46543c5bcb3b26324d5264f6f4345bde3249767",
+        "name": "popt",
+        "version": "1.19-2"
+      },
+      {
+        "metadataSha256": "bc85834b53bbce1c0d7c7e5b4df4bb2d1298a8d83890a77c62331c46cfa474a3",
+        "name": "portaudio",
+        "version": "1:19.7.0-4"
+      },
+      {
+        "metadataSha256": "632f08e6786731d80c1316e41ddddfef36c5a030708189da20ef709942074aad",
+        "name": "power-profiles-daemon",
+        "version": "0.30-1"
+      },
+      {
+        "metadataSha256": "caf94eb4c18c160ff23a5a6333709d50723553f77137a71c93f7e02c03221534",
+        "name": "procps-ng",
+        "version": "4.0.7-1"
+      },
+      {
+        "metadataSha256": "8a9003412e96eaf167c7a63c005db5fb34b65a3498c0d708ed54fe8395ec88ca",
+        "name": "psmisc",
+        "version": "23.7-2"
+      },
+      {
+        "metadataSha256": "08b728f6f9e4dfd0d22a413caa774e0303b56d2eadd4e6e81c7a5cb6c61fb8c1",
+        "name": "pugixml",
+        "version": "1.16-1"
+      },
+      {
+        "metadataSha256": "b059044cc6725bcec5758445e53e405f69e00f47e8b9ec8b11a2869521bf9aad",
+        "name": "python",
+        "version": "3.14.7-1"
+      },
+      {
+        "metadataSha256": "36364e8243aeba922882431d83088c01498040b60cf78d25ac0d939840d140ab",
+        "name": "python-attrs",
+        "version": "26.1.0-1"
+      },
+      {
+        "metadataSha256": "c7a6611e116ef0d02f03a1eea00f1232aaa5299836c07df12b12a78eae408aa0",
+        "name": "python-certifi",
+        "version": "2026.07.22-1"
+      },
+      {
+        "metadataSha256": "c3397d68c4969a710536d7e6eb29d9a022edf8aa3ad867104b92b7094dd0d02a",
+        "name": "python-charset-normalizer",
+        "version": "3.5.1-1"
+      },
+      {
+        "metadataSha256": "edaac911116fea31d0d7af2528910bc05f89c33b1eb3221cbff253fcaf6e6388",
+        "name": "python-configobj",
+        "version": "5.0.9-6"
+      },
+      {
+        "metadataSha256": "f0fa4a8ca4a851aa00421e55f659e4ca62d3132f6d409686a26c3ce7442e0576",
+        "name": "python-dbus",
+        "version": "1.5.0-1"
+      },
+      {
+        "metadataSha256": "c461607387bb57aa93e9d34a78195655f11940c20464238fed5e7e872cc051b8",
+        "name": "python-idna",
+        "version": "3.20-1"
+      },
+      {
+        "metadataSha256": "d188a651031f0f9163db6785ab73f9d355a7a199d45bc6b5db8ee7d08aa58bfb",
+        "name": "python-jinja",
+        "version": "1:3.1.6-3"
+      },
+      {
+        "metadataSha256": "48825ecac6ae596d0420a0603f7b7696042e4130e8d6181279d0178efb479d27",
+        "name": "python-jsonpatch",
+        "version": "1.33-6"
+      },
+      {
+        "metadataSha256": "d47f8a99f2a541bf3216410eed50069cc9234177f80f11b8c71c07695ac3a002",
+        "name": "python-jsonpointer",
+        "version": "3.1.1-1"
+      },
+      {
+        "metadataSha256": "4c0eeee63f03feae3380513031ad7ea8ba013bec6ead5595733f7ff1a1624f62",
+        "name": "python-jsonschema",
+        "version": "4.26.0-1"
+      },
+      {
+        "metadataSha256": "9db95a4341ae5d9edda83a64b8466335f308748040f76c4aa6e3d1512fd519ee",
+        "name": "python-jsonschema-specifications",
+        "version": "2025.9.1-2"
+      },
+      {
+        "metadataSha256": "7ad4f6651b4585d754cbe4b62c2ef0a5123b9a0bae5e8e086415ed368bdd64bd",
+        "name": "python-markupsafe",
+        "version": "3.0.4-1"
+      },
+      {
+        "metadataSha256": "0a9d4073af97bb0d18094978973a7a94c133579edc62dd6c6495f0eb81ebe0fc",
+        "name": "python-netifaces",
+        "version": "0.11.0-9"
+      },
+      {
+        "metadataSha256": "c0e229a219e70a6c7c3133c9a27eb777f6aa6b6045bdfcca85d09f8d0a80d64d",
+        "name": "python-oauthlib",
+        "version": "3.3.1-2"
+      },
+      {
+        "metadataSha256": "82ab1841b5c9da1f49ad52f3cc6abefd7722d1cfa28d4e564abf3dee494f7479",
+        "name": "python-pyserial",
+        "version": "3.5-8"
+      },
+      {
+        "metadataSha256": "57cdf9bc0c5cf01460f7f28ca185e44b130a9f1c653f612f4603c13121b9468d",
+        "name": "python-pyxdg",
+        "version": "0.28-7"
+      },
+      {
+        "metadataSha256": "0ed6747d345d6e499489d48d6c4c6a9276613e434cbea25a877ec3c1edec17a1",
+        "name": "python-referencing",
+        "version": "0.37.0-3"
+      },
+      {
+        "metadataSha256": "569455e56d005f54d96aba5c2ef1c337e4dffad071f4edc0f6ea264357e96c0d",
+        "name": "python-requests",
+        "version": "2.34.2-1"
+      },
+      {
+        "metadataSha256": "761791011489c890cf5741bf284cb1924a8168771e4cd253c9e3cb5673566b39",
+        "name": "python-rpds-py",
+        "version": "2026.9.1-1"
+      },
+      {
+        "metadataSha256": "e42986baafc4263ce3ba1caf0f4378f17ce8374f7c72822f850ea7a079d36919",
+        "name": "python-typing_extensions",
+        "version": "4.16.0-1"
+      },
+      {
+        "metadataSha256": "2307726a16093f90365576fabafb99154225248abbb16d8251ec118f80e6bcd1",
+        "name": "python-urllib3",
+        "version": "2.8.0-1"
+      },
+      {
+        "metadataSha256": "6a34d3b721a8708f9636ccb5498bdd26ecf5df73e37e782e3f8c9ecf31d5e1df",
+        "name": "python-yaml",
+        "version": "6.0.3-2"
+      },
+      {
+        "metadataSha256": "cc01d6fd5a4379d0ccbf4e5924ba36b1e9d616b8d8f8a9d784a77ba6713afe72",
+        "name": "qemu-guest-agent",
+        "version": "11.1.1-4"
+      },
+      {
+        "metadataSha256": "65e4628ff08c196257f10604705400da3e3bc98cd6ee6ccbb051834ab06b3a9d",
+        "name": "qt6-base",
+        "version": "6.11.2-3"
+      },
+      {
+        "metadataSha256": "12835cb5507b8c3be6122a75ab5da0c8d1f45783dadb21bef7e9a7e9a015edcf",
+        "name": "qt6-declarative",
+        "version": "6.11.2-2"
+      },
+      {
+        "metadataSha256": "bc8b9f23815b81d59e98561d5972ca2f6c33cd3c4014fbf10007bcbd8a1bae4b",
+        "name": "qt6-svg",
+        "version": "6.11.2-1"
+      },
+      {
+        "metadataSha256": "183ef2b0b4eebaecc5b6b340d1576772aecbe55d6504522e7e4ce449d6efbf46",
+        "name": "qt6-translations",
+        "version": "6.11.2-1"
+      },
+      {
+        "metadataSha256": "6e7c9b77f0b19e768e850bb6591947f10dd991732bc512a2faa50b517a03bf6e",
+        "name": "qt6-wayland",
+        "version": "6.11.2-1"
+      },
+      {
+        "metadataSha256": "7f959e6360d2aab28c87f02090e217c86b6619bfdb1b06b2a13a65b8bd14156d",
+        "name": "quickshell",
+        "version": "0.3.1-1"
+      },
+      {
+        "metadataSha256": "128ea1b4941ce2210af42aed134437dfbd00eebbbb7f0a8da848899cbe0ae70f",
+        "name": "rav1e",
+        "version": "0.8.1-3"
+      },
+      {
+        "metadataSha256": "5e664f2e158060b5ca5a2b2b3584a206163b4c9b9d3b5ba34389f7c4d4c341d7",
+        "name": "re2",
+        "version": "2:2025.11.05-6"
+      },
+      {
+        "metadataSha256": "3d90f705820ef31734e87f110a7dc422f13d1a53076642a75d7c5fcb7b0f539d",
+        "name": "readline",
+        "version": "8.3.6-1"
+      },
+      {
+        "metadataSha256": "281debad02c29a000921620740709c920acda94fadb896c266c4db6eee57ff10",
+        "name": "rubberband",
+        "version": "4.0.0-2"
+      },
+      {
+        "metadataSha256": "17cde19cfffb8cc9640eda264539f99633cfd35138e79e5e6f5bde2b2ba1a716",
+        "name": "run-parts",
+        "version": "5.24-1"
+      },
+      {
+        "metadataSha256": "ca2d2c5b8a2d328acadaf093340c029cd69cb053040c22800077fed866dd523e",
+        "name": "s2n-tls",
+        "version": "1.7.10-1"
+      },
+      {
+        "metadataSha256": "d60ac034387a7c83b10d401915fe4ee0da93348ad793a2e0c6da70ae9b4d2eb6",
+        "name": "sbc",
+        "version": "2.2-1"
+      },
+      {
+        "metadataSha256": "ccf113214899e1112f85948605e1bc724cd323e8a61dc55c98dd585d7ea0181b",
+        "name": "sdbus-cpp",
+        "version": "2.3.1-1"
+      },
+      {
+        "metadataSha256": "6c0aa1462d60b21ecdd7f8ad05674b06825823d7ab175984ff1cb876a6770ddc",
+        "name": "sdl2-compat",
+        "version": "2.32.74-1"
+      },
+      {
+        "metadataSha256": "eef7483d839d2135278dc040bfdd3caaad2be8b2565203c7630b7bd6b606a2e9",
+        "name": "sdl3",
+        "version": "3.4.18-1"
+      },
+      {
+        "metadataSha256": "8517efed13320693d9a75d8833f6dd0c91869fe896402ae24dc84ca28784abf8",
+        "name": "seatd",
+        "version": "0.9.3-1"
+      },
+      {
+        "metadataSha256": "11ab537daedc8024f612529f068e14d4d018bda512336f9165f0a22bc21521b3",
+        "name": "sed",
+        "version": "4.10-2"
+      },
+      {
+        "metadataSha256": "350131bbcfc0513748cb7b94edb3c8acb1ad3a39689b9b49e3bdf5dca61e510e",
+        "name": "serd",
+        "version": "0.32.10-1"
+      },
+      {
+        "metadataSha256": "3b6b39c769f3dbe06554dd134abfb3adb66d8c41863b325fa5cfc02e604eaf19",
+        "name": "shaderc",
+        "version": "2026.4-1"
+      },
+      {
+        "metadataSha256": "fe2456f1ab008732f959c549f0df554dd72537ba6f9864ef8458d090fce86022",
+        "name": "shadow",
+        "version": "4.20.0.arch1-1"
+      },
+      {
+        "metadataSha256": "86d1cba4f95059acb5cdad19926c908220b6c29c29835cd8a341a30550c3d028",
+        "name": "shared-mime-info",
+        "version": "2.5.1-2"
+      },
+      {
+        "metadataSha256": "d242c94e98ed79ce765ca440d577c17c2555c4b96c61968a6455bf6fcbacd290",
+        "name": "slang",
+        "version": "2.3.3-4"
+      },
+      {
+        "metadataSha256": "07ed4a31022106a541a7be8ca5fd1b39f202fec41a6a27f18b726c079347e626",
+        "name": "snappy",
+        "version": "1.2.2-3"
+      },
+      {
+        "metadataSha256": "8ccf7c6faf0863f22f6ff1a9d711c258fc4057f0a7b16f9d02d8435dd6160c83",
+        "name": "sndio",
+        "version": "1.10.0-1"
+      },
+      {
+        "metadataSha256": "8120d680ea97f8f4a93772aa33be69c484bbee3a2644bf04d6ffbe0524f07775",
+        "name": "sord",
+        "version": "0.16.22-1"
+      },
+      {
+        "metadataSha256": "4824171e7d997462a95acd440a83a5a217f1dcc1636a3fc3d36f512526e29f11",
+        "name": "source-highlight",
+        "version": "3.1.9-19"
+      },
+      {
+        "metadataSha256": "757b9fdddd7ad4bbc336e9c108e41510b2105aa31d255ded3929a74efc2972d5",
+        "name": "spandsp",
+        "version": "0.0.6-7"
+      },
+      {
+        "metadataSha256": "d8e57782df66f467b54f29e9d5ca2649b842d7071d20798f702ddb0213947c0d",
+        "name": "speex",
+        "version": "1.2.1-2"
+      },
+      {
+        "metadataSha256": "c83855c770087536c6b8b5949196b7d196a8807177000a88a0bc30bdbc49682b",
+        "name": "speexdsp",
+        "version": "1.2.1-2"
+      },
+      {
+        "metadataSha256": "0d2f33fb498923bac8201430b6477938e035b5701f67c65e1658761f1c4ef431",
+        "name": "spirv-tools",
+        "version": "1:1.4.363.0-1"
+      },
+      {
+        "metadataSha256": "bad86e4e200fcc3a5580d08dc9a271806bd9aba26edcccddd2f89a5bdfd991b6",
+        "name": "sqlite",
+        "version": "3.53.4-1"
+      },
+      {
+        "metadataSha256": "70ca66cf45cc29eb801227588d84776e208e7402298c5ed71a52b9d53acade79",
+        "name": "sratom",
+        "version": "0.6.22-1"
+      },
+      {
+        "metadataSha256": "6e90f3e2801eb51be426b487c2fca131aa902bab1bccb3d3d8124292308208d5",
+        "name": "srt",
+        "version": "1.5.7-1"
+      },
+      {
+        "metadataSha256": "f3edd6ac26af8e31c73f6e3e75e5eaa39fa1c57677e2154274fd16d90d038bb6",
+        "name": "sudo",
+        "version": "1.9.17.p2-6"
+      },
+      {
+        "metadataSha256": "00000b2ebc5c0379b9ba6f8581d96986cd7e6f8ec47c97dc5602124afed69147",
+        "name": "svt-av1",
+        "version": "4.2.0-1"
+      },
+      {
+        "metadataSha256": "78df646df3b842989b88d4a2cd939e86725bba5f7d8b9a7e85a04dfccddebdf8",
+        "name": "systemd",
+        "version": "262-1"
+      },
+      {
+        "metadataSha256": "dd19251ee7a125057e57c2056ea465427ad4b2f5924534ac208ebc9fde392ae4",
+        "name": "systemd-libs",
+        "version": "262-1"
+      },
+      {
+        "metadataSha256": "0d85a18fb5476abd3fdd7900b2fe7a49ed0ed76239e9a5df6b8e9b172278e540",
+        "name": "systemd-sysvcompat",
+        "version": "262-1"
+      },
+      {
+        "metadataSha256": "3434e6394d093b02b8df2a415b29765f0644f785624ba9b57b427aedfa15ab2a",
+        "name": "tamlinux-native",
+        "version": "0.4.2-0.1"
+      },
+      {
+        "metadataSha256": "8b17c16933e6da0092b751f334d90e34a1176bace9e9dafa74b6407ed8256c59",
+        "name": "tar",
+        "version": "1.35-5"
+      },
+      {
+        "metadataSha256": "9195a77e659f050f8f7de9da033d800d111510ab3d8e1c5dd1c96458f694c6ec",
+        "name": "texinfo",
+        "version": "7.3-1"
+      },
+      {
+        "metadataSha256": "246e58f384f425366ca276f137c8d4f03c9aeb402cb0727e731a7370731a4eae",
+        "name": "tinysparql",
+        "version": "3.11.1-1"
+      },
+      {
+        "metadataSha256": "0a5f47187f9ff41e21935294b9e4210680ac181270aa4c41a55683d8608f0af4",
+        "name": "tomlplusplus",
+        "version": "3.4.0-2"
+      },
+      {
+        "metadataSha256": "788078643741c59e78c61d431f793f2933beef9dab95cd66a804b11cb47be06e",
+        "name": "tpm2-tss",
+        "version": "4.2.0-2"
+      },
+      {
+        "metadataSha256": "e1d503d9c985aebf2f0c8b84d89f4803891047c78f787913d1b8bdcdbed3581a",
+        "name": "tslib",
+        "version": "1.24-1"
+      },
+      {
+        "metadataSha256": "6621196fb4e4cbecdd6a5527c509b83295318a9e82f906db77016ce3d9c731cb",
+        "name": "tzdata",
+        "version": "2026e-1"
+      },
+      {
+        "metadataSha256": "cd046528ad97bf8d6475641b8c36f09f5eb3f842622a0f82d13e4567d6ce26a6",
+        "name": "upower",
+        "version": "1.91.4-1"
+      },
+      {
+        "metadataSha256": "c05c06ae4044be1c78bb46f90d36bc5bfca63043c62c7c0a63182e15a7484dd0",
+        "name": "usbutils",
+        "version": "019-1"
+      },
+      {
+        "metadataSha256": "6f1f776ae7d334d63ac4699493b6377b0913f493f26d480b6fe18454db69d8a2",
+        "name": "util-linux",
+        "version": "2.42.4-1"
+      },
+      {
+        "metadataSha256": "9d585541c6ca310214be32a5ea8a8fb8a79310619f1e906df7555a2ecdd8f444",
+        "name": "util-linux-libs",
+        "version": "2.42.4-1"
+      },
+      {
+        "metadataSha256": "7fe7de7573be6329abd5ccc1ff07f1e69e4ba384c90220ce4493cbd8c43c70ca",
+        "name": "uwsm",
+        "version": "0.27.0-1"
+      },
+      {
+        "metadataSha256": "58869fd58ca19b7f36b78af9995b4b8624af0a3fb918dfb30d322422b5a89359",
+        "name": "v4l-utils",
+        "version": "1.32.0-2"
+      },
+      {
+        "metadataSha256": "7b80e21a0fe7df9afa0b28948416ab64f3da05df68e8312a914bd78cc5ce446e",
+        "name": "vapoursynth",
+        "version": "80-1"
+      },
+      {
+        "metadataSha256": "2a398347cb65a7010d86593e6e4abec35e548f638b2a1c4b2147e4a2ac15f1b5",
+        "name": "vid.stab",
+        "version": "1.1.2-1"
+      },
+      {
+        "metadataSha256": "73d0e2b17445f6f04664eea84c1771d859671a46101beffcc9e4776e04d40113",
+        "name": "vim",
+        "version": "9.2.1046-1"
+      },
+      {
+        "metadataSha256": "09aedcdd575f0baae493513b165a0c981d07919d5034b1685a01717d1c6ebd57",
+        "name": "vim-runtime",
+        "version": "9.2.1046-1"
+      },
+      {
+        "metadataSha256": "0bae8320945a399f9ff0dbb8c3ce8c8e2bff459fc8b7e3213e94fbb847ade662",
+        "name": "vmaf",
+        "version": "3.2.1-1"
+      },
+      {
+        "metadataSha256": "035d9061bba42f1f4547142f42ea0002a0586a5b976b3bb7709da0d3c325d6d7",
+        "name": "vulkan-icd-loader",
+        "version": "1.4.363.0-1"
+      },
+      {
+        "metadataSha256": "b82400ae268795287facd81dd82df33fe65408680db6ac6dbb767c4880fc9cc1",
+        "name": "wayland",
+        "version": "1.26.0-1"
+      },
+      {
+        "metadataSha256": "e2f7b9a04f635845d4d72fc0c4d3c1dcd2a0ef77e0057150e040e20388cce388",
+        "name": "wayland-protocols",
+        "version": "1.49-1"
+      },
+      {
+        "metadataSha256": "d7ea7e1411777b63e9bb040faba073e86f08d3234e83ea81da8e410ac882261a",
+        "name": "webrtc-audio-processing-1",
+        "version": "1.3-5"
+      },
+      {
+        "metadataSha256": "2f25b2623d3e60ba92d9c09034560cae8ef60fa93b8140430c9cd21b1f2a0f1e",
+        "name": "wget",
+        "version": "1.25.0-6"
+      },
+      {
+        "metadataSha256": "bca1c8e214f2c8090e2aad69410d9fb632beeb70cd50c79fbe1c8c98ae9f0765",
+        "name": "which",
+        "version": "2.25-1"
+      },
+      {
+        "metadataSha256": "7ca28bccb9ab00e3b761e1e934c0acfd56b56f67c2afb5dbe8899b136d829d59",
+        "name": "wireplumber",
+        "version": "0.5.18-1"
+      },
+      {
+        "metadataSha256": "eeace58f255f04e1244c1c4f2e5d47933dc4dab82f9e4abca6c5f5b9e4cae73a",
+        "name": "wl-clipboard",
+        "version": "1:2.3.0-1"
+      },
+      {
+        "metadataSha256": "30b8cd2fd8712824a193b8241aad3d7a9f79a06bd214ef8e7623f8d518fe8a9e",
+        "name": "wpa_supplicant",
+        "version": "2:2.12-1"
+      },
+      {
+        "metadataSha256": "c15aa96dbb57d37bf49c6b7bee643c6267d3194c10e791a599f558ed4ae1a208",
+        "name": "x264",
+        "version": "3:0.165.r3222.b35605a-2"
+      },
+      {
+        "metadataSha256": "2d9e7d6d6aaacaea9cbf32f8f264c9c5bf116440b283adac202c1d9cf13c0592",
+        "name": "x265",
+        "version": "4.3-1"
+      },
+      {
+        "metadataSha256": "00b24fe3b4f1c6b1c63e440038a0c5a08e372b95ce1b09ef87953b7adcd43eff",
+        "name": "xcb-proto",
+        "version": "1.17.0-4"
+      },
+      {
+        "metadataSha256": "1bab94c551dbe8fbe42ac15a7139342d6090b30428376db9fcbc2cafa78445e3",
+        "name": "xcb-util",
+        "version": "0.4.1-2"
+      },
+      {
+        "metadataSha256": "6c14b33809586383df4662c48e9616460428d9c22c506cc907c463f9fd30affb",
+        "name": "xcb-util-cursor",
+        "version": "0.1.6-1"
+      },
+      {
+        "metadataSha256": "69229ddc034aacdd8e6d8c100aa621ad50a4cebe6a03816a400f27e9defe9436",
+        "name": "xcb-util-errors",
+        "version": "1.0.1-2"
+      },
+      {
+        "metadataSha256": "a63f0fe58b0dd921634755a1455b2eba98c716129d7f665814a9a9629c3c3665",
+        "name": "xcb-util-image",
+        "version": "0.4.1-3"
+      },
+      {
+        "metadataSha256": "8b44839738c392c79efe6dc7e2f942eaa1bfce958a944e68ee0dc9fbf1aca118",
+        "name": "xcb-util-keysyms",
+        "version": "0.4.1-5"
+      },
+      {
+        "metadataSha256": "b2888430e04aabe8c17fe8018c60f9666eff6547861d29d90618294af26c90c6",
+        "name": "xcb-util-renderutil",
+        "version": "0.3.10-2"
+      },
+      {
+        "metadataSha256": "f897709a17fa8f6a4b083127ec0b0cc4e72a4a344cd6390fe0ae256c1cb9f495",
+        "name": "xcb-util-wm",
+        "version": "0.4.2-2"
+      },
+      {
+        "metadataSha256": "76383610fd54d07d89d390bdfb13fe10962524b81b21beaa5d473f36f8185af7",
+        "name": "xdg-desktop-portal",
+        "version": "1.22.1-2"
+      },
+      {
+        "metadataSha256": "3b9afa32d7312449ecf29d81f14d1912cab3df49922c863c8509c1a2b3739ac8",
+        "name": "xdg-desktop-portal-gtk",
+        "version": "1.15.3-1"
+      },
+      {
+        "metadataSha256": "3b69916d6c94f7c56e44b67b8a75f0e110d2a53ad88c03c2dd55139b4f3a9713",
+        "name": "xdg-desktop-portal-hyprland",
+        "version": "1.4.1-2"
+      },
+      {
+        "metadataSha256": "79dd182fe87c1724aca9761c6b001c5838aa48e32c84cd602871703506ed83ba",
+        "name": "xdg-terminal-exec",
+        "version": "0.14.3-2"
+      },
+      {
+        "metadataSha256": "bfa31389328c0437d7b764b66f4db78d169985cb5388b013a064b76ae5417383",
+        "name": "xdg-utils",
+        "version": "1.2.1-2"
+      },
+      {
+        "metadataSha256": "0a581b98defda842838fe34d617bfdb88190f130706ca69c3ae820719014c49b",
+        "name": "xkeyboard-config",
+        "version": "2.48-1"
+      },
+      {
+        "metadataSha256": "40278bad7a92096587d8e6146a17b5e4d383eec40643456084a55a82d3c83333",
+        "name": "xorg-fonts-encodings",
+        "version": "1.1.0-2"
+      },
+      {
+        "metadataSha256": "3148cd398623675deef5aeee4885e5fa93d1bd2c2c958e159a8b1a467c98dd7c",
+        "name": "xorg-server-common",
+        "version": "21.1.24-1"
+      },
+      {
+        "metadataSha256": "92a6beacf114cf5c33b5a015792531dce32092d2ee2800f46b418719b483ac06",
+        "name": "xorg-setxkbmap",
+        "version": "1.3.5-1"
+      },
+      {
+        "metadataSha256": "f608a0816a117719d3cde21b0325fac4dba5bcf6fce1dad184dbcf3d0c059110",
+        "name": "xorg-xkbcomp",
+        "version": "1.5.0-1"
+      },
+      {
+        "metadataSha256": "22c9a0fde7a0506a4a466c9666f821135f05603882aa962c021b421e07a45886",
+        "name": "xorg-xprop",
+        "version": "1.2.8-1"
+      },
+      {
+        "metadataSha256": "3c4a8da4db635f726cd5ed9073dd37ae2acf4519bf2c41f82c5639760849119c",
+        "name": "xorg-xwayland",
+        "version": "24.1.13-1"
+      },
+      {
+        "metadataSha256": "36fcb8dc312d6664bc6621979f4c1005d3fe2fd32eff1a3ed733cc4769165775",
+        "name": "xorgproto",
+        "version": "2025.1-1"
+      },
+      {
+        "metadataSha256": "7890c9eb229779ee8cc32eb24750e8269c6e0f5219099f2d8a2448fd1ea171ed",
+        "name": "xvidcore",
+        "version": "1.3.7-4"
+      },
+      {
+        "metadataSha256": "fd09fd744c22dc85126cbe36d51bd2f0f95f81019cbdb49461078dec0d434ee0",
+        "name": "xxhash",
+        "version": "0.8.4-1"
+      },
+      {
+        "metadataSha256": "9ebc077c709fb333bd66e26275350e7d5176c8b3772d1b875f2b41116d8f5560",
+        "name": "xz",
+        "version": "5.8.4-1"
+      },
+      {
+        "metadataSha256": "8b8c8d8475c005e1e4bac2f92902a5675103e26d11ce338218ce495048536109",
+        "name": "zeromq",
+        "version": "4.3.5-3"
+      },
+      {
+        "metadataSha256": "1c49ee074962d3fbc92a24e493d39327e4cd88bb26b9a3def3f2b2965993fbf2",
+        "name": "zimg",
+        "version": "3.0.6-2"
+      },
+      {
+        "metadataSha256": "33c55adc60dc790572510148a2b39d93de77e17389451cd699ce050e90adde4d",
+        "name": "zix",
+        "version": "0.8.2-1"
+      },
+      {
+        "metadataSha256": "4a6d7e5b889da0510a4a4f41ff2bd56abbddf1afef39da825d3597016ea7aaf1",
+        "name": "zlib",
+        "version": "1:1.3.2-3"
+      },
+      {
+        "metadataSha256": "9826d8850e59ba4b962eb613b3ef4381370b0d8acabbba520820051062d434c3",
+        "name": "zlib-ng",
+        "version": "2.3.3-1"
+      },
+      {
+        "metadataSha256": "fccb70cea059475285ee98b6c8a24dda9f7942883e803c6e7e3a0ca0f4a70e20",
+        "name": "zstd",
+        "version": "1.5.7-3"
+      }
+    ],
+    "repositories": {
+      "controls": [
+        {
+          "key": "SigLevel",
+          "section": "options",
+          "value": "Required DatabaseOptional"
+        },
+        {
+          "key": "LocalFileSigLevel",
+          "section": "options",
+          "value": "Optional"
+        },
+        {
+          "key": "Server",
+          "section": "core",
+          "value": "https://fastly.mirror.pkgbuild.com/$repo/os/$arch"
+        },
+        {
+          "key": "Server",
+          "section": "core",
+          "value": "https://geo.mirror.pkgbuild.com/$repo/os/$arch"
+        },
+        {
+          "key": "Server",
+          "section": "extra",
+          "value": "https://fastly.mirror.pkgbuild.com/$repo/os/$arch"
+        },
+        {
+          "key": "Server",
+          "section": "extra",
+          "value": "https://geo.mirror.pkgbuild.com/$repo/os/$arch"
+        }
+      ],
+      "files": [
+        {
+          "mode": "0o644",
+          "path": "/etc/pacman.conf",
+          "sha256": "d6f6ca86104df026462ab634efa1ecc850bccfa748ed5a6a88283e7659ec90c5",
+          "uid": 0
+        },
+        {
+          "mode": "0o644",
+          "path": "/etc/pacman.d/mirrorlist",
+          "sha256": "2a2f89c3f48e80f626bb5e6eb7e5f13ee36b3938048b3634f53dfbedbd944b2f",
+          "uid": 0
+        }
+      ],
+      "findings": [],
+      "repositories": [
+        "core",
+        "extra"
+      ]
+    },
+    "scope": "Read actual native database, active pacman includes and selected file ownership; no service/authentication/removal acceptance."
+  },
+  "schema": 1,
+  "stage": "Develop; partial raw observations"
+}
