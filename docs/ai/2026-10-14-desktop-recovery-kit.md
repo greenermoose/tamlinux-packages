@@ -18,3 +18,12 @@ Exact immutable builds, installed-output verification, native archive retention
 and installed VM recovery reports are retained with their hashes. This prepares
 artifacts only; Test branch promotion, normal account activation, native
 installation, removal and boot changes remain subject to their authorization.
+
+Final verification: 531 desktop checks pass with one existing skip, 89 delivery
+checks and 76 exact installed-output probes pass. The detached normal consumer
+builds and 232 endpoints match the selected outputs. Actual native VM root-file/
+service and persistent audio restoration retain later writes and retry. Physical
+recovery restores two native DDC brightness values and Bluetooth pairability,
+archiving their temporary values. The remaining external display does not supply
+a native DDC brightness response. The sealed kit is prepared, and formal
+same-tuple workflow reports remain open.
