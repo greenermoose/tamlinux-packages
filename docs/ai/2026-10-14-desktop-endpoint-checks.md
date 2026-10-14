@@ -33,3 +33,10 @@ remaining physical/native recovery evidence stay in the independence gate.
 A graphical-user-manager pkexec request activates the registered Tamlinux
 authentication agent; Escape dismisses it with exit 126 and the agent returns
 to its idle state. A plain SSH-origin request has no session agent.
+
+Final committed-output verification: both actual Chromium keyboard shortcuts,
+native-message copy/download, successful and cancelled graphical authorization,
+and original/later-write Chromium settings recovery pass. Runtime resolves
+221 commands and eight plugin manifests with no findings. Temporary VM
+authentication credentials are restored exactly. The [build/evidence envelope](../evidence/0.4.3-browser-endpoints.json) identifies the committed artifacts and
+distinguishes the preceding-generation portal reports.
