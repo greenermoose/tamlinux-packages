@@ -14,7 +14,7 @@ from pathlib import Path
 import re
 
 CUSTOM = re.compile(r"(?<![\w.-])tam-[a-z0-9]+(?:-[a-z0-9]+)*(?![\w.-])")
-ABSOLUTE = re.compile(r"/usr/bin/[a-zA-Z0-9][a-zA-Z0-9_-]*")
+ABSOLUTE = re.compile(r"(?:/usr/bin/|/usr/lib/tamlinux/)[a-zA-Z0-9][a-zA-Z0-9_-]*")
 INHERITED = re.compile(r"omarchy", re.IGNORECASE)
 SKIP_DIRS = {".git", "docs", "tests", "upstream", "__pycache__", "node_modules"}
 SUFFIXES = {".qml", ".js", ".py", ".sh", ".json", ".jsonc", ".lua", ".desktop", ".conf"}
@@ -79,12 +79,21 @@ def scan_outputs(outputs):
     return commands, absolute, inherited, embedded, available, files_scanned
 
 
+def native_executables(item):
+    values = [(name, '/usr/bin/' + name) for name in item['binaries']]
+    for path in item.get('executablePaths', []):
+        if not isinstance(path, str) or not re.fullmatch(r'/usr/lib/tamlinux/[a-zA-Z0-9][a-zA-Z0-9_-]*', path):
+            raise ValueError('Expected a fixed owned native executable path')
+        values.append((path, path))
+    return values
+
+
 def host_inventory(root, contract):
     """Offline root inspection. No chroot, package manager or service invocation."""
     required_missing, optional_missing = [], []
     for item in contract["native"]:
-        for binary in item["binaries"]:
-            path = root / "usr/bin" / binary
+        for binary, native_path in native_executables(item):
+            path = root / native_path.lstrip("/")
             present = rooted_executable(root, path)
             if not present:
                 target = optional_missing if item.get("optional", False) else required_missing
@@ -131,7 +140,7 @@ def rooted_executable(root, path):
 
 def audit(contract, outputs, host_root=None):
     commands, absolute, inherited, embedded, available, scanned = scan_outputs(outputs)
-    declared = {"/usr/bin/" + binary for item in contract["native"] for binary in item["binaries"]}
+    declared = {path for item in contract["native"] for _, path in native_executables(item)}
     deferred = set(contract.get("deferredAbsoluteTools", []))
     missing = {name: sorted(refs) for name, refs in sorted(commands.items())
                if name not in available and name not in embedded}

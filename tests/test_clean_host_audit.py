@@ -128,6 +128,26 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(result["host"]["requiredBinariesMissing"][0]["binary"], "bash")
         self.assertFalse(result["candidateReady"])
 
+    def test_owned_lib_executable_is_declared_and_inspected_at_its_actual_image_path(self):
+        host = self.root / 'host'
+        self.write(host / 'usr/bin/bash', 'fixture', True)
+        self.write(self.outputs['commands'] / 'bin/control', '#!/bin/sh\n/usr/lib/tamlinux/asdcontrol --help\n', True)
+        self.assertIn('/usr/lib/tamlinux/asdcontrol', self.run_audit()['undeclaredAbsoluteTools'])
+        self.contract['native'].append({'package': 'tamlinux-native', 'binaries': [],
+                                       'executablePaths': ['/usr/lib/tamlinux/asdcontrol']})
+        result = self.run_audit(host_root=host)
+        self.assertFalse(result['undeclaredAbsoluteTools'])
+        self.assertEqual(result['host']['requiredBinariesMissing'][0]['binary'], '/usr/lib/tamlinux/asdcontrol')
+        # An older provider at the former pathname cannot satisfy the new owner.
+        self.write(host / 'usr/bin/asdcontrol', 'old provider', True)
+        self.assertFalse(self.run_audit(host_root=host)['candidateReady'])
+        self.write(host / 'usr/lib/tamlinux/asdcontrol', 'owned provider', True)
+        self.assertTrue(self.run_audit(host_root=host)['candidateReady'])
+
+    def test_owned_native_path_inventory_refuses_escape_and_other_host_roots(self):
+        for path in ['/usr/lib/tamlinux/../../bin/bash', '/root/private', '/usr/lib/tamlinux/']:
+            with self.assertRaises(ValueError):module.native_executables({'binaries': [], 'executablePaths': [path]})
+
     def test_optional_missing_native_binary_is_reported_without_blocking(self):
         host = self.root / "host"
         self.write(host / "usr/bin/bash", "fixture", True)

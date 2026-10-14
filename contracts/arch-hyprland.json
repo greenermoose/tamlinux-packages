@@ -141,7 +141,7 @@
     {"package": "bluez", "binaries": [], "purpose": "Bluetooth daemon/pairing state; wrapped bluez client does not enable service"},
     {"package": "upower", "binaries": [], "purpose": "Native battery/power-source D-Bus telemetry"},
     {"package": "dconf", "binaries": [], "purpose": "User GTK settings D-Bus backend; wrapped glib/dconf clients and schemas supplied by commands"},
-    {"package": "tamlinux-native", "binaries": ["asdcontrol"], "optional": true, "purpose": "Owned native Apple HID provider and uncached Polkit action; VM package ownership verified, physical device proof pending"},
+    {"package": "tamlinux-native", "binaries": [], "executablePaths": ["/usr/lib/tamlinux/asdcontrol"], "optional": true, "purpose": "Owned native Apple HID provider and uncached Polkit action; VM package ownership verified, physical device proof pending"},
     {"package": "ttfx", "binaries": ["ttfx"], "optional": true, "purpose": "Retained screensaver effects; explicit unavailable failure; independently supplied build still needs proof"},
     {"package": "brightnessctl/udev", "binaries": [], "purpose": "Native backlight/LED ACLs, permissions and save/restore state; wrapped client alone grants no access"},
     {"package": "ddcutil/i2c-dev", "binaries": [], "purpose": "Native kernel I2C nodes and permissions; wrapped DDC client alone grants no access"},
