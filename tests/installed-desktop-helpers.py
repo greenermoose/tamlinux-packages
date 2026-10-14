@@ -547,10 +547,13 @@ elif name == 'hyprctl':
         # Fixtures stay with this exact delivery snapshot, rather than user data.
         capture = json.loads((args.commands / 'share/tamlinux/capture-tools.json').read_text())
         for name, value in capture.items():
+            if name == 'gpu-screen-recorder':
+                assert value == '/usr/bin/gpu-screen-recorder'
+                continue
             path = Path(value)
             assert value.startswith('/nix/store/') and path.is_file(), (name, value)
         assert Path(capture['englishData']).stat().st_size > 1_000_000
-        checks.append('capture manifest names delivered immutable tools and English OCR data')
+        checks.append('capture manifest pairs immutable tools/OCR data with the fixed signed native recorder boundary')
 
         fixtures = args.capture_fixtures
         decoded = subprocess.run([capture['zbarimg'], '-q', '--raw', '-Sdisable', '-Sqrcode.enable',

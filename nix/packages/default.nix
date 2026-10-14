@@ -105,7 +105,7 @@ let
     grim = "${pkgs.grim}/bin/grim";
     slurp = "${pkgs.slurp}/bin/slurp";
     hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
-    gpu-screen-recorder = "${pkgs.gpu-screen-recorder}/bin/gpu-screen-recorder";
+    gpu-screen-recorder = "/usr/bin/gpu-screen-recorder";
     wl-copy = "${pkgs.wl-clipboard}/bin/wl-copy";
     tesseract = "${englishOcr}/bin/tesseract";
     englishData = "${englishOcr}/share/tessdata/eng.traineddata";
@@ -213,7 +213,7 @@ let
     tam-hyprland-monitor-scaling = [ pkgs.coreutils pkgs.jq pkgs.gawk pkgs.gnused pkgs.gnugrep pkgs.procps pkgs.python3 ];
     tam-launch-docker-tui = [  ];
     tam-menu-share = [ pkgs.coreutils ];
-    tam-pkg-aur-install = [ pkgs.fzf pkgs.coreutils pkgs.gnused ];
+    tam-pkg-aur-install = [ pkgs.fzf pkgs.coreutils pkgs.gnused pkgs.yay ];
     tam-pkg-install = [ pkgs.fzf pkgs.gawk ];
     tam-pkg-remove = [ pkgs.fzf pkgs.coreutils ];
     tam-pkg-drop = [  ];
@@ -239,6 +239,8 @@ let
     tam-tui-install = [ pkgs.coreutils pkgs.gnused pkgs.curl pkgs.gum pkgs.gtk3 ];
     tam-tui-remove = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.findutils ];
     tam-update-time = [  ];
+    tam-update = [ pkgs.coreutils pkgs.python3 pkgs.yay ];
+    tam-update-firmware = [ pkgs.coreutils pkgs.python3 ];
     tam-webapp-install = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.curl pkgs.gum pkgs.gtk3 ];
     tam-webapp-remove = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.findutils pkgs.desktop-file-utils ];
     tam-remove-launcher-entry = [ pkgs.coreutils pkgs.gnused pkgs.gnugrep pkgs.desktop-file-utils ];
@@ -250,7 +252,7 @@ let
       pkgs.wl-clipboard englishOcr ];
     tam-capture-qr = [ pkgs.coreutils pkgs.hyprpicker pkgs.slurp pkgs.grim pkgs.wl-clipboard pkgs.zbar ];
     tam-capture-screenrecording = [ pkgs.coreutils pkgs.util-linux pkgs.jq
-      pkgs.gnugrep pkgs.gnused pkgs.v4l-utils pkgs.mpv pkgs.gpu-screen-recorder pkgs.ffmpeg ];
+      pkgs.gnugrep pkgs.gnused pkgs.v4l-utils pkgs.mpv pkgs.ffmpeg ];
     tam-capture-screenrecording-with-webcam = [ ];
     tam-capture-webcam-list = [ pkgs.v4l-utils pkgs.gawk ];
     tam-capture-webcam-resize = [ pkgs.jq ];

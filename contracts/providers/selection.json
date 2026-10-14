@@ -134,6 +134,33 @@
       "id": "native-system",
       "reason": "Complete pinned Arch native dependency/service/graphics/portal/PAM/KMS/browser/boot closure and recovery remain to be selected.",
       "status": "pending"
+    },
+    {
+      "architecture": "x86_64",
+      "archive": "gpu-screen-recorder-6.1.3-1-x86_64.pkg.tar.zst",
+      "capabilities": {
+        "fileCapabilities": "cap_sys_admin=ep",
+        "graphics": "native Mesa or selected independent driver; physical acceptance required",
+        "nativeKmsHelper": "/usr/bin/gsr-kms-server"
+      },
+      "id": "gpu-screen-recorder",
+      "origin": "https://git.dec05eba.com/gpu-screen-recorder",
+      "package": "gpu-screen-recorder",
+      "recipeSha256": "5577d10326c0589d6765e0b5f805b7282475565afb411407e5cf79da54bf80ea",
+      "requiredFiles": [
+        "usr/bin/gpu-screen-recorder",
+        "usr/bin/gsr-kms-server"
+      ],
+      "sha256": "0d4f66ee204a2a78d7930b44285067d5f0f359fbfd012a08a774a1160b0c63a1",
+      "signature": {
+        "file": "gpu-screen-recorder-6.1.3-1-x86_64.pkg.tar.zst.sig",
+        "fingerprint": "D2E95FEC015CF1F911AAAB0C3D4C5008BB5C8D29",
+        "sha256": "ec0ecee059c50657340da09aae6bf5ca4dda93d1e5ef4e5642938f39844d6daa"
+      },
+      "status": "selected",
+      "trust": "arch-signature",
+      "updateChannel": "https://archive.archlinux.org/packages/g/gpu-screen-recorder/",
+      "version": "6.1.3-1"
     }
   ],
   "schema": 1,

@@ -106,6 +106,10 @@
   },
   "native": [
     {"package": "tamlinux-native", "binaries": ["tam-theme-set-browser-policy", "tamlinux-session"], "purpose": "Fixed root browser-policy adapter with later-write recovery and native session registration; actual browser/interactive authentication remain pending"},
+    {"package": "pacman-contrib", "binaries": ["checkupdates"], "optional": true, "purpose": "Independent update preview; full native update belongs to Cutover Test"},
+    {"package": "sudo", "binaries": ["sudo"], "optional": true, "purpose": "Interactive native maintenance menu authentication; background agent host work uses pkexec"},
+    {"package": "snapper", "binaries": ["snapper"], "optional": true, "purpose": "Prepared root recovery snapshot before full native updates at cutover"},
+    {"package": "fwupd", "binaries": ["fwupdmgr"], "optional": true, "purpose": "Independent firmware provider; separate boot recovery handoff before application"},
     {"package": "pacman", "binaries": ["pacman"], "purpose": "Native package transaction and dependency ownership"},
     {"package": "polkit", "binaries": ["pkexec"], "purpose": "Native immutable DNS helper authorization and explicit stuck USB audio recovery; optional Apple HID brightness through fixed /usr/bin/asdcontrol"},
     {"package": "pipewire", "binaries": ["pipewire"], "purpose": "Independent native daemon, SPA/modules and optional speaker tuning client; /usr/bin/pipewire in owned user unit"},
@@ -115,7 +119,7 @@
     {"package": "python", "binaries": ["python3"], "purpose": "Session launcher and plugin probes"},
     {"package": "coreutils", "binaries": ["env", "install", "ls", "mkdir", "readlink", "rm", "timeout", "cp", "mktemp", "stat", "tee", "touch", "tr", "dirname", "id", "mv"], "purpose": "Absolute host actions and state files"},
     {"package": "util-linux", "binaries": ["setpriv", "setsid"], "purpose": "Process lifetime and terminal launch"},
-    {"package": "systemd", "binaries": ["busctl", "systemctl", "timedatectl"], "purpose": "User units, login/sleep and notification bus"},
+    {"package": "systemd", "binaries": ["busctl", "systemctl", "timedatectl", "systemd-inhibit"], "purpose": "User units, login/sleep and notification bus"},
     {"package": "hyprland", "binaries": ["Hyprland", "hyprctl"], "purpose": "Wayland session and Hyprland IPC; selected build must support the product's Lua dispatches"},
     {"package": "hypridle", "binaries": ["hypridle"], "purpose": "Retained idle/sleep behavior; enablement follows the selected policy"},
     {"package": "hyprlock", "binaries": ["hyprlock"], "purpose": "Retained locker with host-owned PAM and packaged configuration"},
@@ -132,6 +136,7 @@
     {"package": "power-profiles-daemon", "binaries": ["powerprofilesctl"], "optional": true, "purpose": "Power profile controls; unavailable service must degrade explicitly"},
     {"package": "networkmanager", "binaries": ["nmcli"], "purpose": "Native DNS root executor and NetworkManager D-Bus daemon, profiles and policy"},
     {"package": "gawk", "binaries": ["awk"], "purpose": "Native fixed-PATH DNS root executor"},
+    {"package": "grep", "binaries": ["grep"], "purpose": "Native package/repository update preflight"},
     {"package": "findutils", "binaries": ["xargs"], "purpose": "Native fixed-PATH custom DNS normalization"},
     {"package": "bluez", "binaries": [], "purpose": "Bluetooth daemon/pairing state; wrapped bluez client does not enable service"},
     {"package": "upower", "binaries": [], "purpose": "Native battery/power-source D-Bus telemetry"},
@@ -139,7 +144,8 @@
     {"package": "tamlinux-native", "binaries": ["asdcontrol"], "optional": true, "purpose": "Owned native Apple HID provider and uncached Polkit action; VM package ownership verified, physical device proof pending"},
     {"package": "ttfx", "binaries": ["ttfx"], "optional": true, "purpose": "Retained screensaver effects; explicit unavailable failure; independently supplied build still needs proof"},
     {"package": "brightnessctl/udev", "binaries": [], "purpose": "Native backlight/LED ACLs, permissions and save/restore state; wrapped client alone grants no access"},
-    {"package": "ddcutil/i2c-dev", "binaries": [], "purpose": "Native kernel I2C nodes and permissions; wrapped DDC client alone grants no access"}
+    {"package": "ddcutil/i2c-dev", "binaries": [], "purpose": "Native kernel I2C nodes and permissions; wrapped DDC client alone grants no access"},
+    {"package": "gpu-screen-recorder", "binaries": ["gpu-screen-recorder", "gsr-kms-server"], "purpose": "Signed independent native recorder and matching KMS helper; native capability/driver/portal and physical recording proof required"}
   ],
   "facilities": [
     {"id": "session", "providers": ["dbus", "systemd", "uwsm"], "proof": "Fresh graphical login imports WAYLAND_DISPLAY and Hyprland IPC identity into the user manager and starts graphical-session.target"},
