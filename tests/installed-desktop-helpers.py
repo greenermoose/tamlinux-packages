@@ -649,6 +649,20 @@ elif name == 'hyprctl':
             archives = [json.loads(p.read_text()) for p in (journal / 'new-writes').rglob('*.json')]
             assert any(p['state'].get('bytes') == 'd2luZG93cwo=' for p in archives)
             checks.append('installed finite migration converts legacy state and preserves later writes during explicit rollback')
+            checkpoint = migration / 'state/tamlinux/migration/before-test'
+            layout = migration / 'config/tamlinux/hypr/monitors.lua'
+            layout.parent.mkdir(parents=True)
+            layout.write_text('left center right\n')
+            saved = json.loads(run('tam-migrate-desktop', 'preserve', str(checkpoint), extra_env=extra).stdout)
+            assert saved['status'] == 'preserved' and saved['gtkCaptured'] is False
+            layout.write_text('later monitor arrangement\n')
+            restored = json.loads(run('tam-migrate-desktop', 'restore', str(checkpoint), extra_env=extra).stdout)
+            assert restored['status'] == 'restored' and layout.read_text() == 'left center right\n'
+            records = [json.loads(p.read_text()) for p in (checkpoint / 'new-writes').glob('*.json')]
+            later = records[0]['files'][str(layout)]['blob']
+            assert (checkpoint / 'blobs' / later).read_text() == 'later monitor arrangement\n'
+            assert json.loads(run('tam-migrate-desktop', 'checkpoint-status', str(checkpoint), extra_env=extra).stdout)['status'] == 'restored'
+            checks.append('installed settings checkpoint restores monitor layout and archives later arrangements through the packaged engine')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))
