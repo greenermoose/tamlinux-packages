@@ -10,6 +10,7 @@ let
   features = shell.passthru.features;
   protocolShadowAvailable = cfg.protocolShadow.enable;
   selectedPlugins = if cfg.plugins == null then cfg.pluginPackage.passthru.ids else cfg.plugins;
+  stayAwakeStateFile = "${config.xdg.stateHome}/tamlinux/stay-awake";
 in
 {
   options.tamlinux.shell = {
@@ -77,7 +78,9 @@ in
     # profile; the mono baseline and menu glyphs are delivered by that tuple.
     fonts.fontconfig.enable = lib.mkDefault true;
     home.packages = [ cfg.commandPackage ] ++ lib.optional (cfg.quickshellPackage != null) cfg.quickshellPackage;
-    home.sessionVariables = lib.optionalAttrs (cfg.quickshellPackage != null) {
+    home.sessionVariables = {
+      TAMLINUX_STAY_AWAKE_FILE = stayAwakeStateFile;
+    } // lib.optionalAttrs (cfg.quickshellPackage != null) {
       TAMLINUX_QUICKSHELL = "${cfg.quickshellPackage}/bin/quickshell";
       TAMLINUX_QUICKSHELL_IPC = "${cfg.quickshellPackage}/bin/qs";
     };
@@ -215,7 +218,7 @@ in
           "TAMLINUX_HOST_ACTIONS=1"
           "TAMLINUX_SERVICES=theme,notifications,osd,clipboard,emojis,imagepicker,reminders,menu,background,polkit,media,idle,nightlight,battery,keybindings,panels"
           "TAMLINUX_PANELS=audio,bluetooth,network,wifiqr,power,speedtest,disk-speedtest"
-          "TAMLINUX_STAY_AWAKE_FILE=${config.home.homeDirectory}/.local/state/tamlinux/indicators/stay-awake"
+          "TAMLINUX_STAY_AWAKE_FILE=${stayAwakeStateFile}"
           "TAMLINUX_BACKGROUND_LINK=${cfg.backgroundLink}"
           "TAMLINUX_MENU_EXTENSION=${cfg.menuExtension}"
           "TAMLINUX_APP_REMOVER=tam-remove-launcher-entry"

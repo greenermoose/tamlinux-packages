@@ -18,6 +18,7 @@ in {
       . ${shell.package}/share/tamlinux/session/uwsm-env
       export TAMLINUX_QUICKSHELL=${shell.quickshellPackage}/bin/quickshell
       export TAMLINUX_QUICKSHELL_IPC=${shell.quickshellPackage}/bin/qs
+      export TAMLINUX_STAY_AWAKE_FILE=${lib.escapeShellArg config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE}
     '';
     home.file.".local/bin/tamlinux-hyprland-session".source = "${shell.package}/bin/tamlinux-hyprland-session";
     home.packages = [ pkgs.udiskie ];

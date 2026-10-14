@@ -1,11 +1,12 @@
 { pkgs, home-manager, components }:
 let
-  hm = home-manager.lib.homeManagerConfiguration {
+  makeHome = stateHome: home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
     modules = [ ../nix/modules {
       home.username = "alex";
       home.homeDirectory = "/home/alex";
       home.stateVersion = "25.05";
+      xdg.stateHome = stateHome;
       manual.manpages.enable = false;
       tamlinux.shell = {
         enable = true;
@@ -17,6 +18,8 @@ let
       tamlinux.tools = { tam = components.tam; fileSelect = components.tamlinux-tools; };
     } ];
   };
+  hm = makeHome "/home/alex/.local/state";
+  customHome = makeHome "/home/alex/state with spaces";
   c = hm.config;
   q = c.tamlinux.shell.quickshellPackage;
   unit = c.systemd.user.services.tamlinux-shell.Service;
@@ -25,6 +28,11 @@ in
 assert builtins.elem "TAMLINUX_QUICKSHELL=${q}/bin/quickshell" unit.Environment;
 assert builtins.elem "TAMLINUX_QUICKSHELL_IPC=${q}/bin/qs" unit.Environment;
 assert c.home.sessionVariables.TAMLINUX_QUICKSHELL_IPC == "${q}/bin/qs";
+assert c.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE == "/home/alex/.local/state/tamlinux/stay-awake";
+assert builtins.elem "TAMLINUX_STAY_AWAKE_FILE=${c.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE}" unit.Environment;
+assert customHome.config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE == "/home/alex/state with spaces/tamlinux/stay-awake";
+assert builtins.elem "TAMLINUX_STAY_AWAKE_FILE=${customHome.config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE}"
+  customHome.config.systemd.user.services.tamlinux-shell.Service.Environment;
 assert unit.ExecStart == [ "${pkgs.python3}/bin/python3 -I /home/alex/.local/share/tamlinux/shell/host/session_start.py" ];
 pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/session/hyprland.lua
@@ -39,6 +47,14 @@ pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   grep -q 'FileChooser=gtk' ${files}/.config/xdg-desktop-portal/hyprland-portals.conf
   test ! -e ${files}/.config/tamlinux/hypr/monitors.lua
   grep -q ${q}/bin/qs ${files}/.config/uwsm/env.d/10-tamlinux.sh
+  # Source the actual delivered session snippets: a spaced custom XDG root
+  # must reach command/suspend clients as the same single path as the bar.
+  ${pkgs.bash}/bin/bash -c '. "$1"; test "$TAMLINUX_STAY_AWAKE_FILE" = "$2"' -- \
+    ${files}/.config/uwsm/env.d/10-tamlinux.sh \
+    /home/alex/.local/state/tamlinux/stay-awake
+  ${pkgs.bash}/bin/bash -c '. "$1"; test "$TAMLINUX_STAY_AWAKE_FILE" = "$2"' -- \
+    ${customHome.activationPackage}/home-files/.config/uwsm/env.d/10-tamlinux.sh \
+    '/home/alex/state with spaces/tamlinux/stay-awake'
   mkdir -p $out
   cp ${files}/.config/systemd/user/tamlinux-shell.service $out/
   cp ${files}/.config/tamlinux/session/hyprland.lua $out/
