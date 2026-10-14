@@ -67,3 +67,11 @@ A fresh physical preview login has zero runtime collector findings: both the
 compositor and shell environments are clean. The user reports a missing keypad
 shortcut; the preview had not received the reference account personal workspace
 overrides. Those overrides are retained separately as consumer preferences.
+
+Read-only normal-account inventory finds native `asdcontrol` already installed,
+while the other new integration endpoints are absent. The development native
+bundle previously claimed that same binary path. It now owns
+`/usr/lib/tamlinux/asdcontrol`; the fixed brightness caller, Polkit action and
+collector agree on that endpoint. Existing native packages can remain installed
+through Desktop Test. The native development recipe advances to release 0.2;
+source staging checks pass, with archive/build validation following.

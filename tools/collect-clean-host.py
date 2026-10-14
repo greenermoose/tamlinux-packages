@@ -21,7 +21,7 @@ INHERITED=re.compile('omarchy',re.I)
 CRITICAL=[
  '/usr/bin/Hyprland','/usr/bin/hyprctl','/usr/bin/uwsm','/usr/bin/uwsm-app',
  '/usr/bin/quickshell','/usr/bin/qs','/usr/bin/xdg-terminal-exec',
- '/usr/bin/asdcontrol','/usr/bin/tam-theme-set-browser-policy',
+ '/usr/lib/tamlinux/asdcontrol','/usr/bin/tam-theme-set-browser-policy',
  '/usr/lib/tamlinux/browser_policy.py','/usr/lib/tamlinux/hyprland-reload-guard',
  '/usr/share/wayland-sessions/tamlinux.desktop',
  '/usr/share/polkit-1/actions/org.tamlinux.native.policy',

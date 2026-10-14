@@ -111,7 +111,7 @@
     {"package": "snapper", "binaries": ["snapper"], "optional": true, "purpose": "Prepared root recovery snapshot before full native updates at cutover"},
     {"package": "fwupd", "binaries": ["fwupdmgr"], "optional": true, "purpose": "Independent firmware provider; separate boot recovery handoff before application"},
     {"package": "pacman", "binaries": ["pacman"], "purpose": "Native package transaction and dependency ownership"},
-    {"package": "polkit", "binaries": ["pkexec"], "purpose": "Native immutable DNS helper authorization and explicit stuck USB audio recovery; optional Apple HID brightness through fixed /usr/bin/asdcontrol"},
+    {"package": "polkit", "binaries": ["pkexec"], "purpose": "Native immutable DNS helper authorization and explicit stuck USB audio recovery; optional Apple HID brightness through fixed /usr/lib/tamlinux/asdcontrol"},
     {"package": "pipewire", "binaries": ["pipewire"], "purpose": "Independent native daemon, SPA/modules and optional speaker tuning client; /usr/bin/pipewire in owned user unit"},
     {"package": "usbutils", "binaries": ["usbreset"], "purpose": "Optional explicit stuck USB audio recovery through pkexec; no reset during package checks"},
     {"package": "lsp-plugins-lv2", "binaries": [], "purpose": "Native /usr/lib/lv2/lsp-plugins.lv2/limiter_stereo.ttl and plugin for optional speaker tuning; checked before writes"},

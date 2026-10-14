@@ -1,7 +1,7 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
 pkgver=0.4.2
-pkgrel=0.1
+pkgrel=0.2
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'
@@ -23,7 +23,7 @@ check() {
 
 package() {
   cd "$srcdir/tamlinux-native"
-  install -Dm755 asdcontrol/asdcontrol "$pkgdir/usr/bin/asdcontrol"
+  install -Dm755 asdcontrol/asdcontrol "$pkgdir/usr/lib/tamlinux/asdcontrol"
   install -Dm755 theme-browser-policy "$pkgdir/usr/bin/tam-theme-set-browser-policy"
   install -Dm644 browser_policy.py "$pkgdir/usr/lib/tamlinux/browser_policy.py"
   install -Dm755 hyprland-reload-guard "$pkgdir/usr/lib/tamlinux/hyprland-reload-guard"
