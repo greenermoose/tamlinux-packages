@@ -1,0 +1,36 @@
+{
+  "candidateReady": false,
+  "deliveryRevision": "a762aac8d3370547a8f5e1638fa77ec444bd70d7",
+  "deliverySnapshot": "/nix/store/ah9sbdjc93yy9xr0j382w72qqhrg12is-tamlinux-delivery-development",
+  "desktopChecks": {
+    "existingSkips": 1,
+    "passed": 528,
+    "run": 529
+  },
+  "outputs": {
+    "commands": "/nix/store/wy0b4q8w1ska77876cj5yg54gm8gh911-tamlinux-commands-0.4.2pre.d",
+    "plugins": "/nix/store/62nw2256s5swf4a5irx7gjyz62mdw6hw-tamlinux-plugins-0.4.2pre.d",
+    "shell": "/nix/store/lc8ar2xnkymzr46khnj4waqgyx8zjypn-tamlinux-shell-0.4.2pre.d"
+  },
+  "productRevision": "f0f53ca0eb443cbcc29106e668c2e86db99bcc7f",
+  "reportSha256": "87ced826e2a27ee4449fa61093138c2b06a35863e1662f2c613c74127fd508cf",
+  "schema": 1,
+  "sessionContract": "/nix/store/dzpx8q7rllrjbabfxa58911sy7vqi65v-tamlinux-fresh-session-contract",
+  "sourceSnapshot": "/nix/store/k7wqm4nb6plpg73891rxhj878x8n0237-tamlinux-development",
+  "stage": "Develop; installed native audio recovery",
+  "verification": {
+    "candidateReady": false,
+    "commands": "/nix/store/wy0b4q8w1ska77876cj5yg54gm8gh911-tamlinux-commands-0.4.2pre.d",
+    "fixtureServicesFilesAndDevicesRemoved": true,
+    "initialDefaultsRestoredAfterCleanup": true,
+    "laterFilesAndAudioValuesArchived": true,
+    "limits": "Native PipeWire null sinks and a harmless temporary sleep service; no physical DSP/device or persistent WirePlumber route proof.",
+    "originalDefaultsChannelVolumesAndMutesRestored": true,
+    "originalFilesModesAndLinksRestored": true,
+    "ownedUserServiceActiveAndEnabledRestored": true,
+    "repeatRestorePassed": true,
+    "runnerSha256": "eb198caefc4075ee41af070eb42c5b5727fdd9b080cf88cb0fdaeb20d2690d46",
+    "schema": 1,
+    "stage": "Develop; installed audio recovery on native PipeWire in isolated Arch"
+  }
+}

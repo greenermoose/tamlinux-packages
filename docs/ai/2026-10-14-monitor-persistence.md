@@ -55,3 +55,15 @@ verified audio values, refuses missing devices/channels and supports interrupted
 retry. Delivery supplies the systemd and Pulse clients explicitly. The complete
 desktop suite runs 529 checks with one existing skip; installed PipeWire proof
 follows. Persistent WirePlumber routes and legacy tuning conversion remain open.
+
+Installed audio recovery passes against native PipeWire in the isolated VM,
+using temporary null sinks and a harmless user service fixture. Original file
+bytes/modes/links, default input/output, individual channel volumes and mutes,
+and service active/enabled state restore; later files/audio values archive and
+a repeated restoration passes. Fixture files/services/devices are removed and
+initial defaults restored. This proves the recovery interfaces, with physical
+DSP/device behavior and persistent WirePlumber routes remaining outside scope.
+A fresh physical preview login has zero runtime collector findings: both the
+compositor and shell environments are clean. The user reports a missing keypad
+shortcut; the preview had not received the reference account personal workspace
+overrides. Those overrides are retained separately as consumer preferences.

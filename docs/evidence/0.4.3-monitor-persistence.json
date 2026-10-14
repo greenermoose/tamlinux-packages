@@ -7,7 +7,7 @@
     "traceSha256": "4225fed3053623e3cdaf6c3a807ccc2f7e2eb7cdae5752658ec182847df19560",
     "writer": "fred.workspaces/tam-desktop-mode"
   },
-  "limits": "The long-running physical preview compositor still retains OMARCHY_PATH; its shell is clean. A fresh owned session and complete native recovery/acceptance tuple remain required.",
+  "limits": "Fresh physical compositor and shell environments are clean. Complete native recovery, personal keypad confirmation and immutable acceptance tuple remain open.",
   "outputs": {
     "commands": "/nix/store/2dnsz3km3fpcky5nw3j21w46k1xc2ziq-tamlinux-commands-0.4.2pre.d",
     "plugins": "/nix/store/6m3rwl73w1wrygflxinm9j06m4zvz8wk-tamlinux-plugins-0.4.2pre.d",
@@ -24,6 +24,14 @@
     },
     "installedOutputProbes": 76,
     "physicalPreview": {
+      "freshSession": {
+        "commandsResolve": 221,
+        "generation": "/nix/store/6kw1bc609lwkmz9gxy1w4lwq5x54giiy-home-manager-generation",
+        "pluginManifests": 8,
+        "reportSha256": "5a6e285d0ee15eb9fb3999c91634932bf803438d47d5de3e3aa4224f336453a1",
+        "runtimeFindings": [],
+        "userObservation": "Everything looks good"
+      },
       "generation": "/nix/store/6kw1bc609lwkmz9gxy1w4lwq5x54giiy-home-manager-generation",
       "humanObservation": "Order and mouse path stay correct",
       "lockUnlockHumanObservation": "Lock and unlock work; layout stays correct",
