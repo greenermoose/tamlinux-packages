@@ -29,3 +29,17 @@ After refreshing the VM through the selected immutable generation, 219 command
 endpoints and eight plugin manifests match, 190 mapped files are observed, and
 the collector reports no findings. The Stay Awake path now matches. Required
 complete runtime, workflow and tuple-bound acceptance remain open.
+
+## Latest startup boundary verification
+
+The physical preview initially retained `OMARCHY_PATH` from the host login
+environment. Product startup discards prior-owner variables, preserving user
+roots and Tamlinux overrides. After safe updates, actual VM and physical
+preview runtime match 219 commands and eight plugin manifests, map 190 and 200
+files respectively, and report no findings. Settings/GTK checkpoints and the
+prior generations are retained; the saved physical monitor layout is unchanged.
+The user confirms Dell recording, stopping and saved-video playback.
+
+[Sanitized observations and exact selected outputs](evidence/0.4.3-session-runtime.json)
+remain partial evidence. The intermittent native compositor position-loss
+diagnostic is still open and the complete independence tuple is not frozen.

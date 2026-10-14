@@ -1,0 +1,51 @@
+{
+  "candidateReady": false,
+  "deliveryRevision": "0db5612b2add424c36cb1eb03333d46bac87f906",
+  "deliverySnapshot": "/nix/store/f5c42pllnar1hppfplzvdiqh1379z606-tamlinux-delivery-development",
+  "limits": "Matches selected helper endpoints and plugin manifests; mapped files are actual observations. Does not establish that every QML/font/asset/portal/native workflow passed, or bind the complete independence tuple. Raw reports and recovery checkpoints are retained privately. No normal-account deployment or lifecycle transition.",
+  "monitorPersistence": {
+    "nativeVersion": "Hyprland 0.56.2",
+    "physicalFixConfirmed": false,
+    "savedLayoutUnchangedAcrossPreviewUpdates": true,
+    "virtualDiagnostic": "Position loss reproduced after reconnect and intermittently after VT transition; explicit configuration reload restores saved positions"
+  },
+  "physicalPreview": {
+    "collectorSHA256": "da6fa3250e45213a3edd30f5d21ce5191739e93cd6a0aebcda3bedaa88061436",
+    "commandsMatched": 219,
+    "findings": [],
+    "inheritedVariableNames": [],
+    "mappedFileCount": 200,
+    "pluginManifestsMatched": 8,
+    "selection": {
+      "commands": "/nix/store/r20n48ykdd1p6wlahmjs392ypnmv1kyf-tamlinux-commands-0.4.2pre.d",
+      "generation": "/nix/store/s8ygw75fx59cdzc945ncr1qi9d7hg87q-home-manager-generation",
+      "plugins": "/nix/store/rky7bc96rfbhl00ca8jx04nsbshagjcw-tamlinux-plugins-0.4.2pre.d",
+      "shell": "/nix/store/ahg6waqmpvi25cw9lk5p5wrv5cndivj2-tamlinux-shell-0.4.2pre.d"
+    }
+  },
+  "physicalRecording": {
+    "display": "Dell",
+    "savedVideoPlayback": true,
+    "source": "User confirmation",
+    "startedAndStopped": true,
+    "testedBeforeStartupBoundaryUpdate": true
+  },
+  "productRevision": "473c22bffbf0c349e71663d755723cb50643bb93",
+  "schema": 1,
+  "sourceSnapshot": "/nix/store/nfdb5aya4113436yh08iqs3ah0cc3rkm-tamlinux-development",
+  "stage": "Develop; partial live observations",
+  "vm": {
+    "collectorSHA256": "da6fa3250e45213a3edd30f5d21ce5191739e93cd6a0aebcda3bedaa88061436",
+    "commandsMatched": 219,
+    "findings": [],
+    "inheritedVariableNames": [],
+    "mappedFileCount": 190,
+    "pluginManifestsMatched": 8,
+    "selection": {
+      "commands": "/nix/store/r20n48ykdd1p6wlahmjs392ypnmv1kyf-tamlinux-commands-0.4.2pre.d",
+      "generation": "/nix/store/caq7r76zn12h68lf9r277g6j36nw1a2z-home-manager-generation",
+      "plugins": "/nix/store/rky7bc96rfbhl00ca8jx04nsbshagjcw-tamlinux-plugins-0.4.2pre.d",
+      "shell": "/nix/store/ahg6waqmpvi25cw9lk5p5wrv5cndivj2-tamlinux-shell-0.4.2pre.d"
+    }
+  }
+}

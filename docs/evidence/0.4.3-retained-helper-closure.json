@@ -2137,7 +2137,8 @@
     "commands:share/tamlinux/theme/engine.py:231",
     "commands:share/tamlinux/theme/engine.py:233",
     "shell:share/tamlinux/session/origins.json:3",
-    "shell:share/tamlinux/session/origins.json:5"
+    "shell:share/tamlinux/session/origins.json:5",
+    "shell:share/tamlinux/shell/host/session_start.py:40"
   ],
   "limits": "Custom command matches are lexical, including data and dormant code; review before transfer. Embedded helper presence does not prove invocation resolution. PATH tools, dynamic commands, transitive third-party dependencies, repositories, theme assets and effective configuration require further proof. Whole-line provenance comments/licenses/tests/docs are excluded; inline comments and compatibility data may need review.",
   "missingOutputFiles": [],
