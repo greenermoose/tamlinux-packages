@@ -1,0 +1,51 @@
+{
+  "candidateReady": false,
+  "deliveryRevision": "e8b641d074cd6705651bd24532325ebfec2dff50",
+  "deliverySnapshot": "/nix/store/9n451lkd3qh8grxyyzaa4pk9xi2ndw12-tamlinux-delivery-development",
+  "limits": "No normal-account Test activation. Audio/service/device recovery, retained native packages and complete acceptance tuple remain open.",
+  "outputs": {
+    "commands": "/nix/store/5hh7jyby403slz926x46rcmmckrry2wi-tamlinux-commands-0.4.2pre.d",
+    "plugins": "/nix/store/hj3nwp43x2aigaggfmhv7dsi7zjd8k6s-tamlinux-plugins-0.4.2pre.d",
+    "shell": "/nix/store/gkszds7shqhj4v907mhg6n3agzfafv2s-tamlinux-shell-0.4.2pre.d"
+  },
+  "productRevision": "8c36863a963c0840e69f2b33798dc6362be1946d",
+  "schema": 1,
+  "sourceSnapshot": "/nix/store/gavisfl3sb3y3a3wq02a5bgcdf2l75d7-tamlinux-development",
+  "stage": "Develop; installed settings and native DNS recovery",
+  "verification": {
+    "nativeDns": {
+      "candidateReady": false,
+      "commands": "/nix/store/5hh7jyby403slz926x46rcmmckrry2wi-tamlinux-commands-0.4.2pre.d",
+      "fixtureProfileRemoved": true,
+      "helperSha256": "7b961031e7e524831079d4308b46c5cbf0eaa321f89079eebce2dfec75389a01",
+      "laterFilesAndFieldsArchived": true,
+      "originalFilesModesAndAbsencesRestored": true,
+      "originalProfileFieldsRestored": true,
+      "originalServicesAndRouteRestored": true,
+      "repeatRestorePassed": true,
+      "reportSha256": "d3e119b700c06a829fb91ddfe367241be7b02ab7163af9a6275fd1e42729d2f6",
+      "runnerSha256": "87da5aa64064048ff889e33e03e5716cd6ac69d017f69d5370868252aa4e6da6",
+      "schema": 1,
+      "stage": "Develop; installed native DNS recovery in isolated Arch VM"
+    },
+    "userSettings": {
+      "candidateReady": false,
+      "commands": "/nix/store/5hh7jyby403slz926x46rcmmckrry2wi-tamlinux-commands-0.4.2pre.d",
+      "customApplicationAndVaultThemesRestored": true,
+      "gtkCaptured": true,
+      "gtkLaterWritesArchived": true,
+      "gtkOriginalAndUnsetRestored": true,
+      "laterApplicationWritesArchived": true,
+      "laterWritesArchived": true,
+      "liveSourceRestored": true,
+      "monitorLayoutRestored": true,
+      "preserved": "preserved",
+      "reportSha256": "688b6021b318953996fb5339047cf9a6b2e91677c82f759acde07bc2992e28af",
+      "restored": "restored",
+      "runnerSha256": "d5633a073f558c715c84454c237de56e9706dfd15b91c4cca81a95a64e623553",
+      "schema": 1,
+      "stage": "Develop; isolated installed-command recovery on clean Arch",
+      "vaultNotesPreserved": true
+    }
+  }
+}

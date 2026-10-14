@@ -34,3 +34,15 @@ The [monitor evidence envelope](../evidence/0.4.3-monitor-persistence.json) bind
 these checks to the selected outputs. The newly inspected long-running physical
 compositor retains OMARCHY_PATH; the restarted shell does not. A fresh owned session
 is still needed for compositor environment evidence.
+
+The user also confirms physical lock/unlock with the preview account password
+returns to the same display arrangement. Installed recovery executes in the
+isolated Arch VM: original custom application/vault themes, GTK explicit/unset
+values, live configuration and monitor layout restore; later writes are archived
+and vault notes remain intact. The native DNS checkpoint restores original
+file bytes/modes/absences and profile fields, archives later settings and passes
+a repeated restoration. Fixture connections are removed and initial native
+services and routing restored. Paired commands output is bound to product
+`8c36863` and delivery `e8b641d`; package checks pass after correcting the
+native-systemctl fixture. This is preparation, with complete recovery and the
+normal-account Test kit still open.

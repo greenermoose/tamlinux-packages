@@ -26,6 +26,7 @@
     "physicalPreview": {
       "generation": "/nix/store/6kw1bc609lwkmz9gxy1w4lwq5x54giiy-home-manager-generation",
       "humanObservation": "Order and mouse path stay correct",
+      "lockUnlockHumanObservation": "Lock and unlock work; layout stays correct",
       "priorGenerationRetained": true,
       "reportSha256": "46ecee18c1208ac0be051eecc524c98ed15578755c370f51498fca46ec460fc9",
       "runtimeFindings": [
