@@ -2,6 +2,7 @@
 let
   cfg = config.tamlinux.session;
   shell = config.tamlinux.shell;
+  userDefaults = cfg.userDefaults.enable && (shell.package.passthru.features.userDefaults or false);
   browser = "${shell.commandPackage}/share/tamlinux/browser";
   nativeHost = name: command: origin: builtins.toJSON {
     inherit name;
@@ -15,6 +16,16 @@ in {
     enable = lib.mkEnableOption "owned Arch/Hyprland fresh-login defaults";
     chromiumExtensions.enable = lib.mkEnableOption "paired Tamlinux Chromium extensions and native hosts";
     chromiumExtensions.manageFlags = lib.mkEnableOption "a fresh Chromium flags file loading the owned extensions";
+    userDefaults.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = ''
+        Per-user bash defaults in ~/.config/bash/tamlinux, sourced from marked
+        blocks added once to a regular ~/.bashrc, and ~/.gnupg/dirmngr.conf
+        written only when missing. A linked ~/.bashrc and an own
+        bash/tamlinux definition take precedence.
+      '';
+    };
   };
   config = lib.mkIf cfg.enable {
     assertions = [
@@ -55,7 +66,16 @@ in {
         --enable-features=TouchpadOverscrollHistoryNavigation
         --load-extension=${browser}/extensions/copy-url,${browser}/extensions/yt-dlp,${browser}/extensions/whatsapp-slim
       '';
+    } // lib.optionalAttrs userDefaults {
+      # A consumer's own bash/tamlinux definition wins.
+      "bash/tamlinux".source = lib.mkDefault "${shell.package}/share/tamlinux/user-defaults/bash";
     });
+    # After linkGeneration, so a ~/.bashrc this configuration links is seen as
+    # managed and left alone.
+    home.activation.tamlinuxUserDefaults = lib.mkIf userDefaults (lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      run env XDG_STATE_HOME=${lib.escapeShellArg config.xdg.stateHome} \
+        ${pkgs.python3}/bin/python3 -I ${shell.package}/share/tamlinux/user-defaults/apply
+    '');
     home.file.".local/bin/tamlinux-hyprland-session".source = "${shell.package}/bin/tamlinux-hyprland-session";
     home.packages = [ pkgs.udiskie ];
     fonts.fontconfig.enable = true;

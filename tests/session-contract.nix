@@ -1,8 +1,8 @@
 { pkgs, home-manager, components }:
 let
-  makeHome = stateHome: home-manager.lib.homeManagerConfiguration {
+  makeHomeWith = extra: stateHome: home-manager.lib.homeManagerConfiguration {
     inherit pkgs;
-    modules = [ ../nix/modules {
+    modules = [ ../nix/modules extra {
       home.username = "alex";
       home.homeDirectory = "/home/alex";
       home.stateVersion = "25.05";
@@ -18,7 +18,10 @@ let
       tamlinux.tools = { tam = components.tam; fileSelect = components.tamlinux-tools; };
     } ];
   };
+  makeHome = makeHomeWith { };
   hm = makeHome "/home/alex/.local/state";
+  withoutDefaults = (makeHomeWith { tamlinux.session.userDefaults.enable = false; } "/home/alex/.local/state").config;
+  defaults = "${components.tamlinux-shell}/share/tamlinux/user-defaults";
   customHome = makeHome "/home/alex/state with spaces";
   c = hm.config;
   q = c.tamlinux.shell.quickshellPackage;
@@ -33,6 +36,10 @@ assert builtins.elem "TAMLINUX_STAY_AWAKE_FILE=${c.home.sessionVariables.TAMLINU
 assert customHome.config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE == "/home/alex/state with spaces/tamlinux/stay-awake";
 assert builtins.elem "TAMLINUX_STAY_AWAKE_FILE=${customHome.config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE}"
   customHome.config.systemd.user.services.tamlinux-shell.Service.Environment;
+assert c.home.activation ? tamlinuxUserDefaults;
+assert c.xdg.configFile."bash/tamlinux".source == "${defaults}/bash";
+assert !(withoutDefaults.home.activation ? tamlinuxUserDefaults);
+assert !(withoutDefaults.xdg.configFile ? "bash/tamlinux");
 assert unit.ExecStart == [ "${pkgs.python3}/bin/python3 -I /home/alex/.local/share/tamlinux/shell/host/session_start.py" ];
 pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/session/hyprland.lua
@@ -69,6 +76,20 @@ PY
   ${pkgs.bash}/bin/bash -c '. "$1"; test "$TAMLINUX_STAY_AWAKE_FILE" = "$2"' -- \
     ${customHome.activationPackage}/home-files/.config/uwsm/env.d/10-tamlinux.sh \
     '/home/alex/state with spaces/tamlinux/stay-awake'
+  # Per-user defaults: the delivered tree and helper on an Arch skeleton home.
+  test -f ${files}/.config/bash/tamlinux/env
+  test -f ${files}/.config/bash/tamlinux/rc
+  grep -q '${defaults}/apply' ${hm.activationPackage}/activate
+  home=$TMPDIR/alex
+  mkdir -p $home
+  printf '%s\n' '[[ $- != *i* ]] && return' "alias ls='ls --color=auto'" > $home/.bashrc
+  HOME=$home ${pkgs.python3}/bin/python3 -I ${defaults}/apply
+  head -1 $home/.bashrc | grep -qx '# >>> tamlinux env >>>'
+  tail -1 $home/.bashrc | grep -qx '# <<< tamlinux rc <<<'
+  test "$(stat -c %a $home/.gnupg)" = 700
+  test "$(stat -c %a $home/.gnupg/dirmngr.conf)" = 600
+  cmp $home/.gnupg/dirmngr.conf ${defaults}/gnupg/dirmngr.conf
+  HOME=$home ${pkgs.python3}/bin/python3 -I ${defaults}/apply | grep -q 'already present'
   mkdir -p $out
   cp ${files}/.config/systemd/user/tamlinux-shell.service $out/
   cp ${files}/.config/tamlinux/session/hyprland.lua $out/

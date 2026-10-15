@@ -74,6 +74,7 @@ let
     protocolShadow = has "desktop/protocol-shadow";
     documentation = has "desktop/README.md";
     sessionProviders = has "desktop/session/providers.json";
+    userDefaults = has "desktop/user-defaults/apply";
   };
   # Hash only trial code so unrelated shell/menu commits preserve the 0.4.1
   # protocol shadow observation identity.
@@ -389,6 +390,11 @@ let
           install -m755 ${product}/desktop/menu/tam-menu $out/bin/tam-menu
         ''}
         ${lib.optionalString features.protocolShadow "install -m755 ${product}/desktop/protocol-shadow $out/bin/tam-protocol-shadow"}
+        ${lib.optionalString features.userDefaults ''
+          mkdir -p $out/share/tamlinux/user-defaults
+          cp -R ${product}/desktop/user-defaults/bash ${product}/desktop/user-defaults/gnupg $out/share/tamlinux/user-defaults/
+          install -m644 ${product}/desktop/user-defaults/apply ${product}/desktop/user-defaults/LICENSE-bash $out/share/tamlinux/user-defaults/
+        ''}
         patchShebangs $out/bin $out/share/tamlinux/shell
         # The reminder card and transient timer execute this embedded helper
         # directly, without entering the tam-reminder command wrapper first.
