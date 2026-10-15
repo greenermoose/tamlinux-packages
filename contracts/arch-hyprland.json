@@ -104,8 +104,19 @@
     "tools": ["bin/tam-file-select"],
     "tam": ["bin/tam", "bin/tam-man"]
   },
+  "nativeDefaultActions": ["After approved package installation, inspect tam-native-defaults plan then apply with a fresh root-private checkpoint label.", "Provision clean host with avahi-daemon and systemd-oomd enabled; preserve existing service states on in-place conversion.", "Reload resolved and CUPS only after inspecting converted pairs; Docker starts separately when requested.", "Apply no boot or old-package removal actions during Desktop Test."],
   "native": [
-    {"package": "tamlinux-native", "binaries": ["tam-theme-set-browser-policy", "tamlinux-session"], "purpose": "Fixed root browser-policy adapter with later-write recovery and native session registration; actual browser/interactive authentication remain pending"},
+    {"package": "zram-generator", "binaries": [], "purpose": "ZRAM vendor configuration"},
+    {"package": "ttf-liberation", "binaries": [], "purpose": "System sans/serif rules"},
+    {"package": "noto-fonts", "binaries": [], "purpose": "Arabic and Urdu fallback"},
+    {"package": "noto-fonts-emoji", "binaries": [], "purpose": "Emoji fallback"},
+    {"package": "fcitx5", "binaries": ["fcitx5"], "purpose": "D145 input method"},
+    {"package": "bluez-tools", "binaries": ["bt-agent"], "purpose": "D145 pairing agent"},
+    {"package": "nss-mdns", "binaries": [], "purpose": "NSS mdns_minimal provider"},
+    {"package": "avahi", "binaries": [], "purpose": "Enabled native mDNS responder"},
+    {"package": "cups", "binaries": [], "purpose": "Native CUPS hardening and print service"},
+
+    {"package": "tamlinux-native", "binaries": ["tam-theme-set-browser-policy", "tamlinux-session", "tam-native-defaults"], "purpose": "Fixed root browser-policy adapter with later-write recovery and native session registration; actual browser/interactive authentication remain pending"},
     {"package": "pacman-contrib", "binaries": ["checkupdates"], "optional": true, "purpose": "Independent update preview; full native update belongs to Cutover Test"},
     {"package": "sudo", "binaries": ["sudo"], "optional": true, "purpose": "Interactive native maintenance menu authentication; background agent host work uses pkexec"},
     {"package": "snapper", "binaries": ["snapper"], "optional": true, "purpose": "Prepared root recovery snapshot before full native updates at cutover"},

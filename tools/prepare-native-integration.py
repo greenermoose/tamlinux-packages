@@ -20,6 +20,8 @@ FILES={
     ('session','tamlinux.desktop','tamlinux.conf','org.tamlinux.native.policy',
      '50-tamlinux-hyprland-pause.hook','50-tamlinux-hyprland-resume.hook','LICENSE')},
  'defaults/LICENSE':'desktop/native/defaults/LICENSE-defaults',
+ 'defaults/convert.py':'desktop/native/defaults/convert.py',
+ 'defaults/native_recovery.py':'desktop/migration/recovery.py',
 }
 DEFAULTS='desktop/native/defaults'
 
@@ -60,9 +62,9 @@ def prepare(product,destination,revision):
         'origin':'https://github.com/greenermoose/tamlinux','files':
         {name:hashlib.sha256(data).hexdigest() for name,data in sorted(files.items())},
         'links':{name:target for name,(mode,target) in sorted(special.items()) if mode=='link'},
-        'scope':'Owned login registration, explicit browser/Apple authorization, reload hooks, transient elevation cleanup and vendor system defaults (drop-ins only).',
+        'scope':'Owned login registration, explicit browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults and explicit checkpointed native conversion.',
         'pending':['native root/security/service recovery beyond browser policies','KMS bridge','separate boot handoff','physical authentication/device proof',
-                   'whole-file defaults needing a preserving adapter: faillock+passwd_tries, nsswitch+resolved multicast, cups-files, skel bashrc, dirmngr, Docker daemon.json+resolved stub, MIME and terminal lists',
+                   'explicit tam-native-defaults transaction, service reloads and effective native-defaults verification before Desktop Test',
                    'provisioning must run systemctl preset for systemd-oomd']}
     files['manifest.json']=(json.dumps(manifest,indent=2,sort_keys=True)+'\n').encode()
     destination.mkdir(mode=0o700,parents=True,exist_ok=False)

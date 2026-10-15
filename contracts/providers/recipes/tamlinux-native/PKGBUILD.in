@@ -1,19 +1,14 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
-pkgver=0.4.3
+pkgver=0.4.3pre.c
 pkgrel=0.1
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'
 license=(GPL-3.0-or-later GPL-2.0-or-later MIT)
-depends=(bash python polkit hyprland jq glibc 'libstdc++')
-optdepends=('zram-generator: compressed swap from the zram defaults'
-            'ttf-liberation: sans-serif and serif families in the font defaults'
-            'noto-fonts: Arabic and Urdu families in the font defaults'
-            'noto-fonts-emoji: emoji in the font defaults'
-            'fcitx5: input method started by tam-fcitx5.service'
-            'bluez-tools: pairing agent started by bt-agent.service'
-            'plocate: index tuned by the updatedb drop-ins')
+depends=(bash python polkit hyprland jq glibc 'libstdc++' nss-mdns avahi
+         zram-generator ttf-liberation noto-fonts noto-fonts-emoji fcitx5 bluez-tools sudo fuse3)
+optdepends=('plocate: index tuned by the updatedb drop-ins')
 makedepends=(gcc make)
 source=(tamlinux-native-source.tar)
 sha256sums=('@SOURCE_SHA256@')
@@ -48,5 +43,10 @@ package() {
   install -Dm644 integration/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE"
   install -Dm644 asdcontrol/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-asdcontrol"
   install -Dm644 defaults/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-defaults"
+  install -Dm644 defaults/convert.py "$pkgdir/usr/lib/tamlinux/native-defaults/convert.py"
+  install -Dm644 defaults/native_recovery.py "$pkgdir/usr/lib/tamlinux/native-defaults/native_recovery.py"
+  install -d "$pkgdir/usr/bin"
+  printf '%s\n' '#!/bin/sh' 'exec /usr/bin/python3 -I /usr/lib/tamlinux/native-defaults/convert.py "$@"' > "$pkgdir/usr/bin/tam-native-defaults"
+  chmod 755 "$pkgdir/usr/bin/tam-native-defaults"
   install -Dm644 guard-LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-reload-guard"
 }

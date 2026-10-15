@@ -117,3 +117,8 @@ Reviewed peer patches, approved background removal and exact inactive kit prepar
 
 Claude Code `2.1.300` (`claude-opus-5-5`) packaged the product native defaults
 in `tamlinux-native`. [Session record](docs/ai/2026-10-15-native-defaults.md).
+
+## Desktop Test c preparation
+
+Codex CLI `0.162.1` (`gpt-6.1-sol`) completes native-defaults integration and
+prepares a distinct inactive c assembly. [Session](docs/ai/2026-10-15-desktop-test-c.md).
