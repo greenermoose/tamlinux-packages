@@ -104,6 +104,8 @@ class GraphicsEvidence(unittest.TestCase):
         vm = self.fixture(renderer='llvmpipe (LLVM 21)', mode='vm')
         self.assertTrue(vm['passed'])
         self.assertTrue(vm['softwareRendererObserved'])
+        self.assertFalse(vm['hardwareRendererObserved'])
+        self.assertTrue(self.fixture()['hardwareRendererObserved'])
         for key in ['QT_QUICK_BACKEND', 'LIBGL_ALWAYS_SOFTWARE', 'QSG_RHI_BACKEND']:
             with self.subTest(key=key):
                 self.assertFalse(self.fixture(env={key: 'software'})['passed'])

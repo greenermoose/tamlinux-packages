@@ -178,10 +178,11 @@ def graphics_evidence(pid, env, log, layers, outputs, mode, renderer_tokens=(), 
     checks = {'noSoftwareOverrides': not overrides, 'openGLContextObserved': bool(renderers),
               'noContextErrors': not errors,
               'rendererMatches': bool(renderers) and all(token.lower() in ' '.join(renderers).lower() for token in renderer_tokens),
-              'hardwareRenderer': bool(renderers) and not software if mode == 'hardware' else True,
+              'rendererClassAccepted': bool(renderers) and not software if mode == 'hardware' else True,
               'allOutputSurfaces': bool(outputs) and all(value['bar'] and value['background']
                   and (value['notifications'] or not require_notifications) for value in surfaces.values())}
     return {'mode': mode, 'shellPid': pid, 'renderers': renderers, 'softwareRendererObserved': software,
+            'hardwareRendererObserved': bool(renderers) and not software,
             'softwareOverrides': overrides, 'contextLogDigest': hashlib.sha256(log.encode()).hexdigest(),
             'requiredRendererTokens': list(renderer_tokens), 'notificationsRequired': require_notifications,
             'outputs': surfaces, 'checks': checks, 'passed': all(checks.values()),
