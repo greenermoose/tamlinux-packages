@@ -31,3 +31,15 @@ the unchanged Rust application. The fresh MIME handler owners are explicit
 in the native provisioning contract, while the session exposes the already
 owned Nix Helix desktop entry; empty-state handler resolution is
 verified against their independently signed Arch packages.
+
+Final evidence review binds the installed outputs, native archive, consumer,
+recovery artifacts and declared capabilities to one selection tuple. I01–I07
+pass and the I09 recovery artifacts verify; Cutover and actual reference-account
+installation/rollback remain pending. The native registry's earlier maintained
+provider placeholders are resolved in the retained tuple provider record with
+exact built artifacts and source ancestry. The final graphics wrapper saves
+changed pixels without diagnostic EGL/DRI overrides. Browser native messaging
+and real shortcuts, portal selection/cancel/ScreenCast, positive/cancelled
+authorization, screenshot/OCR/QR, fresh MIME handlers and native recovery were
+verified in the isolated VM. The final network window captured 2307 packets and
+independent DNS positive controls with no inherited endpoint markers.

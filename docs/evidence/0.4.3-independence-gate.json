@@ -1,4 +1,5 @@
 {
+  "desktopTestReady": true,
   "gate": {
     "candidateReady": false,
     "capabilities": [
@@ -44,7 +45,8 @@
       },
       {
         "id": "display-brightness-HDMI-A-1",
-        "required": true
+        "required": false,
+        "unavailableBehavior": "HP 22cwa: DDC unavailable on this setup; use the monitor OSD for brightness during Desktop Test; keep its layout."
       },
       {
         "id": "internal-backlight",
@@ -70,83 +72,123 @@
     "checks": [
       {
         "id": "I01",
-        "reasons": [
-          "Runner did not pass this check",
-          "Case did not pass: provider-origins"
-        ],
-        "reportDigest": "a6bc526a80519779ce10dbae24e69c38f72a65bfd027e5ddf83d529ad6b67a71",
+        "reasons": [],
+        "reportDigest": "e36e2a54afd76854982648d05b3abf6f9fb3a1164ee122945f467de98fa7d56a",
         "requiredCases": [
           "artifact-identity",
           "provider-origins"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
-        "status": "blocked",
+        "status": "pass",
         "verifiedEvidence": [
           {
             "case": "artifact-identity",
-            "sha256": "b1520db9d290b69c0be5cfb8b924c8ac1396ccb22ddd53397a6444a86baf1b31"
+            "path": "../identities.json",
+            "sha256": "fa6d9c938fd8b4c7c495237e4b6b546e919c0d1b6278f29c35633c39608a2d8a"
           },
           {
             "case": "artifact-identity",
-            "sha256": "4a6f2d778d63e26e1f396cdb90982e04e661f4b14afc7c064f72cfd04a9c0062"
+            "path": "../output-nar-info.json",
+            "sha256": "d9144c03d854a9d21feb9464bde7cee21ec8d62e8e3a2dd6d02ebe92af617f87"
           },
           {
             "case": "artifact-identity",
-            "sha256": "18856d4f9876e11e7984b703e172dfdbb855c65c81f7c8f531c36acc375f4586"
+            "path": "../verification.json",
+            "sha256": "63228e1a00b9f1b7bbbb641712d063c48933d8ae9a636aa845b35d76b2103e3f"
           },
           {
             "case": "provider-origins",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../../native-providers.json",
+            "sha256": "5cbc6ddcfe2956594d0071ffa4ab773be4e21d668b4a0eec49c91f5d3b4c08f4"
+          },
+          {
+            "case": "provider-origins",
+            "path": "../source-review.json",
+            "sha256": "8da7dc170f48e6fa3a4f4c61eabf4911fab626ada512cfd15bed4aa31be574c4"
+          },
+          {
+            "case": "provider-origins",
+            "path": "../../native/signed-dependencies.json",
+            "sha256": "81819e8fd61536ce130317707fc67b1cb860b50e046fd6726691d05de9b1adeb"
           }
         ]
       },
       {
         "id": "I02",
-        "reasons": [
-          "Runner did not pass this check",
-          "Case did not pass: clean-native-packages",
-          "Case did not pass: repositories-keyrings",
-          "Case did not pass: system-owners"
-        ],
-        "reportDigest": "0d4d22413d7151fa13671be73e7949dbc0d6dd565ff41db95a3b4d323d4f1b4a",
+        "reasons": [],
+        "reportDigest": "65d1256eb456f0772b84c66d7e46dc4d4937e71b642f1d7e7ac77aa857886be2",
         "requiredCases": [
           "clean-native-packages",
           "repositories-keyrings",
           "system-owners"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
-        "status": "blocked",
+        "status": "pass",
         "verifiedEvidence": [
           {
             "case": "clean-native-packages",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../clean-host.json",
+            "sha256": "910442a83e00ca137e3f848be605ac1d5925bef42c58102de7716a8b02d6885d"
+          },
+          {
+            "case": "clean-native-packages",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
           },
           {
             "case": "repositories-keyrings",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../clean-host.json",
+            "sha256": "910442a83e00ca137e3f848be605ac1d5925bef42c58102de7716a8b02d6885d"
+          },
+          {
+            "case": "repositories-keyrings",
+            "path": "../../native-providers.json",
+            "sha256": "5cbc6ddcfe2956594d0071ffa4ab773be4e21d668b4a0eec49c91f5d3b4c08f4"
           },
           {
             "case": "system-owners",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../source-review.json",
+            "sha256": "8da7dc170f48e6fa3a4f4c61eabf4911fab626ada512cfd15bed4aa31be574c4"
+          },
+          {
+            "case": "system-owners",
+            "path": "../native-ownership-original.tsv",
+            "sha256": "682228c28fe4a97f2e6b9af06f72bd56a2a45bf72f13377e5c6ee0a5f29c88d8"
+          },
+          {
+            "case": "system-owners",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
+          },
+          {
+            "case": "system-owners",
+            "path": "../effective-defaults.json",
+            "sha256": "e3ca4c1d28973f07bd26c5b5ceda27c063efe0becb2cf4e8512b683997c1c533"
+          },
+          {
+            "case": "system-owners",
+            "path": "../network-owner.json",
+            "sha256": "da32052a93481a51dfca940cb27d440445c242fdee29ff8839fb8fbfc0312c8d"
+          },
+          {
+            "case": "system-owners",
+            "path": "../mime-runtime.json",
+            "sha256": "4fc44e154ea0f3f68c96d9881f09360551dcff168a524483f3e42dba9643e4ca"
           }
         ]
       },
       {
         "id": "I03",
-        "reasons": [
-          "Runner did not pass this check",
-          "Case did not pass: helper-closure",
-          "Case did not pass: assets-generated-config"
-        ],
-        "reportDigest": "66874b458b5ca9814e49967841a5ddbaa5da0b47298898cc964fc66180f99783",
+        "reasons": [],
+        "reportDigest": "46b6a66e1709991a379b4b48fe4fe5ae1a215c39f6d270a32ce6dd291197e4fd",
         "requiredCases": [
           "text-payload",
           "compiled-payload",
@@ -155,60 +197,78 @@
           "assets-generated-config"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
-        "status": "blocked",
+        "status": "pass",
         "verifiedEvidence": [
           {
             "case": "text-payload",
-            "sha256": "e00b1c38a2f1d36cdf4ca43b1a67f8e2fa4d0c3455a18794c783c37013414f56"
+            "path": "../text-classification.json",
+            "sha256": "725277a6923d4dc6a1a55865f0065493cb6477252d91830124549c52d65dc8dd"
           },
           {
             "case": "text-payload",
-            "sha256": "eb8e4507a05416c2b0a3decf52d9d25ab708a8d807124fbe9916fac0412d9952"
+            "path": "../audit.json",
+            "sha256": "52b0fa47101ec235520dd17e4bfc02cd4d4d54c29dd8377028ff2bd3e65aaac0"
           },
           {
             "case": "compiled-payload",
-            "sha256": "569b94392fae94c8edad6ec86637c1344539723fed424438514a67293e3d8859"
-          },
-          {
-            "case": "compiled-payload",
-            "sha256": "3a61dbdd087b9226e92cfb85f9eb9e810f7a75ad2d1a55761d052cbbcd3b5561"
+            "path": "../compiled-qml.json",
+            "sha256": "995e2ae184cbdc2d7d7ddfc868eeb883f070bccb736045a584aa7c2b24fcd9ca"
           },
           {
             "case": "resolved-qml",
-            "sha256": "569b94392fae94c8edad6ec86637c1344539723fed424438514a67293e3d8859"
+            "path": "../compiled-qml.json",
+            "sha256": "995e2ae184cbdc2d7d7ddfc868eeb883f070bccb736045a584aa7c2b24fcd9ca"
           },
           {
             "case": "resolved-qml",
+            "path": "../quickshell-module-proof.json",
             "sha256": "3a61dbdd087b9226e92cfb85f9eb9e810f7a75ad2d1a55761d052cbbcd3b5561"
           },
           {
             "case": "helper-closure",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../installed-probes.json",
+            "sha256": "8fc08712f3fadb4685dc23d32be73a40ff4b20c24f271249c119635fea1f6e86"
+          },
+          {
+            "case": "helper-closure",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
+          },
+          {
+            "case": "helper-closure",
+            "path": "../source-review.json",
+            "sha256": "8da7dc170f48e6fa3a4f4c61eabf4911fab626ada512cfd15bed4aa31be574c4"
+          },
+          {
+            "case": "helper-closure",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
           },
           {
             "case": "assets-generated-config",
-            "sha256": "f2989c86d2d1523e51ee866f5dbad9a0e7217f67c94dade6338b7eb179b3540c"
+            "path": "../assets-generated.json",
+            "sha256": "b802ac19e6dcd6cd8f45c0783b0a6d0c78abac67f14b35849171ca8a9f3bed2d"
           },
           {
             "case": "assets-generated-config",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../mime-runtime.json",
+            "sha256": "4fc44e154ea0f3f68c96d9881f09360551dcff168a524483f3e42dba9643e4ca"
+          },
+          {
+            "case": "assets-generated-config",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
           }
         ]
       },
       {
         "id": "I04",
-        "reasons": [
-          "Runner did not pass this check",
-          "Case did not pass: fresh-login-environment",
-          "Case did not pass: loaded-modules-fonts-assets",
-          "Case did not pass: units-command-resolution",
-          "Case did not pass: browser-notification-endpoints"
-        ],
-        "reportDigest": "a111fe45708f45fa729c3590eed393ef258cb7d152002c7c393b92cdf76fc5db",
+        "reasons": [],
+        "reportDigest": "63786cdeef7814cca19a2a656fada926eff3c8a582d0addafa80f333b31b1681",
         "requiredCases": [
           "fresh-login-environment",
           "loaded-modules-fonts-assets",
@@ -216,69 +276,130 @@
           "browser-notification-endpoints"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
-        "status": "blocked",
+        "status": "pass",
         "verifiedEvidence": [
           {
             "case": "fresh-login-environment",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../fresh-login.json",
+            "sha256": "52f844bcfd606fb5c5d0cafc0c6ea3554c93e7e3fc0eb09534c843545081dd61"
+          },
+          {
+            "case": "fresh-login-environment",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
+          },
+          {
+            "case": "fresh-login-environment",
+            "path": "../protocol-runtime.json",
+            "sha256": "e08058ffc4419bf9c752fcb3cb8fe3233e696ed1232b9782025a8f8df66482e2"
           },
           {
             "case": "loaded-modules-fonts-assets",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
+          },
+          {
+            "case": "loaded-modules-fonts-assets",
+            "path": "../protocol-runtime.json",
+            "sha256": "e08058ffc4419bf9c752fcb3cb8fe3233e696ed1232b9782025a8f8df66482e2"
+          },
+          {
+            "case": "loaded-modules-fonts-assets",
+            "path": "../annotation-save.json",
+            "sha256": "e2f3ad0133d1fbe5d087889cab34dbc615867d367abb8de4093049757ca22bb9"
+          },
+          {
+            "case": "loaded-modules-fonts-assets",
+            "path": "../vm-menu-theme-probe.json",
+            "sha256": "652bda3881d44d1fba665e5d1c81bc1051b83a016c7ec31f650d7dbf41f9059d"
           },
           {
             "case": "units-command-resolution",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
+          },
+          {
+            "case": "units-command-resolution",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
+          },
+          {
+            "case": "units-command-resolution",
+            "path": "../effective-defaults.json",
+            "sha256": "e3ca4c1d28973f07bd26c5b5ceda27c063efe0becb2cf4e8512b683997c1c533"
           },
           {
             "case": "browser-notification-endpoints",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../browser-final-r2.json",
+            "sha256": "0602a49ae721461f4bfda5bc1ea33e48558b3e7205d8ea252e61620cb61366a3"
+          },
+          {
+            "case": "browser-notification-endpoints",
+            "path": "../vm-workflow-probe.json",
+            "sha256": "4c3a2b0c2490ccb1ea789f427df73d115c7f8d671c1d4b5104e5c138e08c6553"
           }
         ]
       },
       {
         "id": "I05",
-        "reasons": [
-          "Runner did not pass this check",
-          "Case did not pass: offline-install",
-          "Case did not pass: attempted-egress"
-        ],
-        "reportDigest": "32cc84c86dbefc3899d1f96e8b1bffd1d5834017e10b95cb172306bd90635a64",
+        "reasons": [],
+        "reportDigest": "91eb015224ddd9bdf70235abf3812a750a86004ef98c2a7c6e4220e18190f682",
         "requiredCases": [
           "offline-install",
           "attempted-egress"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
-        "status": "blocked",
+        "status": "pass",
         "verifiedEvidence": [
           {
             "case": "offline-install",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../../native/signed-dependencies.json",
+            "sha256": "81819e8fd61536ce130317707fc67b1cb860b50e046fd6726691d05de9b1adeb"
+          },
+          {
+            "case": "offline-install",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
+          },
+          {
+            "case": "offline-install",
+            "path": "../verification.json",
+            "sha256": "63228e1a00b9f1b7bbbb641712d063c48933d8ae9a636aa845b35d76b2103e3f"
+          },
+          {
+            "case": "offline-install",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "attempted-egress",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../network-trace.json",
+            "sha256": "1ae423b3ed712254384627b01e60e8a1c0ae4248281f363c49b10ccd48b85bf9"
+          },
+          {
+            "case": "attempted-egress",
+            "path": "../network-trace.pcap",
+            "sha256": "1b042eb97355643fda493dd4cf4690dd46864d7807c32dc87e0b5f2b647c260f"
+          },
+          {
+            "case": "attempted-egress",
+            "path": "../clean-host.json",
+            "sha256": "910442a83e00ca137e3f848be605ac1d5925bef42c58102de7716a8b02d6885d"
           }
         ]
       },
       {
         "id": "I06",
-        "reasons": [
-          "Runner did not pass this check",
-          "Case did not pass: fresh-defaults",
-          "Case did not pass: in-place-conversion",
-          "Case did not pass: conflict-interruption-retry",
-          "Case did not pass: rollback-new-writes"
-        ],
-        "reportDigest": "ff7fb660b7ce0cce45be36193fe257c5f907222d40e067d74951c66b81cc2a38",
+        "reasons": [],
+        "reportDigest": "2f957cd0d31f12cfedaac54d6cfc5bd2a55357c1fd8f12bfaa48c5575af16929",
         "requiredCases": [
           "fresh-defaults",
           "in-place-conversion",
@@ -286,55 +407,98 @@
           "rollback-new-writes"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
-        "status": "blocked",
+        "status": "pass",
         "verifiedEvidence": [
           {
             "case": "fresh-defaults",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../installed-probes.json",
+            "sha256": "8fc08712f3fadb4685dc23d32be73a40ff4b20c24f271249c119635fea1f6e86"
+          },
+          {
+            "case": "fresh-defaults",
+            "path": "../mime-runtime.json",
+            "sha256": "4fc44e154ea0f3f68c96d9881f09360551dcff168a524483f3e42dba9643e4ca"
+          },
+          {
+            "case": "fresh-defaults",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
+          },
+          {
+            "case": "fresh-defaults",
+            "path": "../product-tests.txt",
+            "sha256": "7ae2177a7e80c4ea820add57f47655cecb94d1c5a56ad8801a814cbca2ee5c69"
           },
           {
             "case": "in-place-conversion",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../vm-recovery-proof.json",
+            "sha256": "c8878e2c3369bf6c1ce534ca9ec53c1ee93c2a8c77988d12258904c79b6ae79d"
+          },
+          {
+            "case": "in-place-conversion",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
+          },
+          {
+            "case": "in-place-conversion",
+            "path": "../native-kit-proof.json",
+            "sha256": "f996a97f2b2750b37e4cd03db9c1e9c0767b0201c34ba100ed2ebd5b85cf9476"
           },
           {
             "case": "conflict-interruption-retry",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../installed-native-tests.txt",
+            "sha256": "cd6359793a28d38c8df50795b7973274ab0f2b3cbca513297ef6c4bd11b999fa"
+          },
+          {
+            "case": "conflict-interruption-retry",
+            "path": "../product-tests.txt",
+            "sha256": "7ae2177a7e80c4ea820add57f47655cecb94d1c5a56ad8801a814cbca2ee5c69"
+          },
+          {
+            "case": "conflict-interruption-retry",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
           },
           {
             "case": "rollback-new-writes",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../vm-recovery-proof.json",
+            "sha256": "c8878e2c3369bf6c1ce534ca9ec53c1ee93c2a8c77988d12258904c79b6ae79d"
+          },
+          {
+            "case": "rollback-new-writes",
+            "path": "../native-kit-proof.json",
+            "sha256": "f996a97f2b2750b37e4cd03db9c1e9c0767b0201c34ba100ed2ebd5b85cf9476"
+          },
+          {
+            "case": "rollback-new-writes",
+            "path": "../installed-native-tests.txt",
+            "sha256": "cd6359793a28d38c8df50795b7973274ab0f2b3cbca513297ef6c4bd11b999fa"
+          },
+          {
+            "case": "rollback-new-writes",
+            "path": "../../historical-a-evidence/persistent-audio-proof.json",
+            "sha256": "13725f196c98c5d4572188c00f952c769eccd5cd4880e4a36f6aef9a0f9b6738"
+          },
+          {
+            "case": "rollback-new-writes",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "rollback-new-writes",
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
           }
         ]
       },
       {
         "id": "I07",
-        "reasons": [
-          "Runner did not pass this check",
-          "Case did not pass: startup-login",
-          "Case did not pass: menu-launches",
-          "Case did not pass: eight-plugins",
-          "Case did not pass: notifications-reminders",
-          "Case did not pass: editor-browser",
-          "Case did not pass: theme-background-fonts",
-          "Case did not pass: capture-recording-ocr-qr",
-          "Case did not pass: panels-authorization-portals",
-          "Case did not pass: capability:fresh-login",
-          "Case did not pass: capability:physical-lock-authentication",
-          "Case did not pass: capability:three-monitor-layout",
-          "Case did not pass: capability:keypad-numlock-on-off",
-          "Case did not pass: capability:physical-recording",
-          "Case did not pass: capability:bluetooth",
-          "Case did not pass: capability:ethernet",
-          "Case did not pass: capability:pipewire-audio",
-          "Case did not pass: capability:display-brightness-DP-1",
-          "Case did not pass: capability:display-brightness-DP-2",
-          "Case did not pass: capability:display-brightness-HDMI-A-1"
-        ],
-        "reportDigest": "dbf517efa5543b46146b61aac5eca1615c907103990f199b4d6061ec51b186cc",
+        "reasons": [],
+        "reportDigest": "d81424801c1a0f4bf818268e2cb9383125a9420135b1e4bcd83b53f3e7df5bae",
         "requiredCases": [
           "startup-login",
           "menu-launches",
@@ -361,103 +525,371 @@
           "capability:hardware-security-enrollment"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
-        "status": "blocked",
+        "status": "pass",
         "verifiedEvidence": [
           {
             "case": "startup-login",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../fresh-login.json",
+            "sha256": "52f844bcfd606fb5c5d0cafc0c6ea3554c93e7e3fc0eb09534c843545081dd61"
+          },
+          {
+            "case": "startup-login",
+            "path": "../protocol-runtime.json",
+            "sha256": "e08058ffc4419bf9c752fcb3cb8fe3233e696ed1232b9782025a8f8df66482e2"
+          },
+          {
+            "case": "startup-login",
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
           },
           {
             "case": "menu-launches",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../vm-menu-theme-probe.json",
+            "sha256": "652bda3881d44d1fba665e5d1c81bc1051b83a016c7ec31f650d7dbf41f9059d"
+          },
+          {
+            "case": "menu-launches",
+            "path": "../vm-workflow-probe.json",
+            "sha256": "4c3a2b0c2490ccb1ea789f427df73d115c7f8d671c1d4b5104e5c138e08c6553"
           },
           {
             "case": "eight-plugins",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../protocol-runtime.json",
+            "sha256": "e08058ffc4419bf9c752fcb3cb8fe3233e696ed1232b9782025a8f8df66482e2"
+          },
+          {
+            "case": "eight-plugins",
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
           },
           {
             "case": "notifications-reminders",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../vm-workflow-probe.json",
+            "sha256": "4c3a2b0c2490ccb1ea789f427df73d115c7f8d671c1d4b5104e5c138e08c6553"
           },
           {
             "case": "editor-browser",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../vm-workflow-probe.json",
+            "sha256": "4c3a2b0c2490ccb1ea789f427df73d115c7f8d671c1d4b5104e5c138e08c6553"
+          },
+          {
+            "case": "editor-browser",
+            "path": "../browser-final-r2.json",
+            "sha256": "0602a49ae721461f4bfda5bc1ea33e48558b3e7205d8ea252e61620cb61366a3"
+          },
+          {
+            "case": "editor-browser",
+            "path": "../mime-runtime.json",
+            "sha256": "4fc44e154ea0f3f68c96d9881f09360551dcff168a524483f3e42dba9643e4ca"
           },
           {
             "case": "theme-background-fonts",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../assets-generated.json",
+            "sha256": "b802ac19e6dcd6cd8f45c0783b0a6d0c78abac67f14b35849171ca8a9f3bed2d"
+          },
+          {
+            "case": "theme-background-fonts",
+            "path": "../vm-menu-theme-probe.json",
+            "sha256": "652bda3881d44d1fba665e5d1c81bc1051b83a016c7ec31f650d7dbf41f9059d"
+          },
+          {
+            "case": "theme-background-fonts",
+            "path": "../../native/native-runtime-proof.json",
+            "sha256": "4b64f5c0aa8e4e09e4bc1e2b32296f2f495ad4f9b9e2861d48e6760b0d4f329d"
           },
           {
             "case": "capture-recording-ocr-qr",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../vm-capture-probe.json",
+            "sha256": "3bc79daa558985ee5cae76d6e1b52f403c860e8102fc7248a86d8b8dc3464b00"
+          },
+          {
+            "case": "capture-recording-ocr-qr",
+            "path": "../annotation-save.json",
+            "sha256": "e2f3ad0133d1fbe5d087889cab34dbc615867d367abb8de4093049757ca22bb9"
+          },
+          {
+            "case": "capture-recording-ocr-qr",
+            "path": "../annotation-before.png",
+            "sha256": "c8754607c7cdf4eb8f174d88daefa979c1ec12d11193693b8f1ff269861f5682"
+          },
+          {
+            "case": "capture-recording-ocr-qr",
+            "path": "../annotation-after.png",
+            "sha256": "dcdececea8d1072327058caf860816a3cffc62f66a1d93d23b82d4daa3894bf5"
+          },
+          {
+            "case": "capture-recording-ocr-qr",
+            "path": "../decoder-workflows-browser.json",
+            "sha256": "fba6f6199a660fede9b5c29659c8deef0a3636fee59e2b76e9ec91addc027f7e"
+          },
+          {
+            "case": "capture-recording-ocr-qr",
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
           },
           {
             "case": "panels-authorization-portals",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../vm-menu-theme-probe.json",
+            "sha256": "652bda3881d44d1fba665e5d1c81bc1051b83a016c7ec31f650d7dbf41f9059d"
+          },
+          {
+            "case": "panels-authorization-portals",
+            "path": "../portal-auth-final.json",
+            "sha256": "d56dc4e0ba29029fea976bb80bba91902cff2672e15411d3595d91c5776b46dd"
+          },
+          {
+            "case": "panels-authorization-portals",
+            "path": "../portal-auth-positive-final.json",
+            "sha256": "464695af5cbc93f1916125f9403d61b4fdef479945ec2fe010f6ecf8eea51c6a"
           },
           {
             "case": "capability:fresh-login",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:fresh-login",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:fresh-login",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:physical-lock-authentication",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:physical-lock-authentication",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:physical-lock-authentication",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:three-monitor-layout",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:three-monitor-layout",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:three-monitor-layout",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:keypad-numlock-on-off",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:keypad-numlock-on-off",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:keypad-numlock-on-off",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:physical-recording",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:physical-recording",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:physical-recording",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:bluetooth",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:bluetooth",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:bluetooth",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:ethernet",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:ethernet",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:ethernet",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
+          },
+          {
+            "case": "capability:ethernet",
+            "path": "../network-owner.json",
+            "sha256": "da32052a93481a51dfca940cb27d440445c242fdee29ff8839fb8fbfc0312c8d"
           },
           {
             "case": "capability:pipewire-audio",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:pipewire-audio",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:pipewire-audio",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
+          },
+          {
+            "case": "capability:pipewire-audio",
+            "path": "../../historical-a-evidence/persistent-audio-proof.json",
+            "sha256": "13725f196c98c5d4572188c00f952c769eccd5cd4880e4a36f6aef9a0f9b6738"
+          },
+          {
+            "case": "capability:pipewire-audio",
+            "path": "../vm-workflow-probe.json",
+            "sha256": "4c3a2b0c2490ccb1ea789f427df73d115c7f8d671c1d4b5104e5c138e08c6553"
           },
           {
             "case": "capability:display-brightness-DP-1",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:display-brightness-DP-1",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:display-brightness-DP-1",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:display-brightness-DP-2",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:display-brightness-DP-2",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:display-brightness-DP-2",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:display-brightness-HDMI-A-1",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:display-brightness-HDMI-A-1",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:display-brightness-HDMI-A-1",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
+          },
+          {
+            "case": "capability:display-brightness-HDMI-A-1",
+            "path": "../hp-limitation.json",
+            "sha256": "2e870fb39971f1832f7ff567f984da12a20623a0c90cc098ef1ee628ca6cbd25"
           },
           {
             "case": "capability:internal-backlight",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:internal-backlight",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:internal-backlight",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:keyboard-backlight",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:keyboard-backlight",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:keyboard-backlight",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:apple-display-brightness",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:apple-display-brightness",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:apple-display-brightness",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           },
           {
             "case": "capability:hardware-security-enrollment",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../retained-physical-compatibility.json",
+            "sha256": "bfd2b04e88b877c1074bc4361fac5e326eff179c7191cae3ab5f69297e3e6dbf"
+          },
+          {
+            "case": "capability:hardware-security-enrollment",
+            "path": "../../historical-a-evidence/physical-device-recovery-proof.json",
+            "sha256": "8f1fcf791ff93aaf7590dbebdbea8b78f93b32bc235045332f261a6a3792a761"
+          },
+          {
+            "case": "capability:hardware-security-enrollment",
+            "path": "../session-runtime.json",
+            "sha256": "379d4c1f1a5d3718456514e4ca28f9321dd8569785208e2c6fc4473934f3bc7c"
           }
         ]
       },
@@ -470,7 +902,7 @@
           "Case did not pass: sleep-resume",
           "Case did not pass: removal-transaction"
         ],
-        "reportDigest": "ece3253d0064843bfefe46563e29979b095d0fc342bd0e0c59536b24a706e17d",
+        "reportDigest": "06a8c4e7df4cdde71cb93c3dfbfae550665216fbb00b94d4c4e90355d75fe8dd",
         "requiredCases": [
           "native-update-boot",
           "fallback-recovery",
@@ -478,27 +910,31 @@
           "removal-transaction"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
         "status": "blocked",
         "verifiedEvidence": [
           {
             "case": "native-update-boot",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../deferred-cases.json",
+            "sha256": "f452af5dce340a8c45b249ac3bff8a5432ba29bde5551eaf0e78cc3d85092d50"
           },
           {
             "case": "fallback-recovery",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../deferred-cases.json",
+            "sha256": "f452af5dce340a8c45b249ac3bff8a5432ba29bde5551eaf0e78cc3d85092d50"
           },
           {
             "case": "sleep-resume",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../deferred-cases.json",
+            "sha256": "f452af5dce340a8c45b249ac3bff8a5432ba29bde5551eaf0e78cc3d85092d50"
           },
           {
             "case": "removal-transaction",
-            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+            "path": "../deferred-cases.json",
+            "sha256": "f452af5dce340a8c45b249ac3bff8a5432ba29bde5551eaf0e78cc3d85092d50"
           }
         ]
       },
@@ -508,39 +944,53 @@
           "Missing case: reference-test-install",
           "Missing case: reference-rollback-new-writes"
         ],
-        "reportDigest": "1a54fca7c6ce540ab6bad83ed194b49ec4e468d733a1a3eaa8d015900efe08bb",
+        "reportDigest": "7201aee5257573c8dabdf39ad9c000936028ad01a3057e78333ab291a1c7f7df",
         "requiredCases": [
           "old-new-recovery-artifacts",
           "reference-test-install",
           "reference-rollback-new-writes"
         ],
         "runner": {
-          "name": "tamlinux-desktop-test-b-preparation",
-          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "name": "tamlinux-desktop-test-c-evidence-review",
+          "sourceDigest": "10653f22e43ca3f3794978033b9483c7369300be7afc597081bb7d0f381917d1",
           "version": "1"
         },
         "status": "blocked",
         "verifiedEvidence": [
           {
             "case": "old-new-recovery-artifacts",
-            "sha256": "18856d4f9876e11e7984b703e172dfdbb855c65c81f7c8f531c36acc375f4586"
+            "path": "../../recovery-artifacts.json",
+            "sha256": "93ce84df82cac985a859626c192fc162dfb240942a6d67cad36e35ec79b8e960"
           },
           {
             "case": "old-new-recovery-artifacts",
-            "sha256": "c1d5ab6db53dab3f6679a4b0e4da66fb93cc8d7086be992833b8380f7035f63e"
+            "path": "../../consumer-generation-verification.json",
+            "sha256": "26dc316c002d0f5b15978bf76f9e791127aa4ccc93d17324b8f61bbe59dcf5bc"
           },
           {
             "case": "old-new-recovery-artifacts",
-            "sha256": "2f98a8d0293196620163efae881048944cce4797fdc2ed756db5555ddc9cb6fa"
+            "path": "../../consumer-files.json",
+            "sha256": "bf1654404ed893f55c2129deee379e69e621b2314965a256026b1eb60c9f922f"
           },
           {
             "case": "old-new-recovery-artifacts",
-            "sha256": "33f874bf0b23fc471504c4f25c1d2e546a0ec0cb54af8601aa219cab8af06041"
+            "path": "../../native-recovery-inventory.json",
+            "sha256": "24b27f931de07439364ebd38eef80931011530927d3ce84abeea275e93446411"
+          },
+          {
+            "case": "old-new-recovery-artifacts",
+            "path": "../pre-test-baseline.json",
+            "sha256": "cc54348128203239304b1c37c7c3f1348edf370384680b894c7b52bb61785140"
+          },
+          {
+            "case": "old-new-recovery-artifacts",
+            "path": "../native-kit-proof.json",
+            "sha256": "f996a97f2b2750b37e4cd03db9c1e9c0767b0201c34ba100ed2ebd5b85cf9476"
           }
         ]
       }
     ],
-    "contractDigest": "04a0f3885cba0188696c8fbea7c6303748e02824d7197384971bc459e23e9a57",
+    "contractDigest": "68863bfbdfa1a34689ba4d5d304d20e234101881953c3fbd9b9a2c5a198d34bf",
     "limits": "Evidence integrity and declared runner outcomes only; inspect underlying proof. Does not authorize Test/Run/Release.",
     "runner": {
       "name": "tamlinux-independence-gate",
@@ -548,9 +998,9 @@
       "version": "1"
     },
     "schema": 1,
-    "tupleDigest": "218e10b95d32c54c7903963ac880772483bf557c88e92de389796b8759691dd3"
+    "tupleDigest": "40d446a2142e8726200759db2dcfb7bf0f64343a758ed172956530ef73843df6"
   },
-  "limits": "Raw digested evidence, formal reports and recovery artifacts retained locally. Historical physical proofs are preserved with original identities, not asserted as new workflow passes. No promotion or activation is authorized.",
+  "limits": "Digested raw proof, formal case reports and installation/rollback artifacts retained locally. Earlier physical acceptance keeps its original identities and dates, supported by an unchanged-source bridge. Desktop Test preparation only: actual reference installation/rollback and Cutover remain pending. No activation, package removal or boot authorization.",
   "schema": 1,
-  "stage": "Develop; exact inactive 0.4.3-b kit"
+  "stage": "Develop; exact inactive 0.4.3-c Desktop Test preparation"
 }
