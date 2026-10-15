@@ -7,6 +7,13 @@ arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'
 license=(GPL-3.0-or-later GPL-2.0-or-later MIT)
 depends=(bash python polkit hyprland jq glibc 'libstdc++')
+optdepends=('zram-generator: compressed swap from the zram defaults'
+            'ttf-liberation: sans-serif and serif families in the font defaults'
+            'noto-fonts: Arabic and Urdu families in the font defaults'
+            'noto-fonts-emoji: emoji in the font defaults'
+            'fcitx5: input method started by tam-fcitx5.service'
+            'bluez-tools: pairing agent started by bt-agent.service'
+            'plocate: index tuned by the updatedb drop-ins')
 makedepends=(gcc make)
 source=(tamlinux-native-source.tar)
 sha256sums=('@SOURCE_SHA256@')
@@ -19,6 +26,7 @@ check() {
   "$srcdir/tamlinux-native/asdcontrol/asdcontrol" --help | grep -q brightness
   bash -n "$srcdir/tamlinux-native/hyprland-reload-guard"
   python -m py_compile "$srcdir/tamlinux-native/browser_policy.py"
+  bash -n "$srcdir/tamlinux-native/defaults/root/usr/lib/systemd/system-sleep/tamlinux-unmount-fuse"
 }
 
 package() {
@@ -34,8 +42,11 @@ package() {
   for file in integration/*.hook; do
     install -Dm644 "$file" "$pkgdir/usr/share/libalpm/hooks/${file##*/}"
   done
+  # Vendor defaults: drop-ins under /usr/lib and /usr/share only, modes and links as staged.
+  cp -dr --preserve=mode,links --no-preserve=ownership defaults/root/. "$pkgdir/"
   install -Dm644 manifest.json "$pkgdir/usr/share/tamlinux/native-integration.json"
   install -Dm644 integration/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE"
   install -Dm644 asdcontrol/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-asdcontrol"
+  install -Dm644 defaults/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-defaults"
   install -Dm644 guard-LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-reload-guard"
 }
