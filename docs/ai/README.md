@@ -30,3 +30,5 @@
 - [2026-10-14 — Final portal binding and monitor persistence](2026-10-14-monitor-persistence.md)
 
 - [2026-10-14 — Exact desktop recovery kit](2026-10-14-desktop-recovery-kit.md)
+
+- [2026-10-14 — Desktop Test b preparation](2026-10-14-desktop-test-b.md)

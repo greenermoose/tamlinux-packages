@@ -17,7 +17,13 @@ CUSTOM = re.compile(r"(?<![\w.-])tam-[a-z0-9]+(?:-[a-z0-9]+)*(?![\w.-])")
 ABSOLUTE = re.compile(r"(?:/usr/bin/|/usr/lib/tamlinux/)[a-zA-Z0-9][a-zA-Z0-9_-]*")
 INHERITED = re.compile(r"omarchy", re.IGNORECASE)
 SKIP_DIRS = {".git", "docs", "tests", "upstream", "__pycache__", "node_modules"}
-SUFFIXES = {".qml", ".js", ".py", ".sh", ".json", ".jsonc", ".lua", ".desktop", ".conf"}
+SUFFIXES = {".qml", ".js", ".py", ".sh", ".json", ".jsonc", ".lua", ".desktop", ".conf",
+            ".tpl", ".toml", ".ini", ".css"}
+
+
+def wrapped_body(name):
+    """makeWrapper moves the real script to .NAME-wrapped; its body still runs."""
+    return name.startswith(".") and name.endswith("-wrapped")
 
 
 def runtime_files(root):
@@ -27,7 +33,9 @@ def runtime_files(root):
             path = Path(directory) / name
             if name.startswith("LICENSE") or name in {"source-revision", "version"}:
                 continue
-            if path.suffix in SUFFIXES or (not path.suffix and os.access(path, os.X_OK)):
+            # Extensionless files are scanned whether or not they are executable:
+            # sourced environment files and application configs carry no suffix.
+            if path.suffix in SUFFIXES or not path.suffix or wrapped_body(name):
                 yield path
 
 
@@ -47,6 +55,8 @@ def code_lines(path):
             continue
         if path.suffix == ".lua" and stripped.startswith("--"):
             continue
+        if path.suffix == ".ini" and stripped.startswith(";"):
+            continue
         if stripped.startswith("#") and not stripped.startswith("#!"):
             continue
         yield number, line
@@ -54,10 +64,12 @@ def code_lines(path):
 
 def scan_outputs(outputs):
     commands, absolute, inherited = {}, {}, []
+    inherited_names = []
     embedded = {}
     available = {}
     files_scanned = 0
     for kind, root in sorted(outputs.items()):
+        inherited_names.extend(f"{kind}:{rel}" for rel in inherited_paths(root))
         for path in sorted((root / "bin").glob("*")):
             if not path.name.startswith(".") and path.is_file() and os.access(path, os.X_OK):
                 available.setdefault(path.name, []).append(f"{kind}:bin/{path.name}")
@@ -76,7 +88,19 @@ def scan_outputs(outputs):
                 if INHERITED.search(line):
                     # Record only identifiers/locations, never source bodies or state.
                     inherited.append(reference)
-    return commands, absolute, inherited, embedded, available, files_scanned
+    return commands, absolute, inherited, inherited_names, embedded, available, files_scanned
+
+
+def inherited_paths(root):
+    """Shipped file and directory names are payload too (backgrounds, fonts)."""
+    for directory, dirs, files in os.walk(root):
+        dirs[:] = sorted(d for d in dirs if d not in SKIP_DIRS)
+        for name in sorted(dirs + files):
+            if name.startswith("LICENSE"):
+                continue
+            rel = (Path(directory) / name).relative_to(root).as_posix()
+            if INHERITED.search(name):
+                yield rel
 
 
 def native_executables(item):
@@ -139,7 +163,7 @@ def rooted_executable(root, path):
 
 
 def audit(contract, outputs, host_root=None):
-    commands, absolute, inherited, embedded, available, scanned = scan_outputs(outputs)
+    commands, absolute, inherited, inherited_names, embedded, available, scanned = scan_outputs(outputs)
     declared = {path for item in contract["native"] for _, path in native_executables(item)}
     deferred = set(contract.get("deferredAbsoluteTools", []))
     missing = {name: sorted(refs) for name, refs in sorted(commands.items())
@@ -156,7 +180,7 @@ def audit(contract, outputs, host_root=None):
                              if kind not in outputs or not (outputs[kind] / path).is_file()
                              or not os.access(outputs[kind] / path, os.X_OK))
     host = host_inventory(host_root, contract) if host_root else None
-    blocked = bool(missing or inherited or undeclared or missing_outputs or missing_files or contract["pending"]
+    blocked = bool(missing or inherited or inherited_names or undeclared or missing_outputs or missing_files or contract["pending"]
                    or (host and (host["requiredBinariesMissing"] or host["forbiddenPackages"])))
     return {
         "schema": 1, "target": contract["target"], "candidateReady": not blocked,
@@ -168,6 +192,7 @@ def audit(contract, outputs, host_root=None):
         "missingPackageCommands": missing,
         "embeddedHelpers": embedded,
         "inheritedIdentifierLocations": sorted(inherited),
+        "inheritedFileNames": sorted(inherited_names),
         "undeclaredAbsoluteTools": undeclared,
         "deferredAbsoluteTools": sorted(set(absolute) & deferred),
         "pendingRequirements": contract["pending"],
@@ -235,6 +260,7 @@ def compact_report(result):
     for label, key in (("Missing outputs", "missingOutputs"),
                        ("Missing required output files", "missingOutputFiles"),
                        ("Inherited identifier locations", "inheritedIdentifierLocations"),
+                       ("Inherited file names", "inheritedFileNames"),
                        ("Undeclared absolute tools", "undeclaredAbsoluteTools"),
                        ("Deferred absolute tools", "deferredAbsoluteTools"),
                        ("Pending requirements", "pendingRequirements")):

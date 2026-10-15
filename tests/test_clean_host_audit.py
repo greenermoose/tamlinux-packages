@@ -105,6 +105,31 @@ class AuditTests(unittest.TestCase):
             self.write(self.outputs["shell"] / name, '"omarchy-inherited"')
         self.assertEqual(self.run_audit()["inheritedIdentifierLocations"], [])
 
+    def test_wrapped_bodies_templates_and_extensionless_files_are_scanned(self):
+        shell = self.outputs["shell"] / "share/tamlinux"
+        self.write(shell / "services/clipboard/.open.sh-wrapped", 'open "$OMARCHY_X"\n', executable=True)
+        self.write(shell / "templates/claude.json.tpl", '{"name": "Omarchy"}\n')
+        self.write(shell / "session/uwsm-env", 'unset OMARCHY_PATH\n')
+        self.write(shell / "screensaver/foot.ini", '; Omarchy ancestry\n# Omarchy ancestry\n[main]\n')
+        result = self.run_audit()
+        self.assertEqual(result["inheritedIdentifierLocations"], [
+            "shell:share/tamlinux/services/clipboard/.open.sh-wrapped:1",
+            "shell:share/tamlinux/session/uwsm-env:1",
+            "shell:share/tamlinux/templates/claude.json.tpl:1"])
+        self.assertFalse(result["candidateReady"])
+
+    def test_inherited_file_names_block_readiness_except_licenses_and_tests(self):
+        assets = self.outputs["commands"] / "share/tamlinux/assets"
+        (assets / "themes/x/backgrounds").mkdir(parents=True)
+        (assets / "themes/x/backgrounds/2-omarchy.png").write_bytes(b"\x89PNG")
+        self.write(assets / "LICENSE-omarchy", "MIT")
+        self.write(self.outputs["shell"] / "tests/test_no_omarchy.py", "")
+        result = self.run_audit()
+        self.assertEqual(result["inheritedFileNames"],
+                         ["commands:share/tamlinux/assets/themes/x/backgrounds/2-omarchy.png"])
+        self.assertEqual(result["inheritedIdentifierLocations"], [])
+        self.assertFalse(result["candidateReady"])
+
     def test_undeclared_absolute_binary_requires_host_owner(self):
         self.menu('{"action": "/usr/bin/bash /usr/bin/unowned /usr/bin/swaymsg"}')
         result = self.run_audit()
