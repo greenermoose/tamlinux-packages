@@ -1,71 +1,152 @@
 {
-  "compiledQml": {
-    "classification": "tam host-profile recognition needs owner review/cutover; Quickshell static provider registration proof absent. All reported import paths resolve.",
-    "compiledErrors": [],
-    "elfObjects": 142,
-    "filesInspected": 483,
-    "inheritedBinaryLocations": [
-      "tam:bin/tam"
-    ],
-    "qmlBlockerRecords": 39,
-    "report": "0.4.3-compiled-qml-audit.json",
-    "scope": "Previous immutable development outputs plus declared Nix/native libraries and reference-host QML; not a clean host or a prepared 0.4.3 tuple",
-    "sha256": "ccb5d90f3da59882f97c82a9f17cdc7e61061f4dd4cb6fa857bfa7c13a49447b",
-    "tools": {
-      "qmlimportscanner": {
-        "path": "/usr/lib/qt6/qmlimportscanner",
-        "sha256": "166b41e813fe6202eab85617211f80623bdfd9e0b9d17946d077f3c7f81aacfa"
-      },
-      "readelf": {
-        "path": "/usr/bin/readelf",
-        "sha256": "a72f12f3dd8c560554a3ba818bcecbda9178db5befbcc64d91bbb6a241fc21bc"
-      }
-    },
-    "uniqueQmlBlockers": 28
-  },
-  "deliverySnapshot": "/nix/store/kbkix90zczg6hvgar298h4s6847fysyr-tamlinux-delivery-development",
   "gate": {
     "candidateReady": false,
-    "capabilities": null,
+    "capabilities": [
+      {
+        "id": "fresh-login",
+        "required": true
+      },
+      {
+        "id": "physical-lock-authentication",
+        "required": true
+      },
+      {
+        "id": "three-monitor-layout",
+        "required": true
+      },
+      {
+        "id": "keypad-numlock-on-off",
+        "required": true
+      },
+      {
+        "id": "physical-recording",
+        "required": true
+      },
+      {
+        "id": "bluetooth",
+        "required": true
+      },
+      {
+        "id": "ethernet",
+        "required": true
+      },
+      {
+        "id": "pipewire-audio",
+        "required": true
+      },
+      {
+        "id": "display-brightness-DP-1",
+        "required": true
+      },
+      {
+        "id": "display-brightness-DP-2",
+        "required": true
+      },
+      {
+        "id": "display-brightness-HDMI-A-1",
+        "required": true
+      },
+      {
+        "id": "internal-backlight",
+        "required": false,
+        "unavailableBehavior": "No native backlight on this workstation; show unavailable."
+      },
+      {
+        "id": "keyboard-backlight",
+        "required": false,
+        "unavailableBehavior": "No keyboard backlight device present; show unavailable."
+      },
+      {
+        "id": "apple-display-brightness",
+        "required": false,
+        "unavailableBehavior": "No Apple display present; do not select a substitute."
+      },
+      {
+        "id": "hardware-security-enrollment",
+        "required": false,
+        "unavailableBehavior": "Not part of this transaction; do not enroll, remove or reset hardware templates."
+      }
+    ],
     "checks": [
       {
         "id": "I01",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: provider-origins"
         ],
-        "reportDigest": null,
+        "reportDigest": "a6bc526a80519779ce10dbae24e69c38f72a65bfd027e5ddf83d529ad6b67a71",
         "requiredCases": [
           "artifact-identity",
           "provider-origins"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "artifact-identity",
+            "sha256": "b1520db9d290b69c0be5cfb8b924c8ac1396ccb22ddd53397a6444a86baf1b31"
+          },
+          {
+            "case": "artifact-identity",
+            "sha256": "4a6f2d778d63e26e1f396cdb90982e04e661f4b14afc7c064f72cfd04a9c0062"
+          },
+          {
+            "case": "artifact-identity",
+            "sha256": "18856d4f9876e11e7984b703e172dfdbb855c65c81f7c8f531c36acc375f4586"
+          },
+          {
+            "case": "provider-origins",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I02",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: clean-native-packages",
+          "Case did not pass: repositories-keyrings",
+          "Case did not pass: system-owners"
         ],
-        "reportDigest": null,
+        "reportDigest": "0d4d22413d7151fa13671be73e7949dbc0d6dd565ff41db95a3b4d323d4f1b4a",
         "requiredCases": [
           "clean-native-packages",
           "repositories-keyrings",
           "system-owners"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "clean-native-packages",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "repositories-keyrings",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "system-owners",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I03",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: helper-closure",
+          "Case did not pass: assets-generated-config"
         ],
-        "reportDigest": null,
+        "reportDigest": "66874b458b5ca9814e49967841a5ddbaa5da0b47298898cc964fc66180f99783",
         "requiredCases": [
           "text-payload",
           "compiled-payload",
@@ -73,66 +154,187 @@
           "helper-closure",
           "assets-generated-config"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "text-payload",
+            "sha256": "e00b1c38a2f1d36cdf4ca43b1a67f8e2fa4d0c3455a18794c783c37013414f56"
+          },
+          {
+            "case": "text-payload",
+            "sha256": "eb8e4507a05416c2b0a3decf52d9d25ab708a8d807124fbe9916fac0412d9952"
+          },
+          {
+            "case": "compiled-payload",
+            "sha256": "569b94392fae94c8edad6ec86637c1344539723fed424438514a67293e3d8859"
+          },
+          {
+            "case": "compiled-payload",
+            "sha256": "3a61dbdd087b9226e92cfb85f9eb9e810f7a75ad2d1a55761d052cbbcd3b5561"
+          },
+          {
+            "case": "resolved-qml",
+            "sha256": "569b94392fae94c8edad6ec86637c1344539723fed424438514a67293e3d8859"
+          },
+          {
+            "case": "resolved-qml",
+            "sha256": "3a61dbdd087b9226e92cfb85f9eb9e810f7a75ad2d1a55761d052cbbcd3b5561"
+          },
+          {
+            "case": "helper-closure",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "assets-generated-config",
+            "sha256": "f2989c86d2d1523e51ee866f5dbad9a0e7217f67c94dade6338b7eb179b3540c"
+          },
+          {
+            "case": "assets-generated-config",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I04",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: fresh-login-environment",
+          "Case did not pass: loaded-modules-fonts-assets",
+          "Case did not pass: units-command-resolution",
+          "Case did not pass: browser-notification-endpoints"
         ],
-        "reportDigest": null,
+        "reportDigest": "a111fe45708f45fa729c3590eed393ef258cb7d152002c7c393b92cdf76fc5db",
         "requiredCases": [
           "fresh-login-environment",
           "loaded-modules-fonts-assets",
           "units-command-resolution",
           "browser-notification-endpoints"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "fresh-login-environment",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "loaded-modules-fonts-assets",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "units-command-resolution",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "browser-notification-endpoints",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I05",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: offline-install",
+          "Case did not pass: attempted-egress"
         ],
-        "reportDigest": null,
+        "reportDigest": "32cc84c86dbefc3899d1f96e8b1bffd1d5834017e10b95cb172306bd90635a64",
         "requiredCases": [
           "offline-install",
           "attempted-egress"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "offline-install",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "attempted-egress",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I06",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: fresh-defaults",
+          "Case did not pass: in-place-conversion",
+          "Case did not pass: conflict-interruption-retry",
+          "Case did not pass: rollback-new-writes"
         ],
-        "reportDigest": null,
+        "reportDigest": "ff7fb660b7ce0cce45be36193fe257c5f907222d40e067d74951c66b81cc2a38",
         "requiredCases": [
           "fresh-defaults",
           "in-place-conversion",
           "conflict-interruption-retry",
           "rollback-new-writes"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "fresh-defaults",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "in-place-conversion",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "conflict-interruption-retry",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "rollback-new-writes",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I07",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: startup-login",
+          "Case did not pass: menu-launches",
+          "Case did not pass: eight-plugins",
+          "Case did not pass: notifications-reminders",
+          "Case did not pass: editor-browser",
+          "Case did not pass: theme-background-fonts",
+          "Case did not pass: capture-recording-ocr-qr",
+          "Case did not pass: panels-authorization-portals",
+          "Case did not pass: capability:fresh-login",
+          "Case did not pass: capability:physical-lock-authentication",
+          "Case did not pass: capability:three-monitor-layout",
+          "Case did not pass: capability:keypad-numlock-on-off",
+          "Case did not pass: capability:physical-recording",
+          "Case did not pass: capability:bluetooth",
+          "Case did not pass: capability:ethernet",
+          "Case did not pass: capability:pipewire-audio",
+          "Case did not pass: capability:display-brightness-DP-1",
+          "Case did not pass: capability:display-brightness-DP-2",
+          "Case did not pass: capability:display-brightness-HDMI-A-1"
         ],
-        "reportDigest": null,
+        "reportDigest": "dbf517efa5543b46146b61aac5eca1615c907103990f199b4d6061ec51b186cc",
         "requiredCases": [
           "startup-login",
           "menu-launches",
@@ -141,47 +343,204 @@
           "editor-browser",
           "theme-background-fonts",
           "capture-recording-ocr-qr",
-          "panels-authorization-portals"
+          "panels-authorization-portals",
+          "capability:fresh-login",
+          "capability:physical-lock-authentication",
+          "capability:three-monitor-layout",
+          "capability:keypad-numlock-on-off",
+          "capability:physical-recording",
+          "capability:bluetooth",
+          "capability:ethernet",
+          "capability:pipewire-audio",
+          "capability:display-brightness-DP-1",
+          "capability:display-brightness-DP-2",
+          "capability:display-brightness-HDMI-A-1",
+          "capability:internal-backlight",
+          "capability:keyboard-backlight",
+          "capability:apple-display-brightness",
+          "capability:hardware-security-enrollment"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "startup-login",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "menu-launches",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "eight-plugins",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "notifications-reminders",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "editor-browser",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "theme-background-fonts",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capture-recording-ocr-qr",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "panels-authorization-portals",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:fresh-login",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:physical-lock-authentication",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:three-monitor-layout",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:keypad-numlock-on-off",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:physical-recording",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:bluetooth",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:ethernet",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:pipewire-audio",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:display-brightness-DP-1",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:display-brightness-DP-2",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:display-brightness-HDMI-A-1",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:internal-backlight",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:keyboard-backlight",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:apple-display-brightness",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "capability:hardware-security-enrollment",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I08",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Runner did not pass this check",
+          "Case did not pass: native-update-boot",
+          "Case did not pass: fallback-recovery",
+          "Case did not pass: sleep-resume",
+          "Case did not pass: removal-transaction"
         ],
-        "reportDigest": null,
+        "reportDigest": "ece3253d0064843bfefe46563e29979b095d0fc342bd0e0c59536b24a706e17d",
         "requiredCases": [
           "native-update-boot",
           "fallback-recovery",
           "sleep-resume",
           "removal-transaction"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "native-update-boot",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "fallback-recovery",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "sleep-resume",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          },
+          {
+            "case": "removal-transaction",
+            "sha256": "7e1fc200f7e87be2c960b1bbb57ffcccb884ac4bd4eb3eff32c6db27372d9b36"
+          }
+        ]
       },
       {
         "id": "I09",
         "reasons": [
-          "No complete immutable selection supplied",
-          "Check not run"
+          "Missing case: reference-test-install",
+          "Missing case: reference-rollback-new-writes"
         ],
-        "reportDigest": null,
+        "reportDigest": "1a54fca7c6ce540ab6bad83ed194b49ec4e468d733a1a3eaa8d015900efe08bb",
         "requiredCases": [
           "old-new-recovery-artifacts",
           "reference-test-install",
           "reference-rollback-new-writes"
         ],
-        "runner": null,
+        "runner": {
+          "name": "tamlinux-desktop-test-b-preparation",
+          "sourceDigest": "a542c69e7bf7487c9c685cff4ee62386b7517518f85e8a804233453652b9ac92",
+          "version": "1"
+        },
         "status": "blocked",
-        "verifiedEvidence": []
+        "verifiedEvidence": [
+          {
+            "case": "old-new-recovery-artifacts",
+            "sha256": "18856d4f9876e11e7984b703e172dfdbb855c65c81f7c8f531c36acc375f4586"
+          },
+          {
+            "case": "old-new-recovery-artifacts",
+            "sha256": "c1d5ab6db53dab3f6679a4b0e4da66fb93cc8d7086be992833b8380f7035f63e"
+          },
+          {
+            "case": "old-new-recovery-artifacts",
+            "sha256": "2f98a8d0293196620163efae881048944cce4797fdc2ed756db5555ddc9cb6fa"
+          },
+          {
+            "case": "old-new-recovery-artifacts",
+            "sha256": "33f874bf0b23fc471504c4f25c1d2e546a0ec0cb54af8601aa219cab8af06041"
+          }
+        ]
       }
     ],
-    "contractDigest": "7a3c6c0c0d110a15bf5ea82044cf87a3e74a9cbfd405317c4f4dfb4021671b9e",
+    "contractDigest": "04a0f3885cba0188696c8fbea7c6303748e02824d7197384971bc459e23e9a57",
     "limits": "Evidence integrity and declared runner outcomes only; inspect underlying proof. Does not authorize Test/Run/Release.",
     "runner": {
       "name": "tamlinux-independence-gate",
@@ -189,25 +548,9 @@
       "version": "1"
     },
     "schema": 1,
-    "tupleDigest": null
+    "tupleDigest": "218e10b95d32c54c7903963ac880772483bf557c88e92de389796b8759691dd3"
   },
-  "limits": "Passing synthetic reports test integrity logic only. No complete immutable selection or I01\u2013I09 acceptance reports exist. No runtime/network/migration/native/physical proof is claimed.",
-  "outputs": {
-    "commands": "/nix/store/zbz4aii21x28bgmb338i371lqb1ac8z8-tamlinux-commands-0.4.2pre.d",
-    "plugins": "/nix/store/w6frbnkxcfdwxha91lkqglrw50bkdbzn-tamlinux-plugins-0.4.2pre.d",
-    "shell": "/nix/store/bhagnbdsjgrziqlg9c5klfzawx871sfx-tamlinux-shell-0.4.2pre.d",
-    "tam": "/nix/store/rv4144ihy9s28aby1bqvmdyzh1nsbw4i-tam-0.9.1",
-    "tools": "/nix/store/gv0f62gj9dq1fc4idg739vds4rlykiv6-tamlinux-tools-0-unstable-194d675"
-  },
-  "previousOutputEvidence": "0.4.3-display-power-closure.json",
+  "limits": "Raw digested evidence, formal reports and recovery artifacts retained locally. Historical physical proofs are preserved with original identities, not asserted as new workflow passes. No promotion or activation is authorized.",
   "schema": 1,
-  "sourceSnapshot": "/nix/store/4rwdgzajc4fa3zq8l7ba9w8pkhs0ya4m-tamlinux-development",
-  "stage": "Develop; no selection, candidate, pin or installation changed",
-  "verification": {
-    "compiledMutation": "Real -nostdlib shared-library fixture passes with tamlinux bytes and fails with omarchy bytes; malformed real ELF also rejected",
-    "compiledQmlTests": 14,
-    "existingAuditTests": 21,
-    "gateTests": 15,
-    "isolatedNixCheck": "/nix/store/fzbi6bq6c8nfxjfqaj6szpkxkiqdg47s-tamlinux-clean-host-audit-tests"
-  }
+  "stage": "Develop; exact inactive 0.4.3-b kit"
 }

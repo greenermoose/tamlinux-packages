@@ -837,7 +837,8 @@
         "commands:bin/.tam-launch-webapp-wrapped:40"
       ],
       "tam-capture-edit": [
-        "commands:bin/.tam-capture-edit-wrapped:3"
+        "commands:bin/.tam-capture-edit-wrapped:3",
+        "shell:share/tamlinux/shell/services/clipboard/.open.sh-wrapped:42"
       ],
       "tam-capture-qr": [
         "shell:share/tamlinux/menu/default.jsonc:36"
@@ -984,7 +985,7 @@
         "commands:bin/.tam-plugin-wrapped:577",
         "commands:bin/tam-deploy:444",
         "commands:bin/tam-deploy:476",
-        "commands:share/tamlinux/migration/recovery-paths.json:65"
+        "commands:share/tamlinux/migration/recovery-paths.json:77"
       ],
       "tam-desktop-mode": [
         "commands:bin/.tam-desktop-mode-wrapped:7",
@@ -1019,7 +1020,7 @@
         "commands:bin/.tam-dns-wrapped:105",
         "commands:bin/.tam-dns-wrapped:287",
         "commands:bin/.tam-dns-wrapped:322",
-        "commands:share/tamlinux/migration/recovery-paths.json:67",
+        "commands:share/tamlinux/migration/recovery-paths.json:79",
         "commands:share/tamlinux/native/dns_recovery.py:309",
         "shell:share/tamlinux/menu/default.jsonc:100",
         "shell:share/tamlinux/menu/default.jsonc:101",
@@ -1041,7 +1042,7 @@
       "tam-file-select": [
         "commands:bin/.tam-menu-share-wrapped:55",
         "commands:bin/tam-deploy:246",
-        "commands:share/tamlinux/theme/engine.py:302"
+        "commands:share/tamlinux/theme/engine.py:315"
       ],
       "tam-font-current": [
         "commands:share/tamlinux/assets/origins.json:126",
@@ -1063,8 +1064,8 @@
       "tam-hook": [
         "commands:bin/.tam-hook-wrapped:12",
         "commands:share/tamlinux/assets/origins.json:107",
-        "commands:share/tamlinux/theme/engine.py:209",
-        "commands:share/tamlinux/theme/engine.py:290"
+        "commands:share/tamlinux/theme/engine.py:222",
+        "commands:share/tamlinux/theme/engine.py:303"
       ],
       "tam-hw-clamshell": [
         "commands:bin/.tam-hyprland-monitor-clamshell-wrapped:272"
@@ -1230,7 +1231,7 @@
       "tam-launch-about": [
         "commands:bin/.tam-launch-about-wrapped:187",
         "commands:share/tamlinux/assets/origins.json:117",
-        "commands:share/tamlinux/theme/engine.py:307",
+        "commands:share/tamlinux/theme/engine.py:320",
         "shell:share/tamlinux/menu/default.jsonc:13"
       ],
       "tam-launch-config-editor": [
@@ -1248,7 +1249,7 @@
       ],
       "tam-launch-editor": [
         "commands:bin/.tam-launch-config-editor-wrapped:40",
-        "commands:share/tamlinux/theme/engine.py:299"
+        "commands:share/tamlinux/theme/engine.py:312"
       ],
       "tam-launch-floating-terminal-with-presentation": [
         "commands:bin/.tam-default-agent-wrapped:80",
@@ -1299,7 +1300,7 @@
         "shell:share/tamlinux/session/hypr/tamlinux/helpers.lua:128"
       ],
       "tam-launch-screensaver": [
-        "commands:share/tamlinux/theme/engine.py:307",
+        "commands:share/tamlinux/theme/engine.py:320",
         "shell:share/tamlinux/menu/default.jsonc:15",
         "shell:share/tamlinux/shell/services/idle/Service.qml:80"
       ],
@@ -1362,8 +1363,8 @@
         "commands:bin/.tam-menu-images-wrapped:48",
         "commands:share/tamlinux/assets/origins.json:121",
         "commands:share/tamlinux/assets/origins.json:122",
-        "commands:share/tamlinux/theme/engine.py:338",
-        "commands:share/tamlinux/theme/engine.py:359"
+        "commands:share/tamlinux/theme/engine.py:351",
+        "commands:share/tamlinux/theme/engine.py:372"
       ],
       "tam-menu-keybindings": [
         "commands:bin/.tam-menu-keybindings-wrapped:285",
@@ -1387,7 +1388,7 @@
         "commands:bin/.tam-transcode-wrapped:212",
         "commands:bin/.tam-tui-remove-wrapped:48",
         "commands:bin/.tam-webapp-remove-wrapped:71",
-        "commands:share/tamlinux/theme/engine.py:362"
+        "commands:share/tamlinux/theme/engine.py:375"
       ],
       "tam-menu-share": [
         "commands:bin/.tam-menu-share-wrapped:32",
@@ -1404,7 +1405,7 @@
         "shell:share/tamlinux/session/hypr/tamlinux/bindings/utilities.lua:11"
       ],
       "tam-migrate-desktop": [
-        "commands:share/tamlinux/migration/engine.py:314"
+        "commands:share/tamlinux/migration/engine.py:318"
       ],
       "tam-network-band": [
         "commands:bin/.tam-network-band-wrapped:195",
@@ -1487,6 +1488,9 @@
         "commands:bin/.tam-transcode-wrapped:226",
         "commands:bin/.tam-tui-remove-wrapped:68",
         "commands:bin/.tam-webapp-remove-wrapped:94",
+        "commands:share/tamlinux/browser/download-worker:153",
+        "commands:share/tamlinux/browser/download-worker:165",
+        "commands:share/tamlinux/browser/download-worker:92",
         "commands:share/tamlinux/browser/native_host.py:56",
         "plugins:share/tamlinux/plugins/fred.clock/BarWidget.qml:69",
         "plugins:share/tamlinux/plugins/fred.clock/Panel.qml:258",
@@ -1516,7 +1520,8 @@
         "commands:bin/.tam-system-reboot-wrapped:34",
         "commands:bin/.tam-system-shutdown-wrapped:34",
         "commands:bin/.tam-toggle-input-device-wrapped:83",
-        "commands:bin/.tam-toggle-input-device-wrapped:92"
+        "commands:bin/.tam-toggle-input-device-wrapped:92",
+        "commands:share/tamlinux/browser/download-worker:78"
       ],
       "tam-pkg-add": [
         "commands:bin/.tam-install-font-wrapped:52",
@@ -1656,12 +1661,12 @@
         "commands:bin/tam-deploy:178",
         "commands:bin/tam-deploy:331",
         "commands:bin/tam-deploy:430",
-        "commands:share/tamlinux/theme/engine.py:289",
+        "commands:share/tamlinux/theme/engine.py:302",
         "shell:share/tamlinux/menu/default.jsonc:180"
       ],
       "tam-restart-terminal": [
         "commands:share/tamlinux/assets/origins.json:82",
-        "commands:share/tamlinux/theme/engine.py:288"
+        "commands:share/tamlinux/theme/engine.py:301"
       ],
       "tam-restart-trackpad": [
         "shell:share/tamlinux/menu/default.jsonc:184"
@@ -1681,7 +1686,8 @@
       "tam-session-init": [
         "commands:share/tamlinux/session/initialize.py:61",
         "shell:bin/tamlinux-hyprland-session:10",
-        "shell:share/tamlinux/session/initialize.py:61"
+        "shell:share/tamlinux/session/initialize.py:61",
+        "shell:share/tamlinux/session/start:10"
       ],
       "tam-settings-preserve": [
         "commands:bin/.tam-default-browser-wrapped:60",
@@ -1750,8 +1756,9 @@
         "commands:bin/.tam-toggle-notification-silencing-wrapped:12",
         "commands:bin/tam-deploy:184",
         "commands:bin/tam-deploy:189",
-        "commands:share/tamlinux/theme/engine.py:130",
-        "commands:share/tamlinux/theme/engine.py:225",
+        "commands:share/tamlinux/browser/download-worker:82",
+        "commands:share/tamlinux/theme/engine.py:142",
+        "commands:share/tamlinux/theme/engine.py:238",
         "shell:bin/tam-menu:38",
         "shell:bin/tam-menu:41",
         "shell:share/tamlinux/menu/default.jsonc:102",
@@ -1809,7 +1816,8 @@
       ],
       "tam-system": [
         "commands:bin/.tam-theme-set-pi-wrapped:66",
-        "commands:bin/.tam-theme-set-pi-wrapped:71"
+        "commands:bin/.tam-theme-set-pi-wrapped:71",
+        "commands:share/tamlinux/assets/templates/pi.json.tpl:3"
       ],
       "tam-system-lid-close": [
         "shell:share/tamlinux/session/hypr/tamlinux/bindings/utilities.lua:34"
@@ -1846,10 +1854,10 @@
       ],
       "tam-theme": [
         "commands:bin/.tam-theme-set-vscode-wrapped:16",
-        "commands:share/tamlinux/migration/recovery-paths.json:27",
-        "commands:share/tamlinux/migration/recovery-paths.json:30",
-        "commands:share/tamlinux/migration/recovery-paths.json:33",
-        "commands:share/tamlinux/migration/recovery-paths.json:36"
+        "commands:share/tamlinux/migration/recovery-paths.json:31",
+        "commands:share/tamlinux/migration/recovery-paths.json:34",
+        "commands:share/tamlinux/migration/recovery-paths.json:37",
+        "commands:share/tamlinux/migration/recovery-paths.json:40"
       ],
       "tam-theme-bg-install": [
         "shell:share/tamlinux/menu/default.jsonc:155"
@@ -1873,14 +1881,15 @@
       "tam-theme-colors-from-alacritty": [
         "commands:bin/.tam-theme-colors-from-alacritty-wrapped:17",
         "commands:share/tamlinux/assets/origins.json:12",
-        "commands:share/tamlinux/theme/engine.py:180",
-        "commands:share/tamlinux/theme/engine.py:182"
+        "commands:share/tamlinux/theme/engine.py:192",
+        "commands:share/tamlinux/theme/engine.py:194"
       ],
       "tam-theme-current": [
         "commands:share/tamlinux/assets/fastfetch.json:111"
       ],
       "tam-theme-init": [
-        "shell:bin/tamlinux-hyprland-session:9"
+        "shell:bin/tamlinux-hyprland-session:9",
+        "shell:share/tamlinux/session/start:9"
       ],
       "tam-theme-install": [
         "shell:share/tamlinux/menu/default.jsonc:154"
@@ -1913,7 +1922,7 @@
       ],
       "tam-theme-set-browser-policy": [
         "commands:bin/.tam-theme-set-browser-wrapped:15",
-        "commands:share/tamlinux/migration/recovery-paths.json:66"
+        "commands:share/tamlinux/migration/recovery-paths.json:78"
       ],
       "tam-theme-set-claude": [
         "commands:bin/.tam-theme-set-claude-wrapped:24",
@@ -1948,7 +1957,7 @@
       ],
       "tam-theme-set-templates": [
         "commands:share/tamlinux/assets/origins.json:17",
-        "commands:share/tamlinux/theme/engine.py:187"
+        "commands:share/tamlinux/theme/engine.py:199"
       ],
       "tam-theme-set-tmux": [
         "commands:share/tamlinux/assets/origins.json:32"
@@ -2015,7 +2024,7 @@
       "tam-transcode-ascii": [
         "commands:bin/.tam-transcode-ascii-wrapped:18",
         "commands:share/tamlinux/assets/origins.json:112",
-        "commands:share/tamlinux/theme/engine.py:305"
+        "commands:share/tamlinux/theme/engine.py:318"
       ],
       "tam-tui-install": [
         "shell:share/tamlinux/menu/default.jsonc:152"
@@ -2090,25 +2099,20 @@
         "plugins:share/tamlinux/plugins/fred.workspaces/tam-desktop-mode"
       ]
     },
-    "filesScanned": 721,
+    "filesScanned": 799,
     "host": null,
+    "inheritedFileNames": [],
     "inheritedIdentifierLocations": [
       "commands:bin/.tam-pkg-add-wrapped:12",
       "commands:bin/.tam-pkg-install-wrapped:48",
       "commands:bin/.tam-update-wrapped:11",
       "commands:bin/.tam-update-wrapped:54",
       "commands:share/tamlinux/assets/origins.json:101",
-      "commands:share/tamlinux/assets/origins.json:1031",
-      "commands:share/tamlinux/assets/origins.json:1032",
       "commands:share/tamlinux/assets/origins.json:106",
       "commands:share/tamlinux/assets/origins.json:11",
       "commands:share/tamlinux/assets/origins.json:111",
       "commands:share/tamlinux/assets/origins.json:116",
-      "commands:share/tamlinux/assets/origins.json:1176",
-      "commands:share/tamlinux/assets/origins.json:1177",
-      "commands:share/tamlinux/assets/origins.json:1256",
-      "commands:share/tamlinux/assets/origins.json:1257",
-      "commands:share/tamlinux/assets/origins.json:1386",
+      "commands:share/tamlinux/assets/origins.json:1356",
       "commands:share/tamlinux/assets/origins.json:16",
       "commands:share/tamlinux/assets/origins.json:21",
       "commands:share/tamlinux/assets/origins.json:26",
@@ -2128,6 +2132,9 @@
       "commands:share/tamlinux/assets/origins.json:86",
       "commands:share/tamlinux/assets/origins.json:91",
       "commands:share/tamlinux/assets/origins.json:96",
+      "commands:share/tamlinux/assets/retired-backgrounds.json:4",
+      "commands:share/tamlinux/assets/retired-backgrounds.json:5",
+      "commands:share/tamlinux/assets/retired-backgrounds.json:6",
       "commands:share/tamlinux/migration/engine.py:114",
       "commands:share/tamlinux/migration/engine.py:115",
       "commands:share/tamlinux/migration/engine.py:124",
@@ -2153,12 +2160,20 @@
       "commands:share/tamlinux/migration/paths.json:85",
       "commands:share/tamlinux/migration/paths.json:92",
       "commands:share/tamlinux/migration/paths.json:99",
-      "commands:share/tamlinux/migration/recovery-paths.json:25",
+      "commands:share/tamlinux/migration/recovery-paths.json:27",
+      "commands:share/tamlinux/migration/recovery-paths.json:56",
+      "commands:share/tamlinux/migration/recovery-paths.json:57",
+      "commands:share/tamlinux/migration/recovery-paths.json:58",
+      "commands:share/tamlinux/migration/recovery-paths.json:59",
       "commands:share/tamlinux/migration/recovery-paths.json:6",
-      "commands:share/tamlinux/theme/engine.py:231",
-      "commands:share/tamlinux/theme/engine.py:233",
+      "commands:share/tamlinux/migration/recovery-paths.json:60",
+      "commands:share/tamlinux/migration/recovery-paths.json:61",
+      "commands:share/tamlinux/migration/recovery-paths.json:62",
+      "commands:share/tamlinux/theme/engine.py:244",
+      "commands:share/tamlinux/theme/engine.py:246",
       "shell:share/tamlinux/session/origins.json:3",
       "shell:share/tamlinux/session/origins.json:5",
+      "shell:share/tamlinux/session/uwsm-env:2",
       "shell:share/tamlinux/shell/host/session_start.py:40"
     ],
     "limits": "Custom command matches are lexical, including data and dormant code; review before transfer. Embedded helper presence does not prove invocation resolution. PATH tools, dynamic commands, transitive third-party dependencies, repositories, theme assets and effective configuration require further proof. Whole-line provenance comments/licenses/tests/docs are excluded; inline comments and compatibility data may need review.",
@@ -2182,18 +2197,19 @@
       ],
       "tam-system": [
         "commands:bin/.tam-theme-set-pi-wrapped:66",
-        "commands:bin/.tam-theme-set-pi-wrapped:71"
+        "commands:bin/.tam-theme-set-pi-wrapped:71",
+        "commands:share/tamlinux/assets/templates/pi.json.tpl:3"
       ],
       "tam-theme": [
         "commands:bin/.tam-theme-set-vscode-wrapped:16",
-        "commands:share/tamlinux/migration/recovery-paths.json:27",
-        "commands:share/tamlinux/migration/recovery-paths.json:30",
-        "commands:share/tamlinux/migration/recovery-paths.json:33",
-        "commands:share/tamlinux/migration/recovery-paths.json:36"
+        "commands:share/tamlinux/migration/recovery-paths.json:31",
+        "commands:share/tamlinux/migration/recovery-paths.json:34",
+        "commands:share/tamlinux/migration/recovery-paths.json:37",
+        "commands:share/tamlinux/migration/recovery-paths.json:40"
       ],
       "tam-theme-set-browser-policy": [
         "commands:bin/.tam-theme-set-browser-wrapped:15",
-        "commands:share/tamlinux/migration/recovery-paths.json:66"
+        "commands:share/tamlinux/migration/recovery-paths.json:78"
       ]
     },
     "pendingRequirements": [
@@ -2264,139 +2280,19 @@
       ]
     }
   },
-  "auditRunnerRevision": "1b2d92f4026a3ac87069085e0a37da6f10d23f84",
   "candidateReady": false,
-  "deliveryRevision": "a743a4649e8f1d5d825d68c148ccba1b017aea48",
-  "deliverySnapshot": "/nix/store/40xw2zx1h2ylza2yvaj2d6c9mbpij5rr-tamlinux-delivery-development",
-  "limits": "The audit runner/contract follows the owned native lib endpoint at the separately recorded revision. Full installed integration used the same source snapshot with development metadata; its output identities differ from the committed outputs deployed in the preview. No complete acceptance tuple or normal-account Test.",
+  "deliveryRevision": "3c6d42688ec3b558d7dbd4c84fc733d5bab019be",
+  "limits": "Raw digested evidence, formal reports and recovery artifacts retained locally. Historical physical proofs are preserved with original identities, not asserted as new workflow passes. No promotion or activation is authorized.",
   "outputs": {
-    "commands": "/nix/store/0xahizjacm94misj52z0l70sn4hhrz1s-tamlinux-commands-0.4.2pre.d",
-    "plugins": "/nix/store/c5h6jxljnc63hvy51xpz3hcl3c818s04-tamlinux-plugins-0.4.2pre.d",
-    "shell": "/nix/store/r36yqq13xrya5y39cfcsx2rc9lgnlkl1-tamlinux-shell-0.4.2pre.d"
+    "commands": "/nix/store/agk87cqzh45ihbxhzblqxqsklc3hb2a8-tamlinux-commands-0.4.3pre.b",
+    "integration": "/nix/store/l6x18qx81hxczzip97vryb5dvd1qj5ia-tamlinux-installed-components",
+    "plugins": "/nix/store/xv7b2apfbsxgczkmk001h7j3ajc3v9gm-tamlinux-plugins-0.4.3pre.b",
+    "shell": "/nix/store/y0flvfq0b8p4y5lm8cz23rp3af9r55my-tamlinux-shell-0.4.3pre.b",
+    "tam": "/nix/store/c2xdg3kypiaj0qhz3sv9di59b0mns0x4-tam-0.9.1",
+    "tools": "/nix/store/gv0f62gj9dq1fc4idg739vds4rlykiv6-tamlinux-tools-0-unstable-194d675"
   },
-  "productRevision": "71d6a6800460c18a8613b1193ede3f0cec91ed76",
+  "productRevision": "7929440517a292b5da14af4b96dabc28603db3b5",
   "schema": 1,
-  "sourceSnapshot": "/nix/store/d119426v1hax9ml4wavy6pgps288rrzw-tamlinux-development",
-  "stage": "Develop; standalone workspace command verification",
-  "verification": {
-    "installedOutputProbes": {
-      "checks": [
-        "theme helper executes with its packaged Python interpreter",
-        "fresh owned theme state initializes without application or root adapters and preserves its selection",
-        "empty-state theme generation uses immutable templates and owned readers",
-        "packaged switching returns to baseline and invalid names preserve selection",
-        "packaged background writer and refresh share the effective owned link",
-        "actual packaged monospace baseline and owned icon font resolve in isolated Fontconfig",
-        "packaged About and screensaver restore owned default identity",
-        "packaged image conversion rejects malformed numeric options before publication",
-        "actual packaged ImageMagick and UTF-8 gawk perform offline SVG to braille conversion",
-        "IPC resolves the installed shell with packaged runtime tools",
-        "menu selection resolves packaged IPC and Perl without host PATH",
-        "unset agent resolves the packaged menu without selecting an agent",
-        "offline product catalog resolves installed registry and runtime tools",
-        "notification jq/busctl resolve before the deliberately absent bus",
-        "cache purge resolves packaged find/hash tools and preserves unrelated files",
-        "command presence retains the declared host program boundary",
-        "packaged agent setter/reader share isolated XDG state and resolve atomic file tools",
-        "packaged agent launcher preserves prompt argv at the recorded application boundary",
-        "retired OpenClaw and Hermes selections/stubs cannot install, launch or alter state",
-        "invalid agent installation request preserves selection without invoking an installer",
-        "packaged microphone routing reaches isolated unavailable PipeWire/Pulse boundaries",
-        "packaged output routing reaches unavailable sound servers with complete client tools",
-        "output resolver executes real packaged Pulse/awk with physical and idle DSP fallback",
-        "sink availability resolves packaged tuning and client tool chain without live services",
-        "tuning reads immutable packaged assets, owned unit identity and isolated XDG state",
-        "unmatched tuning activation has no state or service effects",
-        "OSD reaches recorded shell IPC through packaged jq and sibling launchers",
-        "volume controls fail safely at an unavailable server with complete packaged tools",
-        "fresh terminal/editor default readers need no workstation state",
-        "terminal launch resolves packaged cwd/setsid with recorded host facilities",
-        "packaged editor setter/config launcher share owned state despite unavailable toast bus",
-        "terminal selector writes only the configured XDG destination",
-        "terminal and inline editor routes resolve packaged sibling helpers",
-        "presentation runs packaged bash/logo/done without reinterpreting argv",
-        "browser resolver reads XDG desktop provider and preserves static argv",
-        "browser default reader uses packaged XDG tools and isolated MIME handlers",
-        "webapp launch resolves packaged XDG/resolver/jq/setsid and retains literal URL argv",
-        "focus wrappers resolve same-output helpers and record the host Hyprland boundary",
-        "browser launch resolves packaged tools before the deliberately unavailable user bus",
-        "idle writer uses the paired shell XDG path and preserves prior states",
-        "weather/tides shared location round-trips literal data without network and retains originals",
-        "packaged location rejects invalid coordinates before writing",
-        "packaged snapshot failure stops settings writes",
-        "DNS read uses declared tools and invalid mutation stops before authorization",
-        "radio/speedtest controls reject invalid requests without effectful calls",
-        "network/power clients reach unavailable native services with complete runtime tools",
-        "battery/system telemetry runs without caller tools or a real battery service",
-        "GTK schema/backend are delivered and failed service commit stops paired file changes",
-        "text size validates the retained range before state mutation",
-        "night-light status uses the declared host IPC boundary without launching a daemon",
-        "packaged backlight selector uses supplied fixture and excludes Touch Bar",
-        "packaged monitor selectors use complete jq/coreutils and recorded native IPC",
-        "packaged DPMS skips redundant enable and reaches recorded disable dispatcher",
-        "packaged brightness writers reject invalid requests without hardware/authorization",
-        "packaged idle suspend honors the same XDG marker and explicit override without calling logind",
-        "packaged lock/sleep-lock stop at missing PAM without launching a locker or suspending",
-        "packaged screensaver reader/writer share XDG marker and retain both prior states",
-        "owned ttfx renders bounded deterministic frames and screensaver resolves its immutable provider",
-        "packaged screensaver terminal/text and lock defaults exist without pre-existing user config",
-        "packaged transitive monitor recovery is a no-op for lit outputs without saved flags",
-        "packaged generic and compositor flag writers reject path traversal",
-        "packaged screensaver preservation failure prevents marker writes",
-        "capture manifest pairs immutable tools/OCR data with the fixed signed native recorder boundary",
-        "actual packaged QR decoder recognizes the fixed offline QR fixture",
-        "actual packaged OCR and English language data recognize the fixed text fixture",
-        "installed screenshot rejects invalid input before picker or cursor side effects",
-        "packaged recording lifecycle status/stop reject absent recording without starting a backend",
-        "installed capture geometry and monitor matching resolve packaged jq against recorded compositor",
-        "packaged annotation adapter preserves filename argv at the explicit recorded provider boundary",
-        "maintained annotation provider retains image/capture interfaces and excludes inherited self-install wiring",
-        "maintained Apple display provider exposes its interface without opening a device",
-        "packaged reminder listing resolves its embedded helper, systemd and jq with an unavailable bus",
-        "packaged window geometry rejects invalid dimensions before compositor calls",
-        "installed fresh consumer defaults pair custom XDG theme/editor paths without replacing existing files",
-        "installed finite migration converts legacy state and preserves later writes during explicit rollback",
-        "installed settings checkpoint restores monitor layout and archives later arrangements through the packaged engine"
-      ],
-      "limits": "Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.",
-      "passed": 76,
-      "reportSha256": "8fc08712f3fadb4685dc23d32be73a40ff4b20c24f271249c119635fea1f6e86"
-    },
-    "nativeWorkspaceCommand": {
-      "candidateReady": false,
-      "commandEnablesLiveActionsWithoutShellEnvironment": true,
-      "commands": "/nix/store/0xahizjacm94misj52z0l70sn4hhrz1s-tamlinux-commands-0.4.2pre.d",
-      "originalWorkspacesRestored": true,
-      "reportSha256": "b7a829c171397ea2041cd61667c406f9fa307e4bdd4398255103c439f82de035",
-      "runnerSha256": "58c20a3195f685e3c9c5def3d225c1cd20f126082e82a8993a169c79c83131ef",
-      "schema": 1,
-      "selectedImmutableBackendIgnoresCallerOverride": true,
-      "stage": "Develop; standalone installed workspace command on native Hyprland",
-      "switchReachesNativeWorkspace": true
-    },
-    "physicalKeypad": {
-      "humanObservation": "Works with Num Lock on and off",
-      "retainedPersonalBindingSha256": "a3427ba22fe317a8176027c20a6c4a46cf77d00b51f7b2e8ec965ba5e5aed62e"
-    },
-    "previewRefresh": {
-      "generation": "/nix/store/d3mf76xab5xl5ri4klxpp5qp36af8m3j-home-manager-generation",
-      "gtkCaptured": true,
-      "layoutSha256": "f9e8ae3fb4d9f8c4df2b724fcc17b538bfea8327b6ffba5b39ff8f157fd539e0",
-      "newStandaloneHelper": "/nix/store/0xahizjacm94misj52z0l70sn4hhrz1s-tamlinux-commands-0.4.2pre.d/bin/tam-desktop-mode",
-      "normalAccountChanged": false,
-      "priorGeneration": "/nix/store/6kw1bc609lwkmz9gxy1w4lwq5x54giiy-home-manager-generation",
-      "priorStandaloneHelperExists": false,
-      "reportSha256": "7dd1f2a24d2ea15404bea014c1349b126d19a0e6c2b49cfcafdecd88e0796d24",
-      "schema": 1,
-      "settingsPreserved": true,
-      "stage": "Develop; separate preview account"
-    },
-    "previewRuntime": {
-      "commands": 222,
-      "findings": [],
-      "generation": "/nix/store/d3mf76xab5xl5ri4klxpp5qp36af8m3j-home-manager-generation",
-      "pluginManifests": 8,
-      "reportSha256": "661accdb0b22d447fac84820fb39786aa5201b39a6b95cc866f5a8f9d67be7f6"
-    }
-  }
+  "stage": "Develop; exact inactive 0.4.3-b kit",
+  "tupleDigest": "218e10b95d32c54c7903963ac880772483bf557c88e92de389796b8759691dd3"
 }
