@@ -24,3 +24,18 @@
   - A local `makepkg` build (no installation) produced
     `tamlinux-native-0.4.3-0.1`; none of its 38 non-directory paths is owned
     by any installed package, so it is co-installable during Desktop Test.
+
+### Addendum: per-user bash defaults and keyserver list
+
+- **Commit**: `05ad9dc`
+- **Prompts**:
+  > Go with your recommendations for both
+- **Key Decisions & Implementation Notes**:
+  - The shell package carries the product's `desktop/user-defaults` when
+    present. `tamlinux.session.userDefaults` (default on with the session)
+    links `~/.config/bash/tamlinux` at `mkDefault` priority, so a consumer's
+    own tree wins, and runs the helper after `linkGeneration`, so a
+    configuration-linked `~/.bashrc` is seen as managed.
+- **Verification**: the fresh-session contract, built against the exact
+  product and delivery commits, runs the delivered helper on an Arch skeleton
+  home and checks the option-off path; delivery suite passes.
