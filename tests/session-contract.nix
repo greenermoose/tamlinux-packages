@@ -28,6 +28,7 @@ let
   unit = c.systemd.user.services.tamlinux-shell.Service;
   files = "${hm.activationPackage}/home-files";
 in
+assert builtins.elem "QSG_INFO=1" unit.Environment;
 assert q.graphicsProvider == pkgs.mesa;
 assert q.unwrapped == pkgs.quickshell;
 assert builtins.elem "TAMLINUX_QUICKSHELL=${q}/bin/quickshell" unit.Environment;

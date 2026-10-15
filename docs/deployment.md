@@ -129,3 +129,10 @@ processes receive the original caller settings, including explicit empty values.
 real offscreen Process and detached children; rendering requires separate proof.
 Hardware acceptance must show a real hardware renderer without software overrides.
 VM OpenGL using a software driver remains explicitly VM-only evidence.
+
+The shell unit enables Qt startup renderer information (`QSG_INFO=1`). The
+runtime collector verifies that PID's context and layer surfaces, rejects
+software overrides, and supports `--renderer-token` for host-specific GPU
+assertions. Use `--graphics-mode vm` only for virtual-driver evidence. To
+verify notification surfaces, show a popup first and use `--require-notifications`;
+the collector remains read-only and will not create one itself.

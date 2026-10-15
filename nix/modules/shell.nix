@@ -216,6 +216,8 @@ in
           "QML_IMPORT_PATH=${config.home.homeDirectory}/.local/share/tamlinux/shell/modules"
           "QS_DISABLE_FILE_WATCHER=1"
           "QS_NO_RELOAD_POPUP=1"
+          # Qt reports the actual startup renderer for the runtime graphics gate.
+          "QSG_INFO=1"
           "TAMLINUX_BAR_LAYOUT=${config.home.homeDirectory}/.config/tamlinux/shell/layout.json"
           "TAMLINUX_PLUGINS_DIR=${config.home.homeDirectory}/.config/tamlinux/plugins"
           "TAMLINUX_BAR_EXCLUSIVE=1"

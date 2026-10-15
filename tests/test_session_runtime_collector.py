@@ -80,3 +80,36 @@ tamlinux-shell.service loaded active running Shell
                              {'exit': 1, 'name': 'org.freedesktop.secrets'})
         self.assertEqual(call.call_count, 1)
         self.assertIn('GetNameOwner', call.call_args.args[0])
+
+
+class GraphicsEvidence(unittest.TestCase):
+    def fixture(self, renderer='AMD Radeon Graphics (radeonsi, renoir, ACO)', mode='hardware', env=None):
+        layers = {'DP-1': {'levels': {'0': [
+            {'pid': 12, 'w': 1920, 'h': 1080, 'namespace': name} for name in
+            ['tamlinux-bar-DP-1-0', 'tamlinux-background', 'tamlinux-notifications']]}}}
+        log = 'qt.rhi.general: OpenGL VENDOR: AMD RENDERER: '+renderer+' VERSION: 4.6 Mesa'
+        return m.graphics_evidence(12, env or {}, log, layers, ['DP-1'], mode, (), True)
+
+    def test_hardware_requires_context_and_all_surfaces(self):
+        self.assertTrue(self.fixture()['passed'])
+        missing = m.graphics_evidence(12, {}, '', {}, ['DP-1'], 'hardware')
+        self.assertFalse(missing['passed'])
+        other_pid = m.graphics_evidence(99, {}, 'OpenGL VENDOR: AMD RENDERER: radeonsi VERSION: 4.6',
+             {'DP-1': {'levels': {'0': [{'pid': 12, 'w': 1, 'h': 1, 'namespace': 'tamlinux-background'}]}}},
+             ['DP-1'], 'hardware')
+        self.assertFalse(other_pid['passed'])
+
+    def test_software_vm_is_explicitly_distinct_from_hardware(self):
+        self.assertFalse(self.fixture(renderer='llvmpipe (LLVM 21)')['passed'])
+        vm = self.fixture(renderer='llvmpipe (LLVM 21)', mode='vm')
+        self.assertTrue(vm['passed'])
+        self.assertTrue(vm['softwareRendererObserved'])
+        for key in ['QT_QUICK_BACKEND', 'LIBGL_ALWAYS_SOFTWARE', 'QSG_RHI_BACKEND']:
+            with self.subTest(key=key):
+                self.assertFalse(self.fixture(env={key: 'software'})['passed'])
+
+    def test_context_error_is_not_hidden_by_later_renderer(self):
+        r=m.graphics_evidence(12, {}, 'EGL not available\nOpenGL VENDOR: AMD RENDERER: radeonsi VERSION: 4.6',
+                              {}, [], 'hardware', ['renoir'])
+        self.assertFalse(r['checks']['noContextErrors'])
+        self.assertFalse(r['checks']['rendererMatches'])
