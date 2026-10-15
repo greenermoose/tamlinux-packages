@@ -11,6 +11,7 @@ let
   protocolShadowAvailable = cfg.protocolShadow.enable;
   selectedPlugins = if cfg.plugins == null then cfg.pluginPackage.passthru.ids else cfg.plugins;
   stayAwakeStateFile = "${config.xdg.stateHome}/tamlinux/stay-awake";
+  graphicsQuickshell = import ../packages/quickshell-provider.nix { inherit pkgs; };
 in
 {
   options.tamlinux.shell = {
@@ -34,7 +35,7 @@ in
     };
     quickshellPackage = lib.mkOption {
       type = lib.types.nullOr lib.types.package;
-      default = if features.sessionProviders or false then pkgs.quickshell else null;
+      default = if features.sessionProviders or false then graphicsQuickshell else null;
       description = "Pinned Quickshell provider shared by session startup and IPC clients.";
     };
     documentation = lib.mkOption {
@@ -85,6 +86,10 @@ in
       TAMLINUX_QUICKSHELL_IPC = "${cfg.quickshellPackage}/bin/qs";
     };
     assertions = [
+      {
+        assertion = !(cfg.quickshellPackage ? graphicsProvider) || (features.graphicsEnvironmentIsolation or false);
+        message = "The Quickshell graphics provider requires product launch environment isolation.";
+      }
       {
         assertion = cfg.quickshellPackage == null || (features.sessionProviders or false);
         message = "Selected Quickshell delivery requires product support for paired runtime providers.";

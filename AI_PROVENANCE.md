@@ -122,3 +122,8 @@ in `tamlinux-native`. [Session record](docs/ai/2026-10-15-native-defaults.md).
 
 Codex CLI `0.162.1` (`gpt-6.1-sol`) completes native-defaults integration and
 prepares a distinct inactive c assembly. [Session](docs/ai/2026-10-15-desktop-test-c.md).
+
+## 0.4.3-d contained graphics provider
+
+Codex CLI 0.162.1 / gpt-6.1-sol implemented the paired Quickshell/Mesa wrapper.
+[Session record](docs/ai/2026-10-15-0.4.3d-graphics-provider.md).

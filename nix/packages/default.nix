@@ -74,6 +74,7 @@ let
     protocolShadow = has "desktop/protocol-shadow";
     documentation = has "desktop/README.md";
     sessionProviders = has "desktop/session/providers.json";
+    graphicsEnvironmentIsolation = has "desktop/shell/graphics-environment-isolation-v1";
     userDefaults = has "desktop/user-defaults/apply";
   };
   # Hash only trial code so unrelated shell/menu commits preserve the 0.4.1
@@ -514,6 +515,7 @@ in
   tamlinux-shell = shell;
   tamlinux-plugins = plugins;
   tamlinux-commands = commands;
+  tamlinux-quickshell = import ./quickshell-provider.nix { inherit pkgs; };
 } // lib.optionalAttrs (ttfx != null) { tamlinux-ttfx = ttfx; }
   // lib.optionalAttrs (tensaku != null) { tamlinux-tensaku = tensaku; }
   // lib.optionalAttrs (asdcontrol != null) { tamlinux-asdcontrol = asdcontrol; }

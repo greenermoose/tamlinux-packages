@@ -28,6 +28,8 @@ let
   unit = c.systemd.user.services.tamlinux-shell.Service;
   files = "${hm.activationPackage}/home-files";
 in
+assert q.graphicsProvider == pkgs.mesa;
+assert q.unwrapped == pkgs.quickshell;
 assert builtins.elem "TAMLINUX_QUICKSHELL=${q}/bin/quickshell" unit.Environment;
 assert builtins.elem "TAMLINUX_QUICKSHELL_IPC=${q}/bin/qs" unit.Environment;
 assert c.home.sessionVariables.TAMLINUX_QUICKSHELL_IPC == "${q}/bin/qs";

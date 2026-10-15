@@ -113,3 +113,19 @@ may be mutable; defaults and extension are fixed inputs to the generation.
 
 The 0.4.2-d candidate is prepared on `develop`. Promotion to Test, installation
 and physical acceptance remain pending the user's Test instruction.
+
+## Shell graphics on non-NixOS hosts
+
+The default Quickshell provider wraps `bin/quickshell` with its locked Mesa
+EGL vendor JSON and DRI directory. It saves any caller values and marks the
+injected keys. The shell must implement graphics environment isolation at every
+inheriting launch boundary; incompatible product versions fail the module assertion.
+`bin/qs` remains the original IPC executable and must not start the shell.
+
+This wrapper changes only the shell process environment. It does not set the
+user manager environment or create a global `/run/opengl-driver` link. Child
+processes receive the original caller settings, including explicit empty values.
+`tools/probe-launch-environment.py` exercises the production Commons helper with
+real offscreen Process and detached children; rendering requires separate proof.
+Hardware acceptance must show a real hardware renderer without software overrides.
+VM OpenGL using a software driver remains explicitly VM-only evidence.
