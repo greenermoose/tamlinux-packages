@@ -14,7 +14,11 @@ native input, pairing, font, memory, NSS and print dependencies in the clean-hos
 contract. The native recipe remains additive; it runs no conversion at install.
 The shell initializer preserves existing MIME and terminal selections.
 
-The assembly pins product `13af0af8b3421f23b1ab0ca8966f793c73e30c6e`.
+The assembly pins product `3f39184b6bac9c8a4f0b39182ae972a4c3e329c0`.
 Delivery tests: 95 pass. Exact output/native/runtime evidence is collected
 separately from the source commit and bound to the prepared selection.
 Preparation authorizes no normal-account activation, package removal or boot change.
+
+The installed-output probe includes fresh MIME defaults. Real VM conversion
+identified the signed Arch CUPS `sys root wheel` baseline; the selected source
+recognizes it and proves exact restoration in a focused regression test.
