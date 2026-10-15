@@ -621,11 +621,14 @@ elif name == 'hyprctl':
 
         if (args.commands / 'bin/tam-session-init').is_file():
             fresh = root / 'fresh-consumers'
+            config = fresh / 'config'
             extra = {'HOME': str(fresh / 'home'), 'XDG_CONFIG_HOME': str(fresh / 'config'),
                      'XDG_STATE_HOME': str(fresh / 'state'), 'XDG_DATA_HOME': str(fresh / 'data')}
             initialized = json.loads(run('tam-session-init', extra_env=extra).stdout)
-            assert len(initialized['created']) == 10
-            config = fresh / 'config'
+        assert len(initialized['created']) == 11
+        mime = (config / 'mimeapps.list').read_text()
+        assert 'text/plain=Helix.desktop' in mime
+        assert 'x-scheme-handler/http=chromium.desktop' in mime
             assert str(fresh / 'state/tamlinux/current/theme/alacritty.toml') in (config / 'alacritty/alacritty.toml').read_text()
             assert (fresh / 'state/tamlinux/defaults/editor').read_text() == 'helix\n'
             assert (config / 'helix/themes/tamlinux.toml').is_symlink()
