@@ -112,3 +112,8 @@ See [session record](docs/ai/2026-10-14-desktop-recovery-kit.md).
 
 Reviewed peer patches, approved background removal and exact inactive kit preparation.
 [Session record](docs/ai/2026-10-14-desktop-test-b.md).
+
+## Native system defaults — 2026-10-15
+
+Claude Code `2.1.300` (`claude-opus-5-5`) packaged the product native defaults
+in `tamlinux-native`. [Session record](docs/ai/2026-10-15-native-defaults.md).

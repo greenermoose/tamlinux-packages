@@ -32,3 +32,5 @@
 - [2026-10-14 — Exact desktop recovery kit](2026-10-14-desktop-recovery-kit.md)
 
 - [2026-10-14 — Desktop Test b preparation](2026-10-14-desktop-test-b.md)
+
+- [2026-10-15 — Native system defaults in tamlinux-native](2026-10-15-native-defaults.md)
