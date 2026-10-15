@@ -77,7 +77,7 @@ in {
         ${pkgs.python3}/bin/python3 -I ${shell.package}/share/tamlinux/user-defaults/apply
     '');
     home.file.".local/bin/tamlinux-hyprland-session".source = "${shell.package}/bin/tamlinux-hyprland-session";
-    home.packages = [ pkgs.udiskie ];
+    home.packages = [ pkgs.udiskie pkgs.helix ];
     fonts.fontconfig.enable = true;
     systemd.user.services.tam-crash-watch = {
       Unit = {

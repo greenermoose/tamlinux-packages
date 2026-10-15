@@ -1,5 +1,6 @@
 { pkgs, product }:
-pkgs.rustPlatform.buildRustPackage {
+let
+  application = pkgs.rustPlatform.buildRustPackage {
   pname = "tamlinux-tensaku";
   version = "0.29.0";
   src = builtins.path { path = "${product}/desktop/vendor/tensaku"; name = "tamlinux-tensaku-source"; };
@@ -42,4 +43,19 @@ pkgs.rustPlatform.buildRustPackage {
     mainProgram = "tensaku";
     platforms = pkgs.lib.platforms.linux;
   };
+};
+in pkgs.symlinkJoin {
+  name = "${application.name}-graphics";
+  paths = [ application ];
+  nativeBuildInputs = [ pkgs.makeWrapper ];
+  # Non-NixOS hosts do not provide NixOS's /run/opengl-driver links. The
+  # GLVND loader needs a vendor JSON and matching DRI libraries from the same
+  # Nix closure as GTK, rather than an undeclared native driver fallback.
+  postBuild = ''
+    wrapProgram "$out/bin/tensaku" \
+      --set-default __EGL_VENDOR_LIBRARY_FILENAMES "${pkgs.mesa}/share/glvnd/egl_vendor.d/50_mesa.json" \
+      --set-default LIBGL_DRIVERS_PATH "${pkgs.mesa}/lib/dri"
+  '';
+  inherit (application) meta;
+  passthru = { inherit application; graphicsProvider = pkgs.mesa; };
 }

@@ -22,3 +22,12 @@ Preparation authorizes no normal-account activation, package removal or boot cha
 The installed-output probe includes fresh MIME defaults. Real VM conversion
 identified the signed Arch CUPS `sys root wheel` baseline; the selected source
 recognizes it and proves exact restoration in a focused regression test.
+
+The actual annotation/save workflow identified a missing GLVND vendor/DRI
+dependency. Supplying the locked Nix Mesa EGL JSON and DRI directory made the
+same unmodified annotator render and save changed pixels on native Wayland.
+A thin graphics wrapper now supplies that owned closure without rebuilding
+the unchanged Rust application. The fresh MIME handler owners are explicit
+in the native provisioning contract, while the session exposes the already
+owned Nix Helix desktop entry; empty-state handler resolution is
+verified against their independently signed Arch packages.
