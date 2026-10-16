@@ -12,8 +12,14 @@ let
   };
   tam = pkgs.stdenv.mkDerivation {
     pname = "tam";
-    version = "0.25.0";
-    passthru.features.manWrapper = true;
+    version = builtins.head (builtins.match ''#define TAM_COMMAND_VERSION[[:space:]]+"([^"]+)"[[:space:]]*''
+      (lib.findFirst (lib.hasPrefix "#define TAM_COMMAND_VERSION")
+        (throw "Pinned tam source has no command version")
+        (lib.splitString "\n" (builtins.readFile "${sources.tam}/src/version.h"))));
+    passthru = {
+      features.manWrapper = true;
+      corpusVersion = lib.trim (builtins.readFile "${sources.tam}/knowledge/version");
+    };
     src = sources.tam;
     patches = pkgs.lib.optional (builtins.pathExists "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch")
       "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch";
@@ -392,7 +398,7 @@ let
         ${lib.optionalString features.documentation "cp ${product}/desktop/README.md $out/share/tamlinux/README.md"}
         ${lib.optionalString features.sessionProviders ''
           cp -R ${product}/desktop/session $out/share/tamlinux/session
-          install -m755 ${product}/desktop/session/start $out/bin/tamlinux-hyprland-session
+          install -m755 ${product}/desktop/session/start $out/bin/tam-hyprland-session
         ''}
         ${lib.optionalString features.menu ''
           mkdir -p $out/share/tamlinux/menu
@@ -508,7 +514,7 @@ let
     postFixup = lib.concatMapStrings (name:
       lib.optionalString (lib.elem name commandNames) ''
         wrapProgram $out/bin/${name} \
-          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (name == "tam-shell") "--set-default TAMLINUX_QUICKSHELL_IPC ${pkgs.quickshell}/bin/qs"} ${lib.optionalString (name == "tam-capture-edit" && tensaku != null) "--set-default TAMLINUX_TENSAKU ${tensaku}/bin/tensaku"} ${lib.optionalString (lib.elem name [ "tam-display-text-size" "tam-theme-set-gnome" ]) "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
+          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (name == "tam-plugin") "--set TAMLINUX_PLUGIN_CATALOG ${plugins}/share/tamlinux/plugins"} ${lib.optionalString (name == "tam-shell") "--set-default TAMLINUX_QUICKSHELL_IPC ${pkgs.quickshell}/bin/qs"} ${lib.optionalString (name == "tam-capture-edit" && tensaku != null) "--set-default TAMLINUX_TENSAKU ${tensaku}/bin/tensaku"} ${lib.optionalString (lib.elem name [ "tam-display-text-size" "tam-theme-set-gnome" ]) "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
       ''
     ) (lib.attrNames commandRuntimeDeps);
     passthru = {

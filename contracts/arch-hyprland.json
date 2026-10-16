@@ -121,7 +121,7 @@
     {"package": "avahi", "binaries": [], "purpose": "Enabled native mDNS responder"},
     {"package": "cups", "binaries": [], "purpose": "Native CUPS hardening and print service"},
 
-    {"package": "tamlinux-native", "binaries": ["tam-theme-set-browser-policy", "tamlinux-session", "tam-native-defaults"], "purpose": "Fixed root browser-policy adapter with later-write recovery and native session registration; actual browser/interactive authentication remain pending"},
+    {"package": "tamlinux-native", "binaries": ["tam-theme-set-browser-policy", "tam-session", "tam-native-defaults"], "purpose": "Fixed root browser-policy adapter with later-write recovery and native session registration; actual browser/interactive authentication remain pending"},
     {"package": "pacman-contrib", "binaries": ["checkupdates"], "optional": true, "purpose": "Independent update preview; full native update belongs to Cutover Test"},
     {"package": "sudo", "binaries": ["sudo"], "optional": true, "purpose": "Interactive native maintenance menu authentication; background agent host work uses pkexec"},
     {"package": "snapper", "binaries": ["snapper"], "optional": true, "purpose": "Prepared root recovery snapshot before full native updates at cutover"},

@@ -76,7 +76,7 @@ in {
       run env XDG_STATE_HOME=${lib.escapeShellArg config.xdg.stateHome} \
         ${pkgs.python3}/bin/python3 -I ${shell.package}/share/tamlinux/user-defaults/apply
     '');
-    home.file.".local/bin/tamlinux-hyprland-session".source = "${shell.package}/bin/tamlinux-hyprland-session";
+    home.file.".local/bin/tam-hyprland-session".source = "${shell.package}/bin/tam-hyprland-session";
     home.packages = [ pkgs.udiskie pkgs.helix ];
     fonts.fontconfig.enable = true;
     systemd.user.services.tam-crash-watch = {

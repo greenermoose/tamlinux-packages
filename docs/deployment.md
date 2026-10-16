@@ -136,3 +136,21 @@ software overrides, and supports `--renderer-token` for host-specific GPU
 assertions. Use `--graphics-mode vm` only for virtual-driver evidence. To
 verify notification surfaces, show a popup first and use `--require-notifications`;
 the collector remains read-only and will not create one itself.
+
+## Native login command transition (0.4.4-c)
+
+Candidate c installs `/usr/bin/tam-session` through its paired native recipe
+and `~/.local/bin/tam-hyprland-session` through the session module and shell
+output. The old executable names are removed, while session data remains
+`tamlinux.desktop`. Install the native and user sides in one stopped-session
+maintenance transaction. Update a curated session entry at the same time.
+The vendor package supplies no user account or automatic-login policy.
+
+Keep the previous native package and user generation before starting Test.
+A consumer changing automatic login must checkpoint its effective SDDM
+configuration, saved session state and local registrations with SDDM stopped.
+Retire obsolete registrations explicitly and preserve the saved user's other
+state. On rollback, save later writes before restoring the previous package,
+user generation and login files. `tam-deploy back` alone cannot restore those
+root-owned files. Physical automatic login, manual logout/login and recovery
+are required observations; static checks do not establish them.

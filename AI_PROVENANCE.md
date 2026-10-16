@@ -12,6 +12,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-16 | 0.4.4-c native login and reviewed SDDM corpus | [Session](docs/ai/2026-10-16-native-login-c.md) |
 | 2026-10-16 | Small a + version-display 0.4.4-b candidate | [Session](docs/ai/2026-10-16-tamversion-candidate.md) |
 | 2026-10-15 | Login-only source retains d sleep hooks; later Cutover sequencing | [Session](docs/ai/2026-10-15-login-slice-sleep-hook.md) |
 | 2026-10-14 | Final portal generation binding and monitor persistence continuation | [Session](docs/ai/2026-10-14-monitor-persistence.md) |

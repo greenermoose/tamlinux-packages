@@ -7,11 +7,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tamlinux = {
-      url = "github:greenermoose/tamlinux/04273de90d65b9df965747df793999ecd4894944";
+      url = "github:greenermoose/tamlinux/c623b856be728e3b2ef4a64664eb7707645c3830";
       flake = false;
     };
     tam = {
-      url = "github:greenermoose/tam/81b9f0cdc6e14a2136e257561589dbb0ad208cd4";
+      url = "github:greenermoose/tam/46169798e6bdb4e371faaa4719897c5cf7184b11";
       flake = false;
     };
     libtam = {
@@ -62,6 +62,7 @@
       };
       homeConfigurations.example = example;
       checks.${system} = components // {
+        fresh-session = import ./tests/session-contract.nix { inherit pkgs home-manager components; };
         agent-skills = import ./tests/agent-skills.nix { inherit pkgs home-manager components; };
         clean-host-audit = import ./tests/clean-host-audit.nix { inherit pkgs; };
         developer-baseline = import ./tests/developer-baseline.nix { inherit pkgs; };

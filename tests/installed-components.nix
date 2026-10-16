@@ -4,7 +4,8 @@ pkgs.runCommand "tamlinux-installed-components"
     nativeBuildInputs = [ pkgs.stdenv.cc pkgs.python3 pkgs.jq ];
   }
   ''
-    ${components.tam}/bin/tam --version | grep -q 'tam command 0.25.0'
+    ${components.tam}/bin/tam --version | grep -Fxq 'tam command ${components.tam.version}'
+    ${components.tam}/bin/tam --version | grep -Fxq 'knowledge corpus ${components.tam.corpusVersion}'
     if ${components.tam}/bin/tam --version | grep -q '(dev '; then
       echo 'Packaged tam must not carry a development build stamp' >&2
       exit 1
@@ -13,6 +14,9 @@ pkgs.runCommand "tamlinux-installed-components"
     test -x ${components.tam}/bin/tam-man
     printf '<p>Assembly stdin probe</p>\n' | ${components.tam}/bin/tam show - --pipe | grep -q 'Assembly stdin probe'
     ${components.tam}/bin/tam show --pipe welcome | grep -q 'Welcome'
+    ${components.tam}/bin/tam explain --pipe SDDM | grep -Fq 'Display Managers: SDDM'
+    cmp ${components.tam}/share/tamlinux/knowledge/ecosystem/sddm.html \
+      ${components.tam.src}/knowledge/ecosystem/sddm.html
     TAM_PLUGIN_STORAGE_ROOT=${components.tamlinux-plugins}/share/tamlinux/plugins \
       ${pkgs.python3}/bin/python3 -B ${productSource}/desktop/tests/test_plugin_storage.py
     ${pkgs.lib.optionalString (pkgs.lib.elem "tam-shell" components.tamlinux-commands.passthru.names) ''

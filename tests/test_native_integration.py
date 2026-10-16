@@ -73,6 +73,10 @@ class NativeStaging(unittest.TestCase):
             original=self.product/m.FILES['integration/sddm/'+name]
             self.assertEqual((package/path).read_bytes(),original.read_bytes())
             self.assertEqual((package/path).stat().st_mode&0o777,0o644)
+        self.assertEqual((package/'usr/bin/tam-session').read_bytes(),
+                         (self.product/m.FILES['integration/session']).read_bytes())
+        self.assertTrue(os.access(package/'usr/bin/tam-session', os.X_OK))
+        self.assertFalse((package/'usr/bin/tamlinux-session').exists())
         self.assertFalse((package/'etc').exists())
         self.assertFalse((package/'usr/local').exists())
 

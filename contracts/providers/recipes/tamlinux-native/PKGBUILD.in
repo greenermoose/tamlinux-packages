@@ -1,6 +1,6 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
-pkgver=0.4.4pre.a
+pkgver=0.4.4pre.c
 pkgrel=0.1
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
@@ -31,7 +31,7 @@ package() {
   install -Dm755 theme-browser-policy "$pkgdir/usr/bin/tam-theme-set-browser-policy"
   install -Dm644 browser_policy.py "$pkgdir/usr/lib/tamlinux/browser_policy.py"
   install -Dm755 hyprland-reload-guard "$pkgdir/usr/lib/tamlinux/hyprland-reload-guard"
-  install -Dm755 integration/session "$pkgdir/usr/bin/tamlinux-session"
+  install -Dm755 integration/session "$pkgdir/usr/bin/tam-session"
   install -Dm644 integration/tamlinux.desktop "$pkgdir/usr/share/wayland-sessions/tamlinux.desktop"
   install -Dm644 integration/tamlinux.conf "$pkgdir/usr/lib/tmpfiles.d/tamlinux.conf"
   install -Dm644 integration/sddm/20-tamlinux.conf "$pkgdir/usr/lib/sddm/sddm.conf.d/20-tamlinux.conf"

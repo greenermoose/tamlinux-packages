@@ -47,7 +47,10 @@ assert unit.ExecStart == [ "${pkgs.python3}/bin/python3 -I /home/alex/.local/sha
 pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/session/hyprland.lua
   test -f ${files}/.config/uwsm/env.d/10-tamlinux.sh
-  test -x ${files}/.local/bin/tamlinux-hyprland-session
+  test -x ${files}/.local/bin/tam-hyprland-session
+  test ! -e ${files}/.local/bin/tamlinux-hyprland-session
+  test -x ${components.tamlinux-shell}/bin/tam-hyprland-session
+  test ! -e ${components.tamlinux-shell}/bin/tamlinux-hyprland-session
   test -x ${files}/.local/bin/tam-session-init
   test -x ${files}/.local/bin/tam-migrate-desktop
   test -f ${files}/.config/systemd/user/tamlinux-monitor-watch.service

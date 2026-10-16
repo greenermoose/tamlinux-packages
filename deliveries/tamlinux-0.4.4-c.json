@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-c",
+  "version": "0.4.4-c",
+  "stage": "Develop candidate prepared for login Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "17642adb14d767dd38e81e56fd21d47abbc54200",
+  "scope": "Native tam-prefixed login launchers and automatic-login preparation; derived plugin catalog with packaged root; tam 0.25.1 and reviewed SDDM corpus 0.26.1",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792151035,
+      "narHash": "sha256-re9Whtg1pgrUlrW+XfVDc6Wr2cbd3RecrrN9jg2qCf8=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "46169798e6bdb4e371faaa4719897c5cf7184b11",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792149872,
+      "narHash": "sha256-YK5M1jU6qCgDsrUS6E+3a2GC+K42+OL9WtMaysNHFq0=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "c623b856be728e3b2ef4a64664eb7707645c3830",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "componentVersions": {
+    "tamCommand": "0.25.1",
+    "tamCorpus": "0.26.1",
+    "libtam": "0.2.0"
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/izppvms25khdxmr2zzbp9r6yz6mfz97c-tamlinux-shell-0.4.4pre.c.drv",
+      "outputs": {
+        "out": "/nix/store/dwbxwplvjzxpcrs029zfcr6dws84pvcm-tamlinux-shell-0.4.4pre.c"
+      }
+    },
+    {
+      "drvPath": "/nix/store/aldfb3ff84wyiysfxnzg5ld5i22iwybq-tamlinux-plugins-0.4.4pre.c.drv",
+      "outputs": {
+        "out": "/nix/store/n0jd46pndvq1kq1d37w8qr7pwvgfsqq7-tamlinux-plugins-0.4.4pre.c"
+      }
+    },
+    {
+      "drvPath": "/nix/store/z8asbc17qyfg7pm1652dyjdyjd04lhfy-tamlinux-commands-0.4.4pre.c.drv",
+      "outputs": {
+        "out": "/nix/store/fdrfhdih8r0swz6bnag9lzvf38m6h0dh-tamlinux-commands-0.4.4pre.c"
+      }
+    },
+    {
+      "drvPath": "/nix/store/1r9pvs10sacnnvvdlylmc1jhp416wxxp-tam-0.25.1.drv",
+      "outputs": {
+        "out": "/nix/store/6hdign6hln8mxxdfyxx1xrrqnhq4h86s-tam-0.25.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/bb5bf8xgbr589xq6azbclknkb5d93q8v-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/5mzhmz09mffja0cm3fa590yzxnap4xf4-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/na7xp5qz6lpwl6yz3f9z338cry9a6jgn-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/n75m030gkqq3myllb85xs8vp56jq80s8-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/m8glwq9fxv8qi0zm8073q2gqsqaskkx6-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/h0sgl4vaakj7z3g58kvgg18vascrz4sh-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/99kjmp97jc2vkiz74aknwfn593ax427s-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/hg60m6iss4lbcmnl8cshwb53psx3839w-tamlinux-assembly-contract"
+      }
+    }
+  ],
+  "native": {
+    "packageFile": "tamlinux-native-0.4.4pre.c-0.1-x86_64.pkg.tar.zst",
+    "packageSha256": "4a3461bd41cb9f047572ddc50df3bac5529d1676ddef1f9f3ac69eade8e30e3e",
+    "sourceArchiveSha256": "79d03b1083f0d196887ef121a561ab7fc49279fde644db5d8d82c1d600fb3ed1",
+    "recipeSha256": "1678cf28fb2f9c03dc16804a7b5cec3693f521b84e874cc0d5b6095b8bef188f",
+    "productRevision": "c623b856be728e3b2ef4a64664eb7707645c3830",
+    "version": "0.4.4pre.c-0.1",
+    "changesFromB": "Rename native session executable and entry only; defaults, greeter and sleep hooks retained"
+  },
+  "verification": {
+    "desktopTests": {
+      "run": 592,
+      "skipped": 1,
+      "result": "pass"
+    },
+    "nativeStagingTests": {
+      "run": 9,
+      "result": "pass"
+    },
+    "nativeBuild": "pass",
+    "freshSessionContract": "pass",
+    "installedComponents": "pass; exact tam/corpus version lines, SDDM topic resolution and installed source-byte comparison",
+    "exampleContract": "pass",
+    "assemblyContract": "pass",
+    "packagedPluginCatalog": "list/info/search pass without live plugin links or checkout",
+    "detachedRecovery": "present/absent state, later writes, interruption, source conflicts and redirected paths pass"
+  },
+  "testScope": "Native automatic login/logout/manual entry and preserving rollback on the reference host; full pre-removal Cutover bar remains separate",
+  "activation": "Not performed; awaits explicit Test instruction",
+  "recovery": "Retain the prior native package and user generation; capture login files with SDDM stopped and archive later writes before restoring. tam-deploy back alone does not restore root login files.",
+  "physicalProof": "Pending c Test; no login, boot, sleep, removal or rollback acceptance inferred"
+}
