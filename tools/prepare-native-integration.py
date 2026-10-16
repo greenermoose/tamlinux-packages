@@ -19,6 +19,8 @@ FILES={
  **{'integration/'+name:'desktop/native/integration/'+name for name in
     ('session','tamlinux.desktop','tamlinux.conf','org.tamlinux.native.policy',
      '50-tamlinux-hyprland-pause.hook','50-tamlinux-hyprland-resume.hook','LICENSE')},
+ **{'integration/sddm/'+name:'desktop/native/integration/sddm/'+name for name in
+    ('Main.qml','metadata.desktop','hyprland.lua','20-tamlinux.conf')},
  'defaults/LICENSE':'desktop/native/defaults/LICENSE-defaults',
  'defaults/convert.py':'desktop/native/defaults/convert.py',
  'defaults/native_recovery.py':'desktop/migration/recovery.py',
@@ -62,7 +64,7 @@ def prepare(product,destination,revision):
         'origin':'https://github.com/greenermoose/tamlinux','files':
         {name:hashlib.sha256(data).hexdigest() for name,data in sorted(files.items())},
         'links':{name:target for name,(mode,target) in sorted(special.items()) if mode=='link'},
-        'scope':'Owned login registration, explicit browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults and explicit checkpointed native conversion.',
+        'scope':'Owned login registration and SDDM greeter/vendor configuration, explicit browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults and explicit checkpointed native conversion.',
         'pending':['native root/security/service recovery beyond browser policies','KMS bridge','separate boot handoff','physical authentication/device proof',
                    'explicit tam-native-defaults transaction, service reloads and effective native-defaults verification before Desktop Test',
                    'provisioning must run systemctl preset for systemd-oomd']}

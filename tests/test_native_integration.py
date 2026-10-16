@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import tarfile
 import tempfile
 import unittest
@@ -48,6 +49,32 @@ class NativeStaging(unittest.TestCase):
         destination=self.base/'existing';destination.mkdir();(destination/'personal').write_text('keep')
         with self.assertRaises(FileExistsError):m.prepare(self.product,destination,'development')
         self.assertEqual((destination/'personal').read_text(),'keep')
+
+    def test_recipe_installs_the_selected_greeter_only_in_vendor_locations(self):
+        stage=self.base/'stage'
+        m.prepare(self.product,stage,'development')
+        source=self.base/'source';source.mkdir()
+        with tarfile.open(stage/'tamlinux-native-source.tar') as archive:
+            archive.extractall(source,filter='data')
+        # package() consumes the built provider, without running build() here.
+        (source/'tamlinux-native/asdcontrol/asdcontrol').write_text('fixture provider\n')
+        package=self.base/'package';package.mkdir()
+        result=subprocess.run(['bash','-eu','-c','source "$1"; package','package',str(stage/'PKGBUILD')],
+                              env={**os.environ,'srcdir':str(source),'pkgdir':str(package)},
+                              capture_output=True,text=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+        installed={
+            'Main.qml':'usr/share/sddm/themes/tamlinux/Main.qml',
+            'metadata.desktop':'usr/share/sddm/themes/tamlinux/metadata.desktop',
+            'hyprland.lua':'usr/share/sddm/tamlinux-hyprland.lua',
+            '20-tamlinux.conf':'usr/lib/sddm/sddm.conf.d/20-tamlinux.conf',
+        }
+        for name,path in installed.items():
+            original=self.product/m.FILES['integration/sddm/'+name]
+            self.assertEqual((package/path).read_bytes(),original.read_bytes())
+            self.assertEqual((package/path).stat().st_mode&0o777,0o644)
+        self.assertFalse((package/'etc').exists())
+        self.assertFalse((package/'usr/local').exists())
 
     def test_destination_inside_product_is_refused(self):
         with self.assertRaises(ValueError):m.prepare(self.product,self.product/'stage','development')
