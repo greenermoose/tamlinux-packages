@@ -23,6 +23,22 @@ configuration. The package supplies no user account or automatic-login default.
 It neither removes existing entries nor enables/restarts SDDM. Session command
 names remain unchanged until an actual native-launcher login passes.
 
+## First login candidate and later cutover
+
+The first 0.4.4 candidate supplies the greeter, agent skills and a manual
+login through the packaged native entry, with retained VT recovery. It keeps
+the d native sleep-hook set, current boot settings and existing packages.
+The developed zram-draining hook remains in product source outside the
+installed defaults. Its physical sleep/resume trial belongs to a later letter.
+
+A subsequent letter carries the coherent login-command rename and normal
+automatic login. Boot/update/fallback, physical sleep/resume and package removal
+have their own later transactions and evidence. Before removal, retain a
+pre-removal candidate accepted in Run that works without inherited packages;
+the older accepted package can still depend on those packages. Open native-login
+and later-write rollback evidence carries forward rather than implying an
+intermediate version was accepted in Run.
+
 ## Configuration precedence
 
 SDDM reads `/usr/lib/sddm/sddm.conf.d`, then `/etc/sddm.conf.d`, then

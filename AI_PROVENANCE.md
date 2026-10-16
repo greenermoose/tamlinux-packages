@@ -12,6 +12,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-15 | Login-only source retains d sleep hooks; later Cutover sequencing | [Session](docs/ai/2026-10-15-login-slice-sleep-hook.md) |
 | 2026-10-14 | Final portal generation binding and monitor persistence continuation | [Session](docs/ai/2026-10-14-monitor-persistence.md) |
 | 2026-10-14 | Paired browser registrations and effective desktop endpoint checks | [Session](docs/ai/2026-10-14-desktop-endpoint-checks.md) |
 | 2026-10-13–14 | Settings recovery delivery and effective runtime observations | [Session](docs/ai/2026-10-13-0.4.3-recovery-continuation.md) |
