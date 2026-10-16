@@ -159,6 +159,20 @@ def module_root_matches(value, expected):
 
 
 
+def plugin_payload(selected, installed):
+    """Compare installed plugin manifests with every manifest the selected package ships."""
+    records = []
+    for expected in sorted(selected.glob('fred.*/manifest.json')):
+        actual = installed/expected.parent.name/'manifest.json'
+        row = file_identity(actual)
+        row['id'] = expected.parent.name
+        row['matchesSelected'] = actual.is_file() and sha(actual) == sha(expected)
+        records.append(row)
+    chosen = {row['id'] for row in records}
+    extra = sorted(p.parent.name for p in installed.glob('fred.*/manifest.json') if p.parent.name not in chosen)
+    return records, extra
+
+
 def graphics_evidence(pid, env, log, layers, outputs, mode, renderer_tokens=(), require_notifications=False):
     """Use this shell PID's startup context and visible surfaces, never registration."""
     renderers = re.findall(r"OpenGL VENDOR:.*?RENDERER:\s*(.*?)\s+VERSION:", log)
@@ -215,13 +229,8 @@ def collect(generation, commands, shell, plugins, graphics_mode="hardware", rend
     names = sorted(p.name for p in (commands/'bin').iterdir()
                    if not p.name.startswith('.') and os.access(p, os.X_OK))
     resolution = resolve_commands(names, path, commands)
-    plugin_records = []
-    for expected in sorted((plugins/'share/tamlinux/plugins').glob('fred.*/manifest.json')):
-        actual = config/'tamlinux/plugins'/expected.parent.name/'manifest.json'
-        row = file_identity(actual)
-        row['id'] = expected.parent.name
-        row['matchesSelected'] = actual.is_file() and sha(actual) == sha(expected)
-        plugin_records.append(row)
+    plugin_records, unselected_plugins = plugin_payload(plugins/'share/tamlinux/plugins',
+                                                        config/'tamlinux/plugins')
     resources = [config/'tamlinux/session/hyprland.lua', config/'uwsm/env.d/10-tamlinux.sh',
                  config/'tamlinux/hypr/monitors.lua', config/'tamlinux/shell/layout.json',
                  config/'tamlinux/shell/settings.json', state/'tamlinux/current/theme',
@@ -255,8 +264,8 @@ def collect(generation, commands, shell, plugins, graphics_mode="hardware", rend
         findings.append('Running shell maps inherited paths')
     if any(not row['matchesSelected'] for row in resolution):
         findings.append('Command resolution differs from selected output')
-    if len(plugin_records) != 8 or any(not row['matchesSelected'] for row in plugin_records):
-        findings.append('Selected eight-plugin payload does not match installed manifests')
+    if not plugin_records or unselected_plugins or any(not row['matchesSelected'] for row in plugin_records):
+        findings.append('Selected plugin payload does not match installed manifests')
     if not module_root_matches(env.get('QML_IMPORT_PATH', ''), shell/'share/tamlinux/shell/modules'):
         findings.append('Owned QML module root absent from running shell environment')
     awake = env.get('TAMLINUX_STAY_AWAKE_FILE')
@@ -291,7 +300,7 @@ def collect(generation, commands, shell, plugins, graphics_mode="hardware", rend
             'generation': file_identity(current), 'shellProcess': runtime, 'units': unit_records,
             'wmUnitDiscovery': {'exit': discovery['exit'], 'instances': discovered, 'active': active_wm},
             'compositorProcess': compositor, 'sessionBusOwners': [bus_owner(name) for name in BUS_NAMES],
-            'commands': resolution, 'plugins': plugin_records,
+            'commands': resolution, 'plugins': plugin_records, 'unselectedPlugins': unselected_plugins,
             'configuredResources': [file_identity(p) for p in resources],
             'fontconfigResolution': fonts, 'graphics': graphics, 'findings': findings,
             'limits': 'Mapped files establish actual process mappings; configured resources and fc-match are separate observations, not proof that all QML/assets/fonts loaded or workflows passed. Bind to a complete source/native/consumer/recovery/capability tuple.'}

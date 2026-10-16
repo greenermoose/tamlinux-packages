@@ -7,8 +7,9 @@ privately and refuses an existing output file.
 
 The collector observes the actual shell PID/executable, selected environment
 fields, mapped files and hashes, unit states and definitions, command resolution
-for the selected command package, all eight plugin manifests, configured
-resources and Fontconfig resolution. It detects stale Stay Awake selection,
+for the selected command package, every plugin manifest the selected plugin
+package ships (and any unselected installed plugin), configured resources and
+Fontconfig resolution. It detects stale Stay Awake selection,
 wrong generation/provider/module roots, command shadowing and inherited mapped
 paths or environment variable names. Managed QML links are accepted only when
 their targets resolve to the selected output. Nix's wrapped Quickshell executable

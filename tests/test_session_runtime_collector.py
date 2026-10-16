@@ -52,6 +52,24 @@ a-b r--p 0 00:00 1 /old/provider.so (deleted)
             self.assertFalse(result['present'])
             self.assertEqual(result['link'], '/missing/font.ttf')
 
+    def test_plugin_payload_follows_selected_manifests_not_a_fixed_count(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary); selected = root/'selected'; installed = root/'installed'
+            for index in range(9):
+                for base in (selected, installed):
+                    (base/f'fred.p{index}').mkdir(parents=True)
+                    (base/f'fred.p{index}/manifest.json').write_text(f'{{"id": {index}}}')
+            records, extra = m.plugin_payload(selected, installed)
+            self.assertEqual((len(records), extra), (9, []))
+            self.assertTrue(all(row['matchesSelected'] for row in records))
+            (installed/'fred.p8/manifest.json').unlink()
+            records, _ = m.plugin_payload(selected, installed)
+            self.assertFalse(next(r for r in records if r['id'] == 'fred.p8')['matchesSelected'])
+            (installed/'fred.p8/manifest.json').write_text('{"id": 8}')
+            (installed/'fred.extra').mkdir()
+            (installed/'fred.extra/manifest.json').write_text('{}')
+            self.assertEqual(m.plugin_payload(selected, installed)[1], ['fred.extra'])
+
     def test_qml_path_accepts_managed_alias_only_when_it_resolves_to_selected_modules(self):
         with tempfile.TemporaryDirectory() as temporary:
             root=Path(temporary);selected=root/'modules';selected.mkdir()
