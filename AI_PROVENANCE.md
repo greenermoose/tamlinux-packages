@@ -13,6 +13,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-16 | Independent boot providers and recovery preparation | [Session](docs/ai/2026-10-16-boot-provider-preparation.md) |
 | 2026-10-16 | Runtime collector plugin check follows the selection | [Session](docs/ai/2026-10-16-collector-plugin-count.md) |
 | 2026-10-16 | Letter candidate preparation helper | [Session](docs/ai/2026-10-16-prepare-candidate.md) |
 | 2026-10-16 | 0.4.4-c native login and reviewed SDDM corpus | [Session](docs/ai/2026-10-16-native-login-c.md) |

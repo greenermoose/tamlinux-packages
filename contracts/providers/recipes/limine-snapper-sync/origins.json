@@ -1,0 +1,37 @@
+{
+  "architecture": "x86_64",
+  "artifact": {
+    "archive": "limine-snapper-sync-1.32.1-1-x86_64.pkg.tar.zst",
+    "sha256": "18a0f4204146946102b7d991dd147b87178bad18fe4c698d04bfedbeb24133ca",
+    "size": 9323046
+  },
+  "aur": {
+    "declaredMaintainer": "Zesko",
+    "files": {
+      ".SRCINFO": "152454f48d307d473deb184fa8643404b3d9edd01cdac726199440866e0bdeaa",
+      "PKGBUILD": "4c0d5f81ec2e28438f5989a56fdbf1bf13dcf007db37e54a4f735b8c63af97b4"
+    },
+    "revision": "b3c82aded52032687a76922f2dee9497600818f2",
+    "url": "https://aur.archlinux.org/limine-snapper-sync.git"
+  },
+  "buildEnvironment": {
+    "distribution": "Arch Linux x86_64 disposable KVM guest",
+    "gradle": "9.8.1-1",
+    "javaForNativeImage": "GraalVM Community JDK 25i2 25.0.4; checksum verified by unchanged AUR recipe",
+    "runtimeDependencies": [
+      "libc.so.6",
+      "libz.so.1"
+    ]
+  },
+  "buildStatus": "built-and-inspected; isolated provider replacement/generation/file recovery passed",
+  "package": "limine-snapper-sync",
+  "schema": 1,
+  "source": {
+    "buildScriptSha256": "0abc12c35edd8db85a706698418cdebb906e31ffb59cbd6169994e6316bf88a3",
+    "revision": "b4c0da2d4532a993809219f9e5d51a1fa85fcb93",
+    "tag": "1.32.1",
+    "tagObject": "54cd401a50534193cfd290b9e072d1b2cb2cabc7",
+    "url": "https://gitlab.com/Zesko/limine-snapper-sync.git"
+  },
+  "version": "1.32.1-1"
+}

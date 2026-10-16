@@ -1,0 +1,37 @@
+{
+  "architecture": "x86_64",
+  "artifact": {
+    "archive": "limine-mkinitcpio-hook-1.40.0-1-x86_64.pkg.tar.zst",
+    "sha256": "3bf5a2b3c7f6c3fa4484a2c6614ff59041e9503750cb7f41672283a7061fc690",
+    "size": 6806373
+  },
+  "aur": {
+    "declaredMaintainer": "Zesko",
+    "files": {
+      ".SRCINFO": "d6dfc5a3753b262cc852a164989bfc74672c73ed621c4368896fd15b449e5b46",
+      "PKGBUILD": "3700ba18e0d79a54edc95c210d84270b835db6cd17c163c463aa363efa951ad0"
+    },
+    "revision": "94ffde9c60808595b287edf9d4219da202a85a7a",
+    "url": "https://aur.archlinux.org/limine-mkinitcpio-hook.git"
+  },
+  "buildEnvironment": {
+    "distribution": "Arch Linux x86_64 disposable KVM guest",
+    "gradle": "9.8.1-1",
+    "javaForNativeImage": "GraalVM Community JDK 25i2 25.0.4; checksum verified by unchanged AUR recipe",
+    "runtimeDependencies": [
+      "libc.so.6",
+      "libz.so.1"
+    ]
+  },
+  "buildStatus": "built-and-inspected; isolated provider replacement/generation/file recovery passed",
+  "package": "limine-mkinitcpio-hook",
+  "schema": 1,
+  "source": {
+    "buildScriptSha256": "dfc9a2c3130f172380e539bf64dbb4047150a77ba4a96c61c0ff18b71f1d4787",
+    "revision": "35dab4b732861f5e8d307a1a7873856a877913aa",
+    "tag": "1.40.0",
+    "tagObject": "f3edaf842ef33c94353582d843ec3af227e29e83",
+    "url": "https://gitlab.com/Zesko/limine-entry-tool.git"
+  },
+  "version": "1.40.0-1"
+}

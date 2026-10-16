@@ -1,0 +1,52 @@
+{
+  "providers": [
+    {
+      "architecture": "x86_64",
+      "archive": "limine-mkinitcpio-hook-1.40.0-1-x86_64.pkg.tar.zst",
+      "id": "limine-mkinitcpio-hook",
+      "origin": "https://gitlab.com/Zesko/limine-entry-tool",
+      "package": "limine-mkinitcpio-hook",
+      "recipeFiles": {
+        "recipes/limine-mkinitcpio-hook/.SRCINFO": "d6dfc5a3753b262cc852a164989bfc74672c73ed621c4368896fd15b449e5b46",
+        "recipes/limine-mkinitcpio-hook/PKGBUILD": "3700ba18e0d79a54edc95c210d84270b835db6cd17c163c463aa363efa951ad0",
+        "recipes/limine-mkinitcpio-hook/origins.json": "de613abc35e1539ff7adc53f6035aa0a93c02df924c486d75e3f1199e128991e"
+      },
+      "recipeSha256": "3700ba18e0d79a54edc95c210d84270b835db6cd17c163c463aa363efa951ad0",
+      "requiredFiles": [
+        "usr/lib/limine/limine-entry-tool",
+        "etc/pacman.d/hooks/90-mkinitcpio-install.hook",
+        "usr/share/libalpm/hooks/80-limine-efi-deploy.hook"
+      ],
+      "sha256": "3bf5a2b3c7f6c3fa4484a2c6614ff59041e9503750cb7f41672283a7061fc690",
+      "status": "selected",
+      "trust": "reviewed-local-build",
+      "updateChannel": "https://aur.archlinux.org/limine-mkinitcpio-hook.git",
+      "version": "1.40.0-1"
+    },
+    {
+      "architecture": "x86_64",
+      "archive": "limine-snapper-sync-1.32.1-1-x86_64.pkg.tar.zst",
+      "id": "limine-snapper-sync",
+      "origin": "https://gitlab.com/Zesko/limine-snapper-sync",
+      "package": "limine-snapper-sync",
+      "recipeFiles": {
+        "recipes/limine-snapper-sync/.SRCINFO": "152454f48d307d473deb184fa8643404b3d9edd01cdac726199440866e0bdeaa",
+        "recipes/limine-snapper-sync/PKGBUILD": "4c0d5f81ec2e28438f5989a56fdbf1bf13dcf007db37e54a4f735b8c63af97b4",
+        "recipes/limine-snapper-sync/origins.json": "5b472f213e8495b9e6deafc86670250da8bf2f21c878e8fe4c3dea01c24d1e3d"
+      },
+      "recipeSha256": "4c0d5f81ec2e28438f5989a56fdbf1bf13dcf007db37e54a4f735b8c63af97b4",
+      "requiredFiles": [
+        "usr/lib/limine/limine-snapper-sync",
+        "usr/lib/snapper/plugins/10-limine-snapper-sync"
+      ],
+      "sha256": "18a0f4204146946102b7d991dd147b87178bad18fe4c698d04bfedbeb24133ca",
+      "status": "selected",
+      "trust": "reviewed-local-build",
+      "updateChannel": "https://aur.archlinux.org/limine-snapper-sync.git",
+      "version": "1.32.1-1"
+    }
+  ],
+  "schema": 1,
+  "stage": "Develop; exact native artifacts selected, no host installation or Test authorization",
+  "target": "arch-hyprland"
+}

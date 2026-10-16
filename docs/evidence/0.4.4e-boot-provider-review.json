@@ -1,0 +1,49 @@
+{
+  "candidateReady": false,
+  "installScriptsAbsent": true,
+  "isolatedRehearsal": {
+    "bothEfiLoaderTargetsMatch": true,
+    "distribution": "Arch Linux x86_64; Btrfs root and plain FAT EFI mount",
+    "firmwareEntriesUnchanged": true,
+    "kernel": "7.2.10.arch1-1",
+    "laterConfigurationWriteRetainedSeparately": true,
+    "limine": "12.9.3-1",
+    "maskedInstallPreservesEfiFiles": true,
+    "newProviderUkiGeneratedAndInspected": true,
+    "providerRestoreVersions": [
+      "1.38.0-1.1",
+      "1.31.0-1.1"
+    ],
+    "restoredEfiHashesMatch": true,
+    "snapshotHistoryAfterSync": 6,
+    "snapshotHistoryBefore": 9,
+    "stagedInitramfsHooksPresentInGeneratedImage": true
+  },
+  "nativeArchiveRecipeMetadataMatches": true,
+  "physicalBootProved": false,
+  "physicalHostChanged": false,
+  "providerArchives": [
+    {
+      "archive": "limine-mkinitcpio-hook-1.40.0-1-x86_64.pkg.tar.zst",
+      "package": "limine-mkinitcpio-hook",
+      "recipeSha256": "3700ba18e0d79a54edc95c210d84270b835db6cd17c163c463aa363efa951ad0",
+      "sha256": "3bf5a2b3c7f6c3fa4484a2c6614ff59041e9503750cb7f41672283a7061fc690",
+      "version": "1.40.0-1"
+    },
+    {
+      "archive": "limine-snapper-sync-1.32.1-1-x86_64.pkg.tar.zst",
+      "package": "limine-snapper-sync",
+      "recipeSha256": "4c0d5f81ec2e28438f5989a56fdbf1bf13dcf007db37e54a4f735b8c63af97b4",
+      "sha256": "18a0f4204146946102b7d991dd147b87178bad18fe4c698d04bfedbeb24133ca",
+      "version": "1.32.1-1"
+    }
+  ],
+  "remaining": [
+    "Exact e assembly and complete host recovery kit",
+    "Current Windows route and rescue readiness",
+    "Physical Linux, Windows, fallback and update/boot observations",
+    "Snapshot history restore proof does not replace physical recovery acceptance"
+  ],
+  "schema": 1,
+  "unchangedUpstreamAurRecipes": true
+}

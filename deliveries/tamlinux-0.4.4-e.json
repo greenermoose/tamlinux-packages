@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-e",
+  "version": "0.4.4-e",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "c5512a6a7fa6e8b0130870e611dcb97f9654e28c",
+  "scope": "Independent boot hook providers and consumer boot/recovery preparation; retain d native login",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792151035,
+      "narHash": "sha256-re9Whtg1pgrUlrW+XfVDc6Wr2cbd3RecrrN9jg2qCf8=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "46169798e6bdb4e371faaa4719897c5cf7184b11",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792186683,
+      "narHash": "sha256-1IpFd8lKzVg8jWkgwJTuOOU5kDdgulb6bDH3Q/PZJgQ=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "755699a497b6421b892905149d8fe80044d153c8",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/hhflqi0g5c08m11ngccwvzkmp3r8s2bg-tamlinux-shell-0.4.4pre.e.drv",
+      "outputs": {
+        "out": "/nix/store/2zpsy61d5b4am8viqrqi0yj1zwjcci8d-tamlinux-shell-0.4.4pre.e"
+      }
+    },
+    {
+      "drvPath": "/nix/store/g914xv2w9paiw9c5zp9vzdbscg2fkpcn-tamlinux-plugins-0.4.4pre.e.drv",
+      "outputs": {
+        "out": "/nix/store/4lqa3pa06cmnwc3965lvk8lf7lx7qkxl-tamlinux-plugins-0.4.4pre.e"
+      }
+    },
+    {
+      "drvPath": "/nix/store/2h95f3bx09ya268j646vg84l6n7wf6j5-tamlinux-commands-0.4.4pre.e.drv",
+      "outputs": {
+        "out": "/nix/store/2zs81gzng0q25hm5jbq0npk8mainpprr-tamlinux-commands-0.4.4pre.e"
+      }
+    },
+    {
+      "drvPath": "/nix/store/blsw11b2jlmpxz3vzk7dmg4lzf76nsqc-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/jw8411lg2akscwm1ksin4xjgbf171b10-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/359zgdsv85q9xfxf37m25fim5sr8smar-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/5fhd7vxx2j13k9fh1d1jwgxlvgzn4s40-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/x7nwqngmqz9gfs4x9zqw55wzn5bn25b7-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/7cb3y5065096dwkhv6rzi6drp5xci5bc-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/a3xwi44rhr8h6rw7zgv08abishvkscxc-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/n5ag2r7nk5s05syi77p0q5j3hy5yamyk-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/nk5vjxwfdlf1x8yqr30vw9a1pif8vibx-tamlinux-agent-skills-contract.drv",
+      "outputs": {
+        "out": "/nix/store/h1b719849xhyiqmxl7dh6p77h23if3xb-tamlinux-agent-skills-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.agent-skills"
+    ],
+    "build": "pass",
+    "bootCheckpointTests": {
+      "result": "pass",
+      "run": 7
+    },
+    "bootProviderRehearsal": "Masked archive replacement, UKI inspection, both EFI targets, 9-to-6 snapshot retention, old-provider/file restoration and preserving later configuration passed in an isolated Arch guest",
+    "deliveryTests": {
+      "result": "pass",
+      "run": 122
+    },
+    "nativeProviderBuilds": "Both unchanged upstream-author AUR makepkg builds passed"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "bootProviderSelection": {
+    "path": "contracts/providers/boot-selection.json",
+    "providers": [
+      {
+        "archive": "limine-mkinitcpio-hook-1.40.0-1-x86_64.pkg.tar.zst",
+        "id": "limine-mkinitcpio-hook",
+        "recipeSha256": "3700ba18e0d79a54edc95c210d84270b835db6cd17c163c463aa363efa951ad0",
+        "sha256": "3bf5a2b3c7f6c3fa4484a2c6614ff59041e9503750cb7f41672283a7061fc690",
+        "version": "1.40.0-1"
+      },
+      {
+        "archive": "limine-snapper-sync-1.32.1-1-x86_64.pkg.tar.zst",
+        "id": "limine-snapper-sync",
+        "recipeSha256": "4c0d5f81ec2e28438f5989a56fdbf1bf13dcf007db37e54a4f735b8c63af97b4",
+        "sha256": "18a0f4204146946102b7d991dd147b87178bad18fe4c698d04bfedbeb24133ca",
+        "version": "1.32.1-1"
+      }
+    ],
+    "sha256": "bd92a7378a7e821ece68bba12118078e3fd679e976d39fdd34af413be55845b5"
+  },
+  "consumerBootBundle": {
+    "fileMapSha256": "bb77281d69afe9b751498e6306f3ca538e541ab8edd92c5c15422daeb0885d68",
+    "ownership": "Machine-specific consumer configuration retained separately; no generic product default hardcodes storage values"
+  },
+  "nativePackage": {
+    "archive": "tamlinux-native-0.4.4pre.d-0.1-x86_64.pkg.tar.zst",
+    "productRevision": "abd25a3dee9654a511a4fdc11f0e34381327c790",
+    "recipeSha256": "158310c5ec2c91db8d256e2b8cc46da628df395be9b9810ac978dd81b6ca6351",
+    "sha256": "0bd7f81b887b8b02757dc301584d4d223f16ff7e34fd7255f8007f9564feb5e3",
+    "sourceSha256": "bd15493d7c884af9453e47283618f101a2d7106caf9d9cae024a4b17b175c975"
+  },
+  "nativePackageRetention": "Unchanged d native login package retained; no login policy or native session payload change in e",
+  "physicalTestPending": [
+    "Normal Linux boot/unlock/automatic login from the new generated image",
+    "Controlled update/regeneration followed by boot",
+    "Windows boot and concrete fallback/rescue routes",
+    "Snapshot entry and recovery behavior on the physical machine"
+  ],
+  "recoveryPreparation": {
+    "baselineStateArchiveSha256": "9ce9e91f5882efe643ab4d60fc67dc76a382cfe974d61ca57015ded60f1be028",
+    "freshQuiescentCheckpointRequiredBeforeHostMutation": true,
+    "oldNativeArchivesRetained": 8,
+    "statePathsVerified": 72
+  },
+  "scopeLimit": "Boot/provider preparation letter. Sleep/resume with the new hook and carried I09 acceptance remain required before pre-removal Run; six core packages remain installed."
+}
