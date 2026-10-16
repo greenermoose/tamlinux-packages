@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-15 | 0.4.4-a cutover development | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-15-0.4.4a-cutover.md) |
 | 2026-10-15 | Native defaults and c assembly | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-15-desktop-test-c.md) |
 | 2026-10-14 | Paired browser delivery and actual session endpoint observations | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-14-desktop-endpoint-checks.md) |
 | 2026-10-13–14 | Settings recovery delivery and effective runtime observations | Codex CLI `0.162.1` | `gpt-6.1-sol` | [Session](2026-10-13-0.4.3-recovery-continuation.md) |
@@ -35,3 +36,5 @@
 - [2026-10-14 — Desktop Test b preparation](2026-10-14-desktop-test-b.md)
 
 - [2026-10-15 — Native system defaults in tamlinux-native](2026-10-15-native-defaults.md)
+
+| 2026-10-15 | 0.4.3-d contained graphics provider | Codex CLI 0.162.1 | gpt-6.1-sol | [Record](2026-10-15-0.4.3d-graphics-provider.md) |

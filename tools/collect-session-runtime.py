@@ -17,7 +17,8 @@ ENV_KEYS = {
     'HOME', 'PATH', 'XDG_CONFIG_HOME', 'XDG_DATA_HOME', 'XDG_STATE_HOME',
     'XDG_RUNTIME_DIR', 'WAYLAND_DISPLAY', 'DISPLAY', 'XDG_CURRENT_DESKTOP',
     'XDG_SESSION_TYPE', 'HYPRLAND_INSTANCE_SIGNATURE', 'QML_IMPORT_PATH',
-    'QML2_IMPORT_PATH', 'QT_QUICK_BACKEND', 'QT_QPA_PLATFORM',
+    'QML2_IMPORT_PATH', 'QT_QUICK_BACKEND', 'QT_QPA_PLATFORM', 'QSG_RHI_BACKEND', 'QSG_INFO',
+    '__EGL_VENDOR_LIBRARY_FILENAMES', 'LIBGL_DRIVERS_PATH', 'TAMLINUX_GRAPHICS_PROVIDER_ENV',
     'TAMLINUX_QUICKSHELL', 'TAMLINUX_QUICKSHELL_IPC', 'TAMLINUX_SHELL_DIR',
     'TAMLINUX_PLUGINS_DIR', 'TAMLINUX_BAR_LAYOUT', 'TAMLINUX_STAY_AWAKE_FILE',
     'TAMLINUX_MENU_EXTENSION', 'TAMLINUX_MENU_DEFAULT', 'TAMLINUX_BIN',
@@ -157,7 +158,37 @@ def module_root_matches(value, expected):
                for entry in value.split(':') if entry)
 
 
-def collect(generation, commands, shell, plugins):
+
+def graphics_evidence(pid, env, log, layers, outputs, mode, renderer_tokens=(), require_notifications=False):
+    """Use this shell PID's startup context and visible surfaces, never registration."""
+    renderers = re.findall(r"OpenGL VENDOR:.*?RENDERER:\s*(.*?)\s+VERSION:", log)
+    overrides = {key: env[key] for key in
+                 ('QT_QUICK_BACKEND', 'LIBGL_ALWAYS_SOFTWARE', 'QSG_RHI_BACKEND') if key in env}
+    software = any(re.search(r'llvmpipe|softpipe|swrast|swiftshader|software rasterizer', value, re.I)
+                   for value in renderers)
+    errors = bool(re.search(r'EGL not available|Failed to initialize graphics backend|Failed to create.*OpenGL', log, re.I))
+    surfaces = {}
+    for output in outputs:
+        records = [row for level in layers.get(output, {}).get('levels', {}).values() for row in level
+                   if row.get('pid') == pid and row.get('w', 0) > 0 and row.get('h', 0) > 0]
+        names = [row.get('namespace', '') for row in records]
+        surfaces[output] = {'bar': any(name.startswith('tamlinux-bar-') for name in names),
+                            'background': 'tamlinux-background' in names,
+                            'notifications': 'tamlinux-notifications' in names}
+    checks = {'noSoftwareOverrides': not overrides, 'openGLContextObserved': bool(renderers),
+              'noContextErrors': not errors,
+              'rendererMatches': bool(renderers) and all(token.lower() in ' '.join(renderers).lower() for token in renderer_tokens),
+              'rendererClassAccepted': bool(renderers) and not software if mode == 'hardware' else True,
+              'allOutputSurfaces': bool(outputs) and all(value['bar'] and value['background']
+                  and (value['notifications'] or not require_notifications) for value in surfaces.values())}
+    return {'mode': mode, 'shellPid': pid, 'renderers': renderers, 'softwareRendererObserved': software,
+            'hardwareRendererObserved': bool(renderers) and not software,
+            'softwareOverrides': overrides, 'contextLogDigest': hashlib.sha256(log.encode()).hexdigest(),
+            'requiredRendererTokens': list(renderer_tokens), 'notificationsRequired': require_notifications,
+            'outputs': surfaces, 'checks': checks, 'passed': all(checks.values()),
+            'limits': 'VM rendering is not hardware proof. Notification surfaces require a live popup; this collector sends none.'}
+
+def collect(generation, commands, shell, plugins, graphics_mode="hardware", renderer_tokens=(), require_notifications=False):
     discovery = command(['systemctl', '--user', 'list-units', '--all', '--plain',
                          '--no-legend', '--no-pager', 'wayland-wm@*.service'])
     discovered = wm_units(discovery['stdout']) if discovery['exit'] == 0 else []
@@ -234,9 +265,23 @@ def collect(generation, commands, shell, plugins):
     selected_qs = env.get('TAMLINUX_QUICKSHELL')
     actual_qs = Path('/proc').joinpath(str(pid), 'exe').resolve()
     expected_qs = Path(selected_qs).resolve() if selected_qs else None
-    wrapped_qs = expected_qs.with_name('.quickshell-wrapped') if expected_qs else None
+    wrapped_qs = expected_qs.with_name('.quickshell-wrapped').resolve() if expected_qs else None
     if actual_qs not in (expected_qs, wrapped_qs):
         findings.append('Running Quickshell differs from selected executable')
+    log = command(['journalctl', '--user', '-b', '-u', 'tamlinux-shell.service', '_PID='+str(pid),
+                   '--no-pager', '-o', 'cat'])
+    layer_observation = command(['hyprctl', 'layers', '-j'], env=env)
+    monitor_observation = command(['hyprctl', 'monitors', '-j'], env=env)
+    try:
+        layers = json.loads(layer_observation['stdout']) if layer_observation['exit'] == 0 else {}
+        monitors = json.loads(monitor_observation['stdout']) if monitor_observation['exit'] == 0 else []
+        outputs = [row['name'] for row in monitors if not row.get('disabled', False)]
+    except (ValueError, KeyError, TypeError):
+        layers, outputs = {}, []
+    graphics = graphics_evidence(pid, env, log['stdout'] if log['exit'] == 0 else '', layers,
+                                 outputs, graphics_mode, renderer_tokens, require_notifications)
+    if not graphics['passed']:
+        findings.append('Shell graphics evidence failed: '+', '.join(key for key, passed in graphics['checks'].items() if not passed))
     if before.read_text().rsplit(')', 1)[1].split()[19] != identity:
         raise ValueError('Desktop PID was replaced during collection')
     return {'schema': 1, 'stage': 'Develop; partial runtime observations', 'candidateReady': False,
@@ -248,7 +293,7 @@ def collect(generation, commands, shell, plugins):
             'compositorProcess': compositor, 'sessionBusOwners': [bus_owner(name) for name in BUS_NAMES],
             'commands': resolution, 'plugins': plugin_records,
             'configuredResources': [file_identity(p) for p in resources],
-            'fontconfigResolution': fonts, 'findings': findings,
+            'fontconfigResolution': fonts, 'graphics': graphics, 'findings': findings,
             'limits': 'Mapped files establish actual process mappings; configured resources and fc-match are separate observations, not proof that all QML/assets/fonts loaded or workflows passed. Bind to a complete source/native/consumer/recovery/capability tuple.'}
 
 
@@ -256,18 +301,23 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('generation', 'commands', 'shell', 'plugins', 'report'):
         parser.add_argument('--'+name, type=Path, required=True)
+    parser.add_argument('--graphics-mode', choices=('hardware', 'vm'), default='hardware')
+    parser.add_argument('--renderer-token', action='append', default=[], help='Required renderer substring (repeatable)')
+    parser.add_argument('--require-notifications', action='store_true', help='Require visible notification surfaces on every output')
     args = parser.parse_args()
     for name in ('generation', 'commands', 'shell', 'plugins'):
         path = getattr(args, name)
         if not path.is_absolute() or not path.is_dir():
             parser.error('Selected output must be an existing absolute directory: '+name)
-    report = collect(args.generation, args.commands, args.shell, args.plugins)
+    report = collect(args.generation, args.commands, args.shell, args.plugins, args.graphics_mode, args.renderer_token, args.require_notifications)
     with args.report.open('x') as handle:
         os.fchmod(handle.fileno(), 0o600)
         handle.write(json.dumps(report, indent=2, sort_keys=True)+'\n')
     print(json.dumps({'commands': len(report['commands']), 'plugins': len(report['plugins']),
                       'mappedFiles': len(report['shellProcess']['mappedFiles']),
                       'findings': report['findings'], 'candidateReady': False}))
+    if not report['graphics']['passed']:
+        parser.exit(1, 'Shell graphics acceptance failed; see the retained report.\n')
 
 
 if __name__ == '__main__':

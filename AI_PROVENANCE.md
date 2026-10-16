@@ -129,3 +129,13 @@ Antigravity CLI `1.3.6` (`gemini-3.8-flash-high`) pins tam 0.25.0 (`81b9f0c`)
 and prepares candidate 0.4.4-a on develop. All 14 flake checks pass.
 [Session record](docs/ai/2026-10-15-pin-tam-0.25.0-candidate-0.4.4a.md).
 
+
+## 0.4.3-d contained graphics provider
+
+Codex CLI 0.162.1 / gpt-6.1-sol implemented the paired Quickshell/Mesa wrapper.
+[Session record](docs/ai/2026-10-15-0.4.3d-graphics-provider.md).
+
+## 0.4.4-a cutover development
+
+Codex CLI `0.163.0` (`gpt-6.1-sol`) integrates the tested d corrections before
+starting cutover development. [Session](docs/ai/2026-10-15-0.4.4a-cutover.md).
