@@ -11,7 +11,7 @@
       flake = false;
     };
     tam = {
-      url = "github:greenermoose/tam/abc1380dea7033d5ebab5336d66ec216b99e1e66";
+      url = "github:greenermoose/tam/81b9f0cdc6e14a2136e257561589dbb0ad208cd4";
       flake = false;
     };
     libtam = {

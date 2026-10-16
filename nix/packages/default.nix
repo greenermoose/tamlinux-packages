@@ -12,7 +12,7 @@ let
   };
   tam = pkgs.stdenv.mkDerivation {
     pname = "tam";
-    version = "0.9.1";
+    version = "0.25.0";
     passthru.features.manWrapper = true;
     src = sources.tam;
     patches = pkgs.lib.optional (builtins.pathExists "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch")
@@ -20,12 +20,17 @@ let
     postPatch = "patchShebangs tests";
     # The command tests read the guide from the source tree, not from $HOME.
     preCheck = "export TAM_KNOWLEDGE_DIR=$PWD/knowledge";
-    buildInputs = [ libtam ];
+    nativeBuildInputs = [ pkgs.python3 ];
+    buildInputs = [
+      libtam
+      pkgs.zlib
+    ];
     makeFlags = [
       "PREFIX=$(out)"
       "LIBTAM_PREFIX=${libtam}"
     ];
     doCheck = true;
+    checkPhase = "tests/guide.sh $PWD/build/tam";
     meta = {
       license = pkgs.lib.licenses.gpl3Plus;
       mainProgram = "tam";

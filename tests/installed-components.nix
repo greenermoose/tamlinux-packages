@@ -4,7 +4,7 @@ pkgs.runCommand "tamlinux-installed-components"
     nativeBuildInputs = [ pkgs.stdenv.cc pkgs.python3 pkgs.jq ];
   }
   ''
-    ${components.tam}/bin/tam --version | grep -q 'tam command 0.9.1'
+    ${components.tam}/bin/tam --version | grep -q 'tam command 0.25.0'
     if ${components.tam}/bin/tam --version | grep -q '(dev '; then
       echo 'Packaged tam must not carry a development build stamp' >&2
       exit 1

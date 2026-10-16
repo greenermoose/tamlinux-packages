@@ -122,3 +122,10 @@ in `tamlinux-native`. [Session record](docs/ai/2026-10-15-native-defaults.md).
 
 Codex CLI `0.162.1` (`gpt-6.1-sol`) completes native-defaults integration and
 prepares a distinct inactive c assembly. [Session](docs/ai/2026-10-15-desktop-test-c.md).
+
+## Candidate 0.4.4-a tam 0.25.0 pin — 2026-10-15
+
+Antigravity CLI `1.3.6` (`gemini-3.8-flash-high`) pins tam 0.25.0 (`81b9f0c`)
+and prepares candidate 0.4.4-a on develop. All 14 flake checks pass.
+[Session record](docs/ai/2026-10-15-pin-tam-0.25.0-candidate-0.4.4a.md).
+
