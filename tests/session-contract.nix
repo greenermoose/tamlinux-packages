@@ -50,6 +50,9 @@ pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -x ${files}/.local/bin/tam-hyprland-session
   test ! -e ${files}/.local/bin/tamlinux-hyprland-session
   test -x ${components.tamlinux-shell}/bin/tam-hyprland-session
+  test -x ${components.tamlinux-shell}/share/tamlinux/session/Hyprland
+  test -f ${components.tamlinux-shell}/share/tamlinux/session/wait-stopped.py
+  grep -q '/usr/bin/start-hyprland --path /usr/bin/Hyprland' ${components.tamlinux-shell}/share/tamlinux/session/Hyprland
   test ! -e ${components.tamlinux-shell}/bin/tamlinux-hyprland-session
   test -x ${files}/.local/bin/tam-session-init
   test -x ${files}/.local/bin/tam-migrate-desktop

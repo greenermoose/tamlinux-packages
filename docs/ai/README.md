@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-16 | 0.4.4d assembly and bounded login maintenance | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-16-0.4.4d-readiness.md) |
 | 2026-10-16 | Runtime collector plugin check follows the selection | Claude Code `2.1.301` | `claude-opus-5-5` | [Session](2026-10-16-collector-plugin-count.md) |
 | 2026-10-16 | Letter candidate preparation helper | Claude Code `2.1.301` | `claude-opus-5-5` | [Session](2026-10-16-prepare-candidate.md) |
 | 2026-10-16 | 0.4.4-c native login and reviewed SDDM corpus | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-16-native-login-c.md) |

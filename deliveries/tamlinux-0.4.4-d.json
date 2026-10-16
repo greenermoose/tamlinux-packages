@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-d",
+  "version": "0.4.4-d",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "2c1062fca557a8625f7c6ef13975eab2f327a97b",
+  "scope": "Bounded login shutdown/startup, stable Hyprland watchdog, SysRq recovery keys, single shell panel router and complete Antigravity quotas; includes plugin scaffold",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792151035,
+      "narHash": "sha256-re9Whtg1pgrUlrW+XfVDc6Wr2cbd3RecrrN9jg2qCf8=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "46169798e6bdb4e371faaa4719897c5cf7184b11",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792177344,
+      "narHash": "sha256-zDwP4O5j/EOBls/EPmb6JDdaJpYj5H+UsdKWBwvMk0k=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "abd25a3dee9654a511a4fdc11f0e34381327c790",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/cxvk5qdzyfwqjp8sxr8ialx0w1jbkfl4-tamlinux-shell-0.4.4pre.d.drv",
+      "outputs": {
+        "out": "/nix/store/1za39aq1kv9bcq4d8yhnk8xgz5x6046f-tamlinux-shell-0.4.4pre.d"
+      }
+    },
+    {
+      "drvPath": "/nix/store/vry4rarqfnw2rj443kviqqhd03wm9p4a-tamlinux-plugins-0.4.4pre.d.drv",
+      "outputs": {
+        "out": "/nix/store/p71vmvii6x1qr8xsvch8mn5jn2yw7q08-tamlinux-plugins-0.4.4pre.d"
+      }
+    },
+    {
+      "drvPath": "/nix/store/1x0kj7kw897d9p88cqj335i8df2l6x0r-tamlinux-commands-0.4.4pre.d.drv",
+      "outputs": {
+        "out": "/nix/store/z791ws2v99pga8l8v7hzj5yycgmwyjp7-tamlinux-commands-0.4.4pre.d"
+      }
+    },
+    {
+      "drvPath": "/nix/store/9dvnj8l0cknr5dyjxz46wa4n1cf0f9jw-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/hrvg825xg185pkxsabm6qpmr1jjcnizd-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/q5cwsdy5lasgbw4nl1g93qdfhf100s12-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/8gglm8g7q4vrj3pjvy9ri0yq4x13yirq-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/fkb1vs9gprcdfxj43h5x9kb9f1pbd0qp-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/gp1fk8zmz85h117w3ak6pwllpq2kp761-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/a3xwi44rhr8h6rw7zgv08abishvkscxc-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/n5ag2r7nk5s05syi77p0q5j3hy5yamyk-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/rwplfb65appdy61pmxmy3wi0hacnrs80-tamlinux-agent-skills-contract.drv",
+      "outputs": {
+        "out": "/nix/store/gj6dxrzs43waqz5if6q20i1ifi679173-tamlinux-agent-skills-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.agent-skills"
+    ],
+    "build": "pass",
+    "desktopTests": {
+      "run": 606,
+      "skipped": 1,
+      "result": "pass"
+    },
+    "deliveryTests": {
+      "run": 115,
+      "result": "pass"
+    },
+    "workspacePluginTests": {
+      "run": 57,
+      "result": "pass"
+    },
+    "headlessPanelRouting": "nine plugins, three bars, 18 panel opens; no duplicate registrations or QML load errors",
+    "loginTransactionTests": "slow shutdown, timeout, failed startup, recovery VT and probe failure pass",
+    "nativeBuild": "makepkg build/check/package pass"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "archive": "tamlinux-native-0.4.4pre.d-0.1-x86_64.pkg.tar.zst",
+    "sha256": "0bd7f81b887b8b02757dc301584d4d223f16ff7e34fd7255f8007f9564feb5e3",
+    "sourceSha256": "bd15493d7c884af9453e47283618f101a2d7106caf9d9cae024a4b17b175c975",
+    "recipeSha256": "158310c5ec2c91db8d256e2b8cc46da628df395be9b9810ac978dd81b6ca6351",
+    "productRevision": "abd25a3dee9654a511a4fdc11f0e34381327c790"
+  },
+  "physicalTestPending": [
+    "normal automatic login and watchdog/service identity",
+    "failed automatic login and local VT recovery",
+    "effective SysRq and all-output rendering/IPC",
+    "complete installed quota rows, including Argon",
+    "later-write-preserving physical recovery"
+  ],
+  "scopeLimit": "Login/shell recovery letter; boot/update/fallback, sleep and six-package removal retain separate acceptance gates"
+}

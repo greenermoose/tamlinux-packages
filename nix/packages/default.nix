@@ -399,6 +399,7 @@ let
         ${lib.optionalString features.sessionProviders ''
           cp -R ${product}/desktop/session $out/share/tamlinux/session
           install -m755 ${product}/desktop/session/start $out/bin/tam-hyprland-session
+          chmod +x $out/share/tamlinux/session/Hyprland
         ''}
         ${lib.optionalString features.menu ''
           mkdir -p $out/share/tamlinux/menu
@@ -463,6 +464,7 @@ let
     checkPhase = ''
       runHook preCheck
       patchShebangs commands
+      ${lib.optionalString (has "desktop/widget-proof") "patchShebangs desktop/widget-proof"}
       ${lib.optionalString features.menu "patchShebangs desktop/menu/tam-menu"}
       export HOME=$TMPDIR/home
       mkdir -p $HOME

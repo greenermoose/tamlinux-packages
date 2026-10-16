@@ -105,3 +105,27 @@ the actual recipe's `package()` in an isolated destination. For a Qt 6 SDDM
 load check, run `sddm-greeter-qt6 --test-mode --theme <staged-theme>` with an
 offscreen platform; inspect the log for QML errors before ending the process.
 No login or power action is performed in SDDM test mode.
+
+## Later login transactions: bounded shutdown and startup
+
+`tools/login-transaction.py stop --user <account> --recovery-vt <VT>` stops
+SDDM, then waits up to 60 seconds for both the account's Wayland sessions and
+all its Hyprland processes to disappear. A query error or timeout fails the
+step. The reviewed caller must stop there: do not apply login files or start
+SDDM. This handles compositors that outlive SDDM's own stop timeout.
+
+After the independently approved package/login-file steps, `start` with the
+same arguments starts SDDM and waits up to 30 seconds for an active SDDM
+Wayland login and Hyprland process. Failure stops SDDM and switches back to
+the retained VT, including when the start command itself failed. Individual
+state queries and service operations also have deadlines. Run these privileged
+steps only from the verified recovery console after user approval. Keep all
+checkpoints; these helpers do not restore files or select another generation.
+
+The d user launcher also waits up to 30 seconds for active, activating or
+stopping uwsm session units and any lingering compositor. It fails closed on
+query errors. Its immutable `session/Hyprland` wrapper launches
+`start-hyprland --path /usr/bin/Hyprland`, preserving uwsm's `Hyprland` service
+ID and the `Hyprland` desktop name. The wrapper is package-owned. A startup
+failure outside a maintenance transaction still needs the physical VT recovery
+check; this is not a root greeter watchdog or physical acceptance proof.
