@@ -81,6 +81,7 @@ let
     sessionProviders = has "desktop/session/providers.json";
     graphicsEnvironmentIsolation = has "desktop/shell/graphics-environment-isolation-v1";
     userDefaults = has "desktop/user-defaults/apply";
+    agentSkills = has "desktop/skills/manage.py";
   };
   # Hash only trial code so unrelated shell/menu commits preserve the 0.4.1
   # protocol shadow observation identity.
@@ -384,6 +385,9 @@ let
         cp -R ${product}/desktop/shell $out/share/tamlinux/
         chmod -R u+w $out/share/tamlinux/shell
         cp ${product}/VERSION $out/share/tamlinux/version
+        ${lib.optionalString features.agentSkills ''
+          cp -R ${product}/desktop/skills $out/share/tamlinux/skills
+        ''}
         printf '%s\n' ${lib.escapeShellArg product.rev} > $out/share/tamlinux/source-revision
         ${lib.optionalString features.documentation "cp ${product}/desktop/README.md $out/share/tamlinux/README.md"}
         ${lib.optionalString features.sessionProviders ''
