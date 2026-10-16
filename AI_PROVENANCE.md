@@ -8,10 +8,11 @@ privately by the author.
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
 | Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-16 |
-| Claude Code | 2.1.295 | claude-opus-5-5 | 2026-10-09 |
+| Claude Code | 2.1.301 | claude-opus-5-5 | 2026-10-16 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-16 | Letter candidate preparation helper | [Session](docs/ai/2026-10-16-prepare-candidate.md) |
 | 2026-10-16 | 0.4.4-c native login and reviewed SDDM corpus | [Session](docs/ai/2026-10-16-native-login-c.md) |
 | 2026-10-16 | Small a + version-display 0.4.4-b candidate | [Session](docs/ai/2026-10-16-tamversion-candidate.md) |
 | 2026-10-15 | Login-only source retains d sleep hooks; later Cutover sequencing | [Session](docs/ai/2026-10-15-login-slice-sleep-hook.md) |

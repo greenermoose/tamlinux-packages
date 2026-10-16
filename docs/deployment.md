@@ -19,6 +19,13 @@ definition before deployment and identify the exact `tamlinux-packages`
 revision on `test`. A branch name identifies the stage; the pinned revision
 identifies the bytes. Deployment must not resolve a moving branch afresh.
 
+`tools/prepare-candidate.py` performs these Develop steps one at a time:
+`version` (next unused letter), `pin INPUT=<commit>` (exact commits, checked
+against the resolved lock), `build` (standard outputs and checks, without
+links; evidence outside the repository), `record` (the delivery record from
+the lock and build) and a read-only `check`. It never commits, promotes or
+activates, never reuses a letter and never overwrites a delivery record.
+
 Build the Tamlinux package outputs from that recorded assembly. The consumer's
 Home Manager configuration pins the exact delivery revision and selects its
 package outputs and module. Machine-specific settings belong in the consumer
