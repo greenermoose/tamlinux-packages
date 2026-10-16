@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-16 | Small 0.4.4-b version-display candidate | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-16-tamversion-candidate.md) |
 | 2026-10-15 | Login candidate retains d sleep hooks | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-15-login-slice-sleep-hook.md) |
 | 2026-10-15 | Native SDDM greeter preparation | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-15-sddm-native-greeter.md) |
 | 2026-10-15 | 0.4.4-a cutover development | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-15-0.4.4a-cutover.md) |

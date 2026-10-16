@@ -7,11 +7,12 @@ privately by the author.
 
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
-| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-15 |
+| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-16 |
 | Claude Code | 2.1.295 | claude-opus-5-5 | 2026-10-09 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-16 | Small a + version-display 0.4.4-b candidate | [Session](docs/ai/2026-10-16-tamversion-candidate.md) |
 | 2026-10-15 | Login-only source retains d sleep hooks; later Cutover sequencing | [Session](docs/ai/2026-10-15-login-slice-sleep-hook.md) |
 | 2026-10-14 | Final portal generation binding and monitor persistence continuation | [Session](docs/ai/2026-10-14-monitor-persistence.md) |
 | 2026-10-14 | Paired browser registrations and effective desktop endpoint checks | [Session](docs/ai/2026-10-14-desktop-endpoint-checks.md) |

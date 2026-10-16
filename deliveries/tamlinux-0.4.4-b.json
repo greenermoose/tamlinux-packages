@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-b",
+  "version": "0.4.4-b",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "e98bf3c5115489b8765cf8bec09d2306415811e6",
+  "scope": "0.4.4-a plus fred.tamversion and VERSION bumps only",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792114095,
+      "narHash": "sha256-NAfscG4NMfx1xYESgDQLedVhCxYep7J3517cN+yU+1o=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "81b9f0cdc6e14a2136e257561589dbb0ad208cd4",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792148476,
+      "narHash": "sha256-JOEcCYM/6fY4U2IXUONJ8eWTRvu37+3S4mdOIyrzgVE=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "04273de90d65b9df965747df793999ecd4894944",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/r2z4qi0ph6k0hb1536433hzlhhzs7s48-tamlinux-shell-0.4.4pre.b.drv",
+      "outputs": {
+        "out": "/nix/store/rpcjmakxnm56bkwzafmh2xkmky9bsapq-tamlinux-shell-0.4.4pre.b"
+      }
+    },
+    {
+      "drvPath": "/nix/store/31xqq3qp1w1arspg8kvlk5vysyq3kiqr-tamlinux-plugins-0.4.4pre.b.drv",
+      "outputs": {
+        "out": "/nix/store/lcnnqjii5dax890mpcvwjivsa1xqxv2r-tamlinux-plugins-0.4.4pre.b"
+      }
+    },
+    {
+      "drvPath": "/nix/store/84f5qb7qq97inqgbiy2wny00jm7ggazm-tamlinux-commands-0.4.4pre.b.drv",
+      "outputs": {
+        "out": "/nix/store/0n2vr9l6x7pzgw2qihwp5r805qdyl7aj-tamlinux-commands-0.4.4pre.b"
+      }
+    },
+    {
+      "drvPath": "/nix/store/9zvalrmvszd8dh2mmngvn4yp83xk6l73-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/l5qpj6q1cfjsjpg06mm9z33ybf2znbyw-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/72cjmvax9cl6aqnhqvmw8a0yrhhnm14f-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/q0m0c0v2v6qjzh6m02lgga7sgy53m6yk-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "desktopTests": {
+      "run": 590,
+      "skipped": 1,
+      "result": "pass"
+    },
+    "installedComponents": "pass",
+    "exampleHomeContract": "pass",
+    "packagedOffscreenWidget": "Tamlinux 0.4.4b; positive width/height; nine plugins registered",
+    "nativeSessionPayloadComparedWithA": "unchanged"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "existingLayout": "Insert fred.tamversion immediately before fred.clock, after tamlinux.indicators; keep fred.clock as centerAnchor",
+  "retainedSoftware": "0.4.4-a",
+  "nativeIntegration": "Native a payload retained; no privileged transaction required"
+}
