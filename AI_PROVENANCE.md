@@ -13,6 +13,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-17 | 0.4.4g SDDM PAM cleanup package and recorded assembly; no activation | [Session](docs/ai/2026-10-17-sddm-pam-cleanup.md) |
 | 2026-10-16 | Independent boot providers and recovery preparation | [Session](docs/ai/2026-10-16-boot-provider-preparation.md) |
 | 2026-10-16 | Runtime collector plugin check follows the selection | [Session](docs/ai/2026-10-16-collector-plugin-count.md) |
 | 2026-10-16 | Letter candidate preparation helper | [Session](docs/ai/2026-10-16-prepare-candidate.md) |
@@ -159,3 +160,11 @@ Codex CLI `0.163.0` (`gpt-6.1-sol`) pinned the approved H1 implementation,
 built and compared the native package, and passed the eight selected package
 outputs/contracts and 122 delivery tests.
 [Session](docs/ai/2026-10-17-hibernate-h1.md).
+
+### 2026-10-17 — 0.4.4g SDDM PAM cleanup assembly
+
+Codex CLI `0.163.0` (`gpt-6-luna`) pins the checkpointed PAM transaction to
+the native package assembly and prepares the exact 0.4.4g candidate. The five
+Nix outputs, native package, staging tests and transaction fixtures pass;
+activation and fresh-login proof remain pending.
+[Session](docs/ai/2026-10-17-sddm-pam-cleanup.md).

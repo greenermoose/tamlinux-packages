@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-17 | 0.4.4g SDDM PAM cleanup package assembly | Codex CLI `0.163.0` | `gpt-6-luna` | [Session](2026-10-17-sddm-pam-cleanup.md) |
 | 2026-10-16 | Independent boot providers and recovery preparation | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-16-boot-provider-preparation.md) |
 | 2026-10-16 | 0.4.4d assembly and bounded login maintenance | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-16-0.4.4d-readiness.md) |
 | 2026-10-16 | Runtime collector plugin check follows the selection | Claude Code `2.1.301` | `claude-opus-5-5` | [Session](2026-10-16-collector-plugin-count.md) |
