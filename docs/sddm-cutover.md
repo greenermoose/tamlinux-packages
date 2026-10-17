@@ -33,8 +33,8 @@ installed defaults. Its physical sleep/resume trial belongs to a later letter.
 
 A subsequent letter carries the coherent login-command rename and normal
 automatic login. Boot/update/fallback, physical sleep/resume and package removal
-have their own later transactions and evidence. Before removal, retain a
-pre-removal candidate accepted in Run that works without inherited packages;
+have their own later transactions and evidence. Before removal (0.4.5), retain
+a 0.4.4 candidate accepted in Run that works without inherited packages;
 the older accepted package can still depend on those packages. Open native-login
 and later-write rollback evidence carries forward rather than implying an
 intermediate version was accepted in Run.
