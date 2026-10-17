@@ -12,6 +12,7 @@ ROOT=Path(__file__).resolve().parents[1]
 FILES={
  'theme-browser-policy':'desktop/native/theme-browser-policy',
  'browser_policy.py':'desktop/native/browser_policy.py',
+ 'pam-transaction.py':'desktop/native/pam-transaction.py',
  'hyprland-reload-guard':'commands/tam-hyprland-reload-guard/tam-hyprland-reload-guard',
  'guard-LICENSE':'commands/tam-hyprland-reload-guard/LICENSE',
  **{'asdcontrol/'+name:'desktop/native/providers/asdcontrol/'+name for name in
@@ -64,7 +65,7 @@ def prepare(product,destination,revision):
         'origin':'https://github.com/greenermoose/tamlinux','files':
         {name:hashlib.sha256(data).hexdigest() for name,data in sorted(files.items())},
         'links':{name:target for name,(mode,target) in sorted(special.items()) if mode=='link'},
-        'scope':'Owned login registration and SDDM greeter/vendor configuration, explicit browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults and explicit checkpointed native conversion.',
+        'scope':'Owned login registration and SDDM greeter/vendor configuration, explicit browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults, checkpointed native conversion and the candidate-bound SDDM PAM transaction.',
         'pending':['native root/security/service recovery beyond browser policies','KMS bridge','separate boot handoff','physical authentication/device proof',
                    'explicit tam-native-defaults transaction, service reloads and effective native-defaults verification before Desktop Test',
                    'provisioning must run systemctl preset for systemd-oomd']}

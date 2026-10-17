@@ -129,3 +129,83 @@ query errors. Its immutable `session/Hyprland` wrapper launches
 ID and the `Hyprland` desktop name. The wrapper is package-owned. A startup
 failure outside a maintenance transaction still needs the physical VT recovery
 check; this is not a root greeter watchdog or physical acceptance proof.
+
+## 0.4.4g PAM keyring transaction
+
+The native package carries `/usr/lib/tamlinux/pam-transaction.py`, staged
+from the exact Tamlinux product revision in the assembly. It manages only
+`/etc/pam.d/sddm` and `/etc/pam.d/sddm-autologin`; the consumer tracks the
+cleaned mirrors and `644` manifest entries, while the `sddm` package remains
+the owner. The tool is part of the package payload and does not install either
+mirror directly from a checkout.
+
+Before a Test login step, use a verified text console, retain the current
+native archive and Home Manager generation, and record the exact assembly and
+consumer revisions. Capture `/etc/pam.d/sddm`, `/etc/pam.d/sddm-autologin`,
+`/etc/sddm.conf`, all `/etc/sddm.conf.d` files, and
+`/var/lib/sddm/state.conf` with hashes, modes, numeric owners and symlink
+targets. Record `pacman -Q sddm gnome-keyring pam pambase`, current generation,
+and the selected `tamlinux-packages` assembly. Keep that capture outside the
+SDDM directories. Recheck package ownership and hashes immediately before the
+transaction; a package update or `.pacnew` means the candidate must be
+reviewed and reconciled before proceeding.
+
+With Fred's approval for the login step, save work and use the bounded `stop`
+procedure above. Once SDDM and the old compositor have ended, invoke the
+packaged helper with absolute paths from the retained VT:
+
+```sh
+pkexec /usr/bin/python3 -I /usr/lib/tamlinux/pam-transaction.py apply \
+  --checkpoint /var/lib/tamlinux/recovery/sddm-pam-0.4.4g
+```
+
+The tool accepts only the two exact baseline hashes and hook counts recorded
+for candidate g. It creates a root-only checkpoint before changing either
+file, writes each file atomically while preserving mode and uid/gid, and
+records before/after hashes. A retry accepts only each file's recorded before
+or after hash. It refuses when SDDM is active, a path is not a regular file,
+or either baseline has drifted. Verify with `verify` before starting SDDM.
+
+```sh
+pkexec /usr/bin/python3 -I /usr/lib/tamlinux/pam-transaction.py verify \
+  --checkpoint /var/lib/tamlinux/recovery/sddm-pam-0.4.4g
+```
+
+For rollback, first capture the current files separately and use a new
+preservation directory. The inverse archives both current files and metadata
+before restoring the checkpoint; it resumes safely if interrupted:
+
+```sh
+pkexec /usr/bin/python3 -I /usr/lib/tamlinux/pam-transaction.py restore \
+  --checkpoint /var/lib/tamlinux/recovery/sddm-pam-0.4.4g \
+  --preserve-current /var/lib/tamlinux/recovery/sddm-pam-0.4.4g-current
+```
+
+Keep the original checkpoint and preserved-current directory. Confirm the
+restored hashes and start SDDM only through the separately approved `start`
+step. A Home Manager rollback does not restore these root-owned PAM files.
+
+After an SDDM upgrade, compare the package's new PAM defaults and any `.pacnew`
+with both tracked mirrors and the recorded baseline. Preserve both versions,
+re-review the exact hook count and hash, and prepare a new candidate if the
+package defaults changed. Do not let `tam-sync` overwrite package defaults
+blindly.
+
+For each fresh login, test Secret Service with one uniquely attributed,
+disposable item. This bounded probe stores a fixed non-secret marker, reads it
+back, and deletes it; it never queries existing items. Record only pass/fail
+and the session identifier, never the returned value:
+
+```sh
+set -euo pipefail
+probe_id="$(date -u +%Y%m%dT%H%M%SZ)-$$"
+probe_value="tamlinux-pam-probe-$probe_id"
+probe_args=(tamlinux-pam-cleanup candidate 0.4.4g probe-id "$probe_id")
+trap 'timeout 10s secret-tool clear "${probe_args[@]}" >/dev/null 2>&1 || true' EXIT
+printf '%s\n' "$probe_value" | timeout 10s secret-tool store \
+  --label="Tamlinux PAM probe $probe_id" "${probe_args[@]}"
+result="$(timeout 10s secret-tool lookup "${probe_args[@]}")"
+test "$result" = "$probe_value"
+timeout 10s secret-tool clear "${probe_args[@]}"
+trap - EXIT
+```

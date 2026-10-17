@@ -80,6 +80,24 @@ class NativeStaging(unittest.TestCase):
         self.assertFalse((package/'etc').exists())
         self.assertFalse((package/'usr/local').exists())
 
+    def test_pam_transaction_is_in_native_package_and_bound_manifest(self):
+        stage=self.base/'stage';result=m.prepare(self.product,stage,'0.4.4-g')
+        self.assertIn('pam-transaction.py',result['manifest']['files'])
+        self.assertEqual(result['manifest']['productRevision'],'0.4.4-g')
+        source=self.base/'source';source.mkdir()
+        with tarfile.open(stage/'tamlinux-native-source.tar') as archive:
+            archive.extractall(source,filter='data')
+        (source/'tamlinux-native/asdcontrol/asdcontrol').write_text('fixture provider\n')
+        package=self.base/'package';package.mkdir()
+        result=subprocess.run(['bash','-eu','-c','source "$1"; package','package',str(stage/'PKGBUILD')],
+                              env={**os.environ,'srcdir':str(source),'pkgdir':str(package)},
+                              capture_output=True,text=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+        installed=package/'usr/lib/tamlinux/pam-transaction.py'
+        self.assertEqual(installed.read_bytes(),(self.product/m.FILES['pam-transaction.py']).read_bytes())
+        self.assertEqual(installed.stat().st_mode&0o777,0o755)
+        self.assertFalse((package/'etc/pam.d').exists())
+
     def test_destination_inside_product_is_refused(self):
         with self.assertRaises(ValueError):m.prepare(self.product,self.product/'stage','development')
         self.assertFalse((self.product/'stage').exists())

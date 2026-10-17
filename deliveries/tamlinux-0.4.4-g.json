@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-g",
+  "version": "0.4.4-g",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "46bc536ef19c774b4b193b3336e3031ccc6df665",
+  "scope": "Checkpointed SDDM PAM keyring cleanup in the packaged native integration; fresh login proof remains for Test",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792151035,
+      "narHash": "sha256-re9Whtg1pgrUlrW+XfVDc6Wr2cbd3RecrrN9jg2qCf8=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "46169798e6bdb4e371faaa4719897c5cf7184b11",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792258110,
+      "narHash": "sha256-XdghcOo7MQ2q7mXIFl8UXI3OBGSKqkyK917aXBA4o3g=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "c0aaeee336874bc15eae0e23f233ac3bd9de2fd9",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/sd98fi15j8z0qq11svyykzassm9qrzsf-tamlinux-shell-0.4.4pre.g.drv",
+      "outputs": {
+        "out": "/nix/store/y8wg6wh06jz1p1g33shgcif89bh108nk-tamlinux-shell-0.4.4pre.g"
+      }
+    },
+    {
+      "drvPath": "/nix/store/xxmsq8s0yzy51pk1hfs1ymn9p0ff3vf6-tamlinux-plugins-0.4.4pre.g.drv",
+      "outputs": {
+        "out": "/nix/store/3ycqwhj7gnq4i0a03896hqk3bq432lwq-tamlinux-plugins-0.4.4pre.g"
+      }
+    },
+    {
+      "drvPath": "/nix/store/ani9dy8cb4k3dnnnar0smhkhkp98xdns-tamlinux-commands-0.4.4pre.g.drv",
+      "outputs": {
+        "out": "/nix/store/kwhn72h8gcpn01cvffmwlalpzy3pbga5-tamlinux-commands-0.4.4pre.g"
+      }
+    },
+    {
+      "drvPath": "/nix/store/mx6yq3m6c0sg2b73p9qpnv9d22f0b43z-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/lx1gq76r02hj84ak6jwzdbsrh4kl24ac-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/3zrwr89a95w3ydl3zibzb09svmcfsq4x-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/j3v2jmfpr7vm76jf5r111fjikkxgab6j-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass",
+    "pamTransactionTests": {
+      "run": 9,
+      "result": "pass"
+    },
+    "nativeStagingTests": {
+      "run": 10,
+      "result": "pass"
+    },
+    "nativeMakepkg": "pass",
+    "nativeArchivePayload": {
+      "sha256": "634f75f57eb9771da6239ef197346b97b9e14ee78e100a98cf43a90ac15464c5",
+      "transactionPath": "usr/lib/tamlinux/pam-transaction.py",
+      "owner": "root:root",
+      "mode": "0755"
+    },
+    "consumerMirrorComparison": "pass: both files equal exact three-hook transformation"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "archive": "tamlinux-native-0.4.4pre.g-0.1-x86_64.pkg.tar.zst",
+    "sha256": "634f75f57eb9771da6239ef197346b97b9e14ee78e100a98cf43a90ac15464c5",
+    "sourceSha256": "e467a8b5873e6f3c7e35a992ae388fc1798d108aa771f78168665b6ad5ab3f5e",
+    "recipeSha256": "e3eddafc2bd2c48c6bd9ad0202889affc0f8f0b2ae65c1541d69489d11618374",
+    "productRevision": "c0aaeee336874bc15eae0e23f233ac3bd9de2fd9"
+  },
+  "pamTransaction": {
+    "files": {
+      "/etc/pam.d/sddm": {
+        "beforeSha256": "b9539d9c6e9449595f4473c2541b60a83e3a836263128061bceecb738a7f4859",
+        "afterSha256": "d2bd11a950559669c7d2603707434fd50737c77f3b67fe9c73d17d6c0d0a68dd",
+        "hooksRemoved": 1
+      },
+      "/etc/pam.d/sddm-autologin": {
+        "beforeSha256": "53a935ef3d4dcc107728ff8d7109fac35b41c743cea19200d3dd498ca1748a0c",
+        "afterSha256": "58fdfb83007c6e5f38043b2969071a24391e26d9baf805677a0020d4262758ad",
+        "hooksRemoved": 2
+      }
+    },
+    "scope": "Remove the three GNOME keyring PAM hooks only; preserve all other lines and metadata.",
+    "activation": "Not performed; await Fred Test instruction"
+  },
+  "retainedBaseline": {
+    "assembly": "46bc536ef19c774b4b193b3336e3031ccc6df665",
+    "product": "98eb75657942cd6645c28490190bc30d012fb070",
+    "nativePackage": "tamlinux-native 0.4.4pre.f-0.1",
+    "nativePackageSha256": "381e799ea39692e5de10def633bd014eb32356d938591647ce5c0a25cb373fb8"
+  },
+  "physicalTestPending": [
+    "Fresh automatic login through sddm-autologin",
+    "Fresh password login through sddm",
+    "Secret Service activation and disposable item round trip after each login",
+    "Normal credential workflow and bounded journal review"
+  ],
+  "scopeLimit": "Build and static package checks only; no PAM file edits, SDDM restart, candidate activation, Test promotion or login proof."
+}
