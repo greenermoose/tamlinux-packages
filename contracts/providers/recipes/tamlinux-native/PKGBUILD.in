@@ -1,12 +1,12 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
-pkgver=0.4.4pre.d
+pkgver=0.4.4pre.f
 pkgrel=0.1
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'
 license=(GPL-3.0-or-later GPL-2.0-or-later MIT)
-depends=(bash python polkit hyprland jq glibc 'libstdc++' nss-mdns avahi
+depends=(bash coreutils util-linux gawk python polkit hyprland jq glibc 'libstdc++' nss-mdns avahi
          zram-generator ttf-liberation noto-fonts noto-fonts-emoji fcitx5 bluez-tools sudo fuse3
          sddm qt6-declarative uwsm)
 optdepends=('plocate: index tuned by the updatedb drop-ins')
@@ -23,6 +23,7 @@ check() {
   bash -n "$srcdir/tamlinux-native/hyprland-reload-guard"
   python -m py_compile "$srcdir/tamlinux-native/browser_policy.py"
   bash -n "$srcdir/tamlinux-native/defaults/root/usr/lib/systemd/system-sleep/tamlinux-unmount-fuse"
+  bash -n "$srcdir/tamlinux-native/defaults/root/usr/lib/systemd/system-sleep/tam-hibernate-swap"
 }
 
 package() {

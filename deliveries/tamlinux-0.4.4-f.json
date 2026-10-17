@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-f",
+  "version": "0.4.4-f",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "dcdc1663627376dce7c7cf51c8ddb0f5061e5fba",
+  "scope": "Native hibernate-time zram drain with retryable restoration; begin H1 in Test with image_size=0",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792151035,
+      "narHash": "sha256-re9Whtg1pgrUlrW+XfVDc6Wr2cbd3RecrrN9jg2qCf8=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "46169798e6bdb4e371faaa4719897c5cf7184b11",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792239560,
+      "narHash": "sha256-2iGBtTV8bwONKrnJ7JoXBAlbEMTm7GvJx57ZlRhUcMY=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "98eb75657942cd6645c28490190bc30d012fb070",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/00xmzmf7g0vjn9qszbqw6y0saamcx9d4-tamlinux-shell-0.4.4pre.f.drv",
+      "outputs": {
+        "out": "/nix/store/wqljnws5rllhn0z38j48ll8frfrhzmjf-tamlinux-shell-0.4.4pre.f"
+      }
+    },
+    {
+      "drvPath": "/nix/store/yhaswhgyf2rhm8sg9sj88q2wqcgh1ayi-tamlinux-plugins-0.4.4pre.f.drv",
+      "outputs": {
+        "out": "/nix/store/5b514kdvaz9cah8kv72cx93jwymdldrs-tamlinux-plugins-0.4.4pre.f"
+      }
+    },
+    {
+      "drvPath": "/nix/store/4f326h12y90rx8ghfydgjda52k75k1n4-tamlinux-commands-0.4.4pre.f.drv",
+      "outputs": {
+        "out": "/nix/store/qzrlp8km59g62f0w7922ckgvia3hr886-tamlinux-commands-0.4.4pre.f"
+      }
+    },
+    {
+      "drvPath": "/nix/store/awg7rf7fikvh3xbdp0b6an5ff3k7jy76-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/l9l4csrpf8h7ihcqzii9yfrarxi6n4lm-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/j79mqaa2c2amvnwy7qnl0i5i2cvky9gq-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/s34jw7l9laping93s9giwf3fnz66kw7s-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/4axmndy8ch6psg7lb22hbshscgrbn6zf-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/vfw5z4rpm9i687758rl5s1hs557n0xy2-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/a3xwi44rhr8h6rw7zgv08abishvkscxc-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/n5ag2r7nk5s05syi77p0q5j3hy5yamyk-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/0gzl5xpmj59r3arvvdkzxrbpnyn1ac5r-tamlinux-agent-skills-contract.drv",
+      "outputs": {
+        "out": "/nix/store/l86038hc46s8ihnzgqdny0gbv0vz3clb-tamlinux-agent-skills-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.agent-skills"
+    ],
+    "build": "pass",
+    "hibernateHookTests": {
+      "run": 16,
+      "result": "pass",
+      "includes": "Real 60-second timeout, failed restoration retry, S3/S4 dispatch and capacity skips"
+    },
+    "nativeDefaultsTests": {
+      "run": 8,
+      "result": "pass"
+    },
+    "deliveryTests": {
+      "run": 122,
+      "result": "pass"
+    },
+    "nativeMakepkg": "build/check/package passed; final archive payload and root ownership verified"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "archive": "tamlinux-native-0.4.4pre.f-0.1-x86_64.pkg.tar.zst",
+    "sha256": "381e799ea39692e5de10def633bd014eb32356d938591647ce5c0a25cb373fb8",
+    "sourceSha256": "25c22d34b94836730fbdb3d2e8df78324aed151edf595e48d61fa3602e97dc1d",
+    "recipeSha256": "548a3e73419a8d6f3c41ae96b472a835e8c6be3afd4664f50a3bbb3bef16eb39",
+    "productRevision": "98eb75657942cd6645c28490190bc30d012fb070"
+  },
+  "nativePayloadComparison": {
+    "added": [
+      "usr/lib/systemd/system-sleep/tam-hibernate-swap"
+    ],
+    "changed": [
+      "usr/share/tamlinux/native-integration.json"
+    ],
+    "removed": [],
+    "allArchiveOwnershipRoot": true
+  },
+  "bootProviderSelection": {
+    "path": "contracts/providers/boot-selection.json",
+    "providers": [
+      {
+        "archive": "limine-mkinitcpio-hook-1.40.0-1-x86_64.pkg.tar.zst",
+        "id": "limine-mkinitcpio-hook",
+        "recipeSha256": "3700ba18e0d79a54edc95c210d84270b835db6cd17c163c463aa363efa951ad0",
+        "sha256": "3bf5a2b3c7f6c3fa4484a2c6614ff59041e9503750cb7f41672283a7061fc690",
+        "version": "1.40.0-1"
+      },
+      {
+        "archive": "limine-snapper-sync-1.32.1-1-x86_64.pkg.tar.zst",
+        "id": "limine-snapper-sync",
+        "recipeSha256": "4c0d5f81ec2e28438f5989a56fdbf1bf13dcf007db37e54a4f735b8c63af97b4",
+        "sha256": "18a0f4204146946102b7d991dd147b87178bad18fe4c698d04bfedbeb24133ca",
+        "version": "1.32.1-1"
+      }
+    ],
+    "sha256": "bd92a7378a7e821ece68bba12118078e3fd679e976d39fdd34af413be55845b5"
+  },
+  "retainedBaseline": {
+    "assembly": "dcdc1663627376dce7c7cf51c8ddb0f5061e5fba",
+    "product": "755699a497b6421b892905149d8fe80044d153c8",
+    "nativeArchive": "tamlinux-native-0.4.4pre.d-0.1-x86_64.pkg.tar.zst",
+    "nativeArchiveSha256": "0bd7f81b887b8b02757dc301584d4d223f16ff7e34fd7255f8007f9564feb5e3"
+  },
+  "sleepIntegration": {
+    "hook": "/usr/lib/systemd/system-sleep/tam-hibernate-swap",
+    "journalTag": "tamlinux-hibernate-swap",
+    "drainLimitSeconds": 60,
+    "restoreFailure": "Saved state retained for retry",
+    "trial": "H1",
+    "selectedImageSizeBytes": 0,
+    "hibernateDelay": "Unchanged consumer policy"
+  },
+  "physicalTestPending": [
+    "Short S3 suspend/resume without draining zram",
+    "Direct S4 hibernate/restore with measured drain and restored zram",
+    "Normal suspend-then-hibernate through the configured RTC delay",
+    "Representative workload drain/resume behavior and H1 success streak"
+  ],
+  "scopeLimit": "Focused sleep integration; e boot providers and native login payload retained. Test activation and physical proof require Fred; no Run, release or old-package removal."
+}

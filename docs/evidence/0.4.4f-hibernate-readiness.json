@@ -1,0 +1,50 @@
+{
+  "version": "0.4.4-f",
+  "productRevision": "98eb75657942cd6645c28490190bc30d012fb070",
+  "nativePackage": {
+    "archive": "tamlinux-native-0.4.4pre.f-0.1-x86_64.pkg.tar.zst",
+    "sha256": "381e799ea39692e5de10def633bd014eb32356d938591647ce5c0a25cb373fb8",
+    "sourceSha256": "25c22d34b94836730fbdb3d2e8df78324aed151edf595e48d61fa3602e97dc1d",
+    "recipeSha256": "548a3e73419a8d6f3c41ae96b472a835e8c6be3afd4664f50a3bbb3bef16eb39",
+    "productRevision": "98eb75657942cd6645c28490190bc30d012fb070"
+  },
+  "nativePayloadComparison": {
+    "added": [
+      "usr/lib/systemd/system-sleep/tam-hibernate-swap"
+    ],
+    "changed": [
+      "usr/share/tamlinux/native-integration.json"
+    ],
+    "removed": [],
+    "allArchiveOwnershipRoot": true
+  },
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.agent-skills"
+    ],
+    "build": "pass",
+    "hibernateHookTests": {
+      "run": 16,
+      "result": "pass",
+      "includes": "Real 60-second timeout, failed restoration retry, S3/S4 dispatch and capacity skips"
+    },
+    "nativeDefaultsTests": {
+      "run": 8,
+      "result": "pass"
+    },
+    "deliveryTests": {
+      "run": 122,
+      "result": "pass"
+    },
+    "nativeMakepkg": "build/check/package passed; final archive payload and root ownership verified"
+  },
+  "runtimeActivation": "Pending exact Test approval",
+  "physicalSleepProof": "Pending"
+}

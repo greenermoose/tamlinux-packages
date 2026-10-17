@@ -46,3 +46,5 @@
 - [2026-10-15 — Native system defaults in tamlinux-native](2026-10-15-native-defaults.md)
 
 | 2026-10-15 | 0.4.3-d contained graphics provider | Codex CLI 0.162.1 | gpt-6.1-sol | [Record](2026-10-15-0.4.3d-graphics-provider.md) |
+
+- [2026-10-17 — 0.4.4f hibernate hook assembly](2026-10-17-hibernate-h1.md)

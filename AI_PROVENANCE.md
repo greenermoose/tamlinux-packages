@@ -152,3 +152,10 @@ starting cutover development. [Session](docs/ai/2026-10-15-0.4.4a-cutover.md).
 Codex CLI `0.163.0` (`gpt-6.1-sol`) implemented and checked the visible
 session selector and native vendor packaging for 0.4.4-a.
 [Session](docs/ai/2026-10-15-sddm-native-greeter.md).
+
+### 2026-10-17 — 0.4.4f hibernate package preparation
+
+Codex CLI `0.163.0` (`gpt-6.1-sol`) pinned the approved H1 implementation,
+built and compared the native package, and passed the eight selected package
+outputs/contracts and 122 delivery tests.
+[Session](docs/ai/2026-10-17-hibernate-h1.md).
