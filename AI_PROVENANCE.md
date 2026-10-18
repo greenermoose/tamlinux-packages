@@ -168,3 +168,12 @@ the native package assembly and prepares the exact 0.4.4g candidate. The five
 Nix outputs, native package, staging tests and transaction fixtures pass;
 activation and fresh-login proof remain pending.
 [Session](docs/ai/2026-10-17-sddm-pam-cleanup.md).
+
+### 2026-10-18 — 0.4.4h package assembly preparation
+
+Codex CLI `0.163.0` (`gpt-6.1-sol`) completed the package-output checks and
+selected Nix candidate build, and prepared the h native and host-recovery
+packages without installation. The source guide test's staged-install check
+failed in the Nix environment; a focused installed-tree navigation contract
+replaced that check and passed. Physical acceptance remains pending.
+[Session](docs/ai/2026-10-18-0.4.4h-assembly.md).

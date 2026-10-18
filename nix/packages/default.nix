@@ -23,20 +23,38 @@ let
     src = sources.tam;
     patches = pkgs.lib.optional (builtins.pathExists "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch")
       "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch";
-    postPatch = "patchShebangs tests";
-    # The command tests read the guide from the source tree, not from $HOME.
-    preCheck = "export TAM_KNOWLEDGE_DIR=$PWD/knowledge";
-    nativeBuildInputs = [ pkgs.python3 ];
+    postPatch = ''
+      patchShebangs tests
+      install -m 755 ${../../tests/tam-package-navigation.sh} tests/tam-package-navigation.sh
+      patchShebangs tests/tam-package-navigation.sh
+    '';
+    nativeBuildInputs = [ pkgs.python3 pkgs.pkg-config ];
     buildInputs = [
       libtam
       pkgs.zlib
+      pkgs.ncurses
+      pkgs.coreutils
+      pkgs.coreutils.info
+      pkgs.texinfo
+      pkgs.man
+      pkgs.groff
     ];
     makeFlags = [
       "PREFIX=$(out)"
       "LIBTAM_PREFIX=${libtam}"
     ];
     doCheck = true;
-    checkPhase = "tests/guide.sh $PWD/build/tam";
+    checkPhase = ''
+      runHook preCheck
+      package_root="$TMPDIR/tam-package"
+      make install DESTDIR="$package_root" PREFIX=/usr LIBTAM_PREFIX=${libtam}
+      tests/tam-package-navigation.sh \
+        "$package_root/usr/bin/tam" \
+        "$package_root/usr/share/tamlinux/knowledge" \
+        "${pkgs.coreutils.info}/share/info:${pkgs.texinfo}/share/info" \
+        "$package_root/usr/share/man:${pkgs.groff}/share/man"
+      runHook postCheck
+    '';
     meta = {
       license = pkgs.lib.licenses.gpl3Plus;
       mainProgram = "tam";
