@@ -28,7 +28,7 @@ let
       install -m 755 ${../../tests/tam-package-navigation.sh} tests/tam-package-navigation.sh
       patchShebangs tests/tam-package-navigation.sh
     '';
-    nativeBuildInputs = [ pkgs.python3 pkgs.pkg-config ];
+    nativeBuildInputs = [ pkgs.python3 pkgs.pkg-config pkgs.makeWrapper ];
     buildInputs = [
       libtam
       pkgs.zlib
@@ -55,6 +55,24 @@ let
         "$package_root/usr/share/man:${pkgs.groff}/share/man" \
         "$version"
       runHook postCheck
+    '';
+    # makeWrapper normalizes away empty path entries; restore the final empty
+    # entry after prefixing so man/Info retain their default search paths.
+    postInstall = ''
+      wrapProgram "$out/bin/tam" \
+        --prefix PATH : ${lib.makeBinPath [ pkgs.man pkgs.groff pkgs.gzip pkgs.bzip2 pkgs.xz pkgs.zstd ]} \
+        --prefix MANPATH : "$out/share/man" \
+        --prefix INFOPATH : "${pkgs.coreutils.info}/share/info:${pkgs.texinfo}/share/info" \
+        --run 'export MANPATH="$MANPATH:" INFOPATH="$INFOPATH:"'
+    '';
+    # Check the final compressed manuals through the actual wrapper, away from
+    # the checkout and without the build's manual/Info search paths.
+    postFixup = ''
+      TAM_PACKAGE_NATURAL_ENV=1 \
+      PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.gnugrep ]} \
+      tests/tam-package-navigation.sh \
+        "$out/bin/tam" "$out/share/tamlinux/knowledge" \
+        wrapped wrapped "$version"
     '';
     meta = {
       license = pkgs.lib.licenses.gpl3Plus;

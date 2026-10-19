@@ -13,10 +13,15 @@ trap 'rm -rf "$tmp"' EXIT
 export HOME="$tmp/home"
 export XDG_CONFIG_HOME="$tmp/config"
 export XDG_STATE_HOME="$tmp/state"
-export TAM_KNOWLEDGE_DIR="$knowledge"
-export INFOPATH="$infopath"
-export MANPATH="$manpath"
+if [[ ${TAM_PACKAGE_NATURAL_ENV:-0} == 1 ]]; then
+    unset TAM_KNOWLEDGE_DIR INFOPATH MANPATH
+else
+    export TAM_KNOWLEDGE_DIR="$knowledge"
+    export INFOPATH="$infopath"
+    export MANPATH="$manpath"
+fi
 mkdir -p "$HOME" "$XDG_CONFIG_HOME" "$XDG_STATE_HOME"
+cd "$tmp"
 
 fail() { printf 'FAIL: %s\n' "$1" >&2; exit 1; }
 pass() { printf 'ok - %s\n' "$1"; }
