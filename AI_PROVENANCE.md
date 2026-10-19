@@ -181,3 +181,5 @@ replaced that check and passed. Physical acceptance remains pending.
 - 2026-10-18: [0.4.4i Tam version selection and Test](docs/ai/2026-10-18-0.4.4i.md), Codex CLI 0.163.0, `gpt-6.1-sol`.
 
 0.4.4i physical acceptance exposed compressed-manual lookup; the same [session](docs/ai/2026-10-18-0.4.4i.md) records the unactivated Develop packaging repair and final-output verification.
+
+- 2026-10-19: [0.4.4j assembly](docs/ai/2026-10-19-0.4.4j.md), Claude Code 2.1.303, `claude-opus-5-5`.

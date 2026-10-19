@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-j",
+  "version": "0.4.4-j",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "9cf265779e4e4487d55c84e1e774ca88628c4c3a",
+  "scope": "packaged Tam manual and Info lookup repair (6b37c75) with tam command 0.31.1 and corpus 0.32.1 unchanged; h native and host companion retained, physical Run gates pending",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792354895,
+      "narHash": "sha256-Mrk1N3YAZwilisOunJhm4O9uaohxhSrGJFFKKf1Q/1A=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "230594d9a92057d45aeeddc9c4baa464eb7099ae",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792423639,
+      "narHash": "sha256-HqZf5RAl2RIreohNp1v6GKI2nWyRhf9Ai7awPzrvMys=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "5c88d3dfef826af7fa0aec1e118fefccd12a597d",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/mxpw508r5zh4rcrj13fzg490kmbsdsgq-tamlinux-shell-0.4.4pre.j.drv",
+      "outputs": {
+        "out": "/nix/store/97dqi24f8r2nk6isw70yvsxrdnzyjx9k-tamlinux-shell-0.4.4pre.j"
+      }
+    },
+    {
+      "drvPath": "/nix/store/8b8ndjw7ijr5v9ai1y0ylpk8qd0bjd65-tamlinux-plugins-0.4.4pre.j.drv",
+      "outputs": {
+        "out": "/nix/store/jyr4mz613hlfrmhjpwvgcvkg0bzby30r-tamlinux-plugins-0.4.4pre.j"
+      }
+    },
+    {
+      "drvPath": "/nix/store/2yvj5jk2rb1jwyz8fnvhb0dq06qalrwk-tamlinux-commands-0.4.4pre.j.drv",
+      "outputs": {
+        "out": "/nix/store/459ixa1absx3hfmq1lspv04yq78s739b-tamlinux-commands-0.4.4pre.j"
+      }
+    },
+    {
+      "drvPath": "/nix/store/vrhb1lfg2lv1bi0bh0gs9nah1kzx9byx-tam-0.31.1.drv",
+      "outputs": {
+        "out": "/nix/store/b6kbm9ghl8jriw4kpxkayx0dnkn10rbh-tam-0.31.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/47ii6v1qb9wnwl6z0wxql24wx2zghyqj-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/bc2cih7a5ifd4j1vbjnaiscih1046dlw-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/k4vixq0d0zf8hcjkigvqr675ichlnbw5-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/8dbpwch24cirzgd9g0h271p9faww1m8d-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass",
+    "tamCommandVersion": "0.31.1",
+    "tamCorpusVersion": "0.32.1",
+    "hostCompanion": {
+      "name": "tamlinux-host-recovery",
+      "version": "0.4.4pre.h-1",
+      "archiveSha256": "c32eb23b7d7a10b76cfa752506b89fff50e741761b6a125954d5504d1b97b3dc",
+      "manifestSha256": "3b90d986e6e7c2a437988a759e136211af49e97692cb70ae0abe1dd5f8e894fd",
+      "recipeSha256": "89bd9324973a5a8420afdbb53702e8e9904766a5c815a0419c02e89e5b7ac506"
+    },
+    "nativeReuse": {
+      "result": "pass",
+      "originCandidate": "0.4.4-h",
+      "runtimeSourceDiff": "desktop/ and commands/ unchanged from h and i; native and companion reused intentionally; archive SHA-256 rechecked 2026-10-19"
+    },
+    "tamPackageNavigationContract": {
+      "result": "pass",
+      "command": "derivation postFixup navigation contract on the final wrapped output, isolated, without injected search paths"
+    },
+    "tamManualHostProbes": {
+      "result": "pass",
+      "run": 6,
+      "scope": "tam man tam, tam man ls and tam info coreutils from the session scratch directory, with MANPATH unset and set; cultivar reads the installed i ~/.config/tamlinux/version at runtime"
+    },
+    "tamDerivationDelta": "differs from the Develop-verified 6b37c75 output only by the product source store path of the unchanged desktop/native/providers/tam-arch-host-profile.patch"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.4.4pre.h-0.1",
+    "archive": "tamlinux-native-0.4.4pre.h-0.1-x86_64.pkg.tar.zst",
+    "sha256": "d57cb1da73aacc4d9327d124fc76fb1fa2cbc0cd1ec766399cbf0c09523dfc92",
+    "sourceSha256": "b0aeda1ebc0edf3b07751ea60c7d7f6d658cd48def01618458361780b6dc1a7f",
+    "recipeSha256": "b8969b4419c26ed3deec63accbb3674bdc5da33f23582aaae8c322c438cf41e6",
+    "productRevision": "6ea292d0a22a7ace8b6757ae13037054a86b131d",
+    "sourceDateEpoch": 1792349425,
+    "buildDate": 1792349425
+  }
+}
