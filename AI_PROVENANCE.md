@@ -183,3 +183,5 @@ replaced that check and passed. Physical acceptance remains pending.
 0.4.4i physical acceptance exposed compressed-manual lookup; the same [session](docs/ai/2026-10-18-0.4.4i.md) records the unactivated Develop packaging repair and final-output verification.
 
 - 2026-10-19: [0.4.4j assembly](docs/ai/2026-10-19-0.4.4j.md), Claude Code 2.1.303, `claude-opus-5-5`.
+
+- 2026-10-19: [0.4.4k assembly](docs/ai/2026-10-19-0.4.4k.md), Claude Code 2.1.303, `claude-opus-5-5`.

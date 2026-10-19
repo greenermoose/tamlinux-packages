@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-k",
+  "version": "0.4.4-k",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "3a4945fe629a8a7b45d6516d1f57ccc649897023",
+  "scope": "fred.workspaces 2.0.7 reconcile race fix, bar settings refresh and tam-deploy live paths (plan 37); tam 0.31.1 / corpus 0.32.1 unchanged; h native and host companion retained, physical Run gates pending",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792354895,
+      "narHash": "sha256-Mrk1N3YAZwilisOunJhm4O9uaohxhSrGJFFKKf1Q/1A=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "230594d9a92057d45aeeddc9c4baa464eb7099ae",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792441659,
+      "narHash": "sha256-0q+581TVdgUCCsZpb0RSWA0SlyZ7hcR4pIii9MM/WSE=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "fc693272e6299b7e06dc8bfefa7f4c97bbe1d0f8",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/4wdiy2rlvx4y06jx36mnshnkqa1l4rdw-tamlinux-shell-0.4.4pre.k.drv",
+      "outputs": {
+        "out": "/nix/store/j4lqs8j3l8cn64gz7vklz73gmkm3gw4g-tamlinux-shell-0.4.4pre.k"
+      }
+    },
+    {
+      "drvPath": "/nix/store/bb31dkf8l42jw7fy25p5pkan0vfl8vbk-tamlinux-plugins-0.4.4pre.k.drv",
+      "outputs": {
+        "out": "/nix/store/vy4dnjhv500vb4pjms51lbkxq2n0nigx-tamlinux-plugins-0.4.4pre.k"
+      }
+    },
+    {
+      "drvPath": "/nix/store/4lc589yzxrl7c0a5rc78zh04xywrxy7n-tamlinux-commands-0.4.4pre.k.drv",
+      "outputs": {
+        "out": "/nix/store/2pvs1rwjxc0v90d65qrcmh96cq0a9mpw-tamlinux-commands-0.4.4pre.k"
+      }
+    },
+    {
+      "drvPath": "/nix/store/52wnswgk8yfyams0xvn2p2v93hcs5gd2-tam-0.31.1.drv",
+      "outputs": {
+        "out": "/nix/store/dz65574zim4v7hpwi8i2fwvb9z639665-tam-0.31.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/d1jcwsfl1m9vnx590ds7gindrgydy8ax-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/4d5ikyxysp1rm7628jdirpxzzxxm2ima-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/qq1bxm4ifxn6653f6sia27m7rz4xplcl-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/d6ccw36062p17s98fyyw4jp4r05z8ilq-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass",
+    "tamCommandVersion": "0.31.1",
+    "tamCorpusVersion": "0.32.1",
+    "hostCompanion": {
+      "name": "tamlinux-host-recovery",
+      "version": "0.4.4pre.h-1",
+      "archiveSha256": "c32eb23b7d7a10b76cfa752506b89fff50e741761b6a125954d5504d1b97b3dc",
+      "manifestSha256": "3b90d986e6e7c2a437988a759e136211af49e97692cb70ae0abe1dd5f8e894fd",
+      "recipeSha256": "89bd9324973a5a8420afdbb53702e8e9904766a5c815a0419c02e89e5b7ac506"
+    },
+    "nativeReuse": {
+      "result": "pass",
+      "originCandidate": "0.4.4-h",
+      "runtimeSourceDiff": "j->k changes desktop/plugins/fred.workspaces, desktop/shell/host (BarWindow.qml, compositor_commands.py, hyprland_backend.py), desktop/fixtures, desktop/launch-clock-proof and commands/tam-deploy; none of these paths is in the h native or host-recovery archive (file lists compared 2026-10-19), so both are reused intentionally"
+    },
+    "developTests": {
+      "result": "pass",
+      "suites": "desktop/tests 625 (1 skipped); fred.workspaces plugin 69 including node owner-rule tests; commands/tam-deploy 42; desktop/widget-proof fred.workspaces rendered without problems",
+      "notRun": "live launch-clock-proof --selftest (opens windows and takes keyboard focus on the live session; left for Test with Fred's agreement)"
+    },
+    "builtContent": "plugins output carries fred.workspaces 2.0.7 with Model.js and move-workspace-to; shell output carries the BarWindow settings refresh and the move-workspace-to batch step; commands output carries tam-deploy live paths"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.4.4pre.h-0.1",
+    "archive": "tamlinux-native-0.4.4pre.h-0.1-x86_64.pkg.tar.zst",
+    "sha256": "d57cb1da73aacc4d9327d124fc76fb1fa2cbc0cd1ec766399cbf0c09523dfc92",
+    "sourceSha256": "b0aeda1ebc0edf3b07751ea60c7d7f6d658cd48def01618458361780b6dc1a7f",
+    "recipeSha256": "b8969b4419c26ed3deec63accbb3674bdc5da33f23582aaae8c322c438cf41e6",
+    "productRevision": "6ea292d0a22a7ace8b6757ae13037054a86b131d",
+    "sourceDateEpoch": 1792349425,
+    "buildDate": 1792349425
+  }
+}
