@@ -177,3 +177,5 @@ packages without installation. The source guide test's staged-install check
 failed in the Nix environment; a focused installed-tree navigation contract
 replaced that check and passed. Physical acceptance remains pending.
 [Session](docs/ai/2026-10-18-0.4.4h-assembly.md).
+
+- 2026-10-18: [0.4.4i Tam version selection and Test](docs/ai/2026-10-18-0.4.4i.md), Codex CLI 0.163.0, `gpt-6.1-sol`.

@@ -52,7 +52,8 @@ let
         "$package_root/usr/bin/tam" \
         "$package_root/usr/share/tamlinux/knowledge" \
         "${pkgs.coreutils.info}/share/info:${pkgs.texinfo}/share/info" \
-        "$package_root/usr/share/man:${pkgs.groff}/share/man"
+        "$package_root/usr/share/man:${pkgs.groff}/share/man" \
+        "$version"
       runHook postCheck
     '';
     meta = {

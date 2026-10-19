@@ -6,6 +6,7 @@ tam=${1:?usage: tam-package-navigation.sh TAM KNOWLEDGE INFOPATH MANPATH}
 knowledge=${2:?usage: tam-package-navigation.sh TAM KNOWLEDGE INFOPATH MANPATH}
 infopath=${3:?usage: tam-package-navigation.sh TAM KNOWLEDGE INFOPATH MANPATH}
 manpath=${4:?usage: tam-package-navigation.sh TAM KNOWLEDGE INFOPATH MANPATH}
+command_version=${5:?expected command version is required}
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
 
@@ -21,7 +22,7 @@ fail() { printf 'FAIL: %s\n' "$1" >&2; exit 1; }
 pass() { printf 'ok - %s\n' "$1"; }
 
 version=$(<"$knowledge/version")
-"$tam" --version | grep -q '^tam command 0.30.0' \
+"$tam" --version | grep -Fxq "tam command $command_version" \
     || fail 'packaged command version is wrong'
 "$tam" --version | grep -Fq "knowledge corpus $version" \
     || fail 'packaged corpus version is wrong'
