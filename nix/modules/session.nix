@@ -40,6 +40,13 @@ in {
       }
     ];
     xdg.configFile = {
+      # The native unit owns startup. An explicit consumer autostart choice wins.
+      "autostart/org.fcitx.Fcitx5.desktop".text = lib.mkDefault ''
+        [Desktop Entry]
+        Type=Application
+        Name=Fcitx 5
+        Hidden=true
+      '';
       "tamlinux/session/hyprland.lua".text =
         "dofile(\"${shell.package}/share/tamlinux/session/entry.lua\")\n";
       "uwsm/env.d/10-tamlinux.sh".text = ''

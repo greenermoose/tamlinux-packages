@@ -185,3 +185,7 @@ replaced that check and passed. Physical acceptance remains pending.
 - 2026-10-19: [0.4.4j assembly](docs/ai/2026-10-19-0.4.4j.md), Claude Code 2.1.303, `claude-opus-5-5`.
 
 - 2026-10-19: [0.4.4k assembly](docs/ai/2026-10-19-0.4.4k.md), Claude Code 2.1.303, `claude-opus-5-5`.
+
+2026-10-20: Codex CLI `0.163.0` (`gpt-6.1-sol`) implements Fred-approved
+single-owner input-method startup for Develop, preserving consumer precedence.
+[Session](docs/ai/2026-10-20-native-input-startup.md).

@@ -21,6 +21,9 @@ let
   makeHome = makeHomeWith { };
   hm = makeHome "/home/alex/.local/state";
   withoutDefaults = (makeHomeWith { tamlinux.session.userDefaults.enable = false; } "/home/alex/.local/state").config;
+  customAutostart = (makeHomeWith {
+    xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text = "[Desktop Entry]\nHidden=false\n";
+  } "/home/alex/.local/state").config;
   defaults = "${components.tamlinux-shell}/share/tamlinux/user-defaults";
   customHome = makeHome "/home/alex/state with spaces";
   c = hm.config;
@@ -43,10 +46,12 @@ assert c.home.activation ? tamlinuxUserDefaults;
 assert c.xdg.configFile."bash/tamlinux".source == "${defaults}/bash";
 assert !(withoutDefaults.home.activation ? tamlinuxUserDefaults);
 assert !(withoutDefaults.xdg.configFile ? "bash/tamlinux");
+assert customAutostart.xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text == "[Desktop Entry]\nHidden=false\n";
 assert unit.ExecStart == [ "${pkgs.python3}/bin/python3 -I /home/alex/.local/share/tamlinux/shell/host/session_start.py" ];
 pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/session/hyprland.lua
   test -f ${files}/.config/uwsm/env.d/10-tamlinux.sh
+  grep -qx 'Hidden=true' ${files}/.config/autostart/org.fcitx.Fcitx5.desktop
   test -x ${files}/.local/bin/tam-hyprland-session
   test ! -e ${files}/.local/bin/tamlinux-hyprland-session
   test -x ${components.tamlinux-shell}/bin/tam-hyprland-session
