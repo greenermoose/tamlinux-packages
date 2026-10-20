@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.4-m",
+  "version": "0.4.4-m",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "7750421c541759cb69f36b96cc299ef8c9e7e1f9",
+  "scope": "Display-only 0.4.4 milestone label; unchanged component pins and native l/host companion h; no activation",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792354895,
+      "narHash": "sha256-Mrk1N3YAZwilisOunJhm4O9uaohxhSrGJFFKKf1Q/1A=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "230594d9a92057d45aeeddc9c4baa464eb7099ae",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792532519,
+      "narHash": "sha256-KEombNG8PNgE6LL0suAKgIZOq3MHFTK5kgnRRqJds4s=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "ef3bc33586b33057a5035f9cc6fcb76924b47dc9",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/ydskvalhc9x6bfhg6r841avwak09sj7w-tamlinux-shell-0.4.4pre.m.drv",
+      "outputs": {
+        "out": "/nix/store/r995nzz5xldz9sxj60xhkc1xj7ckmak2-tamlinux-shell-0.4.4pre.m"
+      }
+    },
+    {
+      "drvPath": "/nix/store/bfbazcw5jjprd1richyxlf7d5sc5vvn2-tamlinux-plugins-0.4.4pre.m.drv",
+      "outputs": {
+        "out": "/nix/store/7y0zknhkd5wyby3x91msnmj82lm50yfq-tamlinux-plugins-0.4.4pre.m"
+      }
+    },
+    {
+      "drvPath": "/nix/store/lmx396j1c3lmxq5npa03dwdawyixncrv-tamlinux-commands-0.4.4pre.m.drv",
+      "outputs": {
+        "out": "/nix/store/fsr8mgm9d33zzb6qmz79chbs379mjfzc-tamlinux-commands-0.4.4pre.m"
+      }
+    },
+    {
+      "drvPath": "/nix/store/5ak2gv2adg1449807lhbmy9y05za1mbj-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/22z2n46z1wvb0r1rhqmwsaspn4zb8s8v-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/mv5h53sp6qjv1vg0piqxj0ijpvwqjy97-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/k4rq9cw4igkd9s88ipxbfy46rmr16q19-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.4.4pre.l-0.1",
+    "archive": "tamlinux-native-0.4.4pre.l-0.1-x86_64.pkg.tar.zst",
+    "sha256": "b7234288640b6fe5f7ff8a7e977d6539845087fb4cfcd9b79ff3081538ef6c38",
+    "productRevision": "1aa4eaf51046d05c74142935c7ed39486315f8d6",
+    "reuseReason": "l-to-m runtime changes only the version label widget and package version metadata; native/session/boot/sleep inputs and provider pins are unchanged"
+  },
+  "hostRecoveryPackage": {
+    "name": "tamlinux-host-recovery",
+    "version": "0.4.4pre.h-1",
+    "archive": "tamlinux-host-recovery-0.4.4pre.h-1-x86_64.pkg.tar.zst",
+    "sha256": "c32eb23b7d7a10b76cfa752506b89fff50e741761b6a125954d5504d1b97b3dc",
+    "reuseReason": "No host recovery source or native integration change"
+  }
+}
