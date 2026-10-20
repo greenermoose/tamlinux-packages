@@ -1,4 +1,4 @@
-"""tools/prepare-candidate.py: exact pins, unused letters, kept records, no promotion."""
+"""tools/prepare-candidate.py: exact pins, unused versions, kept records, no promotion."""
 import importlib.util
 import json
 import os
@@ -107,12 +107,20 @@ class PrepareCandidate(unittest.TestCase):
         calls = [line.split()[0] for line in self.log.read_text().splitlines()]
         self.assertEqual(set(calls), {"flake", "build"})
 
-    def test_letters_are_never_reused_or_moved_backwards(self):
+    def test_versions_are_never_reused_or_moved_backwards(self):
         self.refused("already has a delivery record", "version", "0.4.4-b")
         self.refused("does not come after", "version", "0.4.4-a")
         self.refused("not X.Y.Z", "version", "0.4.4c")
-        self.ok("version", "0.4.4")  # The release follows its letters.
+        self.ok("version", "0.4.4")  # A plain number sorts after its letters.
         self.assertEqual((self.root / "VERSION").read_text(), "0.4.4\n")
+
+    def test_plain_patch_numbers_follow_the_letters(self):
+        self.ok("version", "0.4.5")
+        self.assertEqual((self.root / "VERSION").read_text(), "0.4.5\n")
+        (self.root / "deliveries/tamlinux-0.4.5.json").write_text('{"kept": true}\n')
+        self.refused("already has a delivery record", "version", "0.4.5")
+        self.refused("does not come after", "version", "0.4.4-c")
+        self.ok("version", "0.4.6")
 
     def test_pins_must_be_exact_known_inputs(self):
         self.refused("exact 40-character", "pin", "tamlinux=develop")

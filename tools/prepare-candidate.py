@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Prepare a Tamlinux letter candidate in this assembly, one step at a time.
+"""Prepare a Tamlinux candidate in this assembly, one step at a time.
 
-    tools/prepare-candidate.py version 0.4.4-c
+    tools/prepare-candidate.py version 0.4.5
     tools/prepare-candidate.py pin tamlinux=<40-hex> [tam=<40-hex> ...]
     tools/prepare-candidate.py build
     tools/prepare-candidate.py record --parent <assembly rev> --scope "..."
@@ -9,8 +9,8 @@
 
 Every step is optional and repeatable, and none of them commits, pushes,
 promotes or activates anything: committing the assembly and Fred's Test and
-Run stay explicit. Exact revisions only. A letter that already has a
-delivery record is never reused (D135), and an existing record is never
+Run stay explicit. Exact revisions only. A version that already has a
+delivery record is never reused (D135, D178), and an existing record is never
 overwritten. Build evidence goes to the private runtime state directory,
 outside every repository.
 """
@@ -49,7 +49,7 @@ def read_version(root: Path) -> str:
 def version_key(version: str) -> tuple:
     match = VERSION_FORM.fullmatch(version)
     if not match:
-        fail(f"version {version!r} is not X.Y.Z or X.Y.Z-<letter>")
+        fail(f"version {version!r} is not X.Y.Z (or a historical X.Y.Z-<letter>)")
     major, minor, patch, letter = match.groups()
     # A letter precedes its release: 0.4.4-c < 0.4.4.
     return int(major), int(minor), int(patch), letter or "~"
@@ -79,7 +79,7 @@ def flake_revs(root: Path, inputs: dict[str, dict]) -> dict[str, list[str]]:
 def cmd_version(root: Path, args) -> None:
     current = read_version(root)
     if delivery_path(root, args.version).exists():
-        fail(f"{args.version} already has a delivery record; letters are never reused, use the next one")
+        fail(f"{args.version} already has a delivery record; versions are never reused, use the next one")
     if version_key(args.version) <= version_key(current):
         fail(f"{args.version} does not come after the current {current}")
     (root / "VERSION").write_text(args.version + "\n", encoding="utf-8")
@@ -202,10 +202,10 @@ def cmd_check(root: Path, args) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Prepare a Tamlinux letter candidate")
+    parser = argparse.ArgumentParser(description="Prepare a Tamlinux candidate")
     parser.add_argument("--root", default=str(ROOT), help=argparse.SUPPRESS)
     sub = parser.add_subparsers(dest="command", required=True)
-    p = sub.add_parser("version", help="set VERSION to the next unused letter")
+    p = sub.add_parser("version", help="set VERSION to the next unused version")
     p.add_argument("version")
     p = sub.add_parser("pin", help="pin inputs to exact commits and update flake.lock")
     p.add_argument("pins", nargs="+", metavar="INPUT=REV")
@@ -214,7 +214,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--evidence", help="evidence directory (default: ~/.local/state/tamlinux/candidates/<version>)")
     p = sub.add_parser("record", help="write deliveries/tamlinux-<version>.json from the lock and build")
     p.add_argument("--parent", required=True, help="exact parent assembly commit")
-    p.add_argument("--scope", required=True, help="what this letter changes")
+    p.add_argument("--scope", required=True, help="what this candidate changes")
     p.add_argument("--build", help="build.json (default: the evidence directory)")
     p.add_argument("--extra", help="JSON object of further fields; its verification merges")
     p = sub.add_parser("check", help="read-only consistency check of VERSION, pins and record")

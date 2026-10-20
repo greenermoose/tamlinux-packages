@@ -20,11 +20,11 @@ revision on `test`. A branch name identifies the stage; the pinned revision
 identifies the bytes. Deployment must not resolve a moving branch afresh.
 
 `tools/prepare-candidate.py` performs these Develop steps one at a time:
-`version` (next unused letter), `pin INPUT=<commit>` (exact commits, checked
+`version` (next unused version), `pin INPUT=<commit>` (exact commits, checked
 against the resolved lock), `build` (standard outputs and checks, without
 links; evidence outside the repository), `record` (the delivery record from
 the lock and build) and a read-only `check`. It never commits, promotes or
-activates, never reuses a letter and never overwrites a delivery record.
+activates, never reuses a version and never overwrites a delivery record.
 
 Build the Tamlinux package outputs from that recorded assembly. The consumer's
 Home Manager configuration pins the exact delivery revision and selects its
@@ -95,7 +95,8 @@ The packaged 0.4.1 assembly was tested, run and released on 2026-10-09.
 The next Develop candidate is **0.4.2-d**, superseding the recorded c Test
 assembly without changing its identity. Its shell, plugin and command package
 names use `0.4.2pre.d`, which sorts between 0.4.1 and 0.4.2; `VERSION` keeps
-`0.4.2-d`. A changed candidate uses the next unused letter. The fixture checks
+`0.4.2-d`. A changed candidate uses the next unused version: plain patch numbers
+from 0.4.5 (D178), letters through 0.4.4-m. The fixture checks
 candidate spelling and version ordering; the consumer version comes from the
 selected assembly.
 

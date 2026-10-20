@@ -113,7 +113,9 @@ let
     then import ../native/asdcontrol.nix { inherit pkgs product; } else null;
   productVersion = lib.trim (builtins.readFile "${product}/VERSION");
   # VERSION keeps SemVer spelling; package managers must sort letter
-  # candidates before the corresponding release.
+  # candidates before the corresponding release. Plain X.Y.Z (every
+  # candidate from 0.4.5) passes through unchanged; the letter mapping serves
+  # the historical letter candidates.
   letterVersion = builtins.match "([0-9]+\\.[0-9]+\\.[0-9]+)-([a-z]+)" productVersion;
   packageVersion = if letterVersion == null then productVersion
     else "${builtins.elemAt letterVersion 0}pre.${builtins.elemAt letterVersion 1}";

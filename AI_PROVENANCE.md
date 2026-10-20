@@ -193,3 +193,6 @@ single-owner input-method startup for Develop, preserving consumer precedence.
 2026-10-20: Codex CLI `0.163.0` (`gpt-6.1-sol`) prepares the display-only
 0.4.4-m assembly, retaining l component pins and native integration.
 [Session](docs/ai/2026-10-20-tamversion-milestone-label.md).
+
+2026-10-20: Claude Code `2.1.305` (`claude-sonnet-5-5`) states plain patch
+candidate versions in the preparation helper. [Session](docs/ai/2026-10-20-plain-patch-versions.md).
