@@ -96,7 +96,7 @@ The next Develop candidate is **0.4.2-d**, superseding the recorded c Test
 assembly without changing its identity. Its shell, plugin and command package
 names use `0.4.2pre.d`, which sorts between 0.4.1 and 0.4.2; `VERSION` keeps
 `0.4.2-d`. A changed candidate uses the next unused version: plain patch numbers
-from 0.4.5 (D178), letters through 0.4.4-m. The fixture checks
+from 0.4.5 (D178); the 0.4.4 series keeps letters until one is accepted for Run. The fixture checks
 candidate spelling and version ordering; the consumer version comes from the
 selected assembly.
 
