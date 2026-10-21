@@ -552,6 +552,10 @@ let
         cp -R ${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/. $out/share/fonts/
         cp VERSION $out/share/tamlinux/assets/version
         cp desktop/assets/LICENSE-omarchy $out/share/tamlinux/assets/fonts/LICENSE
+        ${lib.optionalString (has "desktop/assets/icons/tamlinux-discord.png") ''
+          install -Dm644 desktop/assets/icons/tamlinux-discord.png \
+            $out/share/icons/hicolor/256x256/apps/tamlinux-discord.png
+        ''}
       ''}
       ${lib.optionalString (lib.elem "tam-capture-region" commandNames) ''
         mkdir -p $out/share/tamlinux

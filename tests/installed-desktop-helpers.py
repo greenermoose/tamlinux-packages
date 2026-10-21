@@ -673,6 +673,23 @@ elif name == 'hyprctl':
             archives = [json.loads(p.read_text()) for p in (journal / 'new-writes').rglob('*.json')]
             assert any(p['state'].get('bytes') == 'd2luZG93cwo=' for p in archives)
             checks.append('installed finite migration converts legacy state and preserves later writes during explicit rollback')
+            icon = args.commands / 'share/tamlinux/assets/icons/tamlinux-discord.png'
+            if icon.is_file():
+                themed = args.commands / 'share/icons/hicolor/256x256/apps/tamlinux-discord.png'
+                assert themed.read_bytes() == icon.read_bytes()
+                assert themed.read_bytes().startswith(b'\x89PNG\r\n\x1a\n')
+                app = migration / 'data/applications/Discord.desktop'
+                app.parent.mkdir(parents=True, exist_ok=True)
+                original = b'[Desktop Entry]\nExec=omarchy-launch-webapp https://discord.com/channels/@me\nIcon=omarchy-discord\n'
+                app.write_bytes(original)
+                icon_journal = journal.with_name('discord')
+                plan = json.loads(run('tam-migrate-desktop', 'plan', str(icon_journal), extra_env=extra).stdout)
+                assert plan['status'] == 'prepared'
+                run('tam-migrate-desktop', 'apply', str(icon_journal), extra_env=extra)
+                assert app.read_bytes() == original.replace(b'omarchy-launch-webapp', b'tam-launch-webapp').replace(b'Icon=omarchy-discord', b'Icon=tamlinux-discord')
+                run('tam-migrate-desktop', 'rollback', str(icon_journal), extra_env=extra)
+                assert app.read_bytes() == original
+                checks.append('installed Discord launcher migration resolves an owned hicolor icon and restores exact original bytes')
             checkpoint = migration / 'state/tamlinux/migration/before-test'
             layout = migration / 'config/tamlinux/hypr/monitors.lua'
             layout.parent.mkdir(parents=True)

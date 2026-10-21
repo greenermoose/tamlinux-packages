@@ -202,3 +202,7 @@ candidate versions in the preparation helper. [Session](docs/ai/2026-10-20-plain
 
 Codex CLI `0.163.0` (`gpt-6.1-sol`) prepared the candidate under Fred’s direction.
 [Session](docs/ai/2026-10-20-0.4.5-preparation.md). No activation or promotion.
+
+2026-10-20: Codex CLI `0.163.0` (`gpt-6.1-sol`) preserves the Discord
+launcher icon through the owned package and explicit preserving migration.
+[Session](docs/ai/2026-10-20-discord-icon.md).
