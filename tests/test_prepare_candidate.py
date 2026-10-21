@@ -111,8 +111,13 @@ class PrepareCandidate(unittest.TestCase):
         self.refused("already has a delivery record", "version", "0.4.4-b")
         self.refused("does not come after", "version", "0.4.4-a")
         self.refused("not X.Y.Z", "version", "0.4.4c")
-        self.ok("version", "0.4.4")  # A plain number sorts after its letters.
-        self.assertEqual((self.root / "VERSION").read_text(), "0.4.4\n")
+        self.refused("already has lettered candidates", "version", "0.4.4")
+        self.assertEqual((self.root / "VERSION").read_text(), "0.4.4-b\n")
+
+    def test_letters_end_at_0_4_5(self):
+        self.refused("letters ended at 0.4.5", "version", "0.4.5-a")
+        self.refused("letters ended at 0.4.5", "version", "0.5.0-a")
+        self.ok("version", "0.4.4-c")  # Letters below 0.4.5 still work.
 
     def test_plain_patch_numbers_follow_the_letters(self):
         self.ok("version", "0.4.5")

@@ -15,6 +15,9 @@ assert c.home.file.".local/share/tamlinux/shell".source
   == "${c.tamlinux.shell.package}/share/tamlinux/shell";
 assert c.home.file.".local/share/tamlinux/shell-revision".text
   == "${c.tamlinux.shell.package.passthru.revision}\n";
+assert c.tamlinux.shell.package.passthru.cultivar == null ||
+  c.home.file.".config/tamlinux/cultivar".text
+    == "${c.tamlinux.shell.package.passthru.cultivar}\n";
 assert !c.tamlinux.shell.package.passthru.features.menu ||
   (c.xdg.configFile."tamlinux/menu".source != null &&
     c.home.file.".local/bin/tam-menu".source != null &&

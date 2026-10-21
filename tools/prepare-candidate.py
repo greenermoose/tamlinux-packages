@@ -11,7 +11,8 @@ Every step is optional and repeatable, and none of them commits, pushes,
 promotes or activates anything: committing the assembly and Fred's Test and
 Run stay explicit. Exact revisions only. A version that already has a
 delivery record is never reused (D135, D178), and an existing record is never
-overwritten. Build evidence goes to the private runtime state directory,
+overwritten. Letters end at 0.4.5, and a plain number never follows its own
+letters (D180). Build evidence goes to the private runtime state directory,
 outside every repository.
 """
 
@@ -28,6 +29,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 REV = re.compile(r"[0-9a-f]{40}")
 VERSION_FORM = re.compile(r"(\d+)\.(\d+)\.(\d+)(?:-([a-z]))?")
+LETTERS_END = (0, 4, 5)  # The first plain-number candidate (D180).
 DEFAULT_TARGETS = (
     ".#tamlinux-shell", ".#tamlinux-plugins", ".#tamlinux-commands",
     ".#checks.x86_64-linux.installed-components", ".#checks.x86_64-linux.example-contract",
@@ -82,6 +84,12 @@ def cmd_version(root: Path, args) -> None:
         fail(f"{args.version} already has a delivery record; versions are never reused, use the next one")
     if version_key(args.version) <= version_key(current):
         fail(f"{args.version} does not come after the current {current}")
+    *number, letter = VERSION_FORM.fullmatch(args.version).groups()
+    number = tuple(int(part) for part in number)
+    if letter and number >= LETTERS_END:
+        fail(f"{args.version}: letters ended at 0.4.5 (D180); use a plain X.Y.Z")
+    if not letter and any((root / "deliveries").glob(f"tamlinux-{args.version}-[a-z].json")):
+        fail(f"{args.version} already has lettered candidates; use the next patch number (D180)")
     (root / "VERSION").write_text(args.version + "\n", encoding="utf-8")
     print(f"version: {current} -> {args.version}")
 
@@ -137,7 +145,7 @@ def cmd_record(root: Path, args) -> None:
     version = read_version(root)
     path = delivery_path(root, version)
     if path.exists():
-        fail(f"{path.relative_to(root)} exists; a prepared letter's record is kept, use the next letter")
+        fail(f"{path.relative_to(root)} exists; a prepared candidate's record is kept, use the next version")
     if not REV.fullmatch(args.parent):
         fail("--parent must be the exact 40-character parent assembly commit")
     build_file = Path(args.build) if args.build else evidence_dir(version) / "build.json"

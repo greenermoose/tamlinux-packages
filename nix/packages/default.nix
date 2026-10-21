@@ -112,6 +112,9 @@ let
   asdcontrol = if has "desktop/native/providers/asdcontrol/asdcontrol.cpp"
     then import ../native/asdcontrol.nix { inherit pkgs product; } else null;
   productVersion = lib.trim (builtins.readFile "${product}/VERSION");
+  # The minor version's cultivar name (D181); products before 0.4.5 have none.
+  productCultivar = if has "CULTIVAR"
+    then lib.trim (builtins.readFile "${product}/CULTIVAR") else null;
   # VERSION keeps SemVer spelling; package managers must sort letter
   # candidates before the corresponding release. Plain X.Y.Z (every
   # candidate from 0.4.5) passes through unchanged; the letter mapping serves
@@ -419,6 +422,7 @@ let
         nativeBuildInputs = [ pkgs.bash pkgs.python3 pkgs.makeWrapper ];
         passthru = {
           version = productVersion;
+          cultivar = productCultivar;
           revision = product.rev;
           deploymentSelectionRecord = true;
           inherit features protocolShadowId;
@@ -430,6 +434,7 @@ let
         cp -R ${product}/desktop/shell $out/share/tamlinux/
         chmod -R u+w $out/share/tamlinux/shell
         cp ${product}/VERSION $out/share/tamlinux/version
+        ${lib.optionalString (productCultivar != null) "cp ${product}/CULTIVAR $out/share/tamlinux/cultivar"}
         ${lib.optionalString features.agentSkills ''
           cp -R ${product}/desktop/skills $out/share/tamlinux/skills
         ''}

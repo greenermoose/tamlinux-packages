@@ -126,6 +126,10 @@ in
           plugins = selectedPlugins;
         };
       }
+      # Beside the version file; `tam` prints "Tamlinux cultivar <Name> <version>".
+      // lib.optionalAttrs ((shell.passthru.cultivar or null) != null) {
+        ".config/tamlinux/cultivar".text = "${shell.passthru.cultivar}\n";
+      }
       // lib.optionalAttrs features.menu {
         ".local/bin/tam-menu".source = "${shell}/bin/tam-menu";
       }
