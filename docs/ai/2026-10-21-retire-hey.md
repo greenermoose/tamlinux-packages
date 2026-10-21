@@ -2,6 +2,7 @@
 
 - **CLI Tool**: Codex CLI (`codex`) `0.163.0`
 - **Model**: `gpt-6.1-sol`
+- **Implementation commit**: `3c4a8f9`
 - **Transcript**: Retained privately by the author.
 - **Guiding prompt**:
   > Do the most important next step to finish Tamlinux 0.4 Incipiens. Try to get something checked off the 0.4-CHECKLIST.
