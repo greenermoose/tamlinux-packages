@@ -357,20 +357,26 @@ elif name == 'hyprctl':
         assert not (root / 'NEVER').exists()
         checks.append('webapp launch resolves packaged XDG/resolver/jq/setsid and retains literal URL argv')
 
-        run('tam-webapp-handler-hey', 'mailto:person@example.invalid?subject=Hello%20there')
-        launch = json.loads(launch_log.read_text().splitlines()[-1])
-        assert launch['name'] == 'chromium'
-        assert launch['args'] == ['--profile-directory=Probe Profile',
-            '--app=https://app.hey.com/messages/new?to=person@example.invalid?subject=Hello%20there']
-        checks.append('HEY handler resolves packaged sed and owned webapp/browser chain with literal mailto data')
-
-        for scheme in ('zoommtg', 'zoomus'):
-            run('tam-webapp-handler-zoom', scheme + '://zoom.us/join?confno=123456&pwd=literal%2Bpass')
+        # Older pinned products predate these paired handlers. Exercise the
+        # new closure when present without invalidating an unchanged assembly.
+        handlers = [args.commands / 'bin' / ('tam-webapp-handler-' + kind)
+                    for kind in ('hey', 'zoom')]
+        if any(path.exists() for path in handlers):
+            assert all(path.is_file() for path in handlers), 'incomplete URI-handler pair'
+            run('tam-webapp-handler-hey', 'mailto:person@example.invalid?subject=Hello%20there')
             launch = json.loads(launch_log.read_text().splitlines()[-1])
             assert launch['name'] == 'chromium'
             assert launch['args'] == ['--profile-directory=Probe Profile',
-                '--app=https://app.zoom.us/wc/join/123456?pwd=literal%2Bpass']
-        checks.append('both Zoom protocols resolve packaged sed and owned webapp/browser chain')
+                '--app=https://app.hey.com/messages/new?to=person@example.invalid?subject=Hello%20there']
+            checks.append('HEY handler resolves packaged sed and owned webapp/browser chain with literal mailto data')
+
+            for scheme in ('zoommtg', 'zoomus'):
+                run('tam-webapp-handler-zoom', scheme + '://zoom.us/join?confno=123456&pwd=literal%2Bpass')
+                launch = json.loads(launch_log.read_text().splitlines()[-1])
+                assert launch['name'] == 'chromium'
+                assert launch['args'] == ['--profile-directory=Probe Profile',
+                    '--app=https://app.zoom.us/wc/join/123456?pwd=literal%2Bpass']
+            checks.append('both Zoom protocols resolve packaged sed and owned webapp/browser chain')
 
         env['TEST_CLIENTS'] = json.dumps([{'class': 'Example', 'title': 'Example',
                                          'address': '0x123', 'initialClass': 'Example'}])
