@@ -13,6 +13,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-21 | Incipiens 0.4.8: tam 0.38.1 / corpus 0.42.0, nine outputs and 81 package probes; no activation | [Session](docs/ai/2026-10-21-prepare-0.4.8.md) |
 | 2026-10-21 | Incipiens 0.4.7: preserving HEY retirement, tam 0.38.0 / corpus 0.40.0, nine outputs and 81 package probes; no activation | [Session](docs/ai/2026-10-21-prepare-0.4.7.md) |
 | 2026-10-21 | HEY retirement delivery and preserving installed-output migration probes; Develop only | [Session](docs/ai/2026-10-21-retire-hey.md) |
 | 2026-10-21 | Incipiens 0.4.6 assembly with current tam and retained application fixes | [Session](docs/ai/2026-10-21-0.4.6-preparation.md) |

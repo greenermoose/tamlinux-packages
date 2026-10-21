@@ -7,11 +7,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tamlinux = {
-      url = "github:greenermoose/tamlinux/422514675b7f02de6d5f84869f12ecb183ccb729";
+      url = "github:greenermoose/tamlinux/741d8d4b426a17360d82252e15d53846b4587615";
       flake = false;
     };
     tam = {
-      url = "github:greenermoose/tam/476b499440a37f5cc5736181e23edf4a13b7cbd7";
+      url = "github:greenermoose/tam/c161190cc496b99cf4f7487fb36ca1e5949df4ea";
       flake = false;
     };
     libtam = {
