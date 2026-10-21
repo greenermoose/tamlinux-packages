@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.4.7",
+  "version": "0.4.7",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "f3bbc8aa74e6be68e110652304fd81c15b9f2615",
+  "scope": "Incipiens 0.4.7: preserving HEY integration retirement and latest pushed tam; retain native l and host recovery h. User-layer candidate only; removal, OS identity and boot operations remain separately approved.",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792598329,
+      "narHash": "sha256-qcOpph5kQA79emaoXOoX1TUi2I7by8fnpOARYU7Asjw=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "476b499440a37f5cc5736181e23edf4a13b7cbd7",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792605545,
+      "narHash": "sha256-IYS8fJMDfzALG/ZG9GcZzWeWR8xyfSh9dLa5852Gh5Y=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "422514675b7f02de6d5f84869f12ecb183ccb729",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/lqzy1rvisanla9fyqklw2qlcaj4hl9jd-tamlinux-shell-0.4.7.drv",
+      "outputs": {
+        "out": "/nix/store/h1ywnbc77f5i6vhjsr4ll6zbdgvadahb-tamlinux-shell-0.4.7"
+      }
+    },
+    {
+      "drvPath": "/nix/store/wj959rr0ic7833i61286jdkq29l1aipk-tamlinux-plugins-0.4.7.drv",
+      "outputs": {
+        "out": "/nix/store/niflgp3rbrg22884f89facq2kc8dijdj-tamlinux-plugins-0.4.7"
+      }
+    },
+    {
+      "drvPath": "/nix/store/6ywxnk1msl0w6bxzwcgi4yyml75qbdw5-tamlinux-commands-0.4.7.drv",
+      "outputs": {
+        "out": "/nix/store/hyn3764k1wkp8k7chck7qlclyr0h1p1b-tamlinux-commands-0.4.7"
+      }
+    },
+    {
+      "drvPath": "/nix/store/dhj4pxcxxfk1q13b2xmwxbv5ymfm7nd8-tam-0.38.0.drv",
+      "outputs": {
+        "out": "/nix/store/wnsd6jrhlh2qdv91g9v0lb42kysl4fjv-tam-0.38.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/9j7g7l3k74hl4c4wd3zn0llz6lscsqlq-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/91czqdgj5frcjjza603a1wg9nwc743yf-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/vy4ll4q4faqs0vwdir3d41k1mxy2dpzd-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/apgfc3m5nb8mzf2q2wfppk9kll1n53nz-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/is4433vcsqfib3bxzk4q2wkajrjxsg0f-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/jy04fm18clr742ipiswn8frf7vsd2yhj-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/74gqhd3djmy5ialfdvjfscm23hzi9z1r-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/rw31jq3v7qscr2dmhlf84h43q88zapa4-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/4rz0dcb6dz6ccxmhyqnvld2p99dm7br5-home-manager-generation.drv",
+      "outputs": {
+        "out": "/nix/store/2fdph1p5cj5vbdax9wl7y2p2dxfg9x7d-home-manager-generation"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#example-home"
+    ],
+    "build": "pass",
+    "flakeCheck": "pass",
+    "namedFlakeChecks": 17,
+    "nixReportedFlakeChecks": 28,
+    "freshConsumerVersionFile": "0.4.7",
+    "freshConsumerCultivarFile": "Incipiens",
+    "tamCommandVersion": "0.38.0",
+    "tamCorpusVersion": "0.40.0",
+    "versionFilePrecedesEnvironment": true,
+    "prepareCandidateUnitTests": 9,
+    "isolatedPackagedHelperProbes": 81,
+    "consumerBuild": "pass; temporary override only, no activation",
+    "offlineRecoveryChecksums": 101
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.4.4pre.l-0.1",
+    "archive": "tamlinux-native-0.4.4pre.l-0.1-x86_64.pkg.tar.zst",
+    "sha256": "b7234288640b6fe5f7ff8a7e977d6539845087fb4cfcd9b79ff3081538ef6c38",
+    "productRevision": "1aa4eaf51046d05c74142935c7ed39486315f8d6",
+    "reuseReason": "Selected native integration/defaults and host-recovery sources are unchanged; candidate changes user-layer HEY retirement and tam."
+  },
+  "hostRecoveryPackage": {
+    "name": "tamlinux-host-recovery",
+    "version": "0.4.4pre.h-1",
+    "archive": "tamlinux-host-recovery-0.4.4pre.h-1-x86_64.pkg.tar.zst",
+    "sha256": "c32eb23b7d7a10b76cfa752506b89fff50e741761b6a125954d5504d1b97b3dc",
+    "reuseReason": "Selected native integration/defaults and host-recovery sources are unchanged; candidate changes user-layer HEY retirement and tam."
+  },
+  "readiness": {
+    "packagePrepared": true,
+    "hostRemovalReady": false,
+    "remaining": [
+      "Exact candidate Test instruction and preserving user checkpoint",
+      "Installed HEY launcher/MIME retirement and controlled consumer-copy shortcut cleanup",
+      "Omarchy patch-rig retirement after separate exact approval",
+      "Fresh protected native/Snapper/EFI and mutable-state checkpoints and reviewed removal/recovery procedure",
+      "Separate exact removal, OS identity and boot-operation approvals"
+    ],
+    "hostTransactionsPerformed": false
+  }
+}

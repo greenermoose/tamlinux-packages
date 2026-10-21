@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-21 | Incipiens 0.4.7 assembly, HEY retirement and current tam | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-21-prepare-0.4.7.md) |
 | 2026-10-21 | Preserving HEY integration retirement | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-21-retire-hey.md) |
 | 2026-10-21 | Incipiens 0.4.6 candidate assembly | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-21-0.4.6-preparation.md) |
 | 2026-10-20 | Retained URI-handler delivery and browser-chain probes | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-20-live-call-replacements.md) |
