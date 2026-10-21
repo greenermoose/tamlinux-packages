@@ -13,6 +13,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-20 | Owned URI-handler closure and actual packaged browser-chain probes; no activation | [Session](docs/ai/2026-10-20-live-call-replacements.md) |
 | 2026-10-17 | 0.4.4g SDDM PAM cleanup package and recorded assembly; no activation | [Session](docs/ai/2026-10-17-sddm-pam-cleanup.md) |
 | 2026-10-16 | Independent boot providers and recovery preparation | [Session](docs/ai/2026-10-16-boot-provider-preparation.md) |
 | 2026-10-16 | Runtime collector plugin check follows the selection | [Session](docs/ai/2026-10-16-collector-plugin-count.md) |

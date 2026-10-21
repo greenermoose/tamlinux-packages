@@ -2,6 +2,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-20 | Retained URI-handler delivery and browser-chain probes | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-20-live-call-replacements.md) |
 | 2026-10-20 | Incipiens 0.4.5 candidate preparation | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-20-0.4.5-preparation.md) |
 | 2026-10-20 | Plain patch version candidates | Claude Code `2.1.305` | `claude-sonnet-5-5` | [Session](2026-10-20-plain-patch-versions.md) |
 | 2026-10-20 | Display-only milestone label assembly | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-20-tamversion-milestone-label.md) |

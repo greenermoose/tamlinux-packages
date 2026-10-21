@@ -402,6 +402,8 @@ let
     tam-launch-browser = [ pkgs.coreutils pkgs.jq pkgs.gnugrep
       pkgs.systemd pkgs.xdg-utils ];
     tam-launch-webapp = [ pkgs.coreutils pkgs.jq pkgs.util-linux pkgs.xdg-utils ];
+    tam-webapp-handler-hey = [ pkgs.coreutils pkgs.gnused ];
+    tam-webapp-handler-zoom = [ pkgs.coreutils pkgs.gnused ];
     tam-hyprland-focus-app = [ pkgs.jq ];
     tam-launch-or-focus = [ pkgs.bash pkgs.jq pkgs.coreutils pkgs.util-linux ];
     tam-launch-or-focus-webapp = [ ];
