@@ -8,11 +8,12 @@ privately by the author.
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
 | 2026-10-16 | 0.4.4d assembly and bounded login maintenance | [Session](docs/ai/2026-10-16-0.4.4d-readiness.md) |
-| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-20 |
+| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-21 |
 | Claude Code | 2.1.301 | claude-opus-5-5 | 2026-10-16 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-21 | Incipiens 0.4.6 assembly with current tam and retained application fixes | [Session](docs/ai/2026-10-21-0.4.6-preparation.md) |
 | 2026-10-20 | Owned URI-handler closure and actual packaged browser-chain probes; no activation | [Session](docs/ai/2026-10-20-live-call-replacements.md) |
 | 2026-10-17 | 0.4.4g SDDM PAM cleanup package and recorded assembly; no activation | [Session](docs/ai/2026-10-17-sddm-pam-cleanup.md) |
 | 2026-10-16 | Independent boot providers and recovery preparation | [Session](docs/ai/2026-10-16-boot-provider-preparation.md) |
