@@ -183,7 +183,7 @@ let
     tam-theme-init = themeTools;
     tam-session-init = [ pkgs.python3 pkgs.coreutils ];
     tam-desktop-mode = [ pkgs.python3 pkgs.coreutils ];
-    tam-migrate-desktop = [ pkgs.python3 pkgs.coreutils pkgs.dconf pkgs.systemd pkgs.pulseaudio ];
+    tam-migrate-desktop = [ pkgs.desktop-file-utils pkgs.python3 pkgs.coreutils pkgs.dconf pkgs.systemd pkgs.pulseaudio ];
     tam-theme-current = themeTools;
     tam-theme-list = themeTools;
     tam-theme-remove = themeTools;
@@ -402,7 +402,6 @@ let
     tam-launch-browser = [ pkgs.coreutils pkgs.jq pkgs.gnugrep
       pkgs.systemd pkgs.xdg-utils ];
     tam-launch-webapp = [ pkgs.coreutils pkgs.jq pkgs.util-linux pkgs.xdg-utils ];
-    tam-webapp-handler-hey = [ pkgs.coreutils pkgs.gnused ];
     tam-webapp-handler-zoom = [ pkgs.coreutils pkgs.gnused ];
     tam-hyprland-focus-app = [ pkgs.jq ];
     tam-launch-or-focus = [ pkgs.bash pkgs.jq pkgs.coreutils pkgs.util-linux ];

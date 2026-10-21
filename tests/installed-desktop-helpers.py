@@ -5,6 +5,7 @@ development checks cannot change the live desktop or system timezone.
 """
 
 import argparse
+import base64
 import hashlib
 import json
 from pathlib import Path
@@ -357,19 +358,10 @@ elif name == 'hyprctl':
         assert not (root / 'NEVER').exists()
         checks.append('webapp launch resolves packaged XDG/resolver/jq/setsid and retains literal URL argv')
 
-        # Older pinned products predate these paired handlers. Exercise the
-        # new closure when present without invalidating an unchanged assembly.
-        handlers = [args.commands / 'bin' / ('tam-webapp-handler-' + kind)
-                    for kind in ('hey', 'zoom')]
-        if any(path.exists() for path in handlers):
-            assert all(path.is_file() for path in handlers), 'incomplete URI-handler pair'
-            run('tam-webapp-handler-hey', 'mailto:person@example.invalid?subject=Hello%20there')
-            launch = json.loads(launch_log.read_text().splitlines()[-1])
-            assert launch['name'] == 'chromium'
-            assert launch['args'] == ['--profile-directory=Probe Profile',
-                '--app=https://app.hey.com/messages/new?to=person@example.invalid?subject=Hello%20there']
-            checks.append('HEY handler resolves packaged sed and owned webapp/browser chain with literal mailto data')
-
+        # The retired built-in mail integration must not be delivered.
+        assert not (args.commands / 'bin/tam-webapp-handler-hey').exists()
+        checks.append('retired HEY protocol handler is absent from command output')
+        if (args.commands / 'bin/tam-webapp-handler-zoom').is_file():
             for scheme in ('zoommtg', 'zoomus'):
                 run('tam-webapp-handler-zoom', scheme + '://zoom.us/join?confno=123456&pwd=literal%2Bpass')
                 launch = json.loads(launch_log.read_text().splitlines()[-1])
@@ -650,6 +642,8 @@ elif name == 'hyprctl':
             mime = (config / 'mimeapps.list').read_text()
             assert 'text/plain=Helix.desktop' in mime
             assert 'x-scheme-handler/http=chromium.desktop' in mime
+            assert 'HEY.desktop' not in mime
+            assert not (fresh / 'data/applications/HEY.desktop').exists()
             assert str(fresh / 'state/tamlinux/current/theme/alacritty.toml') in (config / 'alacritty/alacritty.toml').read_text()
             assert (fresh / 'state/tamlinux/defaults/editor').read_text() == 'helix\n'
             assert (config / 'helix/themes/tamlinux.toml').is_symlink()
@@ -673,6 +667,7 @@ elif name == 'hyprctl':
             archives = [json.loads(p.read_text()) for p in (journal / 'new-writes').rglob('*.json')]
             assert any(p['state'].get('bytes') == 'd2luZG93cwo=' for p in archives)
             checks.append('installed finite migration converts legacy state and preserves later writes during explicit rollback')
+
             icon = args.commands / 'share/tamlinux/assets/icons/tamlinux-discord.png'
             if icon.is_file():
                 themed = args.commands / 'share/icons/hicolor/256x256/apps/tamlinux-discord.png'
@@ -704,6 +699,41 @@ elif name == 'hyprctl':
             assert (checkpoint / 'blobs' / later).read_text() == 'later monitor arrangement\n'
             assert json.loads(run('tam-migrate-desktop', 'checkpoint-status', str(checkpoint), extra_env=extra).stdout)['status'] == 'restored'
             checks.append('installed settings checkpoint restores monitor layout and archives later arrangements through the packaged engine')
+
+            # Use another empty user root so the installed retirement is tested
+            # without touching the caller's original migration/recovery journals.
+            retired = root / 'hey-retirement'
+            extra = {'HOME': str(retired / 'home'), 'XDG_CONFIG_HOME': str(retired / 'config'),
+                     'XDG_STATE_HOME': str(retired / 'state'), 'XDG_DATA_HOME': str(retired / 'data')}
+            app = retired / 'data/applications/HEY.desktop'
+            app.parent.mkdir(parents=True)
+            original = ('[Desktop Entry]\nVersion=1.0\nName=HEY\nExec=tam-webapp-handler-hey %u\n'
+                        'Terminal=false\nType=Application\nIcon=hey\nStartupNotify=true\n'
+                        'MimeType=x-scheme-handler/mailto\n')
+            app.write_text(original)
+            mime = retired / 'config/mimeapps.list'
+            mime.parent.mkdir(parents=True)
+            original_mime = '[Default Applications]\nx-scheme-handler/mailto=HEY.desktop;other.desktop;\n'
+            mime.write_text(original_mime)
+            journal = retired / 'state/tamlinux/migration/proof'
+            planned = json.loads(run('tam-migrate-desktop', 'plan', str(journal), extra_env=extra).stdout)
+            assert planned['status'] == 'prepared' and planned['rows'] == 2
+            run('tam-migrate-desktop', 'apply', str(journal), extra_env=extra)
+            assert not app.exists()
+            assert mime.read_text() == original_mime.replace('HEY.desktop;', '')
+            cache = app.parent / 'mimeinfo.cache'
+            assert cache.is_file() and 'HEY.desktop' not in cache.read_text()
+            run('tam-migrate-desktop', 'apply', str(journal), extra_env=extra)
+            app.write_text('[Desktop Entry]\nName=Personal\nType=Application\nExec=personal\n')
+            run('tam-migrate-desktop', 'rollback', str(journal), extra_env=extra)
+            assert app.read_text() == original and mime.read_text() == original_mime
+            assert 'HEY.desktop' in cache.read_text()
+            archives = [json.loads(p.read_text()) for p in (journal / 'new-writes').rglob('*.json')]
+            assert any(b'Name=Personal' in base64.b64decode(p['state'].get('bytes', '')) for p in archives)
+            checks.append('installed HEY retirement removes only its launcher/MIME token, refreshes the desktop database and preserves later writes on return')
+            bindings = (args.shell / 'share/tamlinux/session/hypr/tamlinux/bindings/applications.lua').read_text()
+            assert 'app.hey.com' not in bindings
+            checks.append('packaged application bindings contain no retired HEY email/calendar defaults')
 
     print(json.dumps({'checks': checks, 'passed': len(checks),
                       'limits': 'Recorded host IPC and unavailable buses; no live desktop or clean-host installation proof.'}, indent=2))
