@@ -8,7 +8,7 @@ privately by the author.
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
 | 2026-10-16 | 0.4.4d assembly and bounded login maintenance | [Session](docs/ai/2026-10-16-0.4.4d-readiness.md) |
-| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-16 |
+| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-20 |
 | Claude Code | 2.1.301 | claude-opus-5-5 | 2026-10-16 |
 
 | Date | Milestone | Record |
@@ -196,3 +196,8 @@ single-owner input-method startup for Develop, preserving consumer precedence.
 
 2026-10-20: Claude Code `2.1.305` (`claude-sonnet-5-5`) states plain patch
 candidate versions in the preparation helper. [Session](docs/ai/2026-10-20-plain-patch-versions.md).
+
+## Incipiens 0.4.5 candidate preparation — 2026-10-20
+
+Codex CLI `0.163.0` (`gpt-6.1-sol`) prepared the candidate under Fred’s direction.
+[Session](docs/ai/2026-10-20-0.4.5-preparation.md). No activation or promotion.

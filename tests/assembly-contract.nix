@@ -48,6 +48,7 @@ assert builtins.compareVersions "0.4.1" components.tamlinux-commands.version == 
 assert builtins.compareVersions components.tamlinux-commands.version "0.4.2" == -1;
 assert builtins.compareVersions components.tamlinux-commands.version "0.4.2pre.b" == -1;
 assert c.home.file.".local/share/tamlinux/shell-revision".text == "${product.rev}\n";
+assert c.home.file.".config/tamlinux/version".text == "0.4.2-a\n";
 assert components.tamlinux-shell.passthru.cultivar == "Incipiens";
 assert c.home.file.".config/tamlinux/cultivar".text == "Incipiens\n";
 pkgs.runCommand "tamlinux-assembly-contract" { } ''
@@ -74,6 +75,7 @@ pkgs.runCommand "tamlinux-assembly-contract" { } ''
   esac
   test "$(${files}/.local/bin/tam-demo)" = demo
   test -x ${files}/.local/bin/tam-menu
+  test "$(cat ${files}/.config/tamlinux/version)" = 0.4.2-a
   test -f ${files}/.config/tamlinux/menu/default.jsonc
   test -L ${files}/.config/tamlinux/menu
   test -f ${files}/.config/tamlinux/menu/extension.jsonc

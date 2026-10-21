@@ -33,7 +33,7 @@ version=$(<"$knowledge/version")
     || fail 'packaged corpus version is wrong'
 pass 'installed command and corpus versions'
 
-"$tam" show --pipe | grep -q 'The Tamlinux User Guide' \
+"$tam" show --pipe | grep -q 'Tamlinux User Guide' \
     || fail 'packaged guide root did not render'
 "$tam" show welcome --pipe | grep -q 'Welcome to Tamlinux' \
     || fail 'packaged welcome page did not render'

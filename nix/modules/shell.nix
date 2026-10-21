@@ -119,6 +119,8 @@ in
     ];
     home.file =
       {
+        # Identity follows the selected assembly, including in fresh consumers.
+        ".config/tamlinux/version".text = "${shell.passthru.version}\n";
         ".local/share/tamlinux/shell".source = "${shell}/share/tamlinux/shell";
         ".local/share/tamlinux/shell-revision".text = "${shell.passthru.revision}\n";
         ".local/share/tamlinux/deployment-selection.json".text = builtins.toJSON {
