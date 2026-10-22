@@ -5,7 +5,6 @@ import hashlib
 import json
 from pathlib import Path
 import re
-import shutil
 import subprocess
 import tempfile
 
@@ -20,6 +19,15 @@ def run(*args):
     if result.returncode:
         raise ValueError(f"{args[0]} failed: {result.stderr[-3000:]}")
     return result.stdout + result.stderr
+
+
+def tool_version(tool):
+    # unsquashfs uses status 1 for its informational -version output.
+    result = subprocess.run([str(tool), "-version"], capture_output=True, text=True, timeout=15)
+    lines = (result.stdout + result.stderr).splitlines()
+    if not lines or not lines[0].startswith(tool.name + " "):
+        raise ValueError(f"cannot identify build tool: {tool.name}")
+    return lines[0]
 
 
 def verify(source, signature, key, manifest, gpgv):
@@ -89,7 +97,7 @@ def build(args):
                    "sourceSha256": manifest["sourceSha256"], "signerFingerprint": manifest["signerFingerprint"],
                    "productRevision": product_revision, "assemblyRevision": assembly_revision,
                    "helperSha256": manifest["helperSha256"], "rootfsSha256": digest(rootfs),
-                   "tools": {tool.name: run(tool, "-version").splitlines()[0]
+                   "tools": {tool.name: tool_version(tool)
                              for tool in [xorriso, mksquashfs, unsquashfs]}}
         inner_receipt = work / "bootstrap.json"
         inner_receipt.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
