@@ -211,3 +211,9 @@ Codex CLI `0.163.0` (`gpt-6.1-sol`) prepared the candidate under Fred’s direct
 2026-10-20: Codex CLI `0.163.0` (`gpt-6.1-sol`) preserves the Discord
 launcher icon through the owned package and explicit preserving migration.
 [Session](docs/ai/2026-10-20-discord-icon.md).
+
+## Development bootstrap media — 2026-10-22
+
+Codex CLI `0.163.0` (`gpt-6.1-sol`) adds recorded, source-verified Arch-based
+live-media assembly for the read-only bootstrap helper. No desktop stage
+change. [Session](docs/ai/2026-10-22-nut.md).
