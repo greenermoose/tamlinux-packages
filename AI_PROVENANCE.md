@@ -7,8 +7,9 @@ privately by the author.
 
 | Tool | Verified version | Model | Date |
 | --- | --- | --- | --- |
+| 2026-10-23 | Blue Sparkler 0.5.0 fleet and supported first-install assembly; no activation | [Session](docs/ai/2026-10-23-fleet-first-install.md) |
 | 2026-10-16 | 0.4.4d assembly and bounded login maintenance | [Session](docs/ai/2026-10-16-0.4.4d-readiness.md) |
-| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-22 |
+| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-23 |
 | Claude Code | 2.1.301 | claude-opus-5-5 | 2026-10-16 |
 
 | Date | Milestone | Record |

@@ -122,6 +122,33 @@ may be mutable; defaults and extension are fixed inputs to the generation.
 The 0.4.2-d candidate is prepared on `develop`. Promotion to Test, installation
 and physical acceptance remain pending the user's Test instruction.
 
+## Registered-host and first-install deployment (0.5.0 Develop)
+
+The 0.5.0 assembly delivers `tam-fleet`, `tam-nut` and host-aware `tam-deploy`.
+The deployment command selects the registered local `user@hostname` output
+and rejects another machine's profile. Fleet captures write only that host's
+state; membership and inventories remain private consumer data.
+
+`tam-deploy init [revision] [--test]` supports an account with no Home Manager
+generation and no graphical session. Enter it through this exact assembly's
+command package with `nix shell ...#tamlinux-commands --command tam-deploy init`.
+It builds the selected consumer generation, activates its immutable package
+outputs, verifies endpoints and records that no previous generation exists.
+Default selection requires main; `--test` requires an explicitly authorized
+assembly and components already on test. It never promotes branches, enables
+a display manager or starts a compositor. Keep the native-base recovery
+snapshot and verified boot medium before this first activation.
+
+A failed build restores the input lock before activation. Partial activation
+retains an attempt record and blocks retries pending inspection; there is no
+fictional previous generation to restore. Normal upgrades preserve the
+existing rollback path and its graphical-session preflight.
+
+This candidate preserves the retained native package providers. Console-first
+boot policy, optional native feature packages and physical login acceptance
+remain separate work; neither a source test nor this assembly changes the
+machine's selected default boot target.
+
 ## Shell graphics on non-NixOS hosts
 
 The default Quickshell provider wraps `bin/quickshell` with its locked Mesa

@@ -14,6 +14,11 @@ pkgs.runCommand "tamlinux-installed-components"
     test -x ${components.tam}/bin/tam-man
     printf '<p>Assembly stdin probe</p>\n' | ${components.tam}/bin/tam show - --pipe | grep -q 'Assembly stdin probe'
     ${components.tam}/bin/tam show --pipe welcome | grep -q 'Welcome'
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-nut" components.tamlinux-commands.passthru.names) ''
+      env -i PATH=/not-a-provider ${components.tamlinux-commands}/bin/tam-nut --help | grep -q 'Tamlinux bootstrap'
+      ${components.tamlinux-commands}/bin/tam-fleet --help | grep -q 'reconcile'
+      ${components.tamlinux-commands}/bin/tam-deploy --help | grep -q 'init'
+    ''}
     ${components.tam}/bin/tam explain --pipe SDDM | grep -Fq 'Display Managers: SDDM'
     cmp ${components.tam}/share/tamlinux/knowledge/ecosystem/sddm.html \
       ${components.tam.src}/knowledge/ecosystem/sddm.html

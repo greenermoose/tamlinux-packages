@@ -177,6 +177,7 @@ let
   themeTools = [ pkgs.coreutils pkgs.python3 pkgs.gawk pkgs.gnused pkgs.gnugrep
     pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq ];
   commandRuntimeDeps = {
+    tam-nut = [ pkgs.coreutils pkgs.gawk pkgs.util-linux pkgs.pciutils ];
     tam-theme-set = themeTools;
     tam-theme-journal = themeTools;
     tam-theme-refresh = themeTools;
