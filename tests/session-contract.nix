@@ -53,6 +53,12 @@ pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/uwsm/env.d/10-tamlinux.sh
   grep -qx 'Hidden=true' ${files}/.config/autostart/org.fcitx.Fcitx5.desktop
   test -x ${files}/.local/bin/tam-hyprland-session
+  ${pkgs.lib.optionalString (components.tamlinux-shell.passthru.features.consoleDesktop or false) ''
+    test -x ${files}/.local/bin/tam-desktop
+    test -f ${components.tamlinux-shell}/share/tamlinux/session/console.py
+    ${files}/.local/bin/tam-desktop --help | grep -q 'Usage: tam-desktop'
+    grep -q 'uwsm start -g -1' ${components.tamlinux-shell}/bin/tam-hyprland-session
+  ''}
   test ! -e ${files}/.local/bin/tamlinux-hyprland-session
   test -x ${components.tamlinux-shell}/bin/tam-hyprland-session
   test -x ${components.tamlinux-shell}/share/tamlinux/session/Hyprland

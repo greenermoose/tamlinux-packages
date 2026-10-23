@@ -84,6 +84,9 @@ in {
         ${pkgs.python3}/bin/python3 -I ${shell.package}/share/tamlinux/user-defaults/apply
     '');
     home.file.".local/bin/tam-hyprland-session".source = "${shell.package}/bin/tam-hyprland-session";
+    home.file.".local/bin/tam-desktop" = lib.mkIf (shell.package.passthru.features.consoleDesktop or false) {
+      source = "${shell.package}/bin/tam-desktop";
+    };
     home.packages = [ pkgs.udiskie pkgs.helix ];
     fonts.fontconfig.enable = true;
     systemd.user.services.tam-crash-watch = {

@@ -1,6 +1,6 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
-pkgver=0.4.4pre.l
+pkgver=0.5.0
 pkgrel=0.1
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
@@ -8,7 +8,7 @@ url='https://github.com/greenermoose/tamlinux'
 license=(GPL-3.0-or-later GPL-2.0-or-later MIT)
 depends=(bash coreutils util-linux gawk python polkit hyprland jq glibc 'libstdc++' nss-mdns avahi
          zram-generator ttf-liberation noto-fonts noto-fonts-emoji fcitx5 bluez-tools sudo fuse3
-         sddm qt6-declarative uwsm)
+         uwsm)
 optdepends=('plocate: index tuned by the updatedb drop-ins')
 makedepends=(gcc make)
 source=(tamlinux-native-source.tar)
@@ -22,7 +22,6 @@ check() {
   "$srcdir/tamlinux-native/asdcontrol/asdcontrol" --help | grep -q brightness
   bash -n "$srcdir/tamlinux-native/hyprland-reload-guard"
   python -m py_compile "$srcdir/tamlinux-native/browser_policy.py"
-  python -m py_compile "$srcdir/tamlinux-native/pam-transaction.py"
   bash -n "$srcdir/tamlinux-native/defaults/root/usr/lib/systemd/system-sleep/tamlinux-unmount-fuse"
   bash -n "$srcdir/tamlinux-native/defaults/root/usr/lib/systemd/system-sleep/tam-hibernate-swap"
 }
@@ -32,16 +31,9 @@ package() {
   install -Dm755 asdcontrol/asdcontrol "$pkgdir/usr/lib/tamlinux/asdcontrol"
   install -Dm755 theme-browser-policy "$pkgdir/usr/bin/tam-theme-set-browser-policy"
   install -Dm644 browser_policy.py "$pkgdir/usr/lib/tamlinux/browser_policy.py"
-  install -Dm755 pam-transaction.py "$pkgdir/usr/lib/tamlinux/pam-transaction.py"
   install -Dm755 hyprland-reload-guard "$pkgdir/usr/lib/tamlinux/hyprland-reload-guard"
   install -Dm755 integration/session "$pkgdir/usr/bin/tam-session"
-  install -Dm644 integration/tamlinux.desktop "$pkgdir/usr/share/wayland-sessions/tamlinux.desktop"
   install -Dm644 integration/tamlinux.conf "$pkgdir/usr/lib/tmpfiles.d/tamlinux.conf"
-  install -Dm644 integration/sddm/20-tamlinux.conf "$pkgdir/usr/lib/sddm/sddm.conf.d/20-tamlinux.conf"
-  install -Dm644 integration/sddm/hyprland.lua "$pkgdir/usr/share/sddm/tamlinux-hyprland.lua"
-  for file in Main.qml metadata.desktop; do
-    install -Dm644 "integration/sddm/$file" "$pkgdir/usr/share/sddm/themes/tamlinux/$file"
-  done
   install -Dm644 integration/org.tamlinux.native.policy "$pkgdir/usr/share/polkit-1/actions/org.tamlinux.native.policy"
   for file in integration/*.hook; do
     install -Dm644 "$file" "$pkgdir/usr/share/libalpm/hooks/${file##*/}"

@@ -127,6 +127,7 @@ let
     protocolShadow = has "desktop/protocol-shadow";
     documentation = has "desktop/README.md";
     sessionProviders = has "desktop/session/providers.json";
+    consoleDesktop = has "desktop/session/console.py" && has "desktop/session/desktop";
     graphicsEnvironmentIsolation = has "desktop/shell/graphics-environment-isolation-v1";
     userDefaults = has "desktop/user-defaults/apply";
     agentSkills = has "desktop/skills/manage.py";
@@ -445,6 +446,7 @@ let
         ${lib.optionalString features.sessionProviders ''
           cp -R ${product}/desktop/session $out/share/tamlinux/session
           install -m755 ${product}/desktop/session/start $out/bin/tam-hyprland-session
+          ${lib.optionalString features.consoleDesktop "install -m755 ${product}/desktop/session/desktop $out/bin/tam-desktop"}
           chmod +x $out/share/tamlinux/session/Hyprland
         ''}
         ${lib.optionalString features.menu ''

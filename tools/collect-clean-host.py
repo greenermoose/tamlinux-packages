@@ -23,7 +23,7 @@ CRITICAL=[
  '/usr/bin/quickshell','/usr/bin/qs','/usr/bin/xdg-terminal-exec',
  '/usr/lib/tamlinux/asdcontrol','/usr/bin/tam-theme-set-browser-policy',
  '/usr/lib/tamlinux/browser_policy.py','/usr/lib/tamlinux/hyprland-reload-guard',
- '/usr/share/wayland-sessions/tamlinux.desktop',
+ '/usr/bin/tam-session',
  '/usr/share/polkit-1/actions/org.tamlinux.native.policy',
  '/usr/lib/tmpfiles.d/tamlinux.conf','/usr/share/libalpm/hooks/50-tamlinux-hyprland-pause.hook',
  '/usr/share/libalpm/hooks/50-tamlinux-hyprland-resume.hook',

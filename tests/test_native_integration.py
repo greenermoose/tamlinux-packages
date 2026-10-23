@@ -50,7 +50,7 @@ class NativeStaging(unittest.TestCase):
         with self.assertRaises(FileExistsError):m.prepare(self.product,destination,'development')
         self.assertEqual((destination/'personal').read_text(),'keep')
 
-    def test_recipe_installs_the_selected_greeter_only_in_vendor_locations(self):
+    def test_recipe_delivers_explicit_session_without_any_graphical_login_files(self):
         stage=self.base/'stage'
         m.prepare(self.product,stage,'development')
         source=self.base/'source';source.mkdir()
@@ -63,16 +63,10 @@ class NativeStaging(unittest.TestCase):
                               env={**os.environ,'srcdir':str(source),'pkgdir':str(package)},
                               capture_output=True,text=True)
         self.assertEqual(result.returncode,0,result.stderr)
-        installed={
-            'Main.qml':'usr/share/sddm/themes/tamlinux/Main.qml',
-            'metadata.desktop':'usr/share/sddm/themes/tamlinux/metadata.desktop',
-            'hyprland.lua':'usr/share/sddm/tamlinux-hyprland.lua',
-            '20-tamlinux.conf':'usr/lib/sddm/sddm.conf.d/20-tamlinux.conf',
-        }
-        for name,path in installed.items():
-            original=self.product/m.FILES['integration/sddm/'+name]
-            self.assertEqual((package/path).read_bytes(),original.read_bytes())
-            self.assertEqual((package/path).stat().st_mode&0o777,0o644)
+        self.assertFalse((package/'usr/share/sddm').exists())
+        self.assertFalse((package/'usr/lib/sddm').exists())
+        self.assertFalse((package/'usr/share/wayland-sessions').exists())
+        self.assertFalse((package/'usr/lib/tamlinux/pam-transaction.py').exists())
         self.assertEqual((package/'usr/bin/tam-session').read_bytes(),
                          (self.product/m.FILES['integration/session']).read_bytes())
         self.assertTrue(os.access(package/'usr/bin/tam-session', os.X_OK))
@@ -80,23 +74,20 @@ class NativeStaging(unittest.TestCase):
         self.assertFalse((package/'etc').exists())
         self.assertFalse((package/'usr/local').exists())
 
-    def test_pam_transaction_is_in_native_package_and_bound_manifest(self):
-        stage=self.base/'stage';result=m.prepare(self.product,stage,'0.4.4-g')
-        self.assertIn('pam-transaction.py',result['manifest']['files'])
-        self.assertEqual(result['manifest']['productRevision'],'0.4.4-g')
-        source=self.base/'source';source.mkdir()
+    def test_no_display_manager_splash_or_login_pam_transaction_is_selected(self):
+        stage=self.base/'stage';result=m.prepare(self.product,stage,'develop-console')
+        self.assertEqual(result['manifest']['productRevision'],'develop-console')
+        self.assertFalse(any('sddm' in path or 'pam-transaction' in path
+                             for path in result['manifest']['files']))
         with tarfile.open(stage/'tamlinux-native-source.tar') as archive:
-            archive.extractall(source,filter='data')
-        (source/'tamlinux-native/asdcontrol/asdcontrol').write_text('fixture provider\n')
-        package=self.base/'package';package.mkdir()
-        result=subprocess.run(['bash','-eu','-c','source "$1"; package','package',str(stage/'PKGBUILD')],
-                              env={**os.environ,'srcdir':str(source),'pkgdir':str(package)},
-                              capture_output=True,text=True)
-        self.assertEqual(result.returncode,0,result.stderr)
-        installed=package/'usr/lib/tamlinux/pam-transaction.py'
-        self.assertEqual(installed.read_bytes(),(self.product/m.FILES['pam-transaction.py']).read_bytes())
-        self.assertEqual(installed.stat().st_mode&0o777,0o755)
-        self.assertFalse((package/'etc/pam.d').exists())
+            self.assertFalse(any('sddm' in entry.name or 'pam-transaction' in entry.name
+                                 for entry in archive.getmembers()))
+        dependencies=subprocess.check_output(
+            ['bash','-eu','-c','source "$1"; printf "%s\\n" "${depends[@]}"',
+             'dependencies',str(stage/'PKGBUILD')],text=True).splitlines()
+        self.assertNotIn('sddm',dependencies)
+        self.assertNotIn('plymouth',dependencies)
+        self.assertIn('uwsm',dependencies)
 
     def test_destination_inside_product_is_refused(self):
         with self.assertRaises(ValueError):m.prepare(self.product,self.product/'stage','development')

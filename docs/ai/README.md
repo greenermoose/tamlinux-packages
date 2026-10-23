@@ -1,5 +1,7 @@
 # AI session records
 
+- [2026-10-23 — Console-first package delivery](2026-10-23-console-first-startup.md)
+
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
 | 2026-10-23 | Blue Sparkler fleet and first-install assembly | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-23-fleet-first-install.md) |

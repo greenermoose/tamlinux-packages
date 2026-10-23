@@ -12,16 +12,13 @@ ROOT=Path(__file__).resolve().parents[1]
 FILES={
  'theme-browser-policy':'desktop/native/theme-browser-policy',
  'browser_policy.py':'desktop/native/browser_policy.py',
- 'pam-transaction.py':'desktop/native/pam-transaction.py',
  'hyprland-reload-guard':'commands/tam-hyprland-reload-guard/tam-hyprland-reload-guard',
  'guard-LICENSE':'commands/tam-hyprland-reload-guard/LICENSE',
  **{'asdcontrol/'+name:'desktop/native/providers/asdcontrol/'+name for name in
     ('asdcontrol.cpp','Makefile','LICENSE','origins.json')},
  **{'integration/'+name:'desktop/native/integration/'+name for name in
-    ('session','tamlinux.desktop','tamlinux.conf','org.tamlinux.native.policy',
+    ('session','tamlinux.conf','org.tamlinux.native.policy',
      '50-tamlinux-hyprland-pause.hook','50-tamlinux-hyprland-resume.hook','LICENSE')},
- **{'integration/sddm/'+name:'desktop/native/integration/sddm/'+name for name in
-    ('Main.qml','metadata.desktop','hyprland.lua','20-tamlinux.conf')},
  'defaults/LICENSE':'desktop/native/defaults/LICENSE-defaults',
  'defaults/convert.py':'desktop/native/defaults/convert.py',
  'defaults/native_recovery.py':'desktop/migration/recovery.py',
@@ -65,7 +62,7 @@ def prepare(product,destination,revision):
         'origin':'https://github.com/greenermoose/tamlinux','files':
         {name:hashlib.sha256(data).hexdigest() for name,data in sorted(files.items())},
         'links':{name:target for name,(mode,target) in sorted(special.items()) if mode=='link'},
-        'scope':'Owned login registration and SDDM greeter/vendor configuration, explicit browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults, checkpointed native conversion and the candidate-bound SDDM PAM transaction.',
+        'scope':'Explicit console desktop entry, browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults and checkpointed native conversion. No display manager, greeter or graphical-login PAM transaction.',
         'pending':['native root/security/service recovery beyond browser policies','KMS bridge','separate boot handoff','physical authentication/device proof',
                    'explicit tam-native-defaults transaction, service reloads and effective native-defaults verification before Desktop Test',
                    'provisioning must run systemctl preset for systemd-oomd']}

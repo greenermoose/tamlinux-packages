@@ -9,11 +9,12 @@ privately by the author.
 | --- | --- | --- | --- |
 | 2026-10-23 | Blue Sparkler 0.5.0 fleet and supported first-install assembly; no activation | [Session](docs/ai/2026-10-23-fleet-first-install.md) |
 | 2026-10-16 | 0.4.4d assembly and bounded login maintenance | [Session](docs/ai/2026-10-16-0.4.4d-readiness.md) |
-| Codex CLI | 0.163.0 | gpt-6.1-sol | 2026-10-23 |
+| Codex CLI | 0.164.0 | gpt-6.1-sol | 2026-10-23 |
 | Claude Code | 2.1.301 | claude-opus-5-5 | 2026-10-16 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-23 | Console-first delivery, explicit desktop command and removal of greeter package integration; no activation | [Session](docs/ai/2026-10-23-console-first-startup.md) |
 | 2026-10-22 | Release 0.4.8, the final Incipiens assembly; exact tested Run retained | [Session](docs/ai/2026-10-22-release-0.4.8.md) |
 | 2026-10-21 | Incipiens 0.4.8: tam 0.38.1 / corpus 0.42.0, nine outputs and 81 package probes; no activation | [Session](docs/ai/2026-10-21-prepare-0.4.8.md) |
 | 2026-10-21 | Incipiens 0.4.7: preserving HEY retirement, tam 0.38.0 / corpus 0.40.0, nine outputs and 81 package probes; no activation | [Session](docs/ai/2026-10-21-prepare-0.4.7.md) |
