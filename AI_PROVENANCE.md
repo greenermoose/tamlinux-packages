@@ -14,6 +14,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-23 | Prepare 0.5.2 with verified settings recovery, nine outputs and rebuilt native archive; Test separate | [Session](docs/ai/2026-10-23-console-candidate-0.5.2.md) |
 | 2026-10-23 | Prepare 0.5.1 with verified user packages and native graphical-login removal; no activation | [Session](docs/ai/2026-10-23-console-candidate.md) |
 | 2026-10-23 | Verified console guard and preserving terminal theme migration; Develop only | [Session](docs/ai/2026-10-23-console-terminal-guard.md) |
 | 2026-10-23 | Console-first delivery, explicit desktop command and removal of greeter package integration; no activation | [Session](docs/ai/2026-10-23-console-first-startup.md) |

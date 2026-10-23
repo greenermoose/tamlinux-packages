@@ -4,6 +4,7 @@
 
 | Date | Topic | Tool | Model | Record |
 | --- | --- | --- | --- | --- |
+| 2026-10-23 | Console-startup 0.5.2 preparation; Test separate | Codex CLI `0.164.0` | `gpt-6.1-sol` | [Session](2026-10-23-console-candidate-0.5.2.md) |
 | 2026-10-23 | Console-first 0.5.1 candidate | Codex CLI `0.164.0` | `gpt-6.1-sol` | [Session](2026-10-23-console-candidate.md) |
 | 2026-10-23 | Console guard and terminal theme migration | Codex CLI `0.164.0` | `gpt-6.1-sol` | [Session](2026-10-23-console-terminal-guard.md) |
 | 2026-10-23 | Blue Sparkler fleet and first-install assembly | Codex CLI `0.163.0` | `gpt-6.1-sol` | [Session](2026-10-23-fleet-first-install.md) |

@@ -64,3 +64,11 @@ native package in its [delivery record](../deliveries/tamlinux-0.5.1.json).
 All nine package/contract targets and the actual native archive pass their
 preparation checks. Exact Test and individually approved host steps are still
 required; no physical boot or installed-removal result is claimed.
+
+Candidate 0.5.2 delivers the verified multi-root settings checkpoint operator;
+its [delivery record](../deliveries/tamlinux-0.5.2.json) binds all nine built
+outputs and the rebuilt native archive. The actual packaged operator passes
+an isolated shared/host source-root round trip with later writes retained.
+0.5.1 remains unchanged. Preparation leaves Test separate; capture new live
+checkpoints with this exact packaged operator before any approved activation.
+[Preparation evidence](ai/2026-10-23-console-candidate-0.5.2.md).
