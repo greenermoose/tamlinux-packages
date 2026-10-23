@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.5.1",
+  "version": "0.5.1",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "6861a40bdfe00f6bd13c41272c1e505f797d672d",
+  "scope": "Visible text-boot preparation, guarded explicit desktop launcher, preserving terminal-theme migration and native graphical-login/splash integration removal",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792608337,
+      "narHash": "sha256-TuwktkG9BECowgVcmLXLlcMk5V+Qlz37787NYUSs7O4=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "c161190cc496b99cf4f7487fb36ca1e5949df4ea",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792759511,
+      "narHash": "sha256-ZyFlUU74LqNoAbyjENxOUKRQ/PsfkB/fp69u5PZdluI=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "7c0d8d7de36a470ea357b6cb36b7fc7948fe7d4d",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/wmkf3f5712jka55zjp7bwxn1qx6w6kk0-tamlinux-shell-0.5.1.drv",
+      "outputs": {
+        "out": "/nix/store/q8h9yb4myb01zfpxvymx85b5pxhl59aw-tamlinux-shell-0.5.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/5w9i0ja5fc9py1kn6cc8bak0h1n2da69-tamlinux-plugins-0.5.1.drv",
+      "outputs": {
+        "out": "/nix/store/wl3b9mbmdwjwmj05k26gvqsflklmq7ab-tamlinux-plugins-0.5.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/6rcxxs7rwmq4il2bbwpnxkp1pnvag2f9-tamlinux-commands-0.5.1.drv",
+      "outputs": {
+        "out": "/nix/store/jd780x1r04bmydnl75y498ccl2b8rjrx-tamlinux-commands-0.5.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/60m8kf0bmq9hk2xki8gv377svwh2va0r-tam-0.38.1.drv",
+      "outputs": {
+        "out": "/nix/store/5gv1jd0nxbfh3ls0ydblsw150sj1ciqy-tam-0.38.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/asszjlnnlnlslaaa9l9fl128gypf72p8-libtam-0.2.0.drv",
+      "outputs": {
+        "out": "/nix/store/dx29xryiqixy3gv5x5gk5z28cv906vl4-libtam-0.2.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/js05b7c4prx42291in92shpsdpyri5nc-tamlinux-tools-0-unstable-194d675.drv",
+      "outputs": {
+        "out": "/nix/store/gv0f62gj9dq1fc4idg739vds4rlykiv6-tamlinux-tools-0-unstable-194d675"
+      }
+    },
+    {
+      "drvPath": "/nix/store/w0dn5c724ka4nbdi9sh7kmpv531i30fd-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/60zx634k2wpjdwhp4vmrahhrgvg1hik3-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/vagv6mfc682bjnv00cp0bfzld66s662b-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/l9jyvv2b0hp2cvs8qmwgrqx4clgj7cdd-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/8xrk8xih01hbh98lzyrpcsfcgfdad4bd-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/pkwvj32dv62kch2qv8x018qm7ppfwnm4-tamlinux-fresh-session-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#libtam",
+      ".#tamlinux-tools",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.fresh-session"
+    ],
+    "build": "pass",
+    "focusedProductTests": 49,
+    "prepareCandidateUnitTests": 9,
+    "nativeStagingTests": 10,
+    "bootCheckpointTests": 7,
+    "nativeBuild": "makepkg --nodeps --nosign --noconfirm; build/check/package pass",
+    "nativeDependencies": "pacman -T on all archive dependencies passes on preparation host",
+    "nativeGraphicalLoginAndSplash": "No SDDM/Plymouth dependency, greeter or session-chooser file in actual archive"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.5.1-0.1",
+    "archive": "tamlinux-native-0.5.1-0.1-x86_64.pkg.tar.zst",
+    "sha256": "0746da6ba836cb879b91c4f1f8ee40dbcadd3cfa3f55fbb94cc9c2b3a646313d",
+    "productRevision": "7c0d8d7de36a470ea357b6cb36b7fc7948fe7d4d",
+    "sourceSha256": "ef21bece7c54665d98386eeb386f0549ff2f546d57309e91d07015fef2b3fe39",
+    "recipeSha256": "225da39f99024665548a761ec4287f2e3d02f728f3f4fd6d445e7a82528f0cc8"
+  },
+  "hostRecoveryPackage": {
+    "name": "tamlinux-host-recovery",
+    "version": "0.4.4pre.h-1",
+    "archive": "tamlinux-host-recovery-0.4.4pre.h-1-x86_64.pkg.tar.zst",
+    "sha256": "c32eb23b7d7a10b76cfa752506b89fff50e741761b6a125954d5504d1b97b3dc",
+    "reuseReason": "Host recovery provider and boot-selection boundary remain unchanged; preserve accepted recovery routes."
+  },
+  "readiness": {
+    "packagePrepared": true,
+    "hostRemovalReady": false,
+    "hostTransactionsPerformed": false,
+    "remaining": [
+      "Exact Test instruction",
+      "Fresh preserving user checkpoint and quiescent boot checkpoint; pre-change root snapshot",
+      "Individually approved native installation, boot/login and package-removal steps",
+      "Generated text-unlock images and retained recovery verification",
+      "Physical text boot, VT/locking, explicit desktop lifecycle and three cold-boot measurements on first host before second host"
+    ]
+  }
+}

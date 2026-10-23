@@ -58,3 +58,9 @@ contract passes; 15 console/session/native-entry tests, 56 deployment tests,
 archive builds and passes file-list/dependency inspection. These checks do
 not establish physical boot or desktop-locking acceptance.
 [Exact sources and build results](ai/2026-10-23-console-first-startup.md).
+
+Candidate 0.5.1 now binds the guarded launcher, terminal migration and rebuilt
+native package in its [delivery record](../deliveries/tamlinux-0.5.1.json).
+All nine package/contract targets and the actual native archive pass their
+preparation checks. Exact Test and individually approved host steps are still
+required; no physical boot or installed-removal result is claimed.
