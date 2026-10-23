@@ -14,6 +14,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-23 | Verified console guard and preserving terminal theme migration; Develop only | [Session](docs/ai/2026-10-23-console-terminal-guard.md) |
 | 2026-10-23 | Console-first delivery, explicit desktop command and removal of greeter package integration; no activation | [Session](docs/ai/2026-10-23-console-first-startup.md) |
 | 2026-10-22 | Release 0.4.8, the final Incipiens assembly; exact tested Run retained | [Session](docs/ai/2026-10-22-release-0.4.8.md) |
 | 2026-10-21 | Incipiens 0.4.8: tam 0.38.1 / corpus 0.42.0, nine outputs and 81 package probes; no activation | [Session](docs/ai/2026-10-21-prepare-0.4.8.md) |

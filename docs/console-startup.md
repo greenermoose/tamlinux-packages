@@ -37,6 +37,21 @@ checks alone do not pass physical startup acceptance.
 
 Product design: [console-first startup](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/console-first-startup.md).
 
+The explicit launcher now holds the originating text shell until graphical
+shutdown is confirmed, blocks keyboard suspension, discards queued input and
+restores terminal settings on return. Another VT provides text work and
+recovery while the desktop runs. Existing upgraded terminal configurations
+also need the finite theme-include migration; fresh defaults alone do not
+replace an inherited application file. Preview and apply with the installed
+operator and a new journal, preserving personal settings and originals.
+
+The guarded launcher and migration are pinned and pass the fresh-session,
+installed-components and example checks. A probe of the real packaged
+migration passes apply/retry/rollback in isolated XDG roots for four terminals.
+[Sources and results](ai/2026-10-23-console-terminal-guard.md).
+These Develop builds do not replace or modify the earlier 0.5.0 candidate
+record; the next prepared assembly needs a new number.
+
 Develop verification on 2026-10-23: the final product pin's fresh-session
 contract passes; 15 console/session/native-entry tests, 56 deployment tests,
 10 native-staging tests and eight native-collector tests pass. A native Arch
