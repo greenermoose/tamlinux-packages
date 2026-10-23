@@ -365,6 +365,8 @@ let
     tam-restart-hyprsunset = [ pkgs.procps pkgs.util-linux ];
     tam-display-text-size = [ pkgs.coreutils pkgs.gawk pkgs.gnused pkgs.gnugrep
       pkgs.procps pkgs.glib pkgs.dconf ];
+    # Text-console ioctls need no compositor; DDC/hw siblings supply their own tools.
+    tam-monitor = [ pkgs.python3 pkgs.brightnessctl ];
     # Native Hyprland/locker/PAM, Polkit/asdcontrol and ttfx remain host boundaries.
     tam-brightness-display = [ pkgs.coreutils pkgs.jq pkgs.gawk pkgs.util-linux pkgs.brightnessctl ];
     tam-brightness-display-ddc = [ pkgs.coreutils pkgs.gawk pkgs.ddcutil ];
