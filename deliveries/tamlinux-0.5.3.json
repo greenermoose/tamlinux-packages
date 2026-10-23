@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.5.3",
+  "version": "0.5.3",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "b070169190aecb6e37788a16fd7fb0a25a0ea62c",
+  "scope": "Standalone console monitor controls: guarded blank/wake, verified hardware brightness and runtime idle; retain native 0.5.2 payload",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1791549454,
+      "narHash": "sha256-DqWKjh1qvtgQTWENyBCtkLCwFGrqjoW1TEzx30Q0JZI=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "c081708b5ed2c8ade4ecdf171cebc110c2cb316f",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792608337,
+      "narHash": "sha256-TuwktkG9BECowgVcmLXLlcMk5V+Qlz37787NYUSs7O4=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "c161190cc496b99cf4f7487fb36ca1e5949df4ea",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792781746,
+      "narHash": "sha256-R5dcpvrteavU4/3VSQObqrssGmfppWTBt18PXp4/hWE=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "79c66c39ea793585a97aa23b91f2e2d2a578b400",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1791555206,
+      "narHash": "sha256-jxxDT6fWecdZCaBA+We5ca6HvatJ1QmccXEa/XgKtfo=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "194d6750f42a0a03911661dbdca4c5d1637542cd",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/wy6c3j6jymhl56w3rvcw7ganiqdz0474-tamlinux-shell-0.5.3.drv",
+      "outputs": {
+        "out": "/nix/store/8370xfymb0rgpqdzji2dkwckchaq86mq-tamlinux-shell-0.5.3"
+      }
+    },
+    {
+      "drvPath": "/nix/store/05wbqfsq42x2xav6hfgiymk64hpr2222-tamlinux-plugins-0.5.3.drv",
+      "outputs": {
+        "out": "/nix/store/dis1zj2kz8kad7b92daf31i4s3slniyw-tamlinux-plugins-0.5.3"
+      }
+    },
+    {
+      "drvPath": "/nix/store/wlzpnvjchiln1m96lxycpg98ckv884kk-tamlinux-commands-0.5.3.drv",
+      "outputs": {
+        "out": "/nix/store/w8y9h7y4lxvsvhddgh64zdnm94yam45d-tamlinux-commands-0.5.3"
+      }
+    },
+    {
+      "drvPath": "/nix/store/im9h7k4307mc4apm3ziz57b7j46lhb5f-tam-0.38.1.drv",
+      "outputs": {
+        "out": "/nix/store/xs2n0s26cvhk2js2zygdaas9l8x60d4z-tam-0.38.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/asszjlnnlnlslaaa9l9fl128gypf72p8-libtam-0.2.0.drv",
+      "outputs": {
+        "out": "/nix/store/dx29xryiqixy3gv5x5gk5z28cv906vl4-libtam-0.2.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/js05b7c4prx42291in92shpsdpyri5nc-tamlinux-tools-0-unstable-194d675.drv",
+      "outputs": {
+        "out": "/nix/store/gv0f62gj9dq1fc4idg739vds4rlykiv6-tamlinux-tools-0-unstable-194d675"
+      }
+    },
+    {
+      "drvPath": "/nix/store/y08vaf3hvhx3nsxj5nq2vmhb35la64yz-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/v76wljrz43wg1nvwa6jikmg1p709i7a8-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/mjcfmn4qqgkx3bapzx7qlh5ylx1mjghg-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/bql9w4rn4ldb3q43kxqiq6hlpanf6fml-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/gxzdbq029nzlj1gr7c69r1m1dilrwcnz-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/8bi1kgk1263wcwdh1hgshf7zwbvyzj14-tamlinux-fresh-session-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#libtam",
+      ".#tamlinux-tools",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.fresh-session"
+    ],
+    "build": "pass",
+    "monitorFocusedTests": "25 passed, repeated in the commands package check",
+    "candidateToolTests": "9 passed",
+    "packagedMonitorProbe": "Help and metadata-only JSON listing pass with an empty user PATH and no compositor environment",
+    "nativeTreeUnchanged": "2ebaed15cfcac835bc682c147ef1c2673d65b936"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.5.2-0.1",
+    "archive": "tamlinux-native-0.5.2-0.1-x86_64.pkg.tar.zst",
+    "sha256": "d99e955535514a9fff82e7e54121e5f677f844ed592a1fd202153241f1368faa",
+    "productRevision": "f77a8c7034d7cec136258594d73dece23f70afd8",
+    "sourceSha256": "864155a3900fdbaf958d92127d2a6ad6dfee8322ca7b1e5de63a6198b967bb81",
+    "recipeSha256": "fa37a3be414a1c7c76e4f75590f859698a586f9a13a37b367d51210e2316c1cd",
+    "reuseReason": "User-command update only; desktop/native tree unchanged at 2ebaed15cfcac835bc682c147ef1c2673d65b936. Keep installed 0.5.2 native package; no native transaction."
+  },
+  "hostRecoveryPackage": {
+    "name": "tamlinux-host-recovery",
+    "version": "0.4.4pre.h-1",
+    "archive": "tamlinux-host-recovery-0.4.4pre.h-1-x86_64.pkg.tar.zst",
+    "sha256": "c32eb23b7d7a10b76cfa752506b89fff50e741761b6a125954d5504d1b97b3dc",
+    "reuseReason": "Host recovery provider and boot-selection boundary remain unchanged; preserve accepted recovery routes."
+  },
+  "readiness": {
+    "packagePrepared": true,
+    "nativeInstallationRequired": false,
+    "mutableSettingsChange": false,
+    "remaining": [
+      "Exact Test instruction",
+      "Packaged physical console blank/wake and brightness trial",
+      "Test energy reading and workflow confirmation"
+    ]
+  }
+}
