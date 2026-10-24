@@ -14,6 +14,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-23 | 0.5.4 assembly with tam 0.43.2, corpus 0.43.0 and required static library integration | [Session](docs/ai/2026-10-23-tam-0.5.4.md) |
 | 2026-10-23 | Prepare 0.5.3 for requested console monitor installation; nine outputs checked, existing native package retained | [Session](docs/ai/2026-10-23-console-monitor-control.md) |
 | 2026-10-23 | Standalone console monitor command runtime dependencies; Develop only | [Session](docs/ai/2026-10-23-console-monitor-control.md) |
 | 2026-10-23 | Prepare 0.5.2 with verified settings recovery, nine outputs and rebuilt native archive; Test separate | [Session](docs/ai/2026-10-23-console-candidate-0.5.2.md) |

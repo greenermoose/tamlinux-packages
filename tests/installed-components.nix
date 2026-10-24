@@ -10,7 +10,7 @@ pkgs.runCommand "tamlinux-installed-components"
       echo 'Packaged tam must not carry a development build stamp' >&2
       exit 1
     fi
-    ${components.tam}/bin/tam --version | grep -q 'libtam 0.2.0'
+    ${components.tam}/bin/tam --version | grep -Fxq 'libtam ${components.libtam.version}'
     test -x ${components.tam}/bin/tam-man
     printf '<p>Assembly stdin probe</p>\n' | ${components.tam}/bin/tam show - --pipe | grep -q 'Assembly stdin probe'
     ${components.tam}/bin/tam show --pipe welcome | grep -q 'Welcome'
@@ -42,7 +42,7 @@ pkgs.runCommand "tamlinux-installed-components"
     EOF
     cc consumer.c -I${components.libtam}/include -L${components.libtam}/lib \
       -Wl,-rpath,${components.libtam}/lib -ltam -o consumer
-    test "$(./consumer)" = '0.2.0'
+    test "$(./consumer)" = '${components.libtam.version}'
     mkdir -p $out
     cp consumer consumer.c $out/
   ''

@@ -2,7 +2,7 @@
 let
   libtam = pkgs.stdenv.mkDerivation {
     pname = "libtam";
-    version = "0.2.0";
+    version = "0.4.0";
     src = sources.libtam;
     nativeBuildInputs = [ pkgs.pkg-config ];
     buildInputs = [ pkgs.dbus ];

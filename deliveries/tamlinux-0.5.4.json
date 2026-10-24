@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.5.4",
+  "version": "0.5.4",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "ce3fa19e84e1b4e2758e7fea8471c27e057a36db",
+  "scope": "Update tam command to 0.43.2 and corpus to 0.43.0, with required libtam 0.4.0 and matching static portal tools; retain native 0.5.2 payload",
+  "components": {
+    "home-manager": {
+      "lastModified": 1789071706,
+      "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1792665810,
+      "narHash": "sha256-HraqW6uRttfrcHwBrP+FBOoiKa9sdxEh1deDFdzRFSE=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "a051ebf457e41a27d47d273bdab291430cabd7ad",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1789006805,
+      "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1792776712,
+      "narHash": "sha256-Of1a4PJCn6ZbsiU0Perd6ED6oVb1z+/72xumHnUuQ2k=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "eea4509277590380469f83a84939a14c285c107c",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1792805852,
+      "narHash": "sha256-lHU9nleuVU9GW1/XWLE2i91u/iLdPqQBlwKNz7PGo7g=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "73efb4a98a9be6fe6a690455008645b0f7b016fd",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1792665818,
+      "narHash": "sha256-QGqY37X61xfQTqe+tHIXixDZFpP/tlKBNBECzW6yRo0=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "d8b0912733b1e92a0d3d1f5d039285ffb6b3e49d",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/6dw3l1xk8klm24987i4vifcd8jhqvqms-tamlinux-shell-0.5.4.drv",
+      "outputs": {
+        "out": "/nix/store/799b6cpvjwz93709hv5wqyhaaq6kg402-tamlinux-shell-0.5.4"
+      }
+    },
+    {
+      "drvPath": "/nix/store/jm1jak3rpvj5ycs30xhlsqcvbfpf0ki6-tamlinux-plugins-0.5.4.drv",
+      "outputs": {
+        "out": "/nix/store/7s4zj60xly0884insp4lrs82g0qhiidy-tamlinux-plugins-0.5.4"
+      }
+    },
+    {
+      "drvPath": "/nix/store/dmdqas5mg9al7w1n28ljqlj684zz0sgh-tamlinux-commands-0.5.4.drv",
+      "outputs": {
+        "out": "/nix/store/n0ggpran3835b2yd2gmz2qm6xl1w63g8-tamlinux-commands-0.5.4"
+      }
+    },
+    {
+      "drvPath": "/nix/store/prr32nl315wlfbs9kdd3yp22fryzm4vp-tam-0.43.2.drv",
+      "outputs": {
+        "out": "/nix/store/mcm2s65l7iwhhc9rrk3m06g9jy0q2fvl-tam-0.43.2"
+      }
+    },
+    {
+      "drvPath": "/nix/store/3jqckqjcs7265arba5910jl8pnzx746y-libtam-0.4.0.drv",
+      "outputs": {
+        "out": "/nix/store/n7jv04wl7pmaiyasn01bfj8clhn5m91x-libtam-0.4.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/5scrwpf9n6wjv6xz80nagyadyh567pxy-tamlinux-tools-0-unstable-d8b0912.drv",
+      "outputs": {
+        "out": "/nix/store/k623zrqfql2j21rgm1ma580x7n1d5g69-tamlinux-tools-0-unstable-d8b0912"
+      }
+    },
+    {
+      "drvPath": "/nix/store/dghm6px7jvvdrw6mp2ypqgpy92y39h4g-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/8smj510xpclaz6ymmqhvh3mq7k76vy93-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/l6fy3ccasgvlg2c393v8r52qs8rlc4vk-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/yhwkgkdpdzcwhnbj765zhhm2b052gw48-tamlinux-example-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/lbfab23k4f72vjfyv91kqf8n7dvlnvrg-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/52lmng0irqhq366njdlhwmr1rvyx7hy7-tamlinux-fresh-session-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#libtam",
+      ".#tamlinux-tools",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.example-contract",
+      ".#checks.x86_64-linux.fresh-session"
+    ],
+    "build": "pass",
+    "candidateToolTests": "9 passed",
+    "componentVersions": {
+      "tamCommand": "0.43.2",
+      "tamCorpus": "0.43.0",
+      "libtam": "0.4.0"
+    },
+    "nativeTreeUnchanged": "2ebaed15cfcac835bc682c147ef1c2673d65b936",
+    "flakeCheck": "pass (all named checks)",
+    "packagedTamNavigation": "Version, guide root, welcome, search, man and Info checks passed before and after wrapper fixup"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.5.2-0.1",
+    "archive": "tamlinux-native-0.5.2-0.1-x86_64.pkg.tar.zst",
+    "sha256": "d99e955535514a9fff82e7e54121e5f677f844ed592a1fd202153241f1368faa",
+    "productRevision": "f77a8c7034d7cec136258594d73dece23f70afd8",
+    "sourceSha256": "864155a3900fdbaf958d92127d2a6ad6dfee8322ca7b1e5de63a6198b967bb81",
+    "recipeSha256": "fa37a3be414a1c7c76e4f75590f859698a586f9a13a37b367d51210e2316c1cd",
+    "reuseReason": "User command and library update only; desktop/native source unchanged from 0.5.3. Retain installed 0.5.2 native package."
+  },
+  "hostRecoveryPackage": {
+    "name": "tamlinux-host-recovery",
+    "version": "0.4.4pre.h-1",
+    "archive": "tamlinux-host-recovery-0.4.4pre.h-1-x86_64.pkg.tar.zst",
+    "sha256": "c32eb23b7d7a10b76cfa752506b89fff50e741761b6a125954d5504d1b97b3dc",
+    "reuseReason": "Host recovery provider and boot-selection boundary remain unchanged; preserve accepted recovery routes."
+  },
+  "readiness": {
+    "packagePrepared": true,
+    "nativeInstallationRequired": false,
+    "mutableSettingsChange": false,
+    "remaining": [
+      "Authorized Test activation",
+      "Idle energy reading",
+      "Physical workflow confirmation"
+    ]
+  }
+}
