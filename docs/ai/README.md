@@ -1,5 +1,7 @@
 # AI session records
 
+- [2026-10-25 — Native monitor feasibility progress](2026-10-25-monitor-feasibility.md)
+
 - [2026-10-23 — Console-first package delivery](2026-10-23-console-first-startup.md)
 
 | Date | Topic | Tool | Model | Record |
