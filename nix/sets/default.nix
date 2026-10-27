@@ -19,6 +19,7 @@
     gcc
     binutils
     gnumake
+    pkg-config
     git
     curl
     cacert

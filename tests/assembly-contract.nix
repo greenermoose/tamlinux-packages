@@ -35,9 +35,26 @@ let
       }
     ];
   };
+  developerHome = nativeProvided: enabled: (home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+    modules = [ module {
+      home.username = "alex";
+      home.homeDirectory = "/home/alex";
+      home.stateVersion = "25.05";
+      tamlinux.developer = { enable = enabled; inherit nativeProvided; };
+    } ];
+  }).config;
+  nativeDeveloper = developerHome true true;
+  minimal = developerHome false false;
   c = hm.config;
   files = "${hm.activationPackage}/home-files";
 in
+assert builtins.elem components.libtam c.tamlinux.developer.libraries;
+assert builtins.elem components.libtam c.home.packages;
+assert builtins.elem components.libtam nativeDeveloper.home.packages;
+assert !(builtins.elem components.libtam minimal.home.packages);
+assert builtins.elem "${components.libtam}/lib/pkgconfig" c.home.sessionSearchVariables.PKG_CONFIG_PATH;
+assert builtins.elem "${components.libtam}/lib/pkgconfig" nativeDeveloper.home.sessionSearchVariables.PKG_CONFIG_PATH;
 assert components.tamlinux-plugins.passthru.ids == [ "fred.demo" "fred.other" ];
 assert components.tamlinux-commands.passthru.names == [ "tam-demo" ];
 assert components.tamlinux-shell.passthru.version == "0.4.2-a";

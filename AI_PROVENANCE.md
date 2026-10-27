@@ -227,3 +227,5 @@ launcher icon through the owned package and explicit preserving migration.
 Codex CLI `0.163.0` (`gpt-6.1-sol`) adds recorded, source-verified Arch-based
 live-media assembly for the read-only bootstrap helper. No desktop stage
 change. [Session](docs/ai/2026-10-22-nut.md).
+
+2026-10-27: Codex CLI `0.164.0` (`gpt-6.1-terra`) worked on native monitor package integration. [Session](docs/ai/2026-10-27-monitor-integration.md).

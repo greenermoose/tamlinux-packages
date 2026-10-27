@@ -7,15 +7,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tamlinux = {
-      url = "github:greenermoose/tamlinux/73efb4a98a9be6fe6a690455008645b0f7b016fd";
+      url = "github:greenermoose/tamlinux/f1fb80386cecd55e46d49bf229ee4863f2e16f24";
       flake = false;
     };
     tam = {
-      url = "github:greenermoose/tam/eea4509277590380469f83a84939a14c285c107c";
+      url = "github:greenermoose/tam/c33078a52df8d9e784c289a7f0333d92e186beb4";
       flake = false;
     };
     libtam = {
-      url = "github:greenermoose/libtam/a051ebf457e41a27d47d273bdab291430cabd7ad";
+      url = "github:greenermoose/libtam/02576574d4b1438a1edf510d7a1b357643d2cfcc";
       flake = false;
     };
     tamlinux-tools = {
@@ -53,6 +53,7 @@
         tamlinux.shell.package = lib.mkDefault components.tamlinux-shell;
         tamlinux.shell.pluginPackage = lib.mkDefault components.tamlinux-plugins;
         tamlinux.shell.commandPackage = lib.mkDefault components.tamlinux-commands;
+        tamlinux.developer.libraries = lib.mkDefault [ components.libtam pkgs.systemd.dev pkgs.libdrm pkgs.zlib.dev pkgs.ncurses.dev ];
         tamlinux.tools.tam = lib.mkDefault components.tam;
         tamlinux.tools.fileSelect = lib.mkDefault components.tamlinux-tools;
       };

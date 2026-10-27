@@ -2,15 +2,33 @@
 let
   libtam = pkgs.stdenv.mkDerivation {
     pname = "libtam";
-    version = "0.4.0";
+    version = builtins.head (builtins.match ''#define TAM_VERSION_STRING[[:space:]]+"([^"]+)"[[:space:]]*''
+      (pkgs.lib.findFirst (pkgs.lib.hasPrefix "#define TAM_VERSION_STRING")
+        (throw "Pinned libtam source has no version")
+        (pkgs.lib.splitString "\n" (builtins.readFile "${sources.libtam}/include/tam.h"))));
     src = sources.libtam;
     nativeBuildInputs = [ pkgs.pkg-config ];
-    buildInputs = [ pkgs.dbus ];
+    buildInputs = [ pkgs.dbus ] ++ pkgs.lib.optionals (builtins.pathExists "${sources.libtam}/include/tam_display.h") [ pkgs.libdrm pkgs.systemd ];
+    dontStrip = true;
+    buildPhase = ''
+      runHook preBuild
+      make all ${pkgs.lib.optionalString (builtins.pathExists "${sources.libtam}/include/tam_display.h") "display session"}
+      runHook postBuild
+    '';
+    installPhase = ''
+      runHook preInstall
+      make install PREFIX="$out"
+      ${pkgs.lib.optionalString (builtins.pathExists "${sources.libtam}/include/tam_display.h") "make install-display install-session PREFIX=\"$out\""}
+      runHook postInstall
+    '';
     makeFlags = [ "PREFIX=$(out)" ];
     doCheck = true;
     meta.license = pkgs.lib.licenses.gpl3Plus;
   };
   tam = pkgs.stdenv.mkDerivation {
+    dontStrip = true;
+    NIX_CFLAGS_COMPILE = "-g";
+    NIX_LDFLAGS = "--build-id";
     pname = "tam";
     version = builtins.head (builtins.match ''#define TAM_COMMAND_VERSION[[:space:]]+"([^"]+)"[[:space:]]*''
       (lib.findFirst (lib.hasPrefix "#define TAM_COMMAND_VERSION")
@@ -80,6 +98,9 @@ let
     };
   };
   tools = pkgs.stdenv.mkDerivation {
+    dontStrip = true;
+    NIX_CFLAGS_COMPILE = "-g";
+    NIX_LDFLAGS = "--build-id";
     pname = "tamlinux-tools";
     version = "0-unstable-${builtins.substring 0 7 sources.tamlinux-tools.rev}";
     src = sources.tamlinux-tools;
@@ -366,7 +387,7 @@ let
     tam-display-text-size = [ pkgs.coreutils pkgs.gawk pkgs.gnused pkgs.gnugrep
       pkgs.procps pkgs.glib pkgs.dconf ];
     # Text-console ioctls need no compositor; DDC/hw siblings supply their own tools.
-    tam-monitor = [ pkgs.python3 pkgs.brightnessctl ];
+    tam-monitor = (lib.optional (!(has "commands/tam-monitor/native.c")) pkgs.python3) ++ [ pkgs.brightnessctl ];
     # Native Hyprland/locker/PAM, Polkit/asdcontrol and ttfx remain host boundaries.
     tam-brightness-display = [ pkgs.coreutils pkgs.jq pkgs.gawk pkgs.util-linux pkgs.brightnessctl ];
     tam-brightness-display-ddc = [ pkgs.coreutils pkgs.gawk pkgs.ddcutil ];
@@ -490,16 +511,23 @@ let
       '';
   # Product commands: each commands/<name>/ installs bin/<name>.
   commands = pkgs.stdenv.mkDerivation {
+    NIX_LDFLAGS = "--build-id";
     pname = "tamlinux-commands";
     version = packageVersion;
     src = product;
     dontConfigure = true;
-    dontBuild = true;
-    nativeBuildInputs = [ pkgs.makeWrapper themeFontPython ];
+    dontStrip = true;
+    nativeBuildInputs = [ pkgs.makeWrapper themeFontPython pkgs.pkg-config ];
+    buildPhase = ''
+      runHook preBuild
+      ${lib.optionalString (has "commands/tam-monitor/native.c") "make -C commands/tam-monitor LIBTAM_PREFIX=${libtam}"}
+      runHook postBuild
+    '';
     buildInputs = [
       pkgs.bash
       pkgs.python3
-    ];
+    ] ++ lib.optionals (has "commands/tam-monitor/native.c") [ libtam pkgs.systemd pkgs.libdrm ];
+    makeFlags = lib.optional (has "commands/tam-monitor/native.c") "LIBTAM_PREFIX=${libtam}";
     nativeCheckInputs = [
       (lib.getBin pkgs.util-linux)
       (lib.getBin pkgs.procps)
@@ -514,6 +542,13 @@ let
     checkPhase = ''
       runHook preCheck
       patchShebangs commands
+      ${lib.optionalString (has "commands/tam-monitor/native.c") ''
+        # The upstream fixture supplies a closed PATH; /usr/bin is absent in Nix builds.
+        substituteInPlace commands/tam-monitor/tests/test_monitor.py \
+          --replace-fail '/usr/bin:/bin' '${pkgs.coreutils}/bin' \
+          --replace-fail '    def test_installed_command_metadata_without_desktop(self):' \
+            $'    @unittest.skipUnless(Path("/sys/class/drm").is_dir(), "requires host sysfs; tested outside the Nix sandbox")\n    def test_installed_command_metadata_without_desktop(self):'
+      ''}
       ${lib.optionalString (has "desktop/widget-proof") "patchShebangs desktop/widget-proof"}
       ${lib.optionalString features.menu "patchShebangs desktop/menu/tam-menu"}
       export HOME=$TMPDIR/home
@@ -522,14 +557,14 @@ let
       git config --global user.name check
       git config --global init.defaultBranch main
       ${lib.concatMapStrings (name: ''
-        make -C commands/${name} check
+        make -C commands/${name} check ${lib.optionalString (name == "tam-monitor" && has "commands/tam-monitor/native.c") "LIBTAM_PREFIX=${libtam}"}
       '') commandNames}
       runHook postCheck
     '';
     installPhase = ''
       runHook preInstall
       ${lib.concatMapStrings (name: ''
-        make -C commands/${name} install PREFIX=$out
+        make -C commands/${name} install PREFIX=$out ${lib.optionalString (name == "tam-monitor" && has "commands/tam-monitor/native.c") "LIBTAM_PREFIX=${libtam}"}
       '') commandNames}
       mkdir -p $out/bin
       ${lib.optionalString (has "desktop/browser/native_host.py") ''
