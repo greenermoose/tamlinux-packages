@@ -80,5 +80,6 @@
 - [2026-10-17 — 0.4.4f hibernate hook assembly](2026-10-17-hibernate-h1.md)
 
 - [2026-10-20 — Discord icon independence](2026-10-20-discord-icon.md)
+- [2026-10-28 — selected tam pin](2026-10-28-tam-pin.md)
 
 - 2026-10-22: [Verified development bootstrap media](2026-10-22-nut.md), Codex CLI `0.163.0`, `gpt-6.1-sol`.
