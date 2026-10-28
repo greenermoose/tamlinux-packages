@@ -4,6 +4,7 @@ pkgver=@PRODUCT_VERSION@
 pkgrel=0.1
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
+options=(!strip)
 url='https://github.com/greenermoose/tamlinux'
 license=(GPL-3.0-or-later GPL-2.0-or-later MIT)
 depends=(bash coreutils 'util-linux>=2.41' gawk python polkit hyprland jq glibc 'libstdc++' nss-mdns avahi

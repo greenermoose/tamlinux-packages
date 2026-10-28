@@ -29,3 +29,10 @@ checker also verifies the previously recorded native archive before rollback.
 The recorded 0.5.5 predecessor archive passed that check. Focused candidate,
 native archive and native staging tests passed. The 0.5.6 product revision was
 not yet frozen; no 0.5.6 native archive was built or activated in this session.
+
+Fred then instructed: "include keybinding explorer 0.2.2 in Tamlinux 0.5.6. agy is just filing a report. We're done developing that app and ready to package it up and get Tamlinux 0.5.6 ready to test. Proceed."
+Native recipe disables stripping to retain the debugging symbols required during
+0.x. An uninstalled native 0.5.6 package was built and checked against product
+revision `008137c4176a5c08d4f969b7be287bc6b09b83f7`; its executable retains
+`.debug_info` and `.symtab`. Candidate selection remains subject to the final
+product revision and assembly record.

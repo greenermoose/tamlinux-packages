@@ -49,6 +49,7 @@ class NativeStaging(unittest.TestCase):
         self.assertEqual(a,b);self.assertFalse(a['candidateReady'])
         self.assertIn(a['sourceSha256'],(self.base/'a/PKGBUILD').read_text())
         self.assertIn('pkgver=0.5.6', (self.base/'a/PKGBUILD').read_text())
+        self.assertIn('options=(!strip)', (self.base/'a/PKGBUILD').read_text())
         with tarfile.open(self.base/'a/tamlinux-native-source.tar') as archive:
             self.assertEqual(len(archive.getmembers()),len(m.FILES)+len(self.origins)+1)
             self.assertTrue(all(p.name.startswith('tamlinux-native/') and p.uid==0 and p.mtime==0 for p in archive.getmembers()))
