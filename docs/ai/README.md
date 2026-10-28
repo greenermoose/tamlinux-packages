@@ -1,5 +1,7 @@
 # AI session records
 
+- [2026-10-28 — Approved 0.5.6 delivery plan](2026-10-28-0.5.6-plan.md)
+
 - [2026-10-28 — 0.5.5 candidate preparation](2026-10-28-0.5.5-candidate.md)
 
 - [2026-10-27 — native monitor package integration](2026-10-27-monitor-integration.md)
