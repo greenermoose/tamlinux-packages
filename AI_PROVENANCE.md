@@ -9,11 +9,13 @@ privately by the author.
 | --- | --- | --- | --- |
 | 2026-10-23 | Blue Sparkler 0.5.0 fleet and supported first-install assembly; no activation | [Session](docs/ai/2026-10-23-fleet-first-install.md) |
 | 2026-10-16 | 0.4.4d assembly and bounded login maintenance | [Session](docs/ai/2026-10-16-0.4.4d-readiness.md) |
+| Codex CLI | 0.165.0 | gpt-6.1-terra | 2026-10-28 |
 | Codex CLI | 0.164.0 | gpt-6.1-sol | 2026-10-25 |
 | Claude Code | 2.1.301 | claude-opus-5-5 | 2026-10-16 |
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-28 | Prepare 0.5.5 candidate | [Session](docs/ai/2026-10-28-0.5.5-candidate.md) |
 | 2026-10-27 | Select tam command 0.44.0 and corpus 0.45.5 for 0.5.5 development assembly | [Session](docs/ai/2026-10-27-tam-0455-selection.md) |
 | 2026-10-25 | Initial native monitor inspection implemented; delivery status only, no assembly change | [Session](docs/ai/2026-10-25-monitor-feasibility.md) |
 | 2026-10-25 | Approved 0.5.5 delivery plan: native monitor, matching development libraries and pending tam selection; planning only | [Session](docs/ai/2026-10-25-0.5.5-plan.md) |
