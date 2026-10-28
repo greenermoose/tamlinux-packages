@@ -15,6 +15,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-28 | Prepare tam command 0.44.0 and corpus 0.46.0 for the development assembly | [Session](docs/ai/2026-10-28-tam-0460-development.md) |
 | 2026-10-28 | Prepare 0.5.5 candidate | [Session](docs/ai/2026-10-28-0.5.5-candidate.md) |
 | 2026-10-27 | Select tam command 0.44.0 and corpus 0.45.5 for 0.5.5 development assembly | [Session](docs/ai/2026-10-27-tam-0455-selection.md) |
 | 2026-10-25 | Initial native monitor inspection implemented; delivery status only, no assembly change | [Session](docs/ai/2026-10-25-monitor-feasibility.md) |
