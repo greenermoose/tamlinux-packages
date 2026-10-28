@@ -73,16 +73,24 @@ pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/chromium/extensions/copy-url/manifest.json
   test -f ${files}/.config/chromium/NativeMessagingHosts/org.tamlinux.copy_url.json
   test -f ${files}/.config/chromium/NativeMessagingHosts/org.tamlinux.ytdlp.json
+  test -f ${files}/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/org.tamlinux.copy_url.json
+  test -f ${files}/.config/google-chrome/NativeMessagingHosts/org.tamlinux.ytdlp.json
+  test -f ${files}/.config/microsoft-edge/NativeMessagingHosts/org.tamlinux.copy_url.json
   test ! -e ${files}/.config/chromium-flags.conf
   ${pkgs.python3}/bin/python3 - ${files} ${components.tamlinux-commands} <<'PY'
 import json,sys
 from pathlib import Path
 files,commands=map(Path,sys.argv[1:])
-for name,command,extension in [('copy_url','copy-url','bgpiichlckmfanooecilcjemknkcpngb'),('ytdlp','ytdlp','dedjgknigfeelejglamclffonmophnfl')]:
-    data=json.loads((files/f'.config/chromium/NativeMessagingHosts/org.tamlinux.{name}.json').read_text())
-    assert data['path']==str(commands/f'bin/tam-chromium-{command}-host')
-    assert data['allowed_origins']==[f'chrome-extension://{extension}/']
-    assert Path(data['path']).is_file()
+dirs=['chromium','google-chrome','google-chrome-beta','google-chrome-unstable',
+      'BraveSoftware/Brave-Browser','BraveSoftware/Brave-Browser-Beta',
+      'BraveSoftware/Brave-Browser-Nightly','microsoft-edge','microsoft-edge-dev']
+for directory in dirs:
+    for name,command,extension in [('copy_url','copy-url','bgpiichlckmfanooecilcjemknkcpngb'),('ytdlp','ytdlp','dedjgknigfeelejglamclffonmophnfl')]:
+        data=json.loads((files/f'.config/{directory}/NativeMessagingHosts/org.tamlinux.{name}.json').read_text())
+        assert data['name']==f'org.tamlinux.{name}'
+        assert data['path']==str(commands/f'bin/tam-chromium-{command}-host')
+        assert data['allowed_origins']==[f'chrome-extension://{extension}/']
+        assert Path(data['path']).is_file()
 PY
   grep -q 'tam-toggle-enabled crash-capture-off' ${files}/.config/systemd/user/tam-crash-watch.service
   grep -q 'FileChooser=gtk' ${files}/.config/xdg-desktop-portal/hyprland-portals.conf

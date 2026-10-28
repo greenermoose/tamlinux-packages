@@ -11,6 +11,30 @@ let
     type = "stdio";
     allowed_origins = [ "chrome-extension://${origin}/" ];
   };
+  # Chromium-family browsers each read their own NativeMessagingHosts tree.
+  # Register the same org.tamlinux hosts everywhere leftover com.omarchy.*
+  # manifests used to appear; extensions already speak org.tamlinux names.
+  chromiumNativeHostDirs = [
+    "chromium"
+    "google-chrome"
+    "google-chrome-beta"
+    "google-chrome-unstable"
+    "BraveSoftware/Brave-Browser"
+    "BraveSoftware/Brave-Browser-Beta"
+    "BraveSoftware/Brave-Browser-Nightly"
+    "microsoft-edge"
+    "microsoft-edge-dev"
+  ];
+  chromiumNativeHosts = lib.listToAttrs (lib.concatMap (dir: [
+    {
+      name = "${dir}/NativeMessagingHosts/org.tamlinux.copy_url.json";
+      value = { text = nativeHost "org.tamlinux.copy_url" "tam-chromium-copy-url-host" "bgpiichlckmfanooecilcjemknkcpngb"; };
+    }
+    {
+      name = "${dir}/NativeMessagingHosts/org.tamlinux.ytdlp.json";
+      value = { text = nativeHost "org.tamlinux.ytdlp" "tam-chromium-ytdlp-host" "dedjgknigfeelejglamclffonmophnfl"; };
+    }
+  ]) chromiumNativeHostDirs);
 in {
   options.tamlinux.session = {
     enable = lib.mkEnableOption "owned Arch/Hyprland fresh-login defaults";
@@ -62,11 +86,7 @@ in {
       '';
     } // lib.optionalAttrs cfg.chromiumExtensions.enable ({
       "tamlinux/chromium/extensions".source = "${browser}/extensions";
-      "chromium/NativeMessagingHosts/org.tamlinux.copy_url.json".text =
-        nativeHost "org.tamlinux.copy_url" "tam-chromium-copy-url-host" "bgpiichlckmfanooecilcjemknkcpngb";
-      "chromium/NativeMessagingHosts/org.tamlinux.ytdlp.json".text =
-        nativeHost "org.tamlinux.ytdlp" "tam-chromium-ytdlp-host" "dedjgknigfeelejglamclffonmophnfl";
-    } // lib.optionalAttrs cfg.chromiumExtensions.manageFlags {
+    } // chromiumNativeHosts // lib.optionalAttrs cfg.chromiumExtensions.manageFlags {
       "chromium-flags.conf".text = ''
         --ozone-platform=wayland
         --password-store=gnome-libsecret
