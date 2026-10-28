@@ -638,7 +638,8 @@ elif name == 'hyprctl':
             extra = {'HOME': str(fresh / 'home'), 'XDG_CONFIG_HOME': str(fresh / 'config'),
                      'XDG_STATE_HOME': str(fresh / 'state'), 'XDG_DATA_HOME': str(fresh / 'data')}
             initialized = json.loads(run('tam-session-init', extra_env=extra).stdout)
-            assert len(initialized['created']) == 11
+            assert len(initialized['created']) == 12
+            assert (config / 'imv/config').read_text() == '[binds]\n<Escape> = quit\n'
             mime = (config / 'mimeapps.list').read_text()
             assert 'text/plain=Helix.desktop' in mime
             assert 'x-scheme-handler/http=chromium.desktop' in mime

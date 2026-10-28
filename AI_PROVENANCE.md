@@ -15,6 +15,7 @@ privately by the author.
 
 | Date | Milestone | Record |
 | --- | --- | --- |
+| 2026-10-28 | Prepare 0.5.6 with explorer 0.2.2 and console welcome | [Session](docs/ai/2026-10-28-0.5.6-candidate.md) |
 | 2026-10-28 | Console welcome artifact generation; host integration pending | [Session](docs/ai/2026-10-28-console-welcome.md) |
 | 2026-10-28 | Prepare tam command 0.44.0 and corpus 0.46.0 for the development assembly | [Session](docs/ai/2026-10-28-tam-0460-development.md) |
 | 2026-10-28 | Prepare 0.5.5 candidate | [Session](docs/ai/2026-10-28-0.5.5-candidate.md) |
