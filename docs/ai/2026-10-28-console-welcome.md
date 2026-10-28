@@ -18,3 +18,6 @@ installs a vendor issue fragment. Eleven native staging tests pass, including
 an isolated test that the real agetty reads this fragment alongside a host
 issue file. Native installation and rollback must still be bound to the
 candidate; no archive or candidate has been prepared or activated.
+An isolated package-function probe also stages the exact committed development
+product and verifies its generated 0.5.5 banner; this is not a 0.5.6 candidate
+or a build of the complete native package.
