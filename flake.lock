@@ -7,17 +7,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1789071706,
-        "narHash": "sha256-S+oyh2YSP9V5bSjWbbK0N7GxdxxMwgBfUOtUdVcAWc4=",
+        "lastModified": 1792605213,
+        "narHash": "sha256-J73EBU30r2hXvHCcBtaigQDAIu/GGPYk1nc6P9THcmg=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+        "rev": "ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "150f9ce4ddd41544ea42eb9d6043a75bd615fa24",
+        "rev": "ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c",
         "type": "github"
       }
     },
@@ -40,17 +40,17 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1789006805,
-        "narHash": "sha256-xB8mKMOx1IA9vTDNLmJZ6n4wCMq/cuWBBOzGCRnqxrU=",
+        "lastModified": 1792626989,
+        "narHash": "sha256-SqQcbCptvcTV4Iargthk+aQH75jOzYFP8WT4BHOyUnQ=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+        "rev": "d630516d328323b5440895ffcd3b273de93d88e7",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe",
+        "rev": "d630516d328323b5440895ffcd3b273de93d88e7",
         "type": "github"
       }
     },
@@ -84,17 +84,17 @@
     "tamlinux": {
       "flake": false,
       "locked": {
-        "lastModified": 1793209769,
-        "narHash": "sha256-/ZfPdIJRNqNk7Da2C+4WOSNpb8VXYMEBHdoMTWRpw1M=",
+        "lastModified": 1793220143,
+        "narHash": "sha256-Ku3YPeJ6HTDdgHu6p3o+0LAZEVXb2eiRfcIoh4kn64k=",
         "owner": "greenermoose",
         "repo": "tamlinux",
-        "rev": "2eea2a94505c81fc0f5a0b6b01e870bfb85a3343",
+        "rev": "04e993dc882cec6162c73204e03cb1cd902cb83e",
         "type": "github"
       },
       "original": {
         "owner": "greenermoose",
         "repo": "tamlinux",
-        "rev": "2eea2a94505c81fc0f5a0b6b01e870bfb85a3343",
+        "rev": "04e993dc882cec6162c73204e03cb1cd902cb83e",
         "type": "github"
       }
     },

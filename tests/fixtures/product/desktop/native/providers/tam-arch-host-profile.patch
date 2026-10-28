@@ -1,0 +1,19 @@
+From: Tamlinux maintainers
+Subject: Recognize the Arch host through independent OS metadata
+
+Build integration for the selected tam 0.9.1 source. The Arch ID and ID_LIKE
+checks preserve supported Arch profiles; no inherited software identity is
+needed. Retire this patch when the selected component source has this cutover.
+
+--- a/src/install.c
++++ b/src/install.c
+@@ -268,8 +268,7 @@
+ 
+ static void get_profiles(const os_release_t *info, char *supported, size_t s_len, char *target_base, size_t t_len)
+ {
+-    if (strcasecmp(info->id, "omarchy") == 0 ||
+-        strcasecmp(info->id, "arch") == 0 ||
++    if (strcasecmp(info->id, "arch") == 0 ||
+         strcasestr(info->id_like, "arch") != NULL) {
+         snprintf(supported, s_len, "arch-hyprland, arch");
+         snprintf(target_base, t_len, "arch");

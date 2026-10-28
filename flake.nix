@@ -1,13 +1,13 @@
 {
   description = "Pinned Tamlinux packages and reusable user-layer deployment modules";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/8ce4ef6cb6f871616146b9fe26d2a5ae594e94fe";
+    nixpkgs.url = "github:nixos/nixpkgs/d630516d328323b5440895ffcd3b273de93d88e7";
     home-manager = {
-      url = "github:nix-community/home-manager/150f9ce4ddd41544ea42eb9d6043a75bd615fa24";
+      url = "github:nix-community/home-manager/ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     tamlinux = {
-      url = "github:greenermoose/tamlinux/2eea2a94505c81fc0f5a0b6b01e870bfb85a3343";
+      url = "github:greenermoose/tamlinux/04e993dc882cec6162c73204e03cb1cd902cb83e";
       flake = false;
     };
     tam = {

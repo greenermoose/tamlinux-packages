@@ -1,5 +1,7 @@
 # AI session records
 
+- [2026-10-28 — Tamlinux 0.5.7 candidate preparation](2026-10-28-0.5.7-candidate.md)
+
 - [2026-10-28 — Tamlinux 0.5.6 candidate preparation](2026-10-28-0.5.6-candidate.md)
 
 - [2026-10-28 — Console welcome package artifact](2026-10-28-console-welcome.md)
