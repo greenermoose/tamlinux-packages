@@ -19,6 +19,7 @@ outside every repository.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 import re
@@ -175,6 +176,18 @@ def cmd_record(root: Path, args) -> None:
             fail(f"--extra may not replace {', '.join(sorted(clash))}")
         record["verification"].update(extra.pop("verification", {}))
         record.update(extra)
+    if version == '0.5.6' and not record.get('readiness', {}).get('nativeInstallationRequired'):
+        fail('0.5.6 requires its matching native package and installation record')
+    if record.get('readiness', {}).get('nativeInstallationRequired'):
+        if not args.native_archive:
+            fail('native installation requires --native-archive for candidate verification')
+        spec = importlib.util.spec_from_file_location('native_package_check', ROOT / 'tools/native-package-check.py')
+        verifier = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(verifier)
+        try:
+            verifier.verify(record, Path(args.native_archive))
+        except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
+            fail(f'native package verification failed: {error}')
     path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     print(f"record: wrote {path.relative_to(root)}")
 
@@ -225,6 +238,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--scope", required=True, help="what this candidate changes")
     p.add_argument("--build", help="build.json (default: the evidence directory)")
     p.add_argument("--extra", help="JSON object of further fields; its verification merges")
+    p.add_argument("--native-archive", help="matching native archive when native installation is required")
     p = sub.add_parser("check", help="read-only consistency check of VERSION, pins and record")
     p.add_argument("--product", default=str(ROOT.parent / "tamlinux"), help="tamlinux checkout")
     args = parser.parse_args(argv)

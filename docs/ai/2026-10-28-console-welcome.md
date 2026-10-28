@@ -21,3 +21,11 @@ candidate; no archive or candidate has been prepared or activated.
 An isolated package-function probe also stages the exact committed development
 product and verifies its generated 0.5.5 banner; this is not a 0.5.6 candidate
 or a build of the complete native package.
+
+Fred then requested: "Finish the banner's native-package update and rollback integration, then build it from the same product revision as the 0.5.6 assembly."
+Candidate recording now requires the matching native archive for 0.5.6 and
+checks its digest, package version, product revision and welcome. A read-only
+checker also verifies the previously recorded native archive before rollback.
+The recorded 0.5.5 predecessor archive passed that check. Focused candidate,
+native archive and native staging tests passed. The 0.5.6 product revision was
+not yet frozen; no 0.5.6 native archive was built or activated in this session.

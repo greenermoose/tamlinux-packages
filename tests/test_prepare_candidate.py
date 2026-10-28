@@ -1,10 +1,13 @@
 """tools/prepare-candidate.py: exact pins, unused versions, kept records, no promotion."""
 import importlib.util
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import subprocess
 import sys
+import tarfile
 import tempfile
 import unittest
 
@@ -154,6 +157,33 @@ class PrepareCandidate(unittest.TestCase):
         log = self.temp / "state/tamlinux/candidates/0.4.4-c/build.log"
         self.assertIn("boom", log.read_text())
         self.assertEqual(sorted(p.name for p in self.root.iterdir()), ["VERSION", "deliveries", "flake.lock", "flake.nix"])
+
+    def test_056_requires_a_verified_native_archive_before_recording(self):
+        self.ok('version', '0.5.6')
+        self.ok('build')
+        self.refused('requires its matching native package', 'record', '--parent', PARENT, '--scope', 'welcome')
+        extra = self.temp / 'native.json'
+        extra.write_text(json.dumps({'readiness': {'nativeInstallationRequired': True}}))
+        self.refused('requires --native-archive', 'record', '--parent', PARENT, '--scope', 'welcome', '--extra', str(extra))
+        self.assertFalse((self.root/'deliveries/tamlinux-0.5.6.json').exists())
+
+    def test_056_records_only_matching_native_archive(self):
+        self.ok('version', '0.5.6'); self.ok('build')
+        archive = self.temp/'tamlinux-native.pkg.tar'
+        files = {'.PKGINFO': b'pkgname = tamlinux-native\npkgver = 0.5.6-0.1\n',
+                 'usr/share/tamlinux/native-integration.json': json.dumps({'productRevision': OLD}).encode(),
+                 'usr/lib/issue.d/70-tamlinux.issue': b'Welcome to Tamlinux!\nCultivar: Blue Sparkler 0.5.6\n'}
+        with tarfile.open(archive, 'w') as tar:
+            for name, data in files.items():
+                entry = tarfile.TarInfo(name); entry.size = len(data)
+                tar.addfile(entry, io.BytesIO(data))
+        extra = self.temp/'native.json'
+        extra.write_text(json.dumps({'readiness': {'nativeInstallationRequired': True},
+                                    'nativePackage': {'name': 'tamlinux-native', 'version': '0.5.6-0.1',
+                                                      'archive': archive.name, 'productRevision': OLD,
+                                                      'sha256': hashlib.sha256(archive.read_bytes()).hexdigest()}}))
+        self.ok('record', '--parent', PARENT, '--scope', 'welcome', '--extra', str(extra), '--native-archive', str(archive))
+        self.assertEqual(json.loads((self.root/'deliveries/tamlinux-0.5.6.json').read_text())['nativePackage']['productRevision'], OLD)
 
     def test_check_finds_drift(self):
         (self.root / "flake.nix").write_text((self.root / "flake.nix").read_text().replace(f"tamlinux/{OLD}", f"tamlinux/{NEW}"))
