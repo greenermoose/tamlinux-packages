@@ -149,6 +149,7 @@ let
     documentation = has "desktop/README.md";
     sessionProviders = has "desktop/session/providers.json";
     consoleDesktop = has "desktop/session/console.py" && has "desktop/session/desktop";
+    consoleWelcome = has "desktop/session/console-welcome.py";
     graphicsEnvironmentIsolation = has "desktop/shell/graphics-environment-isolation-v1";
     userDefaults = has "desktop/user-defaults/apply";
     agentSkills = has "desktop/skills/manage.py";
@@ -461,6 +462,11 @@ let
         chmod -R u+w $out/share/tamlinux/shell
         cp ${product}/VERSION $out/share/tamlinux/version
         ${lib.optionalString (productCultivar != null) "cp ${product}/CULTIVAR $out/share/tamlinux/cultivar"}
+        ${lib.optionalString features.consoleWelcome ''
+          mkdir -p $out/share/tamlinux/console
+          python3 ${product}/desktop/session/console-welcome.py > $out/share/tamlinux/console/welcome-generic.issue
+          python3 ${product}/desktop/session/console-welcome.py ${lib.optionalString (productCultivar != null) "--cultivar ${lib.escapeShellArg productCultivar} --version ${lib.escapeShellArg productVersion}"} > $out/share/tamlinux/console/welcome.issue
+        ''}
         ${lib.optionalString features.agentSkills ''
           cp -R ${product}/desktop/skills $out/share/tamlinux/skills
         ''}
