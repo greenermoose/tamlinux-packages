@@ -11,3 +11,10 @@
 Codex added optional package-time generation of generic and assembly-specific
 issue files. The package expression parses; it has not been built or deployed.
 Machine-level selection, update and rollback integration remain unfinished.
+
+Fred then said: "Package the banner for Tamlinux 0.5.6. I want it to appear when you first boot up and when you switch to another tty from a graphical shell."
+The native recipe now stages the exact product's generator and identity and
+installs a vendor issue fragment. Eleven native staging tests pass, including
+an isolated test that the real agetty reads this fragment alongside a host
+issue file. Native installation and rollback must still be bound to the
+candidate; no archive or candidate has been prepared or activated.

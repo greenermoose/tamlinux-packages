@@ -6,6 +6,7 @@ import io
 import json
 import os
 from pathlib import Path
+import re
 import tarfile
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -22,6 +23,9 @@ FILES={
  'defaults/LICENSE':'desktop/native/defaults/LICENSE-defaults',
  'defaults/convert.py':'desktop/native/defaults/convert.py',
  'defaults/native_recovery.py':'desktop/migration/recovery.py',
+ 'console/console-welcome.py':'desktop/session/console-welcome.py',
+ 'console/version':'VERSION',
+ 'console/cultivar':'CULTIVAR',
 }
 DEFAULTS='desktop/native/defaults'
 
@@ -56,13 +60,16 @@ def prepare(product,destination,revision):
         source=product/relative
         if source.is_symlink() or not source.is_file() or not source.resolve().is_relative_to(product.resolve()):raise ValueError('Expected maintained source: '+relative)
         files[name]=source.read_bytes()
+    version = files['console/version'].decode('ascii').strip()
+    if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version):
+        raise ValueError('Native package requires a plain product version')
     special=defaults(product)
     files.update({name:data for name,(mode,data) in special.items() if mode!='link'})
     manifest={'schema':1,'stage':'Develop; no candidate promotion', 'productRevision':revision,
         'origin':'https://github.com/greenermoose/tamlinux','files':
         {name:hashlib.sha256(data).hexdigest() for name,data in sorted(files.items())},
         'links':{name:target for name,(mode,target) in sorted(special.items()) if mode=='link'},
-        'scope':'Explicit console desktop entry, browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults and checkpointed native conversion. No display manager, greeter or graphical-login PAM transaction.',
+        'scope':'Console welcome and explicit desktop entry, browser/Apple authorization, reload hooks, transient elevation cleanup, vendor defaults and checkpointed native conversion. No display manager, greeter or graphical-login PAM transaction.',
         'pending':['native root/security/service recovery beyond browser policies','KMS bridge','separate boot handoff','physical authentication/device proof',
                    'explicit tam-native-defaults transaction, service reloads and effective native-defaults verification before Desktop Test',
                    'provisioning must run systemctl preset for systemd-oomd']}
@@ -79,7 +86,7 @@ def prepare(product,destination,revision):
             entry.size=len(payload);entry.mode=mode
             handle.addfile(entry,io.BytesIO(payload))
     digest=hashlib.sha256(archive.read_bytes()).hexdigest()
-    recipe=(ROOT/'contracts/providers/recipes/tamlinux-native/PKGBUILD.in').read_text().replace('@SOURCE_SHA256@',digest)
+    recipe=(ROOT/'contracts/providers/recipes/tamlinux-native/PKGBUILD.in').read_text().replace('@SOURCE_SHA256@',digest).replace('@PRODUCT_VERSION@', version)
     (destination/'PKGBUILD').write_text(recipe)
     result={'schema':1,'sourceSha256':digest,'recipeSha256':hashlib.sha256(recipe.encode()).hexdigest(),
             'manifest':manifest,'candidateReady':False}

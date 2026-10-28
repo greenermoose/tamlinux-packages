@@ -3,6 +3,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import pty
 from pathlib import Path
 import shutil
 import subprocess
@@ -22,6 +23,12 @@ class NativeStaging(unittest.TestCase):
         for relative in m.FILES.values():
             p=self.product/relative;p.parent.mkdir(parents=True,exist_ok=True)
             p.write_text('controlled source '+relative+'\n')
+        (self.product/'desktop/session/console-welcome.py').write_text(
+            'import sys\n'
+            'print("Welcome to Tamlinux!\\nCultivar:  " + sys.argv[2] + " " + sys.argv[4])\n'
+            'print(r"Rootstock: \\S{PRETTY_NAME}\\nKernel: \\r")\n')
+        (self.product/'VERSION').write_text('0.5.6\n')
+        (self.product/'CULTIVAR').write_text('Blue Sparkler\n')
         base=self.product/m.DEFAULTS;root=base/'root'
         hook=root/'usr/lib/systemd/system-sleep/tamlinux-hook';hook.parent.mkdir(parents=True)
         hook.write_text('#!/bin/bash\n');hook.chmod(0o755)
@@ -41,6 +48,7 @@ class NativeStaging(unittest.TestCase):
         b=m.prepare(self.product,self.base/'b','development')
         self.assertEqual(a,b);self.assertFalse(a['candidateReady'])
         self.assertIn(a['sourceSha256'],(self.base/'a/PKGBUILD').read_text())
+        self.assertIn('pkgver=0.5.6', (self.base/'a/PKGBUILD').read_text())
         with tarfile.open(self.base/'a/tamlinux-native-source.tar') as archive:
             self.assertEqual(len(archive.getmembers()),len(m.FILES)+len(self.origins)+1)
             self.assertTrue(all(p.name.startswith('tamlinux-native/') and p.uid==0 and p.mtime==0 for p in archive.getmembers()))
@@ -73,6 +81,32 @@ class NativeStaging(unittest.TestCase):
         self.assertFalse((package/'usr/bin/tamlinux-session').exists())
         self.assertFalse((package/'etc').exists())
         self.assertFalse((package/'usr/local').exists())
+        issue = (package/'usr/lib/issue.d/70-tamlinux.issue').read_text()
+        self.assertIn('Cultivar:  Blue Sparkler 0.5.6', issue)
+        self.assertIn('Welcome to Tamlinux!', issue)
+        self.assertIn(r'\S{PRETTY_NAME}', issue)
+        self.assertIn(r'\r', issue)
+
+    @unittest.skipUnless(shutil.which('bwrap') and shutil.which('agetty'), 'requires bwrap and agetty')
+    def test_vendor_fragment_is_shown_with_existing_etc_issue(self):
+        etc=self.base/'etc';etc.mkdir()
+        (etc/'issue').write_text('Rootstock banner\n')
+        (etc/'os-release').write_text('PRETTY_NAME="Example Linux"\n')
+        vendor=self.base/'vendor';vendor.mkdir()
+        (vendor/'70-tamlinux.issue').write_text('Welcome to Tamlinux!\n')
+        master,slave=pty.openpty()
+        try:
+            result=subprocess.run([
+                'bwrap','--ro-bind','/','/', '--ro-bind',str(etc),'/etc',
+                '--tmpfs','/run', '--overlay-src','/usr/lib','--tmp-overlay','/usr/lib',
+                '--ro-bind',str(vendor),'/usr/lib/issue.d',
+                '--','agetty','--show-issue'], stdin=slave,stdout=slave,stderr=slave)
+            output=os.read(master,8192).decode()
+        finally:
+            os.close(master);os.close(slave)
+        self.assertEqual(result.returncode,0,output)
+        self.assertIn('Rootstock banner',output)
+        self.assertIn('Welcome to Tamlinux!',output)
 
     def test_no_display_manager_splash_or_login_pam_transaction_is_selected(self):
         stage=self.base/'stage';result=m.prepare(self.product,stage,'develop-console')

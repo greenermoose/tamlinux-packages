@@ -1,12 +1,12 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
-pkgver=0.5.2
+pkgver=@PRODUCT_VERSION@
 pkgrel=0.1
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'
 license=(GPL-3.0-or-later GPL-2.0-or-later MIT)
-depends=(bash coreutils util-linux gawk python polkit hyprland jq glibc 'libstdc++' nss-mdns avahi
+depends=(bash coreutils 'util-linux>=2.41' gawk python polkit hyprland jq glibc 'libstdc++' nss-mdns avahi
          zram-generator ttf-liberation noto-fonts noto-fonts-emoji fcitx5 bluez-tools sudo fuse3
          uwsm)
 optdepends=('plocate: index tuned by the updatedb drop-ins')
@@ -41,6 +41,8 @@ package() {
   # Vendor defaults: drop-ins under /usr/lib and /usr/share only, modes and links as staged.
   cp -dr --preserve=mode,links --no-preserve=ownership defaults/root/. "$pkgdir/"
   install -Dm644 manifest.json "$pkgdir/usr/share/tamlinux/native-integration.json"
+  install -d "$pkgdir/usr/lib/issue.d"
+  python console/console-welcome.py --cultivar "$(cat console/cultivar)" --version "$(cat console/version)" > "$pkgdir/usr/lib/issue.d/70-tamlinux.issue"
   install -Dm644 integration/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE"
   install -Dm644 asdcontrol/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-asdcontrol"
   install -Dm644 defaults/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-defaults"
