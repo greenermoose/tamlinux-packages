@@ -568,6 +568,7 @@ elif name == 'hyprctl':
         launch = json.loads(launch_log.read_text().splitlines()[-1])
         assert launch['name'] == 'tensaku' and launch['args'][:4] == ['--filename', str(edit), '--output-filename', str(edit)]
         checks.append('packaged annotation adapter preserves filename argv at the explicit recorded provider boundary')
+        provider_tools = args.commands / 'share/tamlinux/provider-tools.json'
         if provider_tools.is_file():
             selected = json.loads(provider_tools.read_text())
             if 'tensaku' in selected:
