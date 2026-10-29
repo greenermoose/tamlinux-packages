@@ -104,6 +104,7 @@ elif name == 'hyprctl':
             if (args.commands / 'bin/tam-theme-init').is_file():
                 run('tam-theme-init')
                 initialized = (current / 'theme').resolve()
+                assert (current / 'theme.name').read_text() == 'tamarack-dark\n'
                 run('tam-theme-init')
                 assert (current / 'theme').resolve() == initialized
                 checks.append('fresh owned theme state initializes without application or root adapters and preserves its selection')
@@ -141,6 +142,9 @@ elif name == 'hyprctl':
             fontenv = {'FONTCONFIG_FILE': str(fontconfig)}
             fonts = run('tam-font-list', extra_env=fontenv).stdout
             assert 'JetBrainsMono Nerd Font' in fonts
+            assert 'AtkynsonMono Nerd Font' in fonts
+            run('tam-font-set', 'Atkinson Hyperlegible', extra_env=fontenv)
+            assert 'Atkinson Hyperlegible' in (root / 'config/fontconfig/conf.d/99-tamlinux-monospace.conf').read_text()
             assert 'omarchy' not in fonts.lower()
             assert (args.commands / 'share/fonts/truetype/TamlinuxIcons.ttf').is_file()
             assert not (assets / 'fonts/source.ttf').exists()
