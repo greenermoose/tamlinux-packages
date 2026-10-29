@@ -108,18 +108,25 @@ elif name == 'hyprctl':
                 assert (current / 'theme').resolve() == initialized
                 checks.append('fresh owned theme state initializes without application or root adapters and preserves its selection')
             run('tam-theme-set', 'Tokyo Night', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
-            assert (current / 'theme').is_symlink()
+            assert (current / 'theme').is_dir() and not (current / 'theme').is_symlink()
             assert (current / 'theme.name').read_text() == 'tokyo-night\n'
             assert (current / 'theme/colors.toml').read_bytes() == (assets / 'themes/tokyo-night/colors.toml').read_bytes()
             assert '{{' not in (current / 'theme/shell.toml').read_text()
             checks.append('empty-state theme generation uses immutable templates and owned readers')
-            selected = (current / 'theme').resolve()
+            selected = (current / 'theme/colors.toml').read_bytes()
             assert run('tam-theme-set', '../bad', check=False).returncode
-            assert (current / 'theme').resolve() == selected
+            assert (current / 'theme/colors.toml').read_bytes() == selected
             run('tam-theme-set', 'nord', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
             run('tam-theme-set', 'tokyo-night', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
             assert run('tam-theme-current').stdout == 'Tokyo Night\n'
             checks.append('packaged switching returns to baseline and invalid names preserve selection')
+            for variant, background in (('tamarack-dark', '#0f1410'), ('tamarack-light', '#f5f5ec')):
+                run('tam-theme-set', variant, extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
+                themed = json.loads(run('tam-theme-payload').stdout)
+                assert themed['palette']['background'] == background
+                assert themed['style']['fontFamily'] == 'Atkinson Hyperlegible'
+            run('tam-theme-set', 'tokyo-night', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
+            checks.append('packaged Tamarack variants derive shell palettes and typography from owned tokens')
             image = root / 'image with spaces.png'
             image.write_bytes(b'probe image')
             run('tam-theme-bg-set', str(image))
