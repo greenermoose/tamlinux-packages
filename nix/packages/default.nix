@@ -589,6 +589,10 @@ let
         rm $out/share/tamlinux/assets/fonts/source.ttf
         find $out/share/tamlinux/assets/themes -name vscode.json -delete
         cp -R ${pkgs.nerd-fonts.jetbrains-mono}/share/fonts/. $out/share/fonts/
+        chmod -R u+w $out/share/fonts
+        cp -R ${pkgs.atkinson-hyperlegible}/share/fonts/. $out/share/fonts/
+        chmod -R u+w $out/share/fonts
+        cp -R ${pkgs.nerd-fonts.atkynson-mono}/share/fonts/. $out/share/fonts/
         cp VERSION $out/share/tamlinux/assets/version
         cp desktop/assets/LICENSE-omarchy $out/share/tamlinux/assets/fonts/LICENSE
         ${lib.optionalString (has "desktop/assets/icons/tamlinux-discord.png") ''
