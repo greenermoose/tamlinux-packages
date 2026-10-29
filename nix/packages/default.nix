@@ -382,7 +382,7 @@ let
     tam-toggle-idle = [ pkgs.coreutils ];
     tam-toggle-nightlight = [ pkgs.coreutils pkgs.procps pkgs.util-linux pkgs.gnugrep pkgs.jq ];
     tam-restart-hyprsunset = [ pkgs.procps pkgs.util-linux ];
-    tam-display-text-size = [ pkgs.coreutils pkgs.gawk pkgs.gnused pkgs.gnugrep
+    tam-display-text-size = [ pkgs.python3 pkgs.coreutils pkgs.gawk pkgs.gnused pkgs.gnugrep
       pkgs.procps pkgs.glib pkgs.dconf ];
     # Text-console ioctls need no compositor; DDC/hw siblings supply their own tools.
     tam-monitor = (lib.optional (!(has "commands/tam-monitor/native.c")) pkgs.python3) ++ [ pkgs.brightnessctl ];

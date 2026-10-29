@@ -5,7 +5,7 @@
 - **Transcript**: Retained privately by the author.
 - **Authorship**: AI-assisted implementation and documentation directed and approved by the maintainer.
 - **Product implementation**: [7d53a9a](https://github.com/greenermoose/tamlinux/commit/7d53a9a).
-- **Delivery scope**: documentation of 0.5.10 requirements; no package pins, version or assembly changed.
+- **Initial delivery scope**: documentation of 0.5.10 requirements. The subsequent package preparation is recorded below.
 
 ## Guiding prompts
 
@@ -32,4 +32,24 @@ settings in the Test recovery scope.
 Product checks include the 720-test desktop suite (81 skipped), final targeted
 Start/JSONC/service checks and 22 appearance/control checks. Consumer activation
 has four passing tests and a Nix syntax check. These are development checks;
-no assembly was prepared or activated and no physical acceptance is claimed.
+the implementation phase prepared no assembly and claimed no physical acceptance.
+
+## Package preparation after the reported failure
+
+The maintainer reported:
+
+> It doesn't work. I tried right mouse click on the top bar. Nothing.
+
+The running 0.5.9 shell contained no Start handler. Source had been developed
+but not delivered. Preparation now selects product
+`3890ff60e0d6dbe5cd6bac7af01538158a264991` with VERSION 0.5.10, preserving the
+other component and dependency pins. The delivery record binds ten built
+outputs and the matching native archive. Native staging uses an exact Git
+archive to retain recorded file modes; immutable store modes are read-only.
+
+The installed-components check found a missing Python runtime dependency in
+the new text-size recovery path. Its wrapper now provides Python explicitly;
+all ten package/contract targets then passed. Native makepkg build/check/package
+and archive verification passed. Candidate preparation and archive checks
+completed 25 focused tests. No activation or native installation occurred;
+the maintainer's Test instruction and physical acceptance remain outstanding.

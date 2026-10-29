@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.5.10",
+  "version": "0.5.10",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "4d9d378c39d2b67ab369d952f1353aa23cca1780",
+  "scope": "Start menu on unused bar space and Super right-click, desktop-wide appearance settings with text-size recovery, and retained Tamarack, screensaver removal, console and input Develop changes since 0.5.9",
+  "components": {
+    "home-manager": {
+      "lastModified": 1792605213,
+      "narHash": "sha256-J73EBU30r2hXvHCcBtaigQDAIu/GGPYk1nc6P9THcmg=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1793126685,
+      "narHash": "sha256-vQEPTTfxWlpUx55YDJyJJqeQ+xGsHw8pn9QMDMG09cQ=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "02576574d4b1438a1edf510d7a1b357643d2cfcc",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1792626989,
+      "narHash": "sha256-SqQcbCptvcTV4Iargthk+aQH75jOzYFP8WT4BHOyUnQ=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "d630516d328323b5440895ffcd3b273de93d88e7",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1793201717,
+      "narHash": "sha256-Kyem33hEuoteuDoGBylE+pa6KcaQXT/MnvFsU4z6ILg=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "2b2fdc4aa39733db010036b237746232b81a7d11",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1793296139,
+      "narHash": "sha256-57sqTHkBxu1FkzxLTpsXlk60PD81+3tdOSPamMnnegM=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "3890ff60e0d6dbe5cd6bac7af01538158a264991",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1792665818,
+      "narHash": "sha256-QGqY37X61xfQTqe+tHIXixDZFpP/tlKBNBECzW6yRo0=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "d8b0912733b1e92a0d3d1f5d039285ffb6b3e49d",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/3s8z06mr82k39xfrl0b8d053c3qg4w5s-tamlinux-shell-0.5.10.drv",
+      "outputs": {
+        "out": "/nix/store/8din6fwjybxb4n4rjgwn54y12jm00m3a-tamlinux-shell-0.5.10"
+      }
+    },
+    {
+      "drvPath": "/nix/store/fqkbgripkx2984x4dya0nwiwf2k7pxjw-tamlinux-plugins-0.5.10.drv",
+      "outputs": {
+        "out": "/nix/store/662rfgdhsvl1hyjnafd754jccyrdw78v-tamlinux-plugins-0.5.10"
+      }
+    },
+    {
+      "drvPath": "/nix/store/g8p4fagzgpqcph4i48vb26w6jl243335-tamlinux-commands-0.5.10.drv",
+      "outputs": {
+        "out": "/nix/store/0jb4pf7d52zccxzknbqica7flqc5s34f-tamlinux-commands-0.5.10"
+      }
+    },
+    {
+      "drvPath": "/nix/store/ncqscdk5x3h42mfsykhg7622jpy74206-tam-0.44.1.drv",
+      "outputs": {
+        "out": "/nix/store/ykmlzvv41vg6xvdnk8ll3j4wg91fq2p7-tam-0.44.1"
+      }
+    },
+    {
+      "drvPath": "/nix/store/xchr00p90srm2b57vwrs3jqlv4ars15v-libtam-0.4.0.drv",
+      "outputs": {
+        "out": "/nix/store/2bgg33ff4mbzirand5rlwyv6qzfdc0pa-libtam-0.4.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/3b9bkba1bfsjidx4z0a88b12fzcd8phm-tamlinux-tools-0-unstable-d8b0912.drv",
+      "outputs": {
+        "out": "/nix/store/0hm7pvx23gb7aalshd75q99nagp6hzwl-tamlinux-tools-0-unstable-d8b0912"
+      }
+    },
+    {
+      "drvPath": "/nix/store/f3qkzz70jj6rd8azp2sgyhp2amnb3c8k-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/9vwf7wfp0j4jb88wrgi2yzhgwdv3lnqr-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/4zyl4phl04rdqf1nrpbpdy12nli66dsr-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/7jn87i8gsi7s5ddh6syp8xgczga0rcna-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/6wyxpzrqjqq6jp11qyshj8aqf03kiazh-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/c2iw5mhl3j7wr570ix6fz4maz94m3fzj-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/jmalfp6k9wb65hnxwb4dx552vazdcqic-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/kh2jnhw5r0rs3bj85wlvjl8c7wna98hf-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#libtam",
+      ".#tamlinux-tools",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass",
+    "sourceTests": "720 desktop tests completed with 81 skips; final Start/JSONC/service checks and 22 appearance/control checks passed; four consumer activation checks and Nix syntax validation passed",
+    "nativeBuild": "makepkg build/check/package passed; symbols retained"
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.5.10-0.1",
+    "archive": "tamlinux-native-0.5.10-0.1-x86_64.pkg.tar.zst",
+    "sha256": "1256bf7f66db74c20d2acabf50543472703fecaae8b11d7dde96bc9370f06b46",
+    "productRevision": "3890ff60e0d6dbe5cd6bac7af01538158a264991",
+    "sourceSha256": "a58f33756f4baf1cb5306e25ebd5a06e709cc4b5ab9cfe31097b1c46dbfe2df9",
+    "recipeSha256": "48a40ffbbe88f45f2c6e2ef9c97579e27d5e677cb368db881e4332ddc822f911"
+  },
+  "readiness": {
+    "packagePrepared": true,
+    "nativeInstallationRequired": true,
+    "mutableSettingsChange": true,
+    "remaining": [
+      "Authorized Test activation",
+      "Physical Start menu, palette and text-size trial on the exact candidate",
+      "Verify mutable settings recovery covers the personal bindings source and theme choices",
+      "Separately approved matching native package installation and rollback point",
+      "Energy reading and user workflow confirmation"
+    ]
+  }
+}
