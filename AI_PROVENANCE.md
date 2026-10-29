@@ -1,5 +1,8 @@
 # AI collaboration and provenance
 
+2026-10-29: Codex CLI `0.165.0` (`gpt-6.1-sol`) records the approved Start menu and binding cutover requirements for 0.5.10 preparation.
+[Session](docs/ai/2026-10-29-start-menu.md).
+
 2026-10-28: Codex CLI `0.165.0` (`gpt-6.1-sol`) prepares 0.5.9 with
 shell palette, visible authorization and readiness validation fixes.
 [Session](docs/ai/2026-10-28-0.5.9-candidate.md).
