@@ -141,10 +141,8 @@ elif name == 'hyprctl':
             assert 'JetBrainsMono Nerd Font' in (root / 'config/fontconfig/conf.d/99-tamlinux-monospace.conf').read_text()
             checks.append('actual packaged monospace baseline and owned icon font resolve in isolated Fontconfig')
             run('tam-branding-about', 'reset')
-            run('tam-branding-screensaver', 'reset')
             assert (root / 'config/tamlinux/branding/about.txt').read_text() == 'TAMLINUX\n'
-            assert (root / 'config/tamlinux/branding/screensaver.txt').read_text() == 'TAMLINUX\n'
-            checks.append('packaged About and screensaver restore owned default identity')
+            checks.append('packaged About restores owned default identity')
             assert run('tam-transcode-ascii', str(image), str(root / 'art.txt'), '--width', 'invalid', check=False).returncode
             assert not (root / 'art.txt').exists()
             checks.append('packaged image conversion rejects malformed numeric options before publication')
@@ -503,42 +501,12 @@ elif name == 'hyprctl':
             assert result.returncode != 0 and 'command not found' not in result.stderr.lower()
         checks.append('packaged lock/sleep-lock stop at missing PAM without launching a locker or suspending')
 
-        result = run('tam-toggle-screensaver', check=False)
-        assert result.returncode != 0 and 'bus' in result.stderr.lower()
-        assert (root / 'state/tamlinux/toggles/screensaver-off').is_file()
-        assert run('tam-launch-screensaver', check=False).returncode != 0
-        result = run('tam-toggle-screensaver', check=False)
-        assert result.returncode != 0 and 'bus' in result.stderr.lower()
-        assert not (root / 'state/tamlinux/toggles/screensaver-off').exists()
-        checks.append('packaged screensaver reader/writer share XDG marker and retain both prior states')
-
-        provider_tools = args.commands / 'share/tamlinux/provider-tools.json'
-        if provider_tools.is_file():
-            ttfx = Path(json.loads(provider_tools.read_text())['ttfx'])
-            assert ttfx.is_absolute() and ttfx.is_file()
-            result = subprocess.run([str(ttfx), '--version'], env=env, cwd=root,
-                                    text=True, capture_output=True, timeout=10, check=True)
-            assert result.stdout.strip() == 'ttfx 0.3.2'
-            # Probe the effect engine directly; the real screensaver manages
-            # compositor state and signals, which belong to physical acceptance.
-            result = subprocess.run([str(ttfx), '--seed', '1', '--max-frames', '2',
-                                     '--parity-dump', 'beams'], input='TAMLINUX\n',
-                                    env=env, cwd=root, capture_output=True, text=True,
-                                    timeout=10, check=True)
-            assert result.stdout
-            wrapper = (args.commands / 'bin/tam-screensaver').read_text()
-            assert str(ttfx.parent) in wrapper
-            checks.append('owned ttfx renders bounded deterministic frames and screensaver resolves its immutable provider')
-        else:
-            result = run('tam-screensaver', check=False)
-            assert result.returncode != 0
-            checks.append('packaged effect helper rejects unavailable ttfx before compositor changes')
-
-        for relative in ('lock/hyprlock.conf', 'lock/LICENSE', 'screensaver/alacritty.toml',
-                         'screensaver/foot.ini', 'screensaver/ghostty', 'screensaver/screensaver.txt',
-                         'screensaver/LICENSE-omarchy'):
+        for name in ('tam-launch-screensaver', 'tam-screensaver', 'tam-toggle-screensaver', 'tam-branding-screensaver'):
+            assert not (args.commands / 'bin' / name).exists()
+        assert not (args.commands / 'share/tamlinux/screensaver').exists()
+        for relative in ('lock/hyprlock.conf', 'lock/LICENSE'):
             assert (args.commands / 'share/tamlinux' / relative).is_file()
-        checks.append('packaged screensaver terminal/text and lock defaults exist without pre-existing user config')
+        checks.append('screensaver is absent and lock defaults remain packaged')
 
         run('tam-hyprland-monitor-internal', 'recover', extra_env=monitor_env)
         run('tam-hyprland-monitor-internal-mirror', 'recover', extra_env=monitor_env)
@@ -550,11 +518,6 @@ elif name == 'hyprctl':
             result = run(name, '../escape', check=False)
             assert result.returncode != 0
         checks.append('packaged generic and compositor flag writers reject path traversal')
-
-        result = run('tam-toggle-screensaver', check=False,
-                     extra_env={'XDG_STATE_HOME': str(root / 'blocked-state')})
-        assert result.returncode != 0 and not (root / 'blocked-state/tamlinux/toggles/screensaver-off').exists()
-        checks.append('packaged screensaver preservation failure prevents marker writes')
 
         # Exercise immutable capture tools without a Wayland server or devices.
         # Fixtures stay with this exact delivery snapshot, rather than user data.

@@ -93,3 +93,5 @@
 - [2026-10-28 — selected tam pin](2026-10-28-tam-pin.md)
 
 - 2026-10-22: [Verified development bootstrap media](2026-10-22-nut.md), Codex CLI `0.163.0`, `gpt-6.1-sol`.
+
+- [2026-10-29 — Remove the screensaver](2026-10-29-remove-screensaver.md)

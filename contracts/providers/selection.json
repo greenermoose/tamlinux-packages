@@ -121,11 +121,6 @@
       "status": "pending"
     },
     {
-      "id": "ttfx",
-      "reason": "Maintained source v0.3.2 builds with locked dependencies; 25 tests and installed deterministic frames pass. Paired screensaver requires graphical proof.",
-      "status": "pending"
-    },
-    {
       "id": "asdcontrol",
       "reason": "Maintained source v0.6.0 builds and its interface check passes. Fixed native installation, Polkit/device policy and physical Apple HID proof remain pending.",
       "status": "pending"

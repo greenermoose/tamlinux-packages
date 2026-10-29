@@ -126,8 +126,6 @@ let
   lib = pkgs.lib;
   product = sources.tamlinux;
   has = path: builtins.pathExists "${product}/${path}";
-  ttfx = if has "desktop/vendor/ttfx/Cargo.lock"
-    then import ../native/ttfx.nix { inherit pkgs product; } else null;
   tensaku = if has "desktop/vendor/tensaku/Cargo.lock"
     then import ../native/tensaku.nix { inherit pkgs product; } else null;
   asdcontrol = if has "desktop/native/providers/asdcontrol/asdcontrol.cpp"
@@ -241,7 +239,6 @@ let
     tam-pkg-present = themeTools;
     tam-pkg-missing = themeTools;
     tam-branding-about = themeTools;
-    tam-branding-screensaver = themeTools;
     tam-transcode-ascii = themeTools ++ [ pkgs.imagemagick ];
     tam-launch-about = themeTools ++ [ pkgs.fastfetch ];
     tam-hook = themeTools;
@@ -389,7 +386,7 @@ let
       pkgs.procps pkgs.glib pkgs.dconf ];
     # Text-console ioctls need no compositor; DDC/hw siblings supply their own tools.
     tam-monitor = (lib.optional (!(has "commands/tam-monitor/native.c")) pkgs.python3) ++ [ pkgs.brightnessctl ];
-    # Native Hyprland/locker/PAM, Polkit/asdcontrol and ttfx remain host boundaries.
+    # Native Hyprland/locker/PAM, Polkit/asdcontrol remain host boundaries.
     tam-brightness-display = [ pkgs.coreutils pkgs.jq pkgs.gawk pkgs.util-linux pkgs.brightnessctl ];
     tam-brightness-display-ddc = [ pkgs.coreutils pkgs.gawk pkgs.ddcutil ];
     tam-brightness-display-apple = [ pkgs.coreutils pkgs.gawk ];
@@ -413,11 +410,8 @@ let
     tam-system-sleep-lock = [ pkgs.coreutils pkgs.procps pkgs.systemd ];
     tam-system-wake = [  ];
     suspend-unless-stay-awake = [ pkgs.coreutils pkgs.procps pkgs.util-linux pkgs.gnugrep pkgs.gnused pkgs.systemd ];
-    tam-launch-screensaver = [ pkgs.coreutils pkgs.procps pkgs.jq pkgs.socat ];
-    tam-screensaver = [ pkgs.coreutils pkgs.procps pkgs.jq ] ++ lib.optional (ttfx != null) ttfx;
     tam-toggle = [ pkgs.coreutils ];
     tam-toggle-enabled = [  ];
-    tam-toggle-screensaver = [  ];
     tam-weather-location = [ pkgs.coreutils pkgs.jq pkgs.curl ];
     tam-audio-input-set-default = [ pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
     tam-browser-command = [ pkgs.python3 ];
@@ -579,9 +573,9 @@ let
         chmod -R u+w $out/share/tamlinux/browser
         patchShebangs $out/share/tamlinux/browser/download-worker
       ''}
-      ${lib.optionalString (ttfx != null) ''
+      ${lib.optionalString (tensaku != null || asdcontrol != null) ''
         mkdir -p $out/share/tamlinux
-        cp ${pkgs.writeText "tamlinux-provider-tools.json" (builtins.toJSON ({ ttfx = "${ttfx}/bin/ttfx"; }
+        cp ${pkgs.writeText "tamlinux-provider-tools.json" (builtins.toJSON ({}
           // lib.optionalAttrs (tensaku != null) { tensaku = "${tensaku}/bin/tensaku"; }
           // lib.optionalAttrs (asdcontrol != null) { asdcontrol = "${asdcontrol}/bin/asdcontrol"; }))} $out/share/tamlinux/provider-tools.json
       ''}
@@ -628,6 +622,6 @@ in
   tamlinux-plugins = plugins;
   tamlinux-commands = commands;
   tamlinux-quickshell = import ./quickshell-provider.nix { inherit pkgs; };
-} // lib.optionalAttrs (ttfx != null) { tamlinux-ttfx = ttfx; }
+}
   // lib.optionalAttrs (tensaku != null) { tamlinux-tensaku = tensaku; }
   // lib.optionalAttrs (asdcontrol != null) { tamlinux-asdcontrol = asdcontrol; }

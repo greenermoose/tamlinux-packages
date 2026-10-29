@@ -247,3 +247,5 @@ changes and drafted the Fred-approved 0.5.6 delivery plan. Planning and
 verification only; no candidate prepared. [Session](docs/ai/2026-10-28-0.5.6-plan.md).
 
 2026-10-28: Codex CLI `0.165.0` (`gpt-6.1-terra`) pinned the selected tam command and corpus. [Session](docs/ai/2026-10-28-tam-pin.md).
+
+2026-10-29: Codex CLI `0.165.0` (`gpt-6.1-terra`) worked on screensaver removal. [Session](docs/ai/2026-10-29-remove-screensaver.md).
