@@ -1,5 +1,9 @@
 # AI collaboration and provenance
 
+2026-10-28: Codex CLI `0.165.0` (`gpt-6.1-sol`) prepares 0.5.9 with
+shell palette, visible authorization and readiness validation fixes.
+[Session](docs/ai/2026-10-28-0.5.9-candidate.md).
+
 This repository follows the [Tamlinux AI provenance standard](https://github.com/greenermoose/tamlinux/blob/main/docs/ai-provenance-standard.md).
 AI-assisted commits carry tool/model trailers. Session records give guiding
 prompts, implementation choices and verification; transcripts are retained
