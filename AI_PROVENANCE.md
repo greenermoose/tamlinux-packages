@@ -9,7 +9,8 @@ privately by the author.
 | --- | --- | --- | --- |
 | 2026-10-23 | Blue Sparkler 0.5.0 fleet and supported first-install assembly; no activation | [Session](docs/ai/2026-10-23-fleet-first-install.md) |
 | 2026-10-16 | 0.4.4d assembly and bounded login maintenance | [Session](docs/ai/2026-10-16-0.4.4d-readiness.md) |
-| Codex CLI | 0.165.0 | gpt-6.1-terra | 2026-10-28 |
+| Codex CLI | 0.165.0 | gpt-6.1-terra | 2026-10-28 | Prepare 0.5.8 with Micro JSON5 preservation, recovery and explicit migration procedure | [Session](docs/ai/2026-10-28-0.5.8-candidate.md) |
+| 2026-10-28 |
 | Codex CLI | 0.164.0 | gpt-6.1-sol | 2026-10-25 |
 | Claude Code | 2.1.301 | claude-opus-5-5 | 2026-10-16 |
 

@@ -84,17 +84,17 @@
     "tamlinux": {
       "flake": false,
       "locked": {
-        "lastModified": 1793220143,
-        "narHash": "sha256-Ku3YPeJ6HTDdgHu6p3o+0LAZEVXb2eiRfcIoh4kn64k=",
+        "lastModified": 1793233386,
+        "narHash": "sha256-9gBN3lJaXj4yCx/y+zVG1xPkG1DZtGVdU6euikGjfjI=",
         "owner": "greenermoose",
         "repo": "tamlinux",
-        "rev": "04e993dc882cec6162c73204e03cb1cd902cb83e",
+        "rev": "20cf0720f3d14efdb92b4250561964305b73484f",
         "type": "github"
       },
       "original": {
         "owner": "greenermoose",
         "repo": "tamlinux",
-        "rev": "04e993dc882cec6162c73204e03cb1cd902cb83e",
+        "rev": "20cf0720f3d14efdb92b4250561964305b73484f",
         "type": "github"
       }
     },

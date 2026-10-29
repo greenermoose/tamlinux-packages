@@ -669,6 +669,31 @@ elif name == 'hyprctl':
             assert any(p['state'].get('bytes') == 'd2luZG93cwo=' for p in archives)
             checks.append('installed finite migration converts legacy state and preserves later writes during explicit rollback')
 
+            micro = migration / 'config/micro/bindings.json'
+            micro.parent.mkdir(parents=True)
+            original = b'// personal\n{ "Alt-w": "Quit", MouseRight: "Old", }\n'
+            micro.write_bytes(original)
+            micro_journal = journal.with_name('micro')
+            plan = json.loads(run('tam-migrate-desktop', 'plan', str(micro_journal),
+                                  '--only', 'micro-bindings', extra_env=extra).stdout)
+            assert plan['status'] == 'prepared' and plan['rows'] == 1
+            run('tam-migrate-desktop', 'apply', str(micro_journal), extra_env=extra)
+            assert b'// personal' in micro.read_bytes() and b'MouseRight: "Paste"' in micro.read_bytes()
+            run('tam-migrate-desktop', 'rollback', str(micro_journal), extra_env=extra)
+            assert micro.read_bytes() == original
+            checkpoint = journal.with_name('micro-checkpoint')
+            run('tam-migrate-desktop', 'preserve', str(checkpoint), extra_env=extra)
+            micro.write_bytes(b'{"MouseRight":"Paste"}')
+            run('tam-migrate-desktop', 'restore', str(checkpoint), extra_env=extra)
+            assert micro.read_bytes() == original
+            micro.unlink()
+            absent_checkpoint = journal.with_name('micro-absent')
+            run('tam-migrate-desktop', 'preserve', str(absent_checkpoint), extra_env=extra)
+            micro.write_bytes(b'{"MouseRight":"Paste"}')
+            run('tam-migrate-desktop', 'restore', str(absent_checkpoint), extra_env=extra)
+            assert not micro.exists()
+            checks.append('installed JSON5 Micro migration preserves comments and rollback; settings recovery covers existing and absent bindings')
+
             icon = args.commands / 'share/tamlinux/assets/icons/tamlinux-discord.png'
             if icon.is_file():
                 themed = args.commands / 'share/icons/hicolor/256x256/apps/tamlinux-discord.png'
