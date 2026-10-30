@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-10-29: Codex CLI `0.166.0` (`gpt-6.1-terra`) begins 0.5.11 assembly preparation. [Session](docs/ai/2026-10-29-prepare-0511.md).
+
 2026-10-29: Codex CLI `0.165.0` (`gpt-6.1-sol`) records the approved Start menu and binding cutover requirements for 0.5.10 preparation.
 [Session](docs/ai/2026-10-29-start-menu.md).
 

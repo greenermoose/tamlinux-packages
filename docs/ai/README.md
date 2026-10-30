@@ -1,5 +1,7 @@
 # AI session records
 
+- [2026-10-29 — Prepare 0.5.11](2026-10-29-prepare-0511.md)
+
 - [2026-10-29 — Start menu development](2026-10-29-start-menu.md)
 
 - [2026-10-28 — Tamlinux 0.5.9 candidate preparation](2026-10-28-0.5.9-candidate.md)
