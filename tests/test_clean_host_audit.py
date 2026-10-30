@@ -15,6 +15,20 @@ spec.loader.exec_module(module)
 
 
 class AuditTests(unittest.TestCase):
+    def test_native_contract_requires_fresh_terminal_executable(self):
+        contract = json.loads((SCRIPT.parents[1] / 'contracts/arch-hyprland.json').read_text())
+        entries = [entry for entry in contract['native'] if entry['package'] == 'foot']
+        self.assertEqual(len(entries), 1)
+        self.assertFalse(entries[0].get('optional', False))
+        self.assertIn('foot', entries[0]['binaries'])
+        with tempfile.TemporaryDirectory() as directory:
+            missing = module.host_inventory(Path(directory), {'native': entries, 'forbiddenPackages': []})
+            self.assertEqual(missing['requiredBinariesMissing'], [{'binary': 'foot', 'package': 'foot'}])
+            executable = Path(directory) / 'usr/bin/foot'
+            executable.parent.mkdir(parents=True)
+            executable.write_text('#!/bin/sh\n'); executable.chmod(0o755)
+            self.assertEqual(module.host_inventory(Path(directory), {'native': entries, 'forbiddenPackages': []})['requiredBinariesMissing'], [])
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
