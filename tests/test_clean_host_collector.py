@@ -66,6 +66,18 @@ class HostCollector(unittest.TestCase):
         self.assertTrue(any(x['reason']=='missing native endpoint' for x in result['findings']))
         self.assertEqual(result['os']['ID'],'arch')
 
+    def test_terminal_binary_and_desktop_entry_are_collected(self):
+        self.assertIn('/usr/bin/foot', m.CRITICAL)
+        self.assertIn('/usr/share/applications/foot.desktop', m.CRITICAL)
+        self.package('foot', '1', ['usr/bin/foot', 'usr/share/applications/foot.desktop'])
+        self.write('/usr/bin/foot', '#!/bin/sh\n')
+        self.write('/usr/share/applications/foot.desktop', '[Desktop Entry]\nExec=foot\n')
+        result = m.collect(self.root)
+        rows = {row['path']: row for row in result['criticalFiles']}
+        for path in ('/usr/bin/foot', '/usr/share/applications/foot.desktop'):
+            self.assertTrue(rows[path]['present'])
+            self.assertEqual(rows[path]['packages'], ['foot'])
+
     def test_non_arch_identity_is_refused(self):
         self.write('/etc/os-release','ID=other\n')
         with self.assertRaisesRegex(ValueError,'Arch'):m.collect(self.root)

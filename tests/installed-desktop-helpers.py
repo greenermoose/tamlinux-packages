@@ -613,7 +613,12 @@ elif name == 'hyprctl':
             extra = {'HOME': str(fresh / 'home'), 'XDG_CONFIG_HOME': str(fresh / 'config'),
                      'XDG_STATE_HOME': str(fresh / 'state'), 'XDG_DATA_HOME': str(fresh / 'data')}
             initialized = json.loads(run('tam-session-init', extra_env=extra).stdout)
-            assert len(initialized['created']) == 13
+            micro_theme = (args.commands / 'share/tamlinux/assets/templates/micro.micro.tpl').is_file()
+            assert len(initialized['created']) == (15 if micro_theme else 13)
+            assert 'foot.desktop' in (config / 'xdg-terminals.list').read_text().splitlines()
+            if micro_theme:
+                assert json.loads((config / 'micro/settings.json').read_text())['colorscheme'] == 'tamlinux'
+                assert (config / 'micro/colorschemes/tamlinux.micro').is_symlink()
             assert (config / 'imv/config').read_text() == '[binds]\n<Escape> = quit\n'
             mime = (config / 'mimeapps.list').read_text()
             assert 'text/plain=Helix.desktop' in mime

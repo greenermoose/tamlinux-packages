@@ -143,6 +143,7 @@
     {"package": "quickshell", "binaries": ["quickshell"], "purpose": "Qt/Wayland shell and Quickshell QML modules"},
     {"package": "uwsm", "binaries": ["uwsm", "uwsm-app"], "purpose": "Graphical session environment and application launch"},
     {"package": "xdg-terminal-exec", "binaries": ["xdg-terminal-exec"], "purpose": "Selected terminal desktop entry"},
+    {"package": "foot", "binaries": ["foot"], "purpose": "Guaranteed terminal for fresh graphical sessions; personal terminal selections remain supported"},
     {"package": "xdg-utils", "binaries": ["xdg-open"], "purpose": "Open URLs and files"},
     {"package": "wl-clipboard", "binaries": ["wl-copy", "wl-paste"], "purpose": "Clipboard and calendar copying"},
     {"package": "inotify-tools", "binaries": ["inotifywait"], "purpose": "Watch the owned background selection"},
@@ -172,7 +173,7 @@
     {"id": "portals", "providers": ["xdg-desktop-portal", "xdg-desktop-portal-hyprland", "xdg-desktop-portal-gtk"], "proof": "File selection, screen sharing and application access in the new session"},
     {"id": "credentials", "providers": ["host Secret Service/keyring"], "proof": "Selected application and portal credentials survive login and remain outside public defaults"},
     {"id": "capture", "providers": ["pending declared capture/recording/OCR/QR dependencies"], "proof": "Preserved capture workflows from packaged helper chains; exact independent tools/providers selected with their implementations"},
-    {"id": "applications", "providers": ["consumer selections"], "proof": "Independently installed terminal, editor and browser desktop entries resolve without workstation overrides"},
+    {"id": "applications", "providers": ["foot", "consumer selections"], "proof": "Fresh terminal desktop entry resolves to its installed executable; selected editor and browser entries resolve without workstation overrides"},
     {"id": "boot-recovery", "providers": ["Arch host", "pending Tamlinux native integration"], "proof": "Host-specific IDs, boot/initramfs update, fallback/recovery and sleep/resume after every changed root integration"},
     {"id": "settings-recovery", "providers": ["Tamlinux snapshots", "native NetworkManager/systemd-resolved", "dconf"], "proof": "Preserve paired DNS files/profile fields and user text-size/state before mutations; restoration must preserve new writes, service and privilege proof pending"},
     {"id": "display-power", "providers": ["Hyprland", "hyprlock/PAM", "hypridle/logind", "kernel backlight/LED/I2C/HID", "Polkit/asdcontrol"], "proof": "Brightness and native authorization, actual lock acquisition/authentication, inhibitor timing, display wake, clamshell layouts, shared Stay Awake and suspend/hibernate resume on capable hardware; no idle service enabled by command packaging"}
