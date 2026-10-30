@@ -71,8 +71,11 @@ in {
         Name=Fcitx 5
         Hidden=true
       '';
+      # Keep the bootstrap stable across package upgrades. Hyprland may retain
+      # the config file resolved at login; the managed shell link follows the
+      # active generation when the compositor reloads.
       "tamlinux/session/hyprland.lua".text =
-        "dofile(\"${shell.package}/share/tamlinux/session/entry.lua\")\n";
+        "dofile(\"${config.home.homeDirectory}/.local/share/tamlinux/shell/../session/entry.lua\")\n";
       "uwsm/env.d/10-tamlinux.sh".text = ''
         . ${shell.package}/share/tamlinux/session/uwsm-env
         export TAMLINUX_QUICKSHELL=${shell.quickshellPackage}/bin/quickshell

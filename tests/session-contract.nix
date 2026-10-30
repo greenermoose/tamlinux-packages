@@ -50,6 +50,7 @@ assert customAutostart.xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text 
 assert unit.ExecStart == [ "${pkgs.python3}/bin/python3 -I /home/alex/.local/share/tamlinux/shell/host/session_start.py" ];
 pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/session/hyprland.lua
+  grep -F 'dofile("/home/alex/.local/share/tamlinux/shell/../session/entry.lua")' ${files}/.config/tamlinux/session/hyprland.lua
   test -f ${files}/.config/uwsm/env.d/10-tamlinux.sh
   grep -qx 'Hidden=true' ${files}/.config/autostart/org.fcitx.Fcitx5.desktop
   test -x ${files}/.local/bin/tam-hyprland-session

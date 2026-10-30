@@ -1,5 +1,7 @@
 # AI session records
 
+- [2026-10-30 — Session bootstrap](2026-10-30-session-bootstrap.md)
+
 - [2026-10-29 — Prepare 0.5.11 for Test](2026-10-29-0511-ready.md)
 
 - [2026-10-29 — Prepare 0.5.11](2026-10-29-prepare-0511.md)

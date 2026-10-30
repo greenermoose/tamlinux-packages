@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-10-30: Codex CLI `0.166.0` (`gpt-6.1-terra`) corrected the session bootstrap. [Session](docs/ai/2026-10-30-session-bootstrap.md).
+
 2026-10-29: Codex CLI `0.166.0` (`gpt-6.1-terra`) completed 0.5.11 candidate assembly preparation. [Session](docs/ai/2026-10-29-0511-ready.md).
 
 2026-10-29: Codex CLI `0.166.0` (`gpt-6.1-terra`) begins 0.5.11 assembly preparation. [Session](docs/ai/2026-10-29-prepare-0511.md).
