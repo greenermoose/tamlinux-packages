@@ -264,3 +264,5 @@ verification only; no candidate prepared. [Session](docs/ai/2026-10-28-0.5.6-pla
 2026-10-29: Codex CLI `0.165.0` (`gpt-6.1-terra`) worked on screensaver removal. [Session](docs/ai/2026-10-29-remove-screensaver.md).
 
 2026-10-29: Codex CLI `0.165.0` (`gpt-6.1-terra`) packaged Tamarack fonts for development. [Session](docs/ai/2026-10-29-tamarack-fonts.md).
+
+2026-10-30: Codex CLI `0.166.0` (`gpt-6.1-terra`) pinned the selected tam command and corpus. [Session](docs/ai/2026-10-30-tam-0451-0500.md).

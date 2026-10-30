@@ -105,3 +105,4 @@
 - [2026-10-29 — Remove the screensaver](2026-10-29-remove-screensaver.md)
 
 - [2026-10-29 — Tamarack font packaging](2026-10-29-tamarack-fonts.md)
+- [2026-10-30 — Select tam 0.45.1 and corpus 0.50.0](2026-10-30-tam-0451-0500.md)
