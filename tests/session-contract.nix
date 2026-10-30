@@ -51,6 +51,30 @@ assert unit.ExecStart == [ "${pkgs.python3}/bin/python3 -I /home/alex/.local/sha
 pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
   test -f ${files}/.config/tamlinux/session/hyprland.lua
   grep -F 'dofile("/home/alex/.local/share/tamlinux/shell/../session/entry.lua")' ${files}/.config/tamlinux/session/hyprland.lua
+  # Exercise the delivered bootstrap through two successive package links.
+  # A running compositor that resolved an older bootstrap needs a fresh session.
+  ${pkgs.python3}/bin/python3 - ${files}/.config/tamlinux/session/hyprland.lua <<'PY'
+import pathlib, re, sys, tempfile
+bootstrap = pathlib.Path(sys.argv[1]).read_text()
+match = re.fullmatch(r'dofile\("(/home/alex/[^"\n]+)"\)\s*', bootstrap)
+assert match, bootstrap
+with tempfile.TemporaryDirectory() as tmp:
+    root = pathlib.Path(tmp)
+    home = root / 'home'
+    link = home / '.local/share/tamlinux/shell'
+    link.parent.mkdir(parents=True)
+    for revision in ('first', 'second'):
+        package = root / revision
+        (package / 'shell').mkdir(parents=True)
+        (package / 'session').mkdir()
+        (package / 'session/entry.lua').write_text(revision)
+    target = pathlib.Path(str(match.group(1)).replace('/home/alex/', str(home) + '/', 1))
+    for revision in ('first', 'second'):
+        if link.is_symlink():
+            link.unlink()
+        link.symlink_to(root / revision / 'shell', target_is_directory=True)
+        assert target.read_text() == revision
+PY
   test -f ${files}/.config/uwsm/env.d/10-tamlinux.sh
   grep -qx 'Hidden=true' ${files}/.config/autostart/org.fcitx.Fcitx5.desktop
   test -x ${files}/.local/bin/tam-hyprland-session
