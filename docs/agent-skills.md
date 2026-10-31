@@ -18,11 +18,14 @@ registration inside it. That directory's manager must supply `tamlinux` and
 directory that Home Manager cannot recognize. Personal skills are preserved;
 a colliding regular file, directory or foreign symlink stops registration.
 
-The installer preflights all five directories, removes only leaf symlinks that
-resolve under `/usr/share/omarchy` (including dangling links), then registers
-the two stable data endpoints. It never removes a regular `omarchy` entry;
-that requires its owner's disposition. A post-check fails on any `omarchy`
-entry, another inherited link, a missing skill, or a different selected package.
+The installer preflights all five directories, then registers the two stable
+data endpoints. As **migration residue** after Gate A, it still removes only
+leaf symlinks that resolve under `/usr/share/omarchy` (including dangling
+links) so leftover Omarchy skill links do not shadow Tamlinux skills. It never
+removes a regular `omarchy` entry; that requires its owner's disposition. A
+post-check fails on any remaining `omarchy` skill entry, another inherited
+link, a missing skill, or a different selected package. This cleanup is not a
+dependency on Omarchy.
 
 Check the installed selection without changing it:
 

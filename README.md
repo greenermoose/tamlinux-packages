@@ -5,14 +5,16 @@ Public delivery definitions for [Tamlinux](https://github.com/greenermoose/tamli
 [tam](https://github.com/greenermoose/tam), and
 [libtam](https://github.com/greenermoose/libtam).
 
-This first Develop-stage extraction packages the native C components, provides
-reusable Nix package selections and Home Manager shell deployment, and builds a
-generic user example. It targets `x86_64-linux` on the existing Arch/Hyprland
-host integration. It is not a complete workstation installer or accepted release.
+This repository records exact package assemblies (Nix flake, locks, and
+[`deliveries/`](deliveries/)) for Test and Run. Current develop version is in
+[`VERSION`](VERSION). Gate A closed with released **0.4.8**; develop continues
+on **0.5** (Blue Sparkler). Product source lives in the component repos; this
+repo selects pins and installs them through Home Manager.
 
 The [deployment contract](docs/deployment.md) requires Test and Run to install
 an exact, recorded package assembly through Nix and Home Manager at the same
-managed locations. It also records the remaining gaps in this first extraction.
+managed locations. Login is [console-first](docs/console-startup.md). See
+[docs/README.md](docs/README.md) for the operational doc index.
 
 From a checkout:
 
@@ -24,14 +26,8 @@ nix build .#example-home
 ```
 
 Builds and the example use pinned public inputs. The example username and home
-directory are illustrative: set your own values before activation. Build it
-first and review [the host prerequisites and limits](docs/first-extraction.md).
-No check activates a desktop, starts services, or changes the host package database.
-
-The [0.4.3 clean-host contract and audit](docs/clean-host.md) declare the native
-Arch/Hyprland prerequisites and inspect explicit built outputs for missing
-commands and inherited software identifiers. Its retained baseline exposes
-unfinished desktop closure; the example is not yet a complete clean-host install.
+directory are illustrative: set your own values before activation. No check
+activates a desktop, starts services, or changes the host package database.
 
 Import `homeManagerModules.default`, enable `tamlinux.shell.enable`, and supply
 layout/settings sources. The module installs the shell, plugins and product
@@ -39,10 +35,14 @@ commands from package outputs built from one product revision
 (`tamlinux-shell`, `tamlinux-plugins`, `tamlinux-commands`), plus `tam` with
 its offline guide and `tam-file-select`;
 `tamlinux.shell.plugins` selects plugin IDs (default: all in the assembly).
-Background and menu paths are configurable. Protocol shadow observation is an
-explicit opt-in requiring an assembly that contains it. Deploy an assembly
-with `tam-deploy` from the Tamlinux commands; see the
+Background and menu paths are configurable. Deploy an assembly with
+`tam-deploy` from the Tamlinux commands; see the
 [deployment contract](docs/deployment.md).
+
+The [clean-host contract](docs/clean-host.md) declares native Arch/Hyprland
+prerequisites and audits built outputs for missing commands and inherited
+identifiers. It is a proof bar for independent delivery, not a claim that
+every candidate already passes it.
 
 The developer baseline installs Bash, editing, C compilation/linking with libc
 headers, Make, Git, secure downloads and certificate trust. A consumer can set
@@ -52,8 +52,6 @@ personal applications, vendor editors and their overrides stay with consumers.
 
 Source behavior and ordinary build interfaces belong in their component
 repositories. Nix definitions, native package adapters, dependency selection,
-assembly and delivery verification belong here. Planned Arch/Void native
-recipes, complete desktop dependencies, immutable delivery manifests, and
-publication/signing machinery will follow separately.
+assembly and delivery verification belong here.
 
 GNU GPL v3 or later. See [LICENSE](LICENSE) and [AI provenance](AI_PROVENANCE.md).

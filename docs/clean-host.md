@@ -1,10 +1,11 @@
-# Clean Arch/Hyprland installation contract — 0.4.3
+# Clean Arch/Hyprland installation contract
 
-The first independent desktop target is a standard `x86_64-linux` Arch host
-with Hyprland. The [machine-readable contract](../contracts/arch-hyprland.json)
-declares the native binary/service boundary, the five delivered package outputs
-and the remaining ownership/proof requirements. This is a development contract;
-the current assembly cannot yet install the complete desktop on a clean host.
+Independent desktop target: a standard `x86_64-linux` Arch host with Hyprland.
+The [machine-readable contract](../contracts/arch-hyprland.json) declares the
+native binary/service boundary, delivered package outputs, and proof
+requirements. This remains a development proof bar: a successful Nix build
+does not by itself prove clean-host readiness. Dated 0.4.3 audit JSON dumps
+are historical; see [FILING-CARD.md](FILING-CARD.md) / evidence archive.
 
 ## Host and delivery responsibilities
 
@@ -102,40 +103,11 @@ unchanged. A menu-only reference is not authority to retire its feature.
 The 21 auditor regressions include compact/full evidence parity and failed
 evidence-write handling.
 
-## Measured baseline and next transfers
-
-The [retained audit](evidence/0.4.3-clean-host-audit.json) covers the five actual
-outputs used by the earlier 0.4.3 helper development check: 212 runtime files,
-108 unresolved custom-command references and 54 inherited-name locations.
-There are no unclassified absolute `/usr/bin` tool names in that snapshot.
-These are lexical inventory counts, not 108 proven runtime dependencies or 54
-independent defects. For example, a plugin's cache/service name can resemble a
-command. References identify exact output-relative files and lines for review;
-no source bodies or user state are recorded.
-
-The [browser/menu follow-up](evidence/0.4.3-menu-launch-closure.json) records all
-five exact outputs, 16 installed browser/focus regressions and 19 real-output
-probes. It scans 245 runtime files, with 101 unresolved lexical names (103 after
-the terminal slice), no new unresolved names and 54 inherited-name locations.
-Browser defaults and webapp launch now resolve. Groups: 66 menu-only, nine shared,
-26 other callers. The complete installed-component check and auditor Nix check
-pass; this does not establish clean-host readiness. Agent adapters and control,
-theme/assets/capture, session/native and migration/recovery chains remain pending.
-
-The baseline exposes menu launches and settings, theme/font/background support,
-capture helpers, audio/network/power controls, reminders and plugin display or
-location setters that are not yet in the supplied `bin` outputs. Active inherited
-names include menu actions/font identities, desktop-mode values and user-visible
-text; compatibility data and development proof paths also require classification.
-The next implementation work should establish maintained product components and
-package closure for these caller chains, with theme/default assets alongside
-their paired consumers. Re-run against fresh outputs after each transfer.
-
 ## Installation proof still required
 
-Prepare a complete exact assembly, install it on a clean Arch host that never had
-the inherited distribution, and retain the independent package/source manifest.
-Prove startup/login, menus and all eight plugins; notifications/reminders;
+Prepare a complete exact assembly, install it on a clean Arch host that never
+depended on Omarchy, and retain the independent package/source manifest.
+Prove startup/login, menus and plugins; notifications/reminders;
 theme/background/fonts and application/editor/browser workflows; screenshot,
 recording, OCR/QR; authorization, portals and hardware panels. Block inherited
 domains/repositories and observe that no request or fallback is attempted.
@@ -143,45 +115,9 @@ Verify native update/boot/recovery and sleep/resume for any changed root package
 Record immutable and mutable rollback evidence before reference-machine Test.
 
 Static checks are useful gates, but cannot replace this installation evidence.
-No desktop was activated by this work; Test, Run and Release remain explicit
-stage transitions.
+Test, Run and Release remain explicit stage transitions on Fred's word.
 
-The [product plan](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/non-theme-compatibility.md)
-now fixes nine acceptance checks (I01–I09): artifact/source identity, native
-ownership, delivered software, effective runtime, network independence, data
-migration, baseline behavior, native update/recovery and promotion/rollback.
-Their result must bind every required pass and evidence digest to one artifact
-tuple. The contract now enumerates their required cases and delivery implements
-aggregation plus partial compiled/QML collection below. Effective-runtime,
-network, migration, native and physical proof remains pending. The original
-108/54 inventory supports part of I03 only.
-
-The plan also requires a pinned host image/native snapshot and staged offline
-installation, observation of attempted inherited network requests, a per-interface
-rename/migration table, upgrade/rollback proof preserving new user writes, fixed
-0.4.2-d parity and a bounded capture-defect admission rule. These refine the
-already agreed 0.4.3 scope; they do not establish a completed clean-host recipe.
-
-## Network/power and paired settings follow-through — 2026-10-12
-
-[Control delivery evidence](evidence/0.4.3-control-closure.json) records 20 added
-command entries (19 retained controls and a preservation helper), wrapped clients,
-GTK schemas/dconf backend and declared native service/privilege owners. DNS
-preserves paired root files and profile fields; text size and user settings retain
-originals before writes. Shell/CLI Stay Awake share the XDG path and preserving
-writer. 64 staged helpers, 18 service checks, 21 auditor regressions, Nix
-build/integration and 42 real-output probes pass; five cases reject original code.
-
-Audit: 307 runtime files, 75 unresolved lexical names, 51 inherited locations, no
-missing outputs/files or undeclared absolute tools. Nine pending requirements and
-absent clean-host inspection keep readiness false. Privileged DNS, native service
-recovery, physical radios/displays, migration and new-user-write rollback remain
-unproven. Snapshot identities precede documentation; no pin or activation changed.
-[Source/recovery inventory](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/0.4.3-control-closure.md)
-tracks the next brightness/display/lock/suspend, theme/assets/capture and
-session/native/complete-install work.
-
-## Executable independence evidence gate — 2026-10-12
+## Executable independence evidence gate
 
 `tools/independence-gate.py` implements the finite I01–I09 evidence gate. It
 verifies runner outcomes and evidence integrity; it does not execute workflows
@@ -233,8 +169,8 @@ contract/report digests, verified evidence references and checker source digest.
 Re-run before consuming a stored result to detect evidence changes. A gate pass
 authorizes no installation, package retirement or promotion. I01–I08 build and
 clean-host evidence supports a reference Test proposal; I09 adds actual reference
-Test/rollback evidence before Run. The current assembly has no complete selection
-or required check evidence and correctly returns nine blocked checks.
+Test/rollback evidence before Run. Re-run the gate against the current assembly;
+do not assume a prior letter candidate's blocked result.
 
 ## Compiled payload and QML collector
 
@@ -271,41 +207,8 @@ Add `--tuple-digest <selection SHA-256> --check-report /tmp/I03-partial.json` to
 emit the compiled-payload/resolved-qml case fragment. It always marks the complete
 I03 check blocked: text/helper/assets/generated-config cases must also be
 collected by their owners. Never assign a tuple digest to observations of a
-different selection. No complete 0.4.3 selection exists yet.
+different selection.
 
-The 15 gate tests and 14 collector tests include stale selections, changed/missing
-evidence, case/check substitutions, post-selection capability exclusions,
-exit-zero unresolved QML, missing static plugin proof, symlink escapes/cycles,
-real malformed ELF and a real compiled inherited-string mutation. With the prior
-21 inventory tests, all 50 pass locally and in the isolated Nix check. Synthetic
-passing records establish checker behavior only.
-
-The first actual-output observation scanned the previous display/power slice's
-five immutable outputs: 483 payload files and 142 ELF objects, with no unresolved
-ELF library/interpreter dependencies. `tam:bin/tam` contains the inherited name
-in host-profile detection (`tam/src/install.c`), requiring owner classification
-or cutover. All scanned import paths resolve, but 39 Quickshell plugin records
-lack static-provider registration proof. This is partial output/reference-host
-inspection, not clean-host evidence. [Retained summary](evidence/0.4.3-independence-gate.json)
-records exact output/tool/report identities and limits. Readiness remains false.
-
-## Packaged capture chain — 2026-10-13
-
-The product's retained screenshot/region/recording/webcam/OCR/QR helpers and owned
-Tensaku adapter are delivered with explicit capture clients and English OCR data.
-`share/tamlinux/capture-tools.json` names the immutable tool/data paths. Fixed
-QR and text fixtures test the real packaged decoders with no graphical server.
-
-21 source capture cases, 429 desktop checks (two skips), all 50 delivery unit
-checks, the offline Nix build and installed integration pass. 61 isolated output
-probes pass. [Exact output inventory and observations](evidence/0.4.3-capture-closure.json)
-retain 382 runtime files, 61 unresolved lexical names, 51 inherited locations and
-false readiness. Client packaging does not provide native Tensaku, KMS helper
-privileges, camera/DRM permissions, graphics drivers or portal/session services.
-The raw packaged GPU recorder prefixes `/run/wrappers/bin` for its KMS helper;
-the selected native adapter must provide/verify that privilege boundary or a
-reviewed independently packaged equivalent before clean-host recording proof.
-
-[Product behavior, import licenses/digests and remaining native/physical proof](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/0.4.3-capture-closure.md).
-Accepted Run and source pins are unchanged. New dependency outputs in the cache
-are build inputs, not desktop activation or a selected Test candidate.
+Gate and collector unit tests live under `tests/`. Synthetic passing records
+establish checker behavior only; they are not clean-host proof. Dated 0.4.3
+JSON observations are archived — see [FILING-CARD.md](FILING-CARD.md).
