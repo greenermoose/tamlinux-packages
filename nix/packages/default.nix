@@ -196,7 +196,7 @@ let
   # font advertises only the owned family and PostScript identities.
   themeFontPython = pkgs.python3.withPackages (python: [ python.fonttools ]);
   themeTools = [ pkgs.coreutils pkgs.python3 pkgs.gawk pkgs.gnused pkgs.gnugrep
-    pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq ];
+    pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq pkgs.dconf ];
   commandRuntimeDeps = {
     tam-nut = [ pkgs.coreutils pkgs.gawk pkgs.util-linux pkgs.pciutils ];
     tam-theme-set = themeTools;

@@ -267,4 +267,4 @@ verification only; no candidate prepared. [Session](docs/ai/2026-10-28-0.5.6-pla
 
 2026-10-30: Codex CLI `0.166.0` (`gpt-6.1-terra`) pinned the selected tam command and corpus. [Session](docs/ai/2026-10-30-tam-0451-0500.md).
 
-2026-10-30: Codex CLI `0.166.0` (`gpt-6.1-terra`) corrected the fresh terminal contract and Micro initialization check. [Session](docs/ai/2026-10-30-terminal-prerequisite.md).
+2026-10-30: Codex CLI `0.166.0` (`gpt-6.1-terra`) corrected the fresh terminal contract and Micro initialization check, and added the theme recovery runtime dependency. [Session](docs/ai/2026-10-30-terminal-prerequisite.md).
