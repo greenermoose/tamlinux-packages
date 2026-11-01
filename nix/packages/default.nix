@@ -60,11 +60,10 @@ let
     makeFlags = [
       "PREFIX=$(out)"
       "LIBTAM_PREFIX=${libtam}"
-    ] ++ lib.optionals (has "commands/tam-macro/Makefile") [ pkgs.lua ];
+    ];
     doCheck = true;
     checkPhase = ''
       runHook preCheck
-      ${lib.optionalString (has "commands/tam-macro/Makefile") "export TAMLINUX_XKBCOMMON=${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"}
       package_root="$TMPDIR/tam-package"
       make install DESTDIR="$package_root" PREFIX=/usr LIBTAM_PREFIX=${libtam}
       tests/tam-package-navigation.sh \
@@ -539,10 +538,11 @@ let
       pkgs.which
       pkgs.nodejs
       pkgs.perl
-    ];
+    ] ++ lib.optionals (has "commands/tam-macro/Makefile") [ pkgs.lua ];
     doCheck = true;
     checkPhase = ''
       runHook preCheck
+      ${lib.optionalString (has "commands/tam-macro/Makefile") "export TAMLINUX_XKBCOMMON=${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"}
       patchShebangs commands
       ${lib.optionalString (has "commands/tam-monitor/native.c") ''
         # The upstream fixture supplies a closed PATH; /usr/bin is absent in Nix builds.
