@@ -8,6 +8,7 @@ archived or kept session notes as open deploy instructions — use
 
 | Date | Topic | Document |
 | --- | --- | --- |
+| 2026-11-01 | Prepare the 0.5.12 assembly | [`2026-11-01-0512-preparation.md`](2026-11-01-0512-preparation.md) |
 | 2026-10-31 | Macro package continuation integration | [`2026-10-31-continuation-integration.md`](2026-10-31-continuation-integration.md) |
 | 2026-10-30 | Fresh terminal prerequisite | [`2026-10-30-terminal-prerequisite.md`](2026-10-30-terminal-prerequisite.md) |
 | 2026-10-30 | Select tam 0.45.1 and corpus 0.50.0 | [`2026-10-30-tam-0451-0500.md`](2026-10-30-tam-0451-0500.md) |

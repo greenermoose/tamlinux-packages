@@ -104,7 +104,7 @@ elif name == 'hyprctl':
             if (args.commands / 'bin/tam-theme-init').is_file():
                 run('tam-theme-init')
                 initialized = (current / 'theme').resolve()
-                assert (current / 'theme.name').read_text() == 'tamarack-dark\n'
+                assert (current / 'theme.name').read_text() == 'tokyo-night\n'
                 run('tam-theme-init')
                 assert (current / 'theme').resolve() == initialized
                 checks.append('fresh owned theme state initializes without application or root adapters and preserves its selection')
@@ -121,7 +121,7 @@ elif name == 'hyprctl':
             run('tam-theme-set', 'tokyo-night', extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
             assert run('tam-theme-current').stdout == 'Tokyo Night\n'
             checks.append('packaged switching returns to baseline and invalid names preserve selection')
-            for variant, background in (('tamarack-dark', '#0f1410'), ('tamarack-light', '#f5f5ec')):
+            for variant, background in (('tamarack-dark', '#0f1410'), ('tamarack-light', '#dfd8c7')):
                 run('tam-theme-set', variant, extra_env={'TAMLINUX_THEME_OFFLINE': '1'})
                 themed = json.loads(run('tam-theme-payload').stdout)
                 assert themed['palette']['background'] == background
