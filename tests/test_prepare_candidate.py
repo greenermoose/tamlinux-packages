@@ -41,6 +41,8 @@ elif args[:1] == ["build"]:
     targets = [a for a in args if a.startswith(".#")]
     print(json.dumps([{"drvPath": f"/nix/store/{i}.drv", "outputs": {"out": f"/nix/store/{i}"},
                        "startTime": 1} for i, _ in enumerate(targets)]))
+elif args[:1] == ['path-info'] and os.environ.get('FAKE_MISSING_OUTPUT'):
+    sys.exit(1)
 '''
 
 
@@ -65,6 +67,13 @@ class PrepareCandidate(unittest.TestCase):
         (self.root / "flake.lock").write_text(json.dumps({"root": "root", "nodes": {
             "root": {"inputs": {"tamlinux": "tamlinux", "tam": "tam"}},
             "tamlinux": node("greenermoose", "tamlinux", OLD), "tam": node("greenermoose", "tam", OLD)}}))
+        self.product = self.temp / "product"
+        (self.product / 'desktop/tests').mkdir(parents=True)
+        for test in prepare.FOCUSED_TESTS:
+            (self.product / 'desktop/tests' / test).write_text('import unittest\nclass Check(unittest.TestCase):\n def test_ok(self): self.assertTrue(True)\n')
+        subprocess.run(['git', 'init', '-q', str(self.product)], check=True)
+        subprocess.run(['git', '-C', str(self.product), 'config', 'user.name', 'Fixture'], check=True)
+        subprocess.run(['git', '-C', str(self.product), 'config', 'user.email', 'fixture@example.invalid'], check=True)
         fake = self.temp / "nix"
         fake.write_text(f"#!{sys.executable}\n{FAKE_NIX}")
         fake.chmod(0o755)
@@ -77,6 +86,21 @@ class PrepareCandidate(unittest.TestCase):
                               env=self.env, capture_output=True, text=True, timeout=30)
 
     def ok(self, *args):
+        if args[0] == 'build':
+            # Produce a real commit at the pinned revision, as ordinary
+            # candidate preparation does before entering the build phase.
+            version = (self.root / 'VERSION').read_text()
+            (self.product / 'VERSION').write_text(version)
+            subprocess.run(['git', '-C', str(self.product), 'add', '--', 'VERSION', 'desktop/tests'], check=True)
+            subprocess.run(['git', '-C', str(self.product), 'commit', '-q', '--allow-empty', '-m', 'Pinned product'], check=True)
+            rev = subprocess.check_output(['git', '-C', str(self.product), 'rev-parse', 'HEAD'], text=True).strip()
+            lock = json.loads((self.root / 'flake.lock').read_text())
+            old = lock['nodes']['tamlinux']['locked']['rev']
+            lock['nodes']['tamlinux']['locked']['rev'] = rev
+            (self.root / 'flake.lock').write_text(json.dumps(lock))
+            (self.root / 'flake.nix').write_text((self.root / 'flake.nix').read_text().replace('tamlinux/' + old, 'tamlinux/' + rev))
+            self.product_rev = rev
+            self.ok('verify', '--product', str(self.product))
         result = self.run_tool(*args)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         return result
@@ -100,15 +124,15 @@ class PrepareCandidate(unittest.TestCase):
         record = json.loads((self.root / "deliveries/tamlinux-0.4.4-c.json").read_text())
         self.assertEqual((record["id"], record["parentAssembly"], record["scope"]),
                          ("tamlinux-0.4.4-c", PARENT, "b plus a fix"))
-        self.assertEqual(record["components"]["tamlinux"]["rev"], NEW)
+        self.assertEqual(record["components"]["tamlinux"]["rev"], self.product_rev)
         self.assertEqual(record["outputs"][0], {"drvPath": "/nix/store/0.drv", "outputs": {"out": "/nix/store/0"}})
         self.assertEqual(record["verification"]["desktopTests"], "pass")
         self.assertEqual(record["retainedSoftware"], "0.4.4-b")
         self.assertIn("Not performed", record["activation"])
-        self.assertEqual(self.run_tool("check", "--product", str(self.temp / "no-checkout")).returncode, 0)
+        self.assertEqual(self.run_tool("check", "--product", str(self.temp / "no-checkout")).returncode, 1)
         # Nothing but flake update and build ever ran: no switch, push or deploy.
         calls = [line.split()[0] for line in self.log.read_text().splitlines()]
-        self.assertEqual(set(calls), {"flake", "build"})
+        self.assertEqual(set(calls), {"flake", "build", "path-info"})
 
     def test_versions_are_never_reused_or_moved_backwards(self):
         self.refused("already has a delivery record", "version", "0.4.4-b")
@@ -152,6 +176,7 @@ class PrepareCandidate(unittest.TestCase):
 
     def test_failed_build_keeps_its_log_outside_the_repository(self):
         self.ok("version", "0.4.4-c")
+        self.ok('build')
         self.env["FAKE_NIX_FAIL"] = "1"
         self.refused("build failed", "build")
         log = self.temp / "state/tamlinux/candidates/0.4.4-c/build.log"
@@ -171,7 +196,7 @@ class PrepareCandidate(unittest.TestCase):
         self.ok('version', '0.5.6'); self.ok('build')
         archive = self.temp/'tamlinux-native.pkg.tar'
         files = {'.PKGINFO': b'pkgname = tamlinux-native\npkgver = 0.5.6-0.1\n',
-                 'usr/share/tamlinux/native-integration.json': json.dumps({'productRevision': OLD}).encode(),
+                 'usr/share/tamlinux/native-integration.json': json.dumps({'productRevision': self.product_rev}).encode(),
                  'usr/lib/issue.d/70-tamlinux.issue': b'Welcome to Tamlinux!\nCultivar: Blue Sparkler 0.5.6\n'}
         with tarfile.open(archive, 'w') as tar:
             for name, data in files.items():
@@ -180,10 +205,47 @@ class PrepareCandidate(unittest.TestCase):
         extra = self.temp/'native.json'
         extra.write_text(json.dumps({'readiness': {'nativeInstallationRequired': True},
                                     'nativePackage': {'name': 'tamlinux-native', 'version': '0.5.6-0.1',
-                                                      'archive': archive.name, 'productRevision': OLD,
+                                                      'archive': archive.name, 'productRevision': self.product_rev,
                                                       'sha256': hashlib.sha256(archive.read_bytes()).hexdigest()}}))
         self.ok('record', '--parent', PARENT, '--scope', 'welcome', '--extra', str(extra), '--native-archive', str(archive))
-        self.assertEqual(json.loads((self.root/'deliveries/tamlinux-0.5.6.json').read_text())['nativePackage']['productRevision'], OLD)
+        self.assertEqual(json.loads((self.root/'deliveries/tamlinux-0.5.6.json').read_text())['nativePackage']['productRevision'], self.product_rev)
+
+    def test_stale_recipes_and_missing_outputs_cannot_be_recorded(self):
+        self.ok('version', '0.4.4-c')
+        self.ok('build')
+        evidence = self.temp / 'state/tamlinux/candidates/0.4.4-c/build.json'
+        before = json.loads(evidence.read_text())
+        changed = dict(before, targets=before['targets'][:-1])
+        evidence.write_text(json.dumps(changed))
+        self.refused('missing required targets', 'record', '--parent', PARENT, '--scope', 'x')
+        evidence.write_text(json.dumps(before))
+        (self.root / 'nix').mkdir()
+        (self.root / 'nix/recipe.nix').write_text('{ changed = true; }')
+        self.refused('stale or unbound', 'record', '--parent', PARENT, '--scope', 'x')
+
+    def test_missing_focused_checks_refuse_before_build(self):
+        self.ok('version', '0.4.4-c')
+        self.refused('focused checks are missing', 'build')
+        self.assertFalse(self.log.exists())
+
+    def test_unavailable_outputs_and_overridden_checks_refuse_recording(self):
+        self.ok('version', '0.4.4-c')
+        self.ok('build')
+        self.env['FAKE_MISSING_OUTPUT'] = '1'
+        self.refused('outputs are unavailable', 'record', '--parent', PARENT, '--scope', 'x')
+        self.env.pop('FAKE_MISSING_OUTPUT')
+        extra = self.temp / 'extra.json'
+        extra.write_text(json.dumps({'verification': {'fingerprint': 'invented'}}))
+        self.refused('required verification evidence', 'record', '--parent', PARENT, '--scope', 'x', '--extra', str(extra))
+
+    def test_unchanged_checks_are_reused_and_prepare_records_all_ten(self):
+        self.ok('version', '0.4.4-c')
+        self.ok('build')
+        result = self.ok('prepare', '--product', str(self.product), '--parent', PARENT, '--scope', 'x')
+        self.assertIn('reusing focused checks', result.stdout)
+        record = json.loads((self.root/'deliveries/tamlinux-0.4.4-c.json').read_text())
+        self.assertEqual(len(record['verification']['builtTargets']), 10)
+        self.assertEqual(len(record['verification']['focusedChecks']['tests']), 3)
 
     def test_check_finds_drift(self):
         (self.root / "flake.nix").write_text((self.root / "flake.nix").read_text().replace(f"tamlinux/{OLD}", f"tamlinux/{NEW}"))

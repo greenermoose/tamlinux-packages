@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-01 — Resumable candidate preparation](2026-11-01-candidate-process.md)
+
 One record per kept working session. Older letter and first-extraction
 sessions are in Git; see [FILING-CARD.md](FILING-CARD.md). Do not treat
 archived or kept session notes as open deploy instructions — use

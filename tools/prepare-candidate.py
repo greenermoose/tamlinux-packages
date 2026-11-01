@@ -19,12 +19,17 @@ outside every repository.
 from __future__ import annotations
 
 import argparse
+import hashlib
+import io
 import importlib.util
 import json
 import os
 import re
 import subprocess
 import sys
+import tarfile
+import tempfile
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,8 +38,67 @@ VERSION_FORM = re.compile(r"(\d+)\.(\d+)\.(\d+)(?:-([a-z]))?")
 LETTERS_END = (0, 4, 5)  # The first plain-number candidate (D180).
 DEFAULT_TARGETS = (
     ".#tamlinux-shell", ".#tamlinux-plugins", ".#tamlinux-commands",
-    ".#checks.x86_64-linux.installed-components", ".#checks.x86_64-linux.example-contract",
+    ".#tam", ".#libtam", ".#tamlinux-tools",
+    ".#checks.x86_64-linux.assembly-contract", ".#checks.x86_64-linux.installed-components",
+    ".#checks.x86_64-linux.fresh-session", ".#checks.x86_64-linux.example-contract",
 )
+FOCUSED_TESTS = ('test_theme_ownership.py', 'test_keybinding_defaults.py', 'test_user_defaults.py')
+
+
+def fingerprint(root: Path) -> str:
+    """Bind evidence to the complete assembly recipe and verification policy."""
+    paths = {root / name for name in ('VERSION', 'flake.nix', 'flake.lock')}
+    paths.update((root / 'nix').rglob('*'))
+    paths.update((root / 'tools').glob('*.py'))
+    digest = hashlib.sha256(json.dumps([DEFAULT_TARGETS, FOCUSED_TESTS]).encode())
+    for path in sorted(p for p in paths if p.is_file()):
+        digest.update(str(path.relative_to(root)).encode() + b'\0' + path.read_bytes() + b'\0')
+    return digest.hexdigest()
+
+
+def load_checks(root: Path, out: Path) -> dict:
+    path = out / 'checks.json'
+    if not path.is_file():
+        fail('required focused checks are missing; run verify or prepare first')
+    checks = json.loads(path.read_text())
+    if checks.get('fingerprint') != fingerprint(root) or checks.get('tests') != list(FOCUSED_TESTS):
+        fail('focused check evidence is stale; run verify again')
+    return checks
+
+
+def cmd_verify(root: Path, args) -> None:
+    out = Path(args.evidence) if args.evidence else evidence_dir(read_version(root))
+    identity = fingerprint(root)
+    path = out / 'checks.json'
+    if path.exists() and json.loads(path.read_text()).get('fingerprint') == identity:
+        load_checks(root, out)
+        print('verify: reusing focused checks for identical inputs', flush=True)
+        return
+    if cmd_check(root, args):
+        fail('candidate consistency check failed')
+    rev = lock_inputs(root)['tamlinux']['locked']['rev']
+    # Test the exact pinned source, never a neighbour's changing checkout.
+    archive = subprocess.check_output(['git', '-C', str(args.product), 'archive', rev])
+    out.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='tamlinux-candidate-check-') as directory:
+        with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
+            bundle.extractall(directory, filter='data')
+        with (out / 'checks.log').open('w') as log:
+            for test in FOCUSED_TESTS:
+                start = time.monotonic()
+                print(f'verify: {test}', flush=True)
+                source = Path(directory) / 'desktop/tests' / test
+                if not source.is_file():
+                    fail(f'required focused test is missing in pinned source: {test}')
+                result = subprocess.run([sys.executable, '-B', '-m', 'unittest', 'discover',
+                                         '-s', 'desktop/tests', '-p', test, '-q'],
+                                        cwd=directory, stdout=log, stderr=log)
+                print(f'verify: {test} finished in {time.monotonic()-start:.1f}s', flush=True)
+                if result.returncode:
+                    fail(f'focused check failed: {test}; log: {out / "checks.log"}')
+    if fingerprint(root) != identity:
+        fail('assembly inputs changed during focused checks')
+    path.write_text(json.dumps({'fingerprint': identity, 'tests': list(FOCUSED_TESTS), 'product': rev}) + '\n')
 
 
 def fail(message: str) -> None:
@@ -131,15 +195,23 @@ def cmd_build(root: Path, args) -> None:
     out = Path(args.evidence) if args.evidence else evidence_dir(version)
     out.mkdir(parents=True, exist_ok=True)
     targets = args.target or list(DEFAULT_TARGETS)
+    identity = fingerprint(root)
+    load_checks(root, out)
+    started = time.monotonic()
+    print(f'build: {len(targets)} required outputs (Nix reuses valid store results)', flush=True)
     with open(out / "build.log", "w", encoding="utf-8") as log:
         run = subprocess.run([nix(), "build", "--no-link", "--json", *targets], cwd=root,
                              stdout=subprocess.PIPE, stderr=log, text=True)
     if run.returncode:
         fail(f"build failed ({run.returncode}); log: {out / 'build.log'}")
     built = [{"drvPath": item["drvPath"], "outputs": item["outputs"]} for item in json.loads(run.stdout)]
-    (out / "build.json").write_text(json.dumps({"version": version, "targets": targets, "outputs": built},
+    if fingerprint(root) != identity:
+        fail('assembly inputs changed during build; evidence not recorded')
+    (out / "build.json").write_text(json.dumps({"schema": 2, "fingerprint": identity,
+                                               "checks": load_checks(root, out),
+                                               "version": version, "targets": targets, "outputs": built},
                                                indent=2) + "\n", encoding="utf-8")
-    print(f"build: {len(built)} outputs for {version}; evidence {out / 'build.json'}")
+    print(f"build: {len(built)} outputs for {version} in {time.monotonic()-started:.1f}s; evidence {out / 'build.json'}", flush=True)
 
 
 def cmd_record(root: Path, args) -> None:
@@ -155,6 +227,16 @@ def cmd_record(root: Path, args) -> None:
     build = json.loads(build_file.read_text(encoding="utf-8"))
     if build.get("version") != version:
         fail(f"build evidence is for {build.get('version')}, not {version}")
+    if build.get('schema') != 2 or build.get('fingerprint') != fingerprint(root):
+        fail('build evidence is stale or unbound; verify and build again')
+    if build.get('checks') != load_checks(root, build_file.parent):
+        fail('build evidence does not match the required focused checks')
+    if set(build.get('targets', [])) != set(DEFAULT_TARGETS) or len(build.get('outputs', [])) != len(DEFAULT_TARGETS):
+        fail('build evidence is missing required targets or outputs')
+    paths = [path for item in build['outputs'] for path in item['outputs'].values()]
+    checked = subprocess.run([nix(), 'path-info', *paths], capture_output=True, text=True)
+    if checked.returncode:
+        fail('required outputs are unavailable; run build again to reuse or restore Nix results')
     record = {
         "schemaVersion": 1,
         "id": f"tamlinux-{version}",
@@ -165,7 +247,8 @@ def cmd_record(root: Path, args) -> None:
         "scope": args.scope,
         "components": {name: node["locked"] for name, node in sorted(lock_inputs(root).items())},
         "outputs": build["outputs"],
-        "verification": {"builtTargets": build["targets"], "build": "pass"},
+        "verification": {"builtTargets": build["targets"], "build": "pass",
+                         "fingerprint": build['fingerprint'], "focusedChecks": build['checks']},
         "activation": "Not performed; await user Test instruction",
     }
     if args.extra:
@@ -174,6 +257,8 @@ def cmd_record(root: Path, args) -> None:
         clash = protected & set(extra)
         if clash:
             fail(f"--extra may not replace {', '.join(sorted(clash))}")
+        if set(extra.get('verification', {})) & {'builtTargets', 'build', 'fingerprint', 'focusedChecks'}:
+            fail('--extra may not replace required verification evidence')
         record["verification"].update(extra.pop("verification", {}))
         record.update(extra)
     if version == '0.5.6' and not record.get('readiness', {}).get('nativeInstallationRequired'):
@@ -203,11 +288,13 @@ def cmd_check(root: Path, args) -> int:
             problems.append(f"{name}: flake.nix pins {', '.join(revs)} but flake.lock has {locked}")
     product = Path(args.product)
     rev = inputs.get("tamlinux", {}).get("locked", {}).get("rev")
+    if not REV.fullmatch(rev or ''):
+        problems.append('tamlinux requires an exact locked product revision')
     if rev:
         shown = subprocess.run(["git", "-C", str(product), "show", f"{rev}:VERSION"],
                                capture_output=True, text=True)
         if shown.returncode:
-            print(f"check: cannot read VERSION at tamlinux {rev[:12]} in {product}; not verified")
+            problems.append(f"cannot read VERSION at tamlinux {rev[:12]} in {product}; not verified")
         elif shown.stdout.strip() != version:
             problems.append(f"tamlinux {rev[:12]} has VERSION {shown.stdout.strip()}, assembly has {version}")
     record = delivery_path(root, version)
@@ -231,7 +318,7 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("pin", help="pin inputs to exact commits and update flake.lock")
     p.add_argument("pins", nargs="+", metavar="INPUT=REV")
     p = sub.add_parser("build", help="build the candidate outputs and checks without links")
-    p.add_argument("--target", action="append", help="flake output to build (repeatable; default: the standard five)")
+    p.add_argument("--target", action="append", help="flake output to build (repeatable; recording requires all ten)")
     p.add_argument("--evidence", help="evidence directory (default: ~/.local/state/tamlinux/candidates/<version>)")
     p = sub.add_parser("record", help="write deliveries/tamlinux-<version>.json from the lock and build")
     p.add_argument("--parent", required=True, help="exact parent assembly commit")
@@ -241,11 +328,36 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--native-archive", help="matching native archive when native installation is required")
     p = sub.add_parser("check", help="read-only consistency check of VERSION, pins and record")
     p.add_argument("--product", default=str(ROOT.parent / "tamlinux"), help="tamlinux checkout")
+    p = sub.add_parser('verify', help='run focused checks on the exact pinned product source')
+    p.add_argument('--product', default=str(ROOT.parent / 'tamlinux'))
+    p.add_argument('--evidence')
+    p = sub.add_parser('prepare', help='resume inspect, focused checks, build, verify and record')
+    p.add_argument('--product', default=str(ROOT.parent / 'tamlinux'))
+    p.add_argument('--evidence')
+    p.add_argument('--parent', required=True)
+    p.add_argument('--scope', required=True)
+    p.add_argument('--extra')
+    p.add_argument('--native-archive')
     args = parser.parse_args(argv)
     root = Path(args.root)
     if args.command == "check":
         return cmd_check(root, args)
-    {"version": cmd_version, "pin": cmd_pin, "build": cmd_build, "record": cmd_record}[args.command](root, args)
+    if args.command == 'prepare':
+        started = time.monotonic()
+        print('inspect: verifying candidate pins and versions', flush=True)
+        if cmd_check(root, args):
+            fail('candidate consistency check failed')
+        if delivery_path(root, read_version(root)).exists():
+            fail('candidate is already frozen; use its recorded assembly for Test')
+        cmd_verify(root, args)
+        args.target = None
+        cmd_build(root, args)
+        args.build = str((Path(args.evidence) if args.evidence else evidence_dir(read_version(root))) / 'build.json')
+        cmd_record(root, args)
+        print(f'prepare: completed in {time.monotonic()-started:.1f}s; no promotion or activation', flush=True)
+        return 0
+    {"version": cmd_version, "pin": cmd_pin, "verify": cmd_verify,
+     "build": cmd_build, "record": cmd_record}[args.command](root, args)
     return 0
 
 
