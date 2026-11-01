@@ -544,6 +544,11 @@ let
       runHook preCheck
       ${lib.optionalString (has "commands/tam-macro/Makefile") "export TAMLINUX_XKBCOMMON=${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"}
       patchShebangs commands
+      ${lib.optionalString (has "desktop/tests/test_theme_ownership.py") ''
+        # This test creates an executable fixture; /usr/bin/env is absent in Nix.
+        substituteInPlace desktop/tests/test_theme_ownership.py \
+          --replace-fail '#!/usr/bin/env python3' '#!${pkgs.python3}/bin/python3'
+      ''}
       ${lib.optionalString (has "commands/tam-monitor/native.c") ''
         # The upstream fixture supplies a closed PATH; /usr/bin is absent in Nix builds.
         substituteInPlace commands/tam-monitor/tests/test_monitor.py \
