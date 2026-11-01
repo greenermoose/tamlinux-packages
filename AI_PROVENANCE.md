@@ -15,6 +15,8 @@ lettered 0.4.x, early superseded 0.5 prep) are in Git via
 
 ## Recent sessions (kept in tree)
 
+2026-10-31: Codex CLI `0.166.0` (`gpt-6.1-terra`) reviews macro package dependencies. [Session](docs/ai/2026-10-31-continuation-integration.md).
+
 2026-10-30: Codex CLI `0.166.0` (`gpt-6.1-terra`) corrected the session bootstrap. [Session](docs/ai/2026-10-30-session-bootstrap.md).
 
 2026-10-29: Codex CLI `0.166.0` (`gpt-6.1-terra`) completed 0.5.11 candidate assembly preparation. [Session](docs/ai/2026-10-29-0511-ready.md).
