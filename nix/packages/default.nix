@@ -257,6 +257,7 @@ let
     tam-battery-low = [ ];
     tam-notification-battery = [ ];
     tam-notification-time = [ pkgs.coreutils ];
+    tam-hardware = [ ];
     tam-hw-touchpad = [ pkgs.jq ];
     tam-hw-touchscreen = [ pkgs.jq ];
     tam-hw-laptop = [ ];
@@ -523,13 +524,15 @@ let
     buildPhase = ''
       runHook preBuild
       ${lib.optionalString (has "commands/tam-monitor/native.c") "make -C commands/tam-monitor LIBTAM_PREFIX=${libtam}"}
+      ${lib.optionalString (has "commands/tam-hardware/Makefile") "make -C commands/tam-hardware LIBTAM_PREFIX=${libtam}"}
       runHook postBuild
     '';
     buildInputs = [
       pkgs.bash
       pkgs.python3
-    ] ++ lib.optionals (has "commands/tam-monitor/native.c") [ libtam pkgs.systemd pkgs.libdrm ];
-    makeFlags = lib.optional (has "commands/tam-monitor/native.c") "LIBTAM_PREFIX=${libtam}";
+    ] ++ lib.optionals (has "commands/tam-monitor/native.c") [ libtam pkgs.systemd pkgs.libdrm ]
+      ++ lib.optionals (has "commands/tam-hardware/Makefile") [ libtam pkgs.libcpuid ];
+    makeFlags = lib.optional (has "commands/tam-monitor/native.c" || has "commands/tam-hardware/Makefile") "LIBTAM_PREFIX=${libtam}";
     nativeCheckInputs = [
       (lib.getBin pkgs.util-linux)
       (lib.getBin pkgs.procps)
@@ -570,14 +573,14 @@ let
       git config --global user.name check
       git config --global init.defaultBranch main
       ${lib.concatMapStrings (name: ''
-        make -C commands/${name} check ${lib.optionalString (name == "tam-monitor" && has "commands/tam-monitor/native.c") "LIBTAM_PREFIX=${libtam}"}
+        make -C commands/${name} check ${lib.optionalString ((name == "tam-monitor" && has "commands/tam-monitor/native.c") || name == "tam-hardware") "LIBTAM_PREFIX=${libtam}"}
       '') commandNames}
       runHook postCheck
     '';
     installPhase = ''
       runHook preInstall
       ${lib.concatMapStrings (name: ''
-        make -C commands/${name} install PREFIX=$out ${lib.optionalString (name == "tam-monitor" && has "commands/tam-monitor/native.c") "LIBTAM_PREFIX=${libtam}"}
+        make -C commands/${name} install PREFIX=$out ${lib.optionalString ((name == "tam-monitor" && has "commands/tam-monitor/native.c") || name == "tam-hardware") "LIBTAM_PREFIX=${libtam}"}
       '') commandNames}
       mkdir -p $out/bin
       ${lib.optionalString (has "desktop/browser/native_host.py") ''

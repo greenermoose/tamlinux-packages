@@ -87,6 +87,17 @@ pkgs.runCommand "tamlinux-installed-components"
       env -i HOME="$HOME" PATH=${pkgs.lib.makeBinPath [ pkgs.coreutils pkgs.gnugrep ]} \
         ${components.tamlinux-commands}/bin/tam-monitor --help | grep -q tam-monitor
     ''}
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-hardware" components.tamlinux-commands.passthru.names) ''
+      hw=${components.tamlinux-commands}/bin/.tam-hardware-wrapped
+      test -f "$hw"
+      readelf -n "$hw" | grep -q 'Build ID:'
+      readelf -SW "$hw" | grep -q '\.debug_info'
+      env -i HOME="$TMPDIR/empty-home-hw" PATH=${pkgs.lib.makeBinPath [ pkgs.coreutils ]} \
+        TAM_HARDWARE_FIXTURE_CPU=${productSource}/commands/tam-hardware/tests/fixtures/cpu.txt \
+        TAM_HARDWARE_SYSFS_ROOT=${productSource}/commands/tam-hardware/tests/fixtures/sysfs \
+        ${components.tamlinux-commands}/bin/tam-hardware --json | ${pkgs.jq}/bin/jq -e '.schema == 1 and .cpu.brand != null'
+      ${components.tamlinux-commands}/bin/tam-hardware --help | grep -q tam-hardware
+    ''}
     mkdir -p $out
     cp consumer consumer.c $out/
   ''
