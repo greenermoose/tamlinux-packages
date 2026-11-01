@@ -17,6 +17,8 @@ lettered 0.4.x, early superseded 0.5 prep) are in Git via
 
 ## Recent sessions (kept in tree)
 
+2026-11-01: Antigravity `1.4.12` (`gemini-3.8-flash`) packages Nix reference manuals into tam and session. [Session](docs/ai/2026-11-01-nix-man-reference.md).
+
 2026-11-01: Codex CLI `0.166.0` (`gpt-6.1-terra`) prepares the 0.5.12 assembly. [Session](docs/ai/2026-11-01-0512-preparation.md).
 
 2026-10-31: Codex CLI `0.166.0` (`gpt-6.1-terra`) reviews macro package dependencies. [Session](docs/ai/2026-10-31-continuation-integration.md).

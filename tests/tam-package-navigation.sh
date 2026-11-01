@@ -47,6 +47,10 @@ pass 'guide search resolves indexed packaged content'
     || fail 'tam man did not render its packaged manual'
 pass 'tam man helper resolves the packaged manual'
 
+"$tam" man nix --pipe | grep -q 'nix - a tool for reproducible' \
+    || fail 'tam man did not render the nix manual'
+pass 'tam man helper resolves nix manual'
+
 "$tam" info coreutils --pipe | grep -q 'GNU Coreutils' \
     || fail 'tam info did not render the Coreutils manual'
 "$tam" info coreutils 'head invocation' --pipe \

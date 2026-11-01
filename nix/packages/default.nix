@@ -56,6 +56,7 @@ let
       pkgs.texinfo
       pkgs.man
       pkgs.groff
+      pkgs.nix.man
     ];
     makeFlags = [
       "PREFIX=$(out)"
@@ -70,7 +71,7 @@ let
         "$package_root/usr/bin/tam" \
         "$package_root/usr/share/tamlinux/knowledge" \
         "${pkgs.coreutils.info}/share/info:${pkgs.texinfo}/share/info" \
-        "$package_root/usr/share/man:${pkgs.groff}/share/man" \
+        "$package_root/usr/share/man:${pkgs.groff}/share/man:${pkgs.nix.man}/share/man" \
         "$version"
       runHook postCheck
     '';
@@ -79,7 +80,7 @@ let
     postInstall = ''
       wrapProgram "$out/bin/tam" \
         --prefix PATH : ${lib.makeBinPath [ pkgs.man pkgs.groff pkgs.gzip pkgs.bzip2 pkgs.xz pkgs.zstd ]} \
-        --prefix MANPATH : "$out/share/man" \
+        --prefix MANPATH : "$out/share/man:${pkgs.nix.man}/share/man" \
         --prefix INFOPATH : "${pkgs.coreutils.info}/share/info:${pkgs.texinfo}/share/info" \
         --run 'export MANPATH="$MANPATH:" INFOPATH="$INFOPATH:"'
     '';
