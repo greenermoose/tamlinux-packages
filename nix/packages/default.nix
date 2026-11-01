@@ -549,6 +549,11 @@ let
         substituteInPlace desktop/tests/test_theme_ownership.py \
           --replace-fail '#!/usr/bin/env python3' '#!${pkgs.python3}/bin/python3'
       ''}
+      ${lib.optionalString (has "commands/tam-theme-set-browser/tests/test_client.py") ''
+        # The fixture's default host PATH does not exist in the Nix sandbox.
+        substituteInPlace commands/tam-theme-set-browser/tests/test_client.py \
+          --replace-fail 'os.defpath' '"${pkgs.coreutils}/bin:${pkgs.python3}/bin"'
+      ''}
       ${lib.optionalString (has "commands/tam-monitor/native.c") ''
         # The upstream fixture supplies a closed PATH; /usr/bin is absent in Nix builds.
         substituteInPlace commands/tam-monitor/tests/test_monitor.py \
