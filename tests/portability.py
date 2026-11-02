@@ -12,7 +12,7 @@ for name in filter(None, files):
     path = root / name
     if not path.is_file():
         continue
-    text = path.read_text()
+    text = path.read_text(encoding="utf-8", errors="surrogateescape")
     failures += [f"{name}: {needle}" for needle in forbidden if needle in text]
 if failures:
     raise SystemExit("\n".join(failures))

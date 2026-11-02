@@ -7,9 +7,10 @@ Public delivery definitions for [Tamlinux](https://github.com/greenermoose/tamli
 
 This repository records exact package assemblies (Nix flake, locks, and
 [`deliveries/`](deliveries/)) for Test and Run. Current develop version is in
-[`VERSION`](VERSION). Gate A closed with released **0.4.8**; develop continues
-on **0.5** (Blue Sparkler). Product source lives in the component repos; this
-repo selects pins and installs them through Home Manager.
+[`VERSION`](VERSION). Gate A closed with released **0.4.8** and Blue Sparkler
+released as **0.5.12**; develop continues on **0.6** (KBN WB). Product source
+lives in the component repos; this repo selects pins and installs them through
+Home Manager.
 
 The [deployment contract](docs/deployment.md) requires Test and Run to install
 an exact, recorded package assembly through Nix and Home Manager at the same
@@ -47,8 +48,9 @@ every candidate already passes it.
 The developer baseline installs Bash, editing, C compilation/linking with libc
 headers, Make, Git, secure downloads and certificate trust. A consumer can set
 `tamlinux.developer.nativeProvided = true` only after verifying equivalent host
-tools. `lib.packageSets pkgs` provides `developer` and optional `userTools` lists;
-personal applications, vendor editors and their overrides stay with consumers.
+tools. `lib.packageSets pkgs` provides `developer`, `terminalGames`, and optional
+`userTools` lists; personal applications, vendor editors and their overrides stay
+with consumers.
 
 Source behavior and ordinary build interfaces belong in their component
 repositories. Nix definitions, native package adapters, dependency selection,

@@ -16,15 +16,17 @@ The package set is exposed through:
 - **Flake package set:** `(lib.packageSets pkgs).terminalGames` in `flake.nix`
 - **Home Manager module:** `tamlinux.terminalGames` in `nix/modules/games.nix`
 
-To activate the curated set in a user profile:
+`tamlinux.terminalGames.enable` defaults to `tamlinux.session.enable`, so
+console-first workstation profiles receive the curated set automatically. Minimal
+profiles can disable it explicitly:
 
 ```nix
-tamlinux.terminalGames.enable = true;
+tamlinux.terminalGames.enable = false;
 ```
 
-When enabled, the curated executables are linked directly into the user's
-PATH (`~/.local/bin` / Home Manager profile) and are immediately executable
-from any VT session.
+When enabled, the curated executables are linked into the Home Manager profile
+(`~/.nix-profile/bin`) and are immediately executable from any VT session or via
+`start`.
 
 ## Curated selection and rationale
 
@@ -32,7 +34,7 @@ from any VT session.
 | :--- | :--- | :--- | :--- | :--- |
 | **Cataclysm: DDA** | `cataclysm-dda` | Systems physiology, thermodynamics | Detailed metabolic biochemistry, encumbrance, vehicle engineering | CC-BY-SA-3.0 / GPL-2.0+ |
 | **Frotz** | `frotz <story>` | Cognition, linguistics, AI modeling | Distributed robotics (*Suspended*), interrogation theory of mind (*Spider and Web*), longitudinal social decay (*A Mind Forever Voyaging*) | GPL-2.0+ |
-| **BSD Games** | `trek`, `sail`, `doctor`, `adventure` | History, physics, operations research | Operations research under uncertainty (`trek`), Age of Sail hydrodynamics (`sail`), ELIZA NLP psychotherapist (`doctor`) | BSD-3-Clause |
+| **BSD Games** | `trek`, `adventure`, `atc`, `wump` | History, physics, operations research | Operations research under uncertainty (`trek`), Colossal Cave exploration (`adventure`), air traffic control (`atc`), topological deduction (`wump`) | BSD-3-Clause |
 | **Astroterm** | `astroterm` | Astronomy, celestial mechanics | Real-time Keplerian orbital calculations, precession, Yale Bright Star Catalog (9,000+ stars) | GPL-3.0+ |
 | **Curse of War** | `curseofwar` | Macroeconomics, logistics, war | Infrastructure-driven warfare, logistical draw, demographic exhaustion | GPL-3.0+ |
 | **GNU Go** | `gnugo --mode curses` | Combinatorics, spatial cognition | Emergent strategic depth, territorial balance, intuition vs tactical sacrifice | GPL-3.0+ |
@@ -65,9 +67,8 @@ without X11 or Wayland dependencies.
 - **Package source:** `pkgs.bsdgames`.
 - **Key commands:**
   - `trek` — Super Star Trek simulation. Command abbreviations: `pha` (phasers), `tor` (torpedoes), `war` (warp drive), `shi` (shields). Exit by typing `quit`.
-  - `sail` — Age of Sail tactical combat. Direct helm, sail trim, and broadsides against AI or historical scenarios. Exit via `q`.
-  - `doctor` — Interactive Rogerian psychotherapist ELIZA. Exit with `Ctrl+D` or typing `bye` / `quit`.
   - `adventure` — The original Colossal Cave exploration simulation. Exit with `quit`.
+  - `atc` — Real-time air traffic control vectoring simulation. Exit via `q` when safe or `Ctrl+C`.
   - `wump` — Hunt the Wumpus topological deduction. Exit via prompt.
 
 ### 4. Astroterm (`astroterm`)
@@ -88,8 +89,8 @@ without X11 or Wayland dependencies.
 
 ### 7. pMARS (`pmars`)
 - **Package source:** `pkgs.pmars`.
-- **Execution:** `pmars -m /path/to/warrior1.red /path/to/warrior2.red` (or bundled warriors).
-- **Controls:** Space to step cycle; `q` to exit.
+- **Execution:** `pmars -e /path/to/warrior1.red /path/to/warrior2.red` (the `start` menu launches the curses debugger with bundled sample warriors automatically).
+- **Controls:** `s` or Space to step cycle, `g` to go, `q` to quit the debugger.
 
 ### 8. Bastet (`bastet`)
 - **Package source:** `pkgs.bastet`.
@@ -111,9 +112,9 @@ without X11 or Wayland dependencies.
 - **Execution:** Run `nethack`.
 - **Controls:** Vi movement keys (`h`, `j`, `k`, `l`, `y`, `u`, `b`, `n`); `S` to save and quit; `#quit` to exit.
 
-## Host compatibility across the fleet
+## Hardware compatibility
 
 All eleven packaged titles compile and evaluate cleanly against `nixpkgs` on `x86_64-linux` and require minimal memory and CPU resources:
-- **Bosgame (daily development workstation):** High-resolution DRM/KMS console, full 16-color ANSI rendering, ample storage and RAM.
-- **Slowhp (sacrificial test host):** Low-spec baseline; all text-mode applications run with minimal memory footprint (typically under 20–50 MB RSS) and zero GPU shader requirements.
-- **Toughbook (reserve development host):** Rugged outdoor screen; high-contrast text rendering in VT is exceptionally legible.
+- **Modern desktop workstation:** High-resolution DRM/KMS console, full 16-color ANSI rendering, ample storage and RAM.
+- **Low-spec laptop baseline:** Modest dual-core hardware; all text-mode applications run with minimal memory footprint (typically under 20–50 MB RSS) and zero GPU shader requirements.
+- **Rugged portable hardware:** High-contrast text rendering in VT remains legible on outdoor or field displays without compositor overhead.

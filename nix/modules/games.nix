@@ -10,7 +10,11 @@ let
 in
 {
   options.tamlinux.terminalGames = {
-    enable = lib.mkEnableOption "curated terminal games and simulations for text VT exploration";
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = config.tamlinux.session.enable;
+      description = "Install curated terminal games and simulations for text VT exploration.";
+    };
     packages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = sets.terminalGames;

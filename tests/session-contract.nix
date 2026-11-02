@@ -21,6 +21,7 @@ let
   makeHome = makeHomeWith { };
   hm = makeHome "/home/alex/.local/state";
   withoutDefaults = (makeHomeWith { tamlinux.session.userDefaults.enable = false; } "/home/alex/.local/state").config;
+  withoutGames = (makeHomeWith { tamlinux.terminalGames.enable = false; } "/home/alex/.local/state").config;
   customAutostart = (makeHomeWith {
     xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text = "[Desktop Entry]\nHidden=false\n";
   } "/home/alex/.local/state").config;
@@ -46,6 +47,9 @@ assert c.home.activation ? tamlinuxUserDefaults;
 assert c.xdg.configFile."bash/tamlinux".source == "${defaults}/bash";
 assert !(withoutDefaults.home.activation ? tamlinuxUserDefaults);
 assert !(withoutDefaults.xdg.configFile ? "bash/tamlinux");
+assert c.tamlinux.terminalGames.enable;
+assert !withoutGames.tamlinux.terminalGames.enable;
+assert !(builtins.any (pkg: (pkg.pname or "") == "astroterm") withoutGames.home.packages);
 assert customAutostart.xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text == "[Desktop Entry]\nHidden=false\n";
 assert unit.ExecStart == [ "${pkgs.python3}/bin/python3 -I /home/alex/.local/share/tamlinux/shell/host/session_start.py" ];
 pkgs.runCommand "tamlinux-fresh-session-contract" { } ''
@@ -92,6 +96,18 @@ PY
   test ! -e ${components.tamlinux-shell}/bin/tamlinux-hyprland-session
   test -x ${files}/.local/bin/tam-session-init
   test -x ${files}/.local/bin/tam-migrate-desktop
+  ${pkgs.lib.optionalString (pkgs.lib.elem "start" components.tamlinux-commands.passthru.names) ''
+    test -x ${files}/.local/bin/hi
+    test -x ${files}/.local/bin/start
+    HOME=${files} XDG_DATA_DIRS=/nonexistent TAM_DATADIR=/nonexistent \
+      PATH="${files}/.local/bin:$PATH" ${files}/.local/bin/hi --pipe | grep -q Welcome
+    PATH="${files}/.local/bin:${hm.activationPackage}/home-path/bin:$PATH" \
+      ${files}/.local/bin/start --check | grep -Fq '16/16 activities installed on this system.'
+    ${files}/.local/bin/start --version | grep -Fxq 'start (Tamlinux) ${components.tamlinux-shell.passthru.version}'
+  ''}
+  for game in astroterm bastet trek adventure cataclysm-dda cbonsai curseofwar frotz gnugo nethack pmars vms-empire; do
+    test -x ${hm.activationPackage}/home-path/bin/"$game"
+  done
   test -f ${files}/.config/systemd/user/tamlinux-monitor-watch.service
   test -f ${files}/.config/systemd/user/tam-crash-watch.service
   test -f ${files}/.config/xdg-desktop-portal/hyprland-portals.conf

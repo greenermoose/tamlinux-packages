@@ -7,7 +7,7 @@
 
 ## Prompts
 
-> Read /home/fred/Code/tamlinux/improvements-fred-tamlinux/reports/2026-11-02-0.6-development-handoff.md and follow plans 49/50. Continue your curated 0.6.1 work, including hi and the start activities menu. Preserve existing work and follow D212–D215. Begin with the repository-state checks in the handoff.
+> Read [redacted: private handoff] and follow plans 49/50. Continue your curated 0.6.1 work, including hi and the start activities menu. Preserve existing work and follow D212–D215. Begin with the repository-state checks in the handoff.
 
 ## Changes
 
