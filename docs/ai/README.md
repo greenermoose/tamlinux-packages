@@ -1,5 +1,6 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-02 — Curated terminal games and simulations](2026-11-02-curated-terminal-games.md)
 - [2026-11-01 — Resumable candidate preparation](2026-11-01-candidate-process.md)
 
 One record per kept working session. Older letter and first-extraction

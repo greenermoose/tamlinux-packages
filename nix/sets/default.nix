@@ -25,4 +25,17 @@
     cacert
     nano
   ];
+  terminalGames = with pkgs; [
+    astroterm
+    bastet
+    bsdgames
+    cataclysmDDA.stable.curses
+    cbonsai
+    curseofwar
+    frotz
+    gnugo
+    nethack
+    pmars
+    vms-empire
+  ];
 }
