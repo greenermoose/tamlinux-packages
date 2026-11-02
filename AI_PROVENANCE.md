@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) pins tam 0.48.1 / corpus 0.58.1 for candidate 0.6.1. [Session](docs/ai/2026-11-02-tam-0481-0581.md).
+
 2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) packages curated terminal games and simulations for candidate 0.6.1. [Session](docs/ai/2026-11-02-curated-terminal-games.md).
 
 2026-11-01: Codex CLI `0.166.0` (`gpt-6.1-sol`) implements resumable candidate preparation. [Session](docs/ai/2026-11-01-candidate-process.md).
@@ -18,6 +20,8 @@ lettered 0.4.x, early superseded 0.5 prep) are in Git via
 [`docs/ai/FILING-CARD.md`](docs/ai/FILING-CARD.md).
 
 ## Recent sessions (kept in tree)
+
+2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) pins tam 0.48.1 / corpus 0.58.1 for candidate 0.6.1. [Session](docs/ai/2026-11-02-tam-0481-0581.md).
 
 2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) packages curated terminal games and simulations for candidate 0.6.1. [Session](docs/ai/2026-11-02-curated-terminal-games.md).
 

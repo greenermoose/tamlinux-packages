@@ -67,17 +67,17 @@
     "tam": {
       "flake": false,
       "locked": {
-        "lastModified": 1793358547,
-        "narHash": "sha256-c1or5mWI4hUHfc9dmQj39XxxvZL0gXnBgL5f9epsGNw=",
+        "lastModified": 1793629475,
+        "narHash": "sha256-jSZYF5+RIg1kF9H/9FsY/UwmCX5iBwHZ2jP84Gl20Po=",
         "owner": "greenermoose",
         "repo": "tam",
-        "rev": "6d060a9c20600e2768cfca5cbba5e0af9502d36b",
+        "rev": "a765ec0b874fba51cf43534579781fbb01141a31",
         "type": "github"
       },
       "original": {
         "owner": "greenermoose",
         "repo": "tam",
-        "rev": "6d060a9c20600e2768cfca5cbba5e0af9502d36b",
+        "rev": "a765ec0b874fba51cf43534579781fbb01141a31",
         "type": "github"
       }
     },

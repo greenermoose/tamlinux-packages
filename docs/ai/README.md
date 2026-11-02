@@ -1,5 +1,6 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-02 — Select tam 0.48.1 and corpus 0.58.1](2026-11-02-tam-0481-0581.md)
 - [2026-11-02 — Curated terminal games and simulations](2026-11-02-curated-terminal-games.md)
 - [2026-11-01 — Resumable candidate preparation](2026-11-01-candidate-process.md)
 
@@ -11,6 +12,7 @@ archived or kept session notes as open deploy instructions — use
 
 | Date | Topic | Document |
 | --- | --- | --- |
+| 2026-11-02 | Select tam 0.48.1 and corpus 0.58.1 | [`2026-11-02-tam-0481-0581.md`](2026-11-02-tam-0481-0581.md) |
 | 2026-11-01 | Prepare the 0.5.12 assembly | [`2026-11-01-0512-preparation.md`](2026-11-01-0512-preparation.md) |
 | 2026-10-31 | Macro package continuation integration | [`2026-10-31-continuation-integration.md`](2026-10-31-continuation-integration.md) |
 | 2026-10-30 | Fresh terminal prerequisite | [`2026-10-30-terminal-prerequisite.md`](2026-10-30-terminal-prerequisite.md) |
