@@ -199,6 +199,7 @@ let
   themeTools = [ pkgs.coreutils pkgs.python3 pkgs.gawk pkgs.gnused pkgs.gnugrep
     pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq pkgs.dconf ];
   commandRuntimeDeps = {
+    start = [ pkgs.python3 ];
     tam-macro = [ pkgs.python3 pkgs.wl-clipboard ];
     tam-nut = [ pkgs.coreutils pkgs.gawk pkgs.util-linux pkgs.pciutils ];
     tam-theme-set = themeTools;

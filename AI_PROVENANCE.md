@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) packages runtime dependencies for the start command. [Session](docs/ai/2026-11-02-hi-and-start-packaging.md).
+
 2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) pins tam 0.48.1 / corpus 0.58.1 for candidate 0.6.1. [Session](docs/ai/2026-11-02-tam-0481-0581.md).
 
 2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) packages curated terminal games and simulations for candidate 0.6.1. [Session](docs/ai/2026-11-02-curated-terminal-games.md).

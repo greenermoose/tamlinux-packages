@@ -1,5 +1,6 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-02 — Packaging runtime dependencies for start command](2026-11-02-hi-and-start-packaging.md)
 - [2026-11-02 — Select tam 0.48.1 and corpus 0.58.1](2026-11-02-tam-0481-0581.md)
 - [2026-11-02 — Curated terminal games and simulations](2026-11-02-curated-terminal-games.md)
 - [2026-11-01 — Resumable candidate preparation](2026-11-01-candidate-process.md)
