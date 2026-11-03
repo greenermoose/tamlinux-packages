@@ -51,3 +51,24 @@ class NativePackageCheck(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+# Schema 2 identifies native behavior independently of a candidate's label.
+class CompatibleNative(unittest.TestCase):
+    setUp = NativePackageCheck.setUp
+    def test_compatible_native_can_serve_later_candidate(self):
+        files={}
+        with tarfile.open(self.archive) as bundle:
+            for entry in bundle.getmembers():files[entry.name]=bundle.extractfile(entry).read()
+        payload='a'*64
+        files['usr/share/tamlinux/native-integration.json']=json.dumps({'productRevision':self.revision,'payloadId':payload,'interface':1}).encode()
+        with tarfile.open(self.archive,'w') as bundle:
+            for name,data in files.items():
+                entry=tarfile.TarInfo(name);entry.size=len(data);bundle.addfile(entry,io.BytesIO(data))
+        self.record['version']='0.6.2'
+        self.record['components']['tamlinux']['rev']='2'*40
+        self.record['nativePackage'].update(payloadId=payload,sha256=hashlib.sha256(self.archive.read_bytes()).hexdigest())
+        self.record['nativeRequirement']={'payloadId':payload,'interface':1}
+        check.verify(self.record,self.archive)
+        self.record['nativeRequirement']['payloadId']='b'*64
+        with self.assertRaisesRegex(ValueError,'incompatible'):
+            check.verify(self.record,self.archive)

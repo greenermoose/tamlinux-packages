@@ -41,8 +41,10 @@ elif args[:1] == ["build"]:
     targets = [a for a in args if a.startswith(".#")]
     print(json.dumps([{"drvPath": f"/nix/store/{i}.drv", "outputs": {"out": f"/nix/store/{i}"},
                        "startTime": 1} for i, _ in enumerate(targets)]))
-elif args[:1] == ['path-info'] and os.environ.get('FAKE_MISSING_OUTPUT'):
-    sys.exit(1)
+elif args[:1] == ['path-info']:
+    if os.environ.get('FAKE_MISSING_OUTPUT'):sys.exit(1)
+    targets=[a for a in args if a.startswith('git+file://')]
+    if targets:print('\n'.join(f'/nix/store/{i}' for i,_ in enumerate(targets)))
 '''
 
 
@@ -134,6 +136,24 @@ class PrepareCandidate(unittest.TestCase):
         calls = [line.split()[0] for line in self.log.read_text().splitlines()]
         self.assertEqual(set(calls), {"flake", "build", "path-info"})
 
+    def test_version_only_change_reuses_checks_but_source_change_invalidates(self):
+        self.ok('version', '0.4.4-c');self.ok('build')
+        (self.product/'VERSION').write_text('0.4.4-d\n')
+        (self.product/'README.md').write_text('documentation only\n')
+        subprocess.run(['git','-C',str(self.product),'add','--','VERSION','README.md'],check=True)
+        subprocess.run(['git','-C',str(self.product),'commit','-qm','Candidate metadata'],check=True)
+        rev=subprocess.check_output(['git','-C',str(self.product),'rev-parse','HEAD'],text=True).strip()
+        self.ok('version','0.4.4-d');self.ok('pin','tamlinux='+rev)
+        result=self.ok('verify','--product',str(self.product))
+        self.assertIn('reusing focused checks',result.stdout)
+        test=self.product/'desktop/tests'/prepare.FOCUSED_TESTS[0]
+        test.write_text(test.read_text()+'\n# changed test policy\n')
+        subprocess.run(['git','-C',str(self.product),'add','--','desktop/tests'],check=True)
+        subprocess.run(['git','-C',str(self.product),'commit','-qm','Change focused check'],check=True)
+        rev=subprocess.check_output(['git','-C',str(self.product),'rev-parse','HEAD'],text=True).strip()
+        self.ok('pin','tamlinux='+rev)
+        self.assertNotIn('reusing focused checks',self.ok('verify','--product',str(self.product)).stdout)
+
     def test_versions_are_never_reused_or_moved_backwards(self):
         self.refused("already has a delivery record", "version", "0.4.4-b")
         self.refused("does not come after", "version", "0.4.4-a")
@@ -178,6 +198,8 @@ class PrepareCandidate(unittest.TestCase):
         self.ok("version", "0.4.4-c")
         self.ok('build')
         self.env["FAKE_NIX_FAIL"] = "1"
+        (self.root / "flake.nix").write_text((self.root / "flake.nix").read_text() + "\n# changed recipe\n")
+        self.ok("verify", "--product", str(self.product))
         self.refused("build failed", "build")
         log = self.temp / "state/tamlinux/candidates/0.4.4-c/build.log"
         self.assertIn("boom", log.read_text())

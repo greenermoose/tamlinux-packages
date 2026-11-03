@@ -1,12 +1,20 @@
 { pkgs, sources }:
 let
+  buildSource = source: builtins.path {
+    path = source;
+    name = "component-source";
+    filter = path: type:
+      let relative = pkgs.lib.removePrefix "${source}/" (toString path);
+      in !(pkgs.lib.any (prefix: relative == prefix || pkgs.lib.hasPrefix "${prefix}/" relative)
+        [ ".git" ".github" "docs/ai" "docs/plans" "AI_PROVENANCE.md" "UPSTREAM.md" ]);
+  };
   libtam = pkgs.stdenv.mkDerivation {
     pname = "libtam";
     version = builtins.head (builtins.match ''#define TAM_VERSION_STRING[[:space:]]+"([^"]+)"[[:space:]]*''
       (pkgs.lib.findFirst (pkgs.lib.hasPrefix "#define TAM_VERSION_STRING")
         (throw "Pinned libtam source has no version")
         (pkgs.lib.splitString "\n" (builtins.readFile "${sources.libtam}/include/tam.h"))));
-    src = sources.libtam;
+    src = buildSource sources.libtam;
     nativeBuildInputs = [ pkgs.pkg-config ];
     buildInputs = [ pkgs.dbus ] ++ pkgs.lib.optionals (builtins.pathExists "${sources.libtam}/include/tam_display.h") [ pkgs.libdrm pkgs.systemd ];
     dontStrip = true;
@@ -38,9 +46,9 @@ let
       features.manWrapper = true;
       corpusVersion = lib.trim (builtins.readFile "${sources.tam}/knowledge/version");
     };
-    src = sources.tam;
+    src = buildSource sources.tam;
     patches = pkgs.lib.optional (builtins.pathExists "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch")
-      "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch";
+      (builtins.path { path = "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch"; name = "tam-arch-host-profile.patch"; });
     postPatch = ''
       patchShebangs tests
       install -m 755 ${../../tests/tam-package-navigation.sh} tests/tam-package-navigation.sh
@@ -104,7 +112,7 @@ let
     NIX_LDFLAGS = "--build-id";
     pname = "tamlinux-tools";
     version = "0-unstable-${builtins.substring 0 7 sources.tamlinux-tools.rev}";
-    src = sources.tamlinux-tools;
+    src = buildSource sources.tamlinux-tools;
     postPatch = "patchShebangs tests";
     nativeBuildInputs = [
       pkgs.pkg-config
@@ -199,6 +207,7 @@ let
   themeTools = [ pkgs.coreutils pkgs.python3 pkgs.gawk pkgs.gnused pkgs.gnugrep
     pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq pkgs.dconf ];
   commandRuntimeDeps = {
+    tam-dev = [ pkgs.python3 pkgs.git pkgs.gnumake pkgs.coreutils pkgs.systemd ];
     start = [ pkgs.python3 ];
     tam-macro = [ pkgs.python3 pkgs.wl-clipboard ];
     tam-nut = [ pkgs.coreutils pkgs.gawk pkgs.util-linux pkgs.pciutils ];
@@ -340,7 +349,7 @@ let
     tam-capture-webcam-resize = [ pkgs.jq ];
     tam-capture-edit = [ pkgs.wl-clipboard ];
 
-    tam-shell = [ pkgs.coreutils pkgs.gnugrep ];
+    tam-shell = [ pkgs.python3 pkgs.coreutils pkgs.gnugrep ];
     tam-menu-select = [ pkgs.perl pkgs.coreutils ];
     tam-menu-timezone = [ pkgs.systemd ];
     tam-launch-tui = [ pkgs.coreutils pkgs.util-linux ];
@@ -513,6 +522,72 @@ let
         find $out -name __pycache__ -type d -prune -exec rm -rf {} +
         find $out -name '*.pyc' -delete
       '';
+  commandSource = name: builtins.path {
+    path = product;
+    name = "${name}-source";
+    filter = path: type:
+      let relative = lib.removePrefix "${product}/" (toString path);
+      in toString path == toString product || relative == "commands" || relative == "commands/${name}"
+        || relative == "LICENSE" || lib.hasPrefix "commands/${name}/" relative;
+  };
+  simpleSyntaxCheck = name:
+    let text = builtins.readFile "${product}/commands/${name}/Makefile";
+        parts = lib.splitString "\ncheck:\n" text;
+        block = if lib.length parts == 2 then lib.trim (builtins.head (lib.splitString "\n\n" (builtins.elemAt parts 1))) else "";
+    in block == "bash -n ${name}" && !(lib.hasInfix "include" text) && !(lib.hasInfix "$(shell" text);
+  # Unknown test closures deliberately retain the entire product. Narrow a
+  # closure only when the test is syntax-only or its fixture isolation is known.
+  isolatedCheckNames = [ "tam-dev" "tam-deploy" ];
+  commandChecks = lib.genAttrs (lib.subtractLists nativeNames commandNames) (name: pkgs.stdenv.mkDerivation {
+    pname = "${name}-checks";
+    version = "1";
+    src = if simpleSyntaxCheck name || lib.elem name isolatedCheckNames then commandSource name else product;
+    nativeBuildInputs = [ pkgs.bash pkgs.python3 pkgs.git pkgs.jq pkgs.which pkgs.nodejs pkgs.perl pkgs.lua
+      pkgs.pkg-config (lib.getBin pkgs.util-linux) (lib.getBin pkgs.procps) ];
+    dontConfigure = true;
+    buildPhase = "true";
+    doCheck = true;
+    checkPhase = ''
+      patchShebangs commands
+      ${lib.optionalString (name == "tam-macro") "export TAMLINUX_XKBCOMMON=${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"}
+      ${lib.optionalString (has "desktop/widget-proof" && !(simpleSyntaxCheck name || lib.elem name isolatedCheckNames)) "patchShebangs desktop/widget-proof"}
+      ${lib.optionalString (features.menu && !(simpleSyntaxCheck name || lib.elem name isolatedCheckNames)) "patchShebangs desktop/menu/tam-menu"}
+      export HOME=$TMPDIR/home
+      mkdir -p $HOME
+      git config --global user.email check@example.invalid
+      git config --global user.name check
+      git config --global init.defaultBranch main
+      make -C commands/${name} check
+    '';
+    installPhase = "touch $out";
+  });
+  # Expensive native code has a source closure independent of the candidate
+  # number, documentation, plugins and shell. Small aggregate packages retain
+  # the assembly's version/revision at the public endpoint.
+  nativeNames = lib.filter (name: has "commands/${name}/native.c" || name == "tam-hardware" && has "commands/tam-hardware/Makefile") [ "tam-monitor" "tam-hardware" ];
+  nativePayload = name: pkgs.stdenv.mkDerivation {
+    pname = "${name}-payload";
+    version = "1";
+    NIX_LDFLAGS = "--build-id";
+    src = commandSource name;
+    nativeBuildInputs = [ pkgs.pkg-config pkgs.python3 pkgs.bash ];
+    buildInputs = [ libtam pkgs.systemd pkgs.libdrm pkgs.libcpuid ];
+    dontStrip = true;
+    buildPhase = "make -C commands/${name} LIBTAM_PREFIX=${libtam}";
+    doCheck = true;
+    checkPhase = ''
+      patchShebangs commands
+      ${lib.optionalString (name == "tam-monitor") ''
+        substituteInPlace commands/tam-monitor/tests/test_monitor.py \
+          --replace-fail '/usr/bin:/bin' '${pkgs.coreutils}/bin' \
+          --replace-fail '    def test_installed_command_metadata_without_desktop(self):' \
+            $'    @unittest.skipUnless(Path("/sys/class/drm").is_dir(), "requires host sysfs; tested outside the Nix sandbox")\n    def test_installed_command_metadata_without_desktop(self):'
+      ''}
+      make -C commands/${name} check LIBTAM_PREFIX=${libtam}
+    '';
+    installPhase = "make -C commands/${name} install PREFIX=$out LIBTAM_PREFIX=${libtam}";
+  };
+  nativePayloads = lib.genAttrs nativeNames nativePayload;
   # Product commands: each commands/<name>/ installs bin/<name>.
   commands = pkgs.stdenv.mkDerivation {
     NIX_LDFLAGS = "--build-id";
@@ -524,8 +599,7 @@ let
     nativeBuildInputs = [ pkgs.makeWrapper themeFontPython pkgs.pkg-config ];
     buildPhase = ''
       runHook preBuild
-      ${lib.optionalString (has "commands/tam-monitor/native.c") "make -C commands/tam-monitor LIBTAM_PREFIX=${libtam}"}
-      ${lib.optionalString (has "commands/tam-hardware/Makefile") "make -C commands/tam-hardware LIBTAM_PREFIX=${libtam}"}
+
       runHook postBuild
     '';
     buildInputs = [
@@ -534,45 +608,19 @@ let
     ] ++ lib.optionals (has "commands/tam-monitor/native.c") [ libtam pkgs.systemd pkgs.libdrm ]
       ++ lib.optionals (has "commands/tam-hardware/Makefile") [ libtam pkgs.libcpuid ];
     makeFlags = lib.optional (has "commands/tam-monitor/native.c" || has "commands/tam-hardware/Makefile") "LIBTAM_PREFIX=${libtam}";
-    nativeCheckInputs = [
-      (lib.getBin pkgs.util-linux)
-      (lib.getBin pkgs.procps)
-      pkgs.git
-      pkgs.python3
-      pkgs.jq
-      pkgs.which
-      pkgs.nodejs
-      pkgs.perl
-    ] ++ lib.optionals (has "commands/tam-macro/Makefile") [ pkgs.lua ];
-    doCheck = true;
-    checkPhase = ''
-      runHook preCheck
-      ${lib.optionalString (has "commands/tam-macro/Makefile") "export TAMLINUX_XKBCOMMON=${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"}
-      patchShebangs commands
-      ${lib.optionalString (has "commands/tam-monitor/native.c") ''
-        # The upstream fixture supplies a closed PATH; /usr/bin is absent in Nix builds.
-        substituteInPlace commands/tam-monitor/tests/test_monitor.py \
-          --replace-fail '/usr/bin:/bin' '${pkgs.coreutils}/bin' \
-          --replace-fail '    def test_installed_command_metadata_without_desktop(self):' \
-            $'    @unittest.skipUnless(Path("/sys/class/drm").is_dir(), "requires host sysfs; tested outside the Nix sandbox")\n    def test_installed_command_metadata_without_desktop(self):'
-      ''}
-      ${lib.optionalString (has "desktop/widget-proof") "patchShebangs desktop/widget-proof"}
-      ${lib.optionalString features.menu "patchShebangs desktop/menu/tam-menu"}
-      export HOME=$TMPDIR/home
-      mkdir -p $HOME
-      git config --global user.email check@example.invalid
-      git config --global user.name check
-      git config --global init.defaultBranch main
-      ${lib.concatMapStrings (name: ''
-        make -C commands/${name} check ${lib.optionalString ((name == "tam-monitor" && has "commands/tam-monitor/native.c") || name == "tam-hardware") "LIBTAM_PREFIX=${libtam}"}
-      '') commandNames}
-      runHook postCheck
+    # Realize the independently cached checks before assembling launchers.
+    preBuild = ''
+      for check in ${lib.concatStringsSep " " (map toString (builtins.attrValues commandChecks))}; do
+        test -e "$check"
+      done
     '';
+    doCheck = false;
     installPhase = ''
       runHook preInstall
       ${lib.concatMapStrings (name: ''
         make -C commands/${name} install PREFIX=$out ${lib.optionalString ((name == "tam-monitor" && has "commands/tam-monitor/native.c") || name == "tam-hardware") "LIBTAM_PREFIX=${libtam}"}
-      '') commandNames}
+      '') (lib.subtractLists nativeNames commandNames)}
+      ${lib.concatMapStrings (name: "cp -R ${nativePayloads.${name}}/. $out/\nchmod -R u+w $out\n") nativeNames}
       mkdir -p $out/bin
       ${lib.optionalString (has "desktop/browser/native_host.py") ''
         mkdir -p $out/share/tamlinux
@@ -621,6 +669,7 @@ let
     ) (lib.attrNames commandRuntimeDeps);
     passthru = {
       names = commandNames;
+      inherit commandChecks nativePayloads;
       revision = product.rev;
     };
     meta.license = lib.licenses.gpl3Plus;

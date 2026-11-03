@@ -30,7 +30,14 @@ def verify(record, archive):
     if manifest['productRevision'] != native['productRevision']:
         raise ValueError('native package product revision differs from the delivery record')
     required = record.get('readiness', {}).get('nativeInstallationRequired', False)
-    if required:
+    requirement = record.get('nativeRequirement')
+    if requirement is not None:
+        if (requirement.get('interface') != 1 or manifest.get('interface') != 1
+                or not requirement.get('payloadId')
+                or requirement['payloadId'] != manifest.get('payloadId')
+                or native.get('payloadId') != manifest.get('payloadId')):
+            raise ValueError('native payload is incompatible with selected candidate')
+    elif required:
         if native['productRevision'] != record['components']['tamlinux']['rev']:
             raise ValueError('native package is not from the selected product revision')
         if native['version'].split('-', 1)[0] != record['version']:

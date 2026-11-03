@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-02: Codex CLI `0.166.0` (`gpt-6.1-sol`) implements the development and candidate workflow. [Session](docs/ai/2026-11-02-candidate-workflow.md).
+
 2026-11-02: Antigravity `1.4.12` (`gemini-4-argon-medium`) prepares the 0.6.1 KBN WB assembly and verifies curated terminal game builds. [Session](docs/ai/2026-11-02-061-preparation.md).
 
 2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) packages runtime dependencies for the start command. [Session](docs/ai/2026-11-02-hi-and-start-packaging.md).

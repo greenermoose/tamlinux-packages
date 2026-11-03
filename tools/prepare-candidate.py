@@ -21,10 +21,12 @@ from __future__ import annotations
 import argparse
 import hashlib
 import io
+import inspect
 import importlib.util
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tarfile
@@ -66,23 +68,58 @@ def load_checks(root: Path, out: Path) -> dict:
     return checks
 
 
+def check_identity(product: Path, revision: str) -> str:
+    """Conservative source closure, independent of candidate/package metadata.
+
+    The focused tests consume commands and desktop data. Unknown additions in
+    either tree invalidate all three checks. Packaging recipes have their own
+    identity; VERSION is checked separately for every candidate.
+    """
+    tree = subprocess.check_output(['git', '-C', str(product), 'ls-tree', '-r',
+                                    revision, '--', 'commands', 'desktop'])
+    runner = {'python': sys.version, 'platform': sys.platform,
+              'policy': hashlib.sha256((inspect.getsource(cmd_verify) + inspect.getsource(check_identity) + repr(FOCUSED_TESTS)).encode()).hexdigest()}
+    # These are native-host checks, not hermetic derivations. A native package
+    # change must invalidate them, including changes in dynamically loaded libs.
+    database = Path('/var/lib/pacman/local')
+    runner['packages'] = sorted(p.name for p in database.iterdir()) if database.exists() else []
+    for name in ('python3', 'bash', 'lua', 'jq', 'env'):
+        tool = shutil.which(name, path='/usr/bin')
+        runner[name] = hashlib.sha256(Path(tool).read_bytes()).hexdigest() if tool else None
+    return hashlib.sha256(tree + json.dumps(runner, sort_keys=True).encode()).hexdigest()
+
+
+def atomic_json(path: Path, value: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix('.tmp')
+    temporary.write_text(json.dumps(value, indent=2) + '\n')
+    temporary.replace(path)
+
+
 def cmd_verify(root: Path, args) -> None:
     out = Path(args.evidence) if args.evidence else evidence_dir(read_version(root))
     identity = fingerprint(root)
-    path = out / 'checks.json'
-    if path.exists() and json.loads(path.read_text()).get('fingerprint') == identity:
-        load_checks(root, out)
-        print('verify: reusing focused checks for identical inputs', flush=True)
-        return
     if cmd_check(root, args):
         fail('candidate consistency check failed')
     rev = lock_inputs(root)['tamlinux']['locked']['rev']
-    # Test the exact pinned source, never a neighbour's changing checkout.
+    source_key = check_identity(Path(args.product), rev)
+    cache = evidence_dir('cache') / 'focused' / (source_key + '.json')
+    if cache.is_file():
+        saved = json.loads(cache.read_text())
+        if saved.get('sourceKey') == source_key and saved.get('tests') == list(FOCUSED_TESTS):
+            atomic_json(out / 'checks.json', {'fingerprint': identity, 'tests': list(FOCUSED_TESTS),
+                        'product': rev, 'sourceKey': source_key, 'reused': True})
+            print('verify: reusing focused checks; source closure and runner unchanged', flush=True)
+            return
     archive = subprocess.check_output(['git', '-C', str(args.product), 'archive', rev])
     out.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='tamlinux-candidate-check-') as directory:
         with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
             bundle.extractall(directory, filter='data')
+        home = Path(directory) / '.test-home'
+        home.mkdir()
+        env = {'PATH': '/usr/bin', 'HOME': str(home), 'LC_ALL': 'C.UTF-8',
+               'PYTHONDONTWRITEBYTECODE': '1'}
         with (out / 'checks.log').open('w') as log:
             for test in FOCUSED_TESTS:
                 start = time.monotonic()
@@ -92,13 +129,15 @@ def cmd_verify(root: Path, args) -> None:
                     fail(f'required focused test is missing in pinned source: {test}')
                 result = subprocess.run([sys.executable, '-B', '-m', 'unittest', 'discover',
                                          '-s', 'desktop/tests', '-p', test, '-q'],
-                                        cwd=directory, stdout=log, stderr=log)
+                                        cwd=directory, stdout=log, stderr=log, env=env)
                 print(f'verify: {test} finished in {time.monotonic()-start:.1f}s', flush=True)
                 if result.returncode:
                     fail(f'focused check failed: {test}; log: {out / "checks.log"}')
     if fingerprint(root) != identity:
         fail('assembly inputs changed during focused checks')
-    path.write_text(json.dumps({'fingerprint': identity, 'tests': list(FOCUSED_TESTS), 'product': rev}) + '\n')
+    atomic_json(cache, {'sourceKey': source_key, 'tests': list(FOCUSED_TESTS)})
+    atomic_json(out / 'checks.json', {'fingerprint': identity, 'tests': list(FOCUSED_TESTS),
+                                    'product': rev, 'sourceKey': source_key, 'reused': False})
 
 
 def fail(message: str) -> None:
@@ -197,6 +236,15 @@ def cmd_build(root: Path, args) -> None:
     targets = args.target or list(DEFAULT_TARGETS)
     identity = fingerprint(root)
     load_checks(root, out)
+    previous = out / 'build.json'
+    if previous.is_file():
+        saved = json.loads(previous.read_text())
+        paths = [p for item in saved.get('outputs', []) for p in item.get('outputs', {}).values()]
+        if (saved.get('schema') == 2 and saved.get('fingerprint') == identity
+                and saved.get('targets') == targets and len(paths) == len(targets)
+                and subprocess.run([nix(), 'path-info', *paths], capture_output=True).returncode == 0):
+            print('build: reusing all available outputs for identical assembly inputs', flush=True)
+            return
     started = time.monotonic()
     print(f'build: {len(targets)} required outputs (Nix reuses valid store results)', flush=True)
     with open(out / "build.log", "w", encoding="utf-8") as log:
@@ -207,10 +255,9 @@ def cmd_build(root: Path, args) -> None:
     built = [{"drvPath": item["drvPath"], "outputs": item["outputs"]} for item in json.loads(run.stdout)]
     if fingerprint(root) != identity:
         fail('assembly inputs changed during build; evidence not recorded')
-    (out / "build.json").write_text(json.dumps({"schema": 2, "fingerprint": identity,
-                                               "checks": load_checks(root, out),
-                                               "version": version, "targets": targets, "outputs": built},
-                                               indent=2) + "\n", encoding="utf-8")
+    atomic_json(out / 'build.json', {"schema": 2, "fingerprint": identity,
+                "checks": {k:v for k,v in load_checks(root,out).items() if k!='reused'},
+                "version":version,"targets":targets,"outputs":built})
     print(f"build: {len(built)} outputs for {version} in {time.monotonic()-started:.1f}s; evidence {out / 'build.json'}", flush=True)
 
 
@@ -229,7 +276,7 @@ def cmd_record(root: Path, args) -> None:
         fail(f"build evidence is for {build.get('version')}, not {version}")
     if build.get('schema') != 2 or build.get('fingerprint') != fingerprint(root):
         fail('build evidence is stale or unbound; verify and build again')
-    if build.get('checks') != load_checks(root, build_file.parent):
+    if build.get('checks') != {k: v for k, v in load_checks(root, build_file.parent).items() if k != 'reused'}:
         fail('build evidence does not match the required focused checks')
     if set(build.get('targets', [])) != set(DEFAULT_TARGETS) or len(build.get('outputs', [])) != len(DEFAULT_TARGETS):
         fail('build evidence is missing required targets or outputs')
@@ -263,6 +310,19 @@ def cmd_record(root: Path, args) -> None:
         record.update(extra)
     if version == '0.5.6' and not record.get('readiness', {}).get('nativeInstallationRequired'):
         fail('0.5.6 requires its matching native package and installation record')
+    if record.get('nativeRequirement'):
+        selected = record['components']['tamlinux']['rev']
+        product = Path(getattr(args, 'product', root.parent / 'tamlinux'))
+        archive = subprocess.check_output(['git', '-C', str(product), 'archive', selected])
+        spec = importlib.util.spec_from_file_location('native_preparer', ROOT / 'tools/prepare-native-integration.py')
+        preparer = importlib.util.module_from_spec(spec);spec.loader.exec_module(preparer)
+        with tempfile.TemporaryDirectory(prefix='native-requirement-') as directory:
+            source = Path(directory) / 'source';source.mkdir()
+            with tarfile.open(fileobj=io.BytesIO(archive)) as bundle:
+                bundle.extractall(source, filter='data')
+            expected = preparer.prepare(source, Path(directory)/'stage', selected)
+        if record['nativeRequirement'] != {'payloadId': expected['payloadId'], 'interface': expected['interface']}:
+            fail('native requirement does not match the pinned product payload')
     if record.get('readiness', {}).get('nativeInstallationRequired'):
         if not args.native_archive:
             fail('native installation requires --native-archive for candidate verification')
@@ -273,7 +333,7 @@ def cmd_record(root: Path, args) -> None:
             verifier.verify(record, Path(args.native_archive))
         except (OSError, ValueError, KeyError, subprocess.SubprocessError) as error:
             fail(f'native package verification failed: {error}')
-    path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    atomic_json(path, record)
     print(f"record: wrote {path.relative_to(root)}")
 
 

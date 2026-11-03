@@ -43,7 +43,7 @@ package() {
   cp -dr --preserve=mode,links --no-preserve=ownership defaults/root/. "$pkgdir/"
   install -Dm644 manifest.json "$pkgdir/usr/share/tamlinux/native-integration.json"
   install -d "$pkgdir/usr/lib/issue.d"
-  python console/console-welcome.py --cultivar "$(cat console/cultivar)" --version "$(cat console/version)" > "$pkgdir/usr/lib/issue.d/70-tamlinux.issue"
+  python console/console-welcome.py > "$pkgdir/usr/lib/issue.d/70-tamlinux.issue"
   install -Dm644 integration/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE"
   install -Dm644 asdcontrol/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-asdcontrol"
   install -Dm644 defaults/LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-defaults"

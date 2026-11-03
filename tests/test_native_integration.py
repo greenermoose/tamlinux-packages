@@ -25,7 +25,7 @@ class NativeStaging(unittest.TestCase):
             p.write_text('controlled source '+relative+'\n')
         (self.product/'desktop/session/console-welcome.py').write_text(
             'import sys\n'
-            'print("Welcome to Tamlinux!\\nCultivar:  " + sys.argv[2] + " " + sys.argv[4])\n'
+            'print("Welcome to Tamlinux!")\n'
             'print(r"Rootstock: \\S{PRETTY_NAME}\\nKernel: \\r")\n')
         (self.product/'VERSION').write_text('0.5.6\n')
         (self.product/'CULTIVAR').write_text('Blue Sparkler\n')
@@ -51,8 +51,19 @@ class NativeStaging(unittest.TestCase):
         self.assertIn('pkgver=0.5.6', (self.base/'a/PKGBUILD').read_text())
         self.assertIn('options=(!strip)', (self.base/'a/PKGBUILD').read_text())
         with tarfile.open(self.base/'a/tamlinux-native-source.tar') as archive:
-            self.assertEqual(len(archive.getmembers()),len(m.FILES)+len(self.origins)+1)
+            self.assertEqual(len(archive.getmembers()),len(m.FILES)+len(self.origins)-1)
             self.assertTrue(all(p.name.startswith('tamlinux-native/') and p.uid==0 and p.mtime==0 for p in archive.getmembers()))
+
+    def test_candidate_metadata_does_not_change_native_payload_identity(self):
+        first=m.prepare(self.product,self.base/'first','1'*40)
+        (self.product/'VERSION').write_text('0.6.2\n')
+        (self.product/'CULTIVAR').write_text('Another Cultivar\n')
+        second=m.prepare(self.product,self.base/'second','2'*40)
+        self.assertEqual(first['payloadId'],second['payloadId'])
+        self.assertNotEqual(first['manifest']['productRevision'],second['manifest']['productRevision'])
+        path=self.product/m.FILES['integration/session'];path.write_text('changed native behavior')
+        third=m.prepare(self.product,self.base/'third','3'*40)
+        self.assertNotEqual(second['payloadId'],third['payloadId'])
 
     def test_existing_destination_is_preserved(self):
         destination=self.base/'existing';destination.mkdir();(destination/'personal').write_text('keep')
@@ -83,7 +94,7 @@ class NativeStaging(unittest.TestCase):
         self.assertFalse((package/'etc').exists())
         self.assertFalse((package/'usr/local').exists())
         issue = (package/'usr/lib/issue.d/70-tamlinux.issue').read_text()
-        self.assertIn('Cultivar:  Blue Sparkler 0.5.6', issue)
+        self.assertNotIn('Cultivar:', issue)
         self.assertIn('Welcome to Tamlinux!', issue)
         self.assertIn(r'\S{PRETTY_NAME}', issue)
         self.assertIn(r'\r', issue)

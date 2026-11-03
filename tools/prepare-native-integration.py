@@ -60,12 +60,22 @@ def prepare(product,destination,revision):
         source=product/relative
         if source.is_symlink() or not source.is_file() or not source.resolve().is_relative_to(product.resolve()):raise ValueError('Expected maintained source: '+relative)
         files[name]=source.read_bytes()
-    version = files['console/version'].decode('ascii').strip()
+    version = files.pop('console/version').decode('ascii').strip()
+    files.pop('console/cultivar')
     if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version):
         raise ValueError('Native package requires a plain product version')
     special=defaults(product)
     files.update({name:data for name,(mode,data) in special.items() if mode!='link'})
-    manifest={'schema':1,'stage':'Develop; no candidate promotion', 'productRevision':revision,
+    # Candidate labels and source revision are provenance, not native behavior.
+    # This identity also covers the recipe, dependencies, modes and symlinks.
+    recipe_template=(ROOT/'contracts/providers/recipes/tamlinux-native/PKGBUILD.in').read_bytes()
+    identity={'files':{name:hashlib.sha256(data).hexdigest() for name,data in sorted(files.items())},
+              'special':{name:[mode, payload if mode=='link' else hashlib.sha256(payload).hexdigest()]
+                         for name,(mode,payload) in sorted(special.items())},
+              'recipe':hashlib.sha256(recipe_template).hexdigest(),
+              'preparer':hashlib.sha256(Path(__file__).read_bytes()).hexdigest()}
+    payload_id=hashlib.sha256(json.dumps(identity,sort_keys=True).encode()).hexdigest()
+    manifest={'schema':2,'payloadId':payload_id,'interface':1,'stage':'Develop; no candidate promotion', 'productRevision':revision,
         'origin':'https://github.com/greenermoose/tamlinux','files':
         {name:hashlib.sha256(data).hexdigest() for name,data in sorted(files.items())},
         'links':{name:target for name,(mode,target) in sorted(special.items()) if mode=='link'},
@@ -88,7 +98,7 @@ def prepare(product,destination,revision):
     digest=hashlib.sha256(archive.read_bytes()).hexdigest()
     recipe=(ROOT/'contracts/providers/recipes/tamlinux-native/PKGBUILD.in').read_text().replace('@SOURCE_SHA256@',digest).replace('@PRODUCT_VERSION@', version)
     (destination/'PKGBUILD').write_text(recipe)
-    result={'schema':1,'sourceSha256':digest,'recipeSha256':hashlib.sha256(recipe.encode()).hexdigest(),
+    result={'schema':2,'payloadId':payload_id,'interface':1,'sourceSha256':digest,'recipeSha256':hashlib.sha256(recipe.encode()).hexdigest(),
             'manifest':manifest,'candidateReady':False}
     (destination/'selection.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
     return result
