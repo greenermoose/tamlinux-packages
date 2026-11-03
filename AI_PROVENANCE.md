@@ -73,3 +73,5 @@ lettered 0.4.x, early superseded 0.5 prep) are in Git via
 
 Older milestones through first extraction (2026-10-09) remain in Git; retrieve
 paths listed on [`docs/ai/FILING-CARD.md`](docs/ai/FILING-CARD.md).
+
+Candidate 0.6.2: [preparation](docs/ai/0.6.2-candidate-preparation.md).
