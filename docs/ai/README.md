@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-02 — Candidate inclusions](2026-11-02-candidate-inclusions.md)
+
 - [2026-11-02 — Package tam-desktop-test](2026-11-02-package-tam-desktop-test.md)
 - [2026-11-02 — Development and candidate workflow](2026-11-02-candidate-workflow.md)
 

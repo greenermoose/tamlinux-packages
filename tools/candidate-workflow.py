@@ -22,7 +22,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPONENTS = ('libtam', 'tam', 'tamlinux-tools', 'tamlinux')
-WORD = re.compile(r'package\s+and\s+test\s+the\s+next\s+version\s+of\s+tamlinux[.!]?', re.I)
+WORD = re.compile(r'(?:please\s+)?package(?:\s+up)?\s+and\s+test\s+(?:the\s+next\s+version\s+of\s+tamlinux|tamlinux\s+(?P<version>(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)))[.!]?', re.I)
 
 
 class WorkflowError(Exception):
@@ -68,12 +68,56 @@ def within(path, scopes):
 
 
 class Workflow:
-    def __init__(self, workspace, state=None, registrar=None):
+    def __init__(self, workspace, state=None, registrar=None, inclusions=None):
         self.registrar = registrar
+        self.inclusions = inclusions
         self.workspace = Path(workspace).resolve()
         self.packages = self.workspace/'tamlinux-packages'
         self.state = Path(state or Path(os.environ.get('XDG_STATE_HOME', Path.home()/'.local/state'))/'tamlinux/candidate-workflow')
         self.state.mkdir(parents=True, exist_ok=True)
+
+    def requested_contents(self, version):
+        items = self.inclusions(version) if self.inclusions else []
+        if not isinstance(items, list):
+            raise WorkflowError('candidate inclusions must be a list')
+        for item in items:
+            if (item.get('repo') not in COMPONENTS or
+                    not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.+-]{0,127}', item.get('name', '')) or
+                    not re.fullmatch(r'[A-Za-z0-9_.+-]+', item.get('output', '')) or
+                    (item.get('revision') is not None and not re.fullmatch(r'[0-9a-f]{40}', item['revision']))):
+                raise WorkflowError('invalid requested component identity')
+            for key in ('sourcePath', 'artifact'):
+                path = item.get(key)
+                if not isinstance(path, str) or not path or Path(path).is_absolute() or '..' in Path(path).parts:
+                    raise WorkflowError('invalid requested component path')
+        return items
+
+    def verify_inclusion_sources(self, items, pins):
+        for item in items:
+            repo = self.workspace/item['repo']
+            revision = pins[item['repo']]
+            if item.get('revision'):
+                result = subprocess.run(['git', '-C', str(repo), 'merge-base', '--is-ancestor',
+                                         item['revision'], revision], capture_output=True)
+                if result.returncode:
+                    raise WorkflowError(item['name'] + ': selected source omits its recorded revision')
+            source = item['sourcePath']
+            if source != '.':
+                try:
+                    git(repo, 'cat-file', '-e', revision + ':' + source)
+                except WorkflowError as exc:
+                    raise WorkflowError(item['name'] + ': missing from selected source') from exc
+
+    def verify_inclusion_outputs(self, items, record):
+        for item in items:
+            roots = [Path(path) for result in record.get('outputs', [])
+                     for path in result.get('outputs', {}).values()
+                     if re.fullmatch(r'[a-z0-9]+-' + re.escape(item['output']) + r'-[0-9].*', Path(path).name)]
+            files = [root/item['artifact'] for root in roots]
+            if not files or not any(file.exists() and
+                    (not item['artifact'].startswith('bin/') or
+                     (file.is_file() and os.access(file, os.X_OK))) for file in files):
+                raise WorkflowError(item['name'] + ': requested artifact absent from built ' + item['output'])
 
     def owner_scopes(self, repo, foreign=False):
         session = os.environ.get('TAM_WORK_SESSION') or os.environ.get('CODEX_THREAD_ID') or os.environ.get('CLAUDE_SESSION_ID')
@@ -266,9 +310,19 @@ class Workflow:
             if state['phase']=='cancelled':raise WorkflowError('request was cancelled; start a new request')
             if state['host'] != os.uname().nodename:
                 raise WorkflowError('request belongs to another host')
+            if word is not None and word != state.get('word'):
+                raise WorkflowError('resume cannot replace the original request')
+            if self.inclusions and self.requested_contents(state['version']) != state.get('inclusions', []):
+                raise WorkflowError('requested contents changed; preserve this candidate and make a new request')
         else:
-            if not WORD.fullmatch((word or '').strip()):
-                raise WorkflowError('combined request must explicitly say Package and test the next version of Tamlinux')
+            request = WORD.fullmatch((word or '').strip())
+            if not request:
+                raise WorkflowError('say Package up and test Tamlinux <version>, or Package and test the next version of Tamlinux')
+            requested_version = request['version']
+            if requested_version:
+                if version not in ('next', requested_version):
+                    raise WorkflowError('spoken version differs from the command version')
+                version = requested_version
             if active.exists() and json.loads(active.read_text()).get('phase') not in ('frozen','cancelled'):
                 raise WorkflowError('an unfinished candidate exists; use --resume')
             selected = self.inspect()
@@ -290,9 +344,12 @@ class Workflow:
             chosen = f'{major}.{minor}.{max([patch,*existing,*reservations])+1}'
             if version not in ('next',chosen):
                 raise WorkflowError('next unused version is '+chosen)
+            included = self.requested_contents(chosen)
             state = {'schema':1,'version':chosen,'word':word,'host':os.uname().nodename,
+                     'inclusions':included,
                      'selected':selected,'assemblySelection':assembly_selection,'parentAssembly':parent,'phase':'selected','steps':{},
-                     'requestId':digest({'parent':parent,'selected':selected,'host':os.uname().nodename,'word':word})}
+                     'requestId':digest({'parent':parent,'selected':selected,'inclusions':included,
+                                         'host':os.uname().nodename,'word':word})}
             save(active,state)  # version reservation before any source mutation
             save(self.state/(chosen+'.json'),state)
         version = state['version']
@@ -385,6 +442,7 @@ class Workflow:
             return self.resume_source(self.packages,intent)
         state['parentAssembly']=phase('assembly-sources',assembly_sources)
         pins=phase('sources',sources)
+        self.verify_inclusion_sources(state.get('inclusions', []), pins)
         for name,rev in pins.items():
             git(self.workspace/name,'cat-file','-e',rev+'^{commit}')
         def publish_selected():
@@ -418,6 +476,7 @@ class Workflow:
             prepare.cmd_build(self.packages,args)
             extra=self.state/(version+'-native.json')
             save(extra,{'nativePackage':native['package'],'nativeRequirement':native['requirement'],
+                        'inclusions':state.get('inclusions', []),
                         'readiness':{'nativeInstallationRequired':True}})
             args.extra=str(extra)
             delivery=self.packages/f'deliveries/tamlinux-{version}.json'
@@ -426,6 +485,10 @@ class Workflow:
                 data=json.loads(delivery.read_text())
                 if data['verification']['fingerprint']!=fingerprint:
                     raise WorkflowError('existing delivery differs from selected inputs')
+            data = json.loads(delivery.read_text())
+            if data.get('inclusions', []) != state.get('inclusions', []):
+                raise WorkflowError('delivery inclusions differ from the frozen selection')
+            self.verify_inclusion_outputs(state.get('inclusions', []), data)
             state['deliverySha256']=hashlib.sha256(delivery.read_bytes()).hexdigest();save(active,state)
             record=f'docs/ai/{version}-candidate-preparation.md'
             self.claim(self.packages,[record,'AI_PROVENANCE.md'])
@@ -470,6 +533,12 @@ class Workflow:
             raise WorkflowError('frozen delivery identity differs')
         record=json.loads(delivery)
         if record.get('outputs'):self.frozen_outputs(revision,record,restore=True)
+        items = state.get('inclusions', [])
+        if record.get('inclusions', []) != items:
+            raise WorkflowError('frozen delivery inclusions differ')
+        if items:
+            self.verify_inclusion_sources(items, {name: pin['rev'] for name, pin in record['components'].items()})
+            self.verify_inclusion_outputs(items, record)
         return revision
 
     def native(self, revision, state):

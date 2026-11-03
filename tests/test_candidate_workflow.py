@@ -49,6 +49,57 @@ class Workflow(unittest.TestCase):
         with self.assertRaises(w.WorkflowError):self.flow.prepare(word='Implement the plan',trailers='fixture')
         self.assertFalse((self.flow.state/'active.json').exists())
 
+    def test_include_quoted_or_mismatched_requests_do_not_allocate(self):
+        for version, word in (
+                ('0.6.2', 'Include tam-desktop-test in Tamlinux 0.6.2'),
+                ('0.6.2', '"Package up and test Tamlinux 0.6.2"'),
+                ('0.6.2', 'What if I say Package up and test Tamlinux 0.6.2?'),
+                ('0.6.2', 'Package up and test Tamlinux 0.6.3'),
+                ('0.6.1', 'Package up and test Tamlinux 0.6.1')):
+            with self.subTest(word=word):
+                with self.assertRaises(w.WorkflowError):
+                    self.flow.prepare(version, word, trailers='fixture')
+                self.assertFalse((self.flow.state/'active.json').exists())
+
+    def test_named_request_selects_only_the_spoken_version(self):
+        with patch.object(self.flow, 'claim', side_effect=w.WorkflowError('stop after allocation')):
+            with self.assertRaisesRegex(w.WorkflowError, 'stop after allocation'):
+                self.flow.prepare('0.6.2', 'Package up and test Tamlinux 0.6.2', trailers='fixture')
+        state = json.loads((self.flow.state/'active.json').read_text())
+        self.assertEqual(state['version'], '0.6.2')
+        self.assertEqual(state['word'], 'Package up and test Tamlinux 0.6.2')
+
+    def inclusion(self):
+        return {'name': 'tam-desktop-test', 'repo': 'tamlinux',
+                'revision': self.git(self.root/'tamlinux', 'rev-parse', 'HEAD'),
+                'sourcePath': 'commands/tam-desktop-test', 'output': 'tamlinux-commands',
+                'artifact': 'bin/tam-desktop-test'}
+
+    def test_old_source_pin_cannot_satisfy_new_inclusion(self):
+        repo = self.root/'tamlinux'
+        before = self.git(repo, 'rev-parse', 'HEAD')
+        path = repo/'commands/tam-desktop-test/Makefile'
+        path.parent.mkdir(parents=True); path.write_text('install:\n\ttrue\n')
+        self.git(repo, 'add', '--', 'commands/tam-desktop-test/Makefile')
+        self.git(repo, 'commit', '-qm', 'Finished requested command')
+        with self.assertRaisesRegex(w.WorkflowError, 'omits its recorded revision'):
+            self.flow.verify_inclusion_sources([self.inclusion()], {'tamlinux': before})
+
+    def test_recipe_entry_without_built_command_does_not_satisfy_inclusion(self):
+        item = self.inclusion()
+        output = self.root/'hash-tamlinux-commands-0.6.2'
+        output.mkdir()
+        record = {'outputs': [{'outputs': {'out': str(output)}}]}
+        with self.assertRaisesRegex(w.WorkflowError, 'artifact absent'):
+            self.flow.verify_inclusion_outputs([item], record)
+        command = output/'bin/tam-desktop-test'
+        command.parent.mkdir(); command.mkdir()
+        with self.assertRaisesRegex(w.WorkflowError, 'artifact absent'):
+            self.flow.verify_inclusion_outputs([item], record)
+        command.rmdir(); command.write_text('#!/bin/sh\nexit 0\n')
+        command.chmod(0o755)
+        self.flow.verify_inclusion_outputs([item], record)
+
     def test_failed_phase_reuses_reserved_version_and_source_commits(self):
         outer=self
         class Prepare:
@@ -126,16 +177,31 @@ class Workflow(unittest.TestCase):
         prepare=w.module('prepare-candidate')
         for name in prepare.FOCUSED_TESTS:
             (tests/name).write_text('import unittest\nclass Check(unittest.TestCase):\n def test_ok(self):self.assertTrue(True)\n')
+        command = product/'commands/tam-desktop-test/Makefile'
+        command.parent.mkdir(parents=True)
+        command.write_text('install:\n\ttrue\n')
         paths=subprocess.check_output(['git','-C',str(product),'ls-files','-co','--exclude-standard','-z']).split(b'\0')
         self.git(product,'add','--',*[p.decode() for p in paths if p]);self.git(product,'commit','-qm','Controlled product fixture')
         pins={name:self.git(self.root/name,'rev-parse','HEAD') for name in w.COMPONENTS}
+        required = [self.inclusion()]
+        self.flow.inclusions = lambda version: required
         nodes={name:{'locked':{'owner':'greenermoose','repo':name,'rev':rev,'type':'github'},
                      'original':{'owner':'greenermoose','repo':name,'rev':rev,'type':'github'}} for name,rev in pins.items()}
         nodes['root']={'inputs':{name:name for name in pins}}
         (self.packages/'flake.lock').write_text(json.dumps({'root':'root','nodes':nodes}))
         (self.packages/'flake.nix').write_text('\n'.join(f'"github:greenermoose/{name}/{rev}"' for name,rev in pins.items()))
         self.git(self.packages,'add','--','flake.nix','flake.lock');self.git(self.packages,'commit','-qm','Assembly fixture')
-        fake=self.root/'nix';fake.write_text('#!'+w.sys.executable+'\n'+FAKE_NIX);fake.chmod(0o755)
+        # Real fixture output files let the full workflow verify inclusion,
+        # without contacting a daemon, building Nix packages or installing anything.
+        output_root = self.root/'store'
+        for target in prepare.DEFAULT_TARGETS:
+            (output_root/('hash-'+target[2:]+'-0.6.2')).mkdir(parents=True)
+        installed = output_root/'hash-tamlinux-commands-0.6.2/bin/tam-desktop-test'
+        installed.parent.mkdir(); installed.write_text('#!/bin/sh\nexit 0\n'); installed.chmod(0o755)
+        fake_code = FAKE_NIX.replace('f"/nix/store/{i}"',
+            'str(Path(os.environ["FAKE_NIX_OUTPUT_ROOT"])/f"hash-{targets[i][2:]}-0.6.2")').replace(
+            "f'/nix/store/{i}'", 'str(Path(os.environ["FAKE_NIX_OUTPUT_ROOT"])/f"hash-{targets[i].rsplit(chr(35),1)[1]}-0.6.2")')
+        fake=self.root/'nix';fake.write_text('#!'+w.sys.executable+'\n'+fake_code);fake.chmod(0o755)
         log=self.root/'nix.log'
         native_calls=[]
         def native(revision,state):
@@ -152,9 +218,12 @@ class Workflow(unittest.TestCase):
                                'sha256':w.hashlib.sha256(archive.read_bytes()).hexdigest(),
                                'productRevision':revision,'payloadId':selected['payloadId']}}
         self.flow.native=native
-        with patch.dict(os.environ,{'PREPARE_CANDIDATE_NIX':str(fake),'FAKE_NIX_LOG':str(log)}):
-            result=self.flow.prepare(word='Package and test the next version of Tamlinux',trailers='AI-Tool: fixture')
+        with patch.dict(os.environ,{'PREPARE_CANDIDATE_NIX':str(fake),'FAKE_NIX_LOG':str(log),
+                                   'FAKE_NIX_OUTPUT_ROOT':str(output_root)}):
+            result=self.flow.prepare('0.6.2', word='Package up and test Tamlinux 0.6.2',trailers='AI-Tool: fixture')
             self.assertEqual(result['phase'],'frozen');self.assertEqual(result['version'],'0.6.2')
+            delivery = json.loads((self.packages/'deliveries/tamlinux-0.6.2.json').read_text())
+            self.assertEqual(delivery['inclusions'], required)
             before=log.read_text();head=self.git(self.packages,'rev-parse','HEAD')
             (product/'source').write_text('new development after selection')
             resumed=self.flow.prepare('0.6.2',resume=True,trailers='AI-Tool: fixture')
@@ -163,3 +232,6 @@ class Workflow(unittest.TestCase):
             self.assertEqual(log.read_text().count('flake update'),before.count('flake update'))
             self.assertEqual(len(native_calls),1)
             self.assertEqual(before.count('build --no-link'),1)
+            required.append({**required[0], 'name': 'another-command'})
+            with self.assertRaisesRegex(w.WorkflowError, 'requested contents changed'):
+                self.flow.prepare('0.6.2', resume=True, trailers='fixture')

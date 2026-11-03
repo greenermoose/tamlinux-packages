@@ -1,5 +1,22 @@
 # Prepare and resume a candidate
 
+Scheduling a component for a future version is a record-only operator action.
+It does not prepare a candidate, allocate a version or change source/package
+pins. Candidate preparation begins with an explicit Package/Test request.
+Both "Package up and test Tamlinux 0.6.2" and the existing "Package and test
+the next version of Tamlinux" wording are accepted. A named version must match
+the command argument and next unused candidate; a mismatch stops before source
+mutation or version reservation.
+
+The operator supplies requested inclusions to `Workflow(..., inclusions=...)`.
+Each names its owning source, revision lower bound, source path, package output
+and installed artifact. Preparation verifies that selected source contains the
+requested work and that the built package actually contains its artifact.
+Requirements are frozen in the transaction and delivery record. Missing
+contents fail preparation; changed requirements cannot alter an interrupted
+or frozen candidate on resume. Sources continue to be selected as whole
+develop revisions, rather than independent per-feature commits.
+
 Use native component builds while developing. At the packaging boundary, the operator integration calls `tools/candidate-workflow.py` to gather registered work, reserve the next unused patch number, commit selected sources, publish develop, pin exact commits, prepare the native payload and freeze the built assembly. This helper never promotes branches or activates software.
 
 The resumable transaction lives under `$XDG_STATE_HOME/tamlinux/candidate-workflow`. One operation lock prevents competing version allocation. `--resume` retains its version and selection. Source movement, unregistered edits and incompatible trial state stop preparation. The frozen result is an exact assembly revision, not today's HEAD. A cancelled request retains its reserved number and sources. Component version decisions must be finished under the component's own rules; gathering never guesses a command/corpus version bump. Existing app-specific legacy trials need their recorded restore procedure once before migration to the common trial registry. External dependency pins remain unchanged.
