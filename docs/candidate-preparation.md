@@ -17,6 +17,13 @@ contents fail preparation; changed requirements cannot alter an interrupted
 or frozen candidate on resume. Sources continue to be selected as whole
 develop revisions, rather than independent per-feature commits.
 
+An explicit tam footer pair adds `versions = { command = "x.y.z"; corpus =
+"p.d.q"; }` to its requirement (the provider supplies the equivalent JSON
+object). These are exact constraints. Check selected source before reservation,
+recheck the committed pin, then verify the built `tam --version` and installed
+corpus version with corpus lookup bound to that package. A newer command or
+corpus does not satisfy the request. Frozen resume preserves the original pair.
+
 Use native component builds while developing. At the packaging boundary, the operator integration calls `tools/candidate-workflow.py` to gather registered work, reserve the next unused patch number, commit selected sources, publish develop, pin exact commits, prepare the native payload and freeze the built assembly. This helper never promotes branches or activates software.
 
 The resumable transaction lives under `$XDG_STATE_HOME/tamlinux/candidate-workflow`. One operation lock prevents competing version allocation. `--resume` retains its version and selection. Source movement, unregistered edits and incompatible trial state stop preparation. The frozen result is an exact assembly revision, not today's HEAD. A cancelled request retains its reserved number and sources. Component version decisions must be finished under the component's own rules; gathering never guesses a command/corpus version bump. Existing app-specific legacy trials need their recorded restore procedure once before migration to the common trial registry. External dependency pins remain unchanged.

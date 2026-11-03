@@ -75,6 +75,78 @@ class Workflow(unittest.TestCase):
                 'sourcePath': 'commands/tam-desktop-test', 'output': 'tamlinux-commands',
                 'artifact': 'bin/tam-desktop-test'}
 
+    def tam_inclusion(self):
+        repo = self.root/'tam'
+        (repo/'src').mkdir(exist_ok=True)
+        (repo/'knowledge').mkdir(exist_ok=True)
+        (repo/'src/version.h').write_text('#define TAM_COMMAND_VERSION "1.2.3"\n')
+        (repo/'knowledge/version').write_text('4.5.6\n')
+        self.git(repo, 'add', '--', 'src/version.h', 'knowledge/version')
+        self.git(repo, 'commit', '-qm', 'Finished tam pair')
+        return {'name': 'tam', 'repo': 'tam', 'revision': self.git(repo, 'rev-parse', 'HEAD'),
+                'sourcePath': '.', 'output': 'tam', 'artifact': 'bin/tam',
+                'versions': {'command': '1.2.3', 'corpus': '4.5.6'}}
+
+    def test_tam_pair_mismatch_stops_before_candidate_reservation(self):
+        item = self.tam_inclusion()
+        self.flow.inclusions = lambda version: [item]
+        for versions in ({'command': '1.2.4', 'corpus': '4.5.6'},
+                         {'command': '1.2.3', 'corpus': '4.5.7'}):
+            item['versions'] = versions
+            with self.assertRaisesRegex(w.WorkflowError, 'tam: requested'):
+                self.flow.prepare('0.6.2', 'Package up and test Tamlinux 0.6.2', trailers='fixture')
+            self.assertFalse((self.flow.state/'active.json').exists())
+            self.assertFalse((self.flow.state/'0.6.2.json').exists())
+
+    def test_tam_pair_checks_the_pinned_commit_not_a_matching_working_tree(self):
+        item = self.tam_inclusion()
+        repo = self.root/'tam'
+        (repo/'knowledge/version').write_text('4.5.7\n')
+        self.git(repo, 'add', '--', 'knowledge/version'); self.git(repo, 'commit', '-qm', 'Newer corpus')
+        selected = self.git(repo, 'rev-parse', 'HEAD')
+        (repo/'knowledge/version').write_text('4.5.6\n')
+        with self.assertRaisesRegex(w.WorkflowError, 'tam: requested'):
+            self.flow.verify_inclusion_sources([item], {'tam': selected})
+
+    def test_built_tam_binary_and_installed_corpus_must_both_match(self):
+        item = self.tam_inclusion()
+        output = self.root/'hash-tam-1.2.3'
+        (output/'bin').mkdir(parents=True)
+        knowledge = output/'share/tamlinux/knowledge'; knowledge.mkdir(parents=True)
+        version = knowledge/'version'; version.write_text('4.5.6\n')
+        binary = output/'bin/tam'
+        def command(number):
+            binary.write_text('#!'+w.sys.executable+'\nimport os, pathlib\n'+
+                'print("tam command '+number+'")\n'+
+                'print("knowledge corpus "+(pathlib.Path(os.environ["TAM_KNOWLEDGE_DIR"])/"version").read_text().strip())\n')
+            binary.chmod(0o755)
+        command('1.2.3')
+        record = {'outputs': [{'outputs': {'out': str(output)}}]}
+        with patch.dict(os.environ, {'TAM_KNOWLEDGE_DIR': '/incorrect/development/corpus'}):
+            self.flow.verify_inclusion_outputs([item], record)
+        command('1.2.4')
+        with self.assertRaisesRegex(w.WorkflowError, 'built package does not match'):
+            self.flow.verify_inclusion_outputs([item], record)
+        command('1.2.3'); version.write_text('4.5.7\n')
+        with self.assertRaisesRegex(w.WorkflowError, 'built package does not match'):
+            self.flow.verify_inclusion_outputs([item], record)
+
+    def test_version_pair_cannot_be_changed_on_frozen_resume(self):
+        item = self.tam_inclusion()
+        self.flow.inclusions = lambda version: [item]
+        w.save(self.flow.state/'active.json', {'phase': 'frozen', 'version': '0.6.2',
+               'host': os.uname().nodename, 'inclusions': [item]})
+        item['versions']['corpus'] = '4.5.7'
+        with self.assertRaisesRegex(w.WorkflowError, 'requested contents changed'):
+            self.flow.prepare('0.6.2', resume=True, trailers='fixture')
+
+    def test_malformed_version_constraints_do_not_become_requirements(self):
+        item = self.tam_inclusion()
+        self.flow.inclusions = lambda version: [item]
+        item['versions']['command'] = '1.2.3; build'
+        with self.assertRaisesRegex(w.WorkflowError, 'invalid tam'):
+            self.flow.requested_contents('0.6.2')
+
     def test_old_source_pin_cannot_satisfy_new_inclusion(self):
         repo = self.root/'tamlinux'
         before = self.git(repo, 'rev-parse', 'HEAD')
@@ -182,8 +254,9 @@ class Workflow(unittest.TestCase):
         command.write_text('install:\n\ttrue\n')
         paths=subprocess.check_output(['git','-C',str(product),'ls-files','-co','--exclude-standard','-z']).split(b'\0')
         self.git(product,'add','--',*[p.decode() for p in paths if p]);self.git(product,'commit','-qm','Controlled product fixture')
+        tam_required = self.tam_inclusion()
         pins={name:self.git(self.root/name,'rev-parse','HEAD') for name in w.COMPONENTS}
-        required = [self.inclusion()]
+        required = [self.inclusion(), tam_required]
         self.flow.inclusions = lambda version: required
         nodes={name:{'locked':{'owner':'greenermoose','repo':name,'rev':rev,'type':'github'},
                      'original':{'owner':'greenermoose','repo':name,'rev':rev,'type':'github'}} for name,rev in pins.items()}
@@ -198,6 +271,13 @@ class Workflow(unittest.TestCase):
             (output_root/('hash-'+target[2:]+'-0.6.2')).mkdir(parents=True)
         installed = output_root/'hash-tamlinux-commands-0.6.2/bin/tam-desktop-test'
         installed.parent.mkdir(); installed.write_text('#!/bin/sh\nexit 0\n'); installed.chmod(0o755)
+        tam_output = output_root/'hash-tam-0.6.2'
+        (tam_output/'bin').mkdir()
+        tam_binary = tam_output/'bin/tam'
+        tam_binary.write_text('#!'+w.sys.executable+'\nprint("tam command 1.2.3\\nknowledge corpus 4.5.6")\n')
+        tam_binary.chmod(0o755)
+        knowledge = tam_output/'share/tamlinux/knowledge'; knowledge.mkdir(parents=True)
+        (knowledge/'version').write_text('4.5.6\n')
         fake_code = FAKE_NIX.replace('f"/nix/store/{i}"',
             'str(Path(os.environ["FAKE_NIX_OUTPUT_ROOT"])/f"hash-{targets[i][2:]}-0.6.2")').replace(
             "f'/nix/store/{i}'", 'str(Path(os.environ["FAKE_NIX_OUTPUT_ROOT"])/f"hash-{targets[i].rsplit(chr(35),1)[1]}-0.6.2")')
@@ -232,6 +312,6 @@ class Workflow(unittest.TestCase):
             self.assertEqual(log.read_text().count('flake update'),before.count('flake update'))
             self.assertEqual(len(native_calls),1)
             self.assertEqual(before.count('build --no-link'),1)
-            required.append({**required[0], 'name': 'another-command'})
+            required[1]['versions']['corpus'] = '4.5.7'
             with self.assertRaisesRegex(w.WorkflowError, 'requested contents changed'):
                 self.flow.prepare('0.6.2', resume=True, trailers='fixture')

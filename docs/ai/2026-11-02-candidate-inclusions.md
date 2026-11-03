@@ -11,6 +11,8 @@
 
 > Make it so.
 
+> Improve the inclusion helper so tam inclusion requests for tam version x.y.z (p.d.q) work. I'll use the same version format, command version (corpus version), as the tam command uses itself in its footer line.
+
 The developer approved separating record-only inclusion from a later explicit
 Package/Test request, extending the existing workflow and adding regression
 checks. Codex implemented the changes.
@@ -22,11 +24,14 @@ checks. Codex implemented the changes.
 - Check source ancestry and installed artifacts so old source pins or recipe
   entries alone cannot satisfy inclusion.
 - Preserve interrupted preparation and frozen output reuse.
+- Preserve explicit tam command/corpus constraints and reject a different
+  selected or built pair, independently of development corpus overrides.
 
 ## Verification
 
-The package integration suite passed 158 tests. The final 14 workflow tests
+The package integration suite passed 163 tests. The final 19 workflow tests
 cover prompt scope, named versions, old pins, missing or non-executable artifacts,
-complete preparation and unchanged resume. Fixtures use temporary
+complete preparation, exact command/corpus source and package checks, and
+unchanged resume. Fixtures use temporary
 Git repositories and a fake Nix executable; they never activate software or
 establish real workstation Test acceptance.

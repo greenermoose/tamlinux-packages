@@ -1,6 +1,6 @@
 # AI collaboration and provenance
 
-2026-11-02: Codex CLI `0.166.0` (`gpt-6.1-sol`) separates recorded inclusions from named-version candidate preparation and verifies their source/artifact delivery. [Session](docs/ai/2026-11-02-candidate-inclusions.md).
+2026-11-02: Codex CLI `0.166.0` (`gpt-6.1-sol`) separates recorded inclusions from named-version candidate preparation, preserves exact tam command/corpus requests, and verifies source/artifact delivery. [Session](docs/ai/2026-11-02-candidate-inclusions.md).
 
 2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) packages tam-desktop-test runtime dependencies and library wrappers for candidate 0.6.2. [Session](docs/ai/2026-11-02-package-tam-desktop-test.md).
 

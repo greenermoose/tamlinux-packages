@@ -90,7 +90,34 @@ class Workflow:
                 path = item.get(key)
                 if not isinstance(path, str) or not path or Path(path).is_absolute() or '..' in Path(path).parts:
                     raise WorkflowError('invalid requested component path')
+            versions = item.get('versions')
+            if versions is not None:
+                if (item['name'] != 'tam' or item['repo'] != 'tam' or item['output'] != 'tam' or
+                        item['artifact'] != 'bin/tam' or not isinstance(versions, dict) or
+                        set(versions) != {'command', 'corpus'} or
+                        any(not isinstance(value, str) or not re.fullmatch(
+                            r'(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)', value)
+                            for value in versions.values())):
+                    raise WorkflowError('invalid tam command/corpus constraint')
         return items
+
+    def verify_tam_versions(self, items, pins=None):
+        for item in items:
+            expected = item.get('versions')
+            if not expected:
+                continue
+            repo = self.workspace/'tam'
+            try:
+                header = git(repo, 'show', pins['tam']+':src/version.h') if pins else (repo/'src/version.h').read_text()
+                corpus = git(repo, 'show', pins['tam']+':knowledge/version') if pins else (repo/'knowledge/version').read_text().strip()
+            except (OSError, WorkflowError) as exc:
+                raise WorkflowError('tam: cannot read the selected command/corpus versions') from exc
+            command = re.search(r'^#define\s+TAM_COMMAND_VERSION\s+"([^"\n]+)"', header, re.M)
+            actual = {'command': command[1] if command else 'unavailable', 'corpus': corpus}
+            if actual != expected:
+                raise WorkflowError('tam: requested '+expected['command']+' ('+expected['corpus']+
+                                    '), selected '+actual['command']+' ('+actual['corpus']+
+                                    '); select matching source or explicitly revise the inclusion')
 
     def verify_inclusion_sources(self, items, pins):
         for item in items:
@@ -107,6 +134,7 @@ class Workflow:
                     git(repo, 'cat-file', '-e', revision + ':' + source)
                 except WorkflowError as exc:
                     raise WorkflowError(item['name'] + ': missing from selected source') from exc
+        self.verify_tam_versions(items, pins)
 
     def verify_inclusion_outputs(self, items, record):
         for item in items:
@@ -118,6 +146,25 @@ class Workflow:
                     (not item['artifact'].startswith('bin/') or
                      (file.is_file() and os.access(file, os.X_OK))) for file in files):
                 raise WorkflowError(item['name'] + ': requested artifact absent from built ' + item['output'])
+            if item.get('versions'):
+                # Inspect the package itself, independent of development corpus overrides.
+                if len(roots) != 1:
+                    raise WorkflowError('tam: expected one built package for version verification')
+                knowledge = roots[0]/'share/tamlinux/knowledge'
+                try:
+                    corpus = (knowledge/'version').read_text().strip()
+                    result = subprocess.run([str(roots[0]/'bin/tam'), '--version'], capture_output=True,
+                        text=True, check=True, timeout=10,
+                        env={**os.environ, 'TAM_KNOWLEDGE_DIR': str(knowledge), 'TAM_DATADIR': str(knowledge)})
+                except (OSError, subprocess.SubprocessError) as exc:
+                    raise WorkflowError('tam: cannot verify built command/corpus versions') from exc
+                command = re.search(r'^tam command ([0-9]+\.[0-9]+\.[0-9]+)(?:\s|$)', result.stdout, re.M)
+                reported_corpus = re.search(r'^knowledge corpus ([0-9]+\.[0-9]+\.[0-9]+)(?:\s|$)', result.stdout, re.M)
+                expected = item['versions']
+                if (not command or not reported_corpus or command[1] != expected['command'] or
+                        corpus != expected['corpus'] or reported_corpus[1] != expected['corpus']):
+                    raise WorkflowError('tam: built package does not match requested '+expected['command']+
+                                        ' ('+expected['corpus']+')')
 
     def owner_scopes(self, repo, foreign=False):
         session = os.environ.get('TAM_WORK_SESSION') or os.environ.get('CODEX_THREAD_ID') or os.environ.get('CLAUDE_SESSION_ID')
@@ -345,6 +392,7 @@ class Workflow:
             if version not in ('next',chosen):
                 raise WorkflowError('next unused version is '+chosen)
             included = self.requested_contents(chosen)
+            self.verify_tam_versions(included)
             state = {'schema':1,'version':chosen,'word':word,'host':os.uname().nodename,
                      'inclusions':included,
                      'selected':selected,'assemblySelection':assembly_selection,'parentAssembly':parent,'phase':'selected','steps':{},
