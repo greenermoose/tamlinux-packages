@@ -22,6 +22,12 @@ pkgs.runCommand "tamlinux-installed-components"
     ${components.tam}/bin/tam explain --pipe SDDM | grep -Fq 'Display Managers: SDDM'
     cmp ${components.tam}/share/tamlinux/knowledge/ecosystem/sddm.html \
       ${components.tam.src}/knowledge/ecosystem/sddm.html
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-desktop-test" components.tamlinux-commands.passthru.names) ''
+      test -x ${components.tamlinux-commands}/bin/tam-desktop-test
+      test -x ${components.tamlinux-commands}/share/tamlinux/desktop/test-battery
+      test -f ${components.tamlinux-commands}/share/tamlinux/desktop/virtual_input.py
+      ${components.tamlinux-commands}/bin/tam-desktop-test --help | grep -q 'Physical Desktop Test Battery'
+    ''}
     TAM_PLUGIN_STORAGE_ROOT=${components.tamlinux-plugins}/share/tamlinux/plugins \
       ${pkgs.python3}/bin/python3 -B ${productSource}/desktop/tests/test_plugin_storage.py
     ${pkgs.lib.optionalString (pkgs.lib.elem "tam-shell" components.tamlinux-commands.passthru.names) ''
