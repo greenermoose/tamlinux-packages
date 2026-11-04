@@ -389,8 +389,12 @@ class Workflow:
                                          if (self.packages/p).is_file() else None for p in assembly_paths}}
             current = (self.packages/'VERSION').read_text().strip()
             major,minor,patch = map(int,current.split('.'))
-            existing = [int(p.stem.rsplit('.',1)[1]) for p in (self.packages/'deliveries').glob(f'tamlinux-{major}.{minor}.*.json')]
-            reservations=[int(p.stem.rsplit('.',1)[1]) for p in self.state.glob(f'{major}.{minor}.*.json')]
+            patch_re = re.compile(rf'^{re.escape(str(major))}\.{re.escape(str(minor))}\.(\d+)$')
+            existing = [int(m.group(1)) for p in (self.packages/'deliveries').glob(f'tamlinux-{major}.{minor}.*.json')
+                        if (m := patch_re.fullmatch(p.stem.removeprefix('tamlinux-')))]
+            # Ignore sidecar state such as 0.6.2-native.json; only plain X.Y.Z reservations count.
+            reservations = [int(m.group(1)) for p in self.state.glob(f'{major}.{minor}.*.json')
+                            if (m := patch_re.fullmatch(p.stem))]
             chosen = f'{major}.{minor}.{max([patch,*existing,*reservations])+1}'
             if version not in ('next',chosen):
                 raise WorkflowError('next unused version is '+chosen)
