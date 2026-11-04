@@ -30,17 +30,48 @@ class Workflow(unittest.TestCase):
 
     def git(self,repo,*args):return subprocess.check_output(['git','-C',str(repo),*args],text=True).strip()
 
-    def test_unregistered_changes_refused_before_version_reservation(self):
-        (self.root/'tamlinux/source').write_text('unowned')
-        with self.assertRaisesRegex(w.WorkflowError,'unregistered'):
-            self.flow.prepare(word='Package and test the next version of Tamlinux',trailers='AI-Tool: fixture')
-        self.assertFalse((self.flow.state/'active.json').exists())
+    def test_unrelated_dirty_work_is_left_out_of_selection(self):
+        # Corpus edits in tam must not block packaging that only pins HEAD.
+        (self.root/'tam/knowledge').mkdir(parents=True, exist_ok=True)
+        (self.root/'tam/knowledge/index.html').write_text('local corpus draft\n')
+        (self.root/'tam/knowledge/about.html').write_text('local about draft\n')
+        (self.root/'tamlinux/source').write_text('unclaimed product draft\n')
+        # Real packaging compares tam HEAD to the assembly lock; keep them equal
+        # so only the uncommitted drafts exist outside the selection.
+        packages = self.root/'tamlinux-packages'
+        lock = {'nodes': {'root': {'inputs': {'tam': 'tam'}},
+                          'tam': {'locked': {'rev': self.git(self.root/'tam', 'rev-parse', 'HEAD')}}}}
+        (packages/'flake.lock').write_text(json.dumps(lock))
+        (self.root/'tam/src').mkdir(exist_ok=True)
+        (self.root/'tam/src/version.h').write_text('#define TAM_COMMAND_VERSION "1.0.0"\n')
+        (self.root/'tam/knowledge/version').write_text('1.0.0\n')
+        selected = self.flow.inspect()
+        self.assertEqual(selected['tam']['paths'], [])
+        self.assertEqual(selected['tamlinux']['paths'], [])
+        self.assertEqual(selected['tam']['revision'],
+                         self.git(self.root/'tam', 'rev-parse', 'HEAD'))
+
+    def test_owned_dirty_paths_are_selected_while_siblings_remain_local(self):
+        repo = self.root/'tamlinux'
+        (repo/'source').write_text('registered for candidate\n')
+        (repo/'notes.md').write_text('private scratch\n')
+        registry = self.root/'worktrees/coordination'
+        registry.mkdir(parents=True)
+        (registry/'ours.json').write_text(json.dumps({
+            'status': 'active', 'repo': 'tamlinux', 'session': 'test-session',
+            'scopes': ['tamlinux/source']}))
+        selected = self.flow.inspect()
+        self.assertEqual(selected['tamlinux']['paths'], ['source'])
+        self.assertIn('source', selected['tamlinux']['files'])
+        self.assertNotIn('notes.md', selected['tamlinux']['paths'])
 
     def test_trial_registration_cannot_take_another_sessions_dirty_work(self):
         repo=self.root/'tamlinux';(repo/'source').write_text('other session work')
         registry=self.root/'worktrees/coordination';registry.mkdir(parents=True)
         (registry/'other.json').write_text(json.dumps({'status':'active','repo':'tamlinux',
                 'session':'another-session','scopes':['tamlinux/source']}))
+        (registry/'ours.json').write_text(json.dumps({'status':'active','repo':'tamlinux',
+                'session':'test-session','scopes':['tamlinux/source']}))
         with patch.object(self.flow,'registered_trials',return_value=[{'repo':str(repo),'files':['source']}]):
             with self.assertRaisesRegex(w.WorkflowError,'held by another session'):
                 self.flow.inspect()

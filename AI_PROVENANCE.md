@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-04: Cursor (`composer`) scopes candidate inspect so unrelated dirty component work does not block packaging. [Session](docs/ai/2026-11-04-scoped-candidate-inspect.md).
+
 2026-11-04: Cursor (`composer`) wires nautilus launcher packaging for Tamlinux 0.6.3. [Session](docs/ai/2026-11-04-0.6.3-nautilus-launchers.md).
 
 2026-11-02: Codex CLI `0.166.0` (`gpt-6.1-sol`) separates recorded inclusions from named-version candidate preparation, preserves exact tam command/corpus requests, and verifies source/artifact delivery. [Session](docs/ai/2026-11-02-candidate-inclusions.md).

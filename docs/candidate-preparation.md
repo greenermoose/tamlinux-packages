@@ -26,7 +26,10 @@ corpus does not satisfy the request. Frozen resume preserves the original pair.
 
 Use native component builds while developing. At the packaging boundary, the operator integration calls `tools/candidate-workflow.py` to gather registered work, reserve the next unused patch number, commit selected sources, publish develop, pin exact commits, prepare the native payload and freeze the built assembly. This helper never promotes branches or activates software.
 
-The resumable transaction lives under `$XDG_STATE_HOME/tamlinux/candidate-workflow`. One operation lock prevents competing version allocation. `--resume` retains its version and selection. Source movement, unregistered edits and incompatible trial state stop preparation. The frozen result is an exact assembly revision, not today's HEAD. A cancelled request retains its reserved number and sources. Component version decisions must be finished under the component's own rules; gathering never guesses a command/corpus version bump. Existing app-specific legacy trials need their recorded restore procedure once before migration to the common trial registry. External dependency pins remain unchanged.
+The resumable transaction lives under `$XDG_STATE_HOME/tamlinux/candidate-workflow`. One operation lock prevents competing version allocation. `--resume` retains its version and selection. Source movement, selected edits held by another session and incompatible trial
+state stop preparation. Unrelated dirty files outside the packaging session's
+claims and registered trials stay local and are not selected; packaging pins
+HEAD for those components. The frozen result is an exact assembly revision, not today's HEAD. A cancelled request retains its reserved number and sources. Component version decisions must be finished under the component's own rules; gathering never guesses a command/corpus version bump. Existing app-specific legacy trials need their recorded restore procedure once before migration to the common trial registry. External dependency pins remain unchanged.
 
 For existing manually selected pins, the lower-level interface remains:
 

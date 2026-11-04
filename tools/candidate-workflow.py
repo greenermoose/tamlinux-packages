@@ -206,7 +206,9 @@ class Workflow:
         node=nodes[lock.get('root','root')]['inputs'].get('tam')
         before=nodes[node].get('locked',{}).get('rev') if node else None
         if not before:return
-        changed=set(paths)|set(git(repo,'diff','--name-only',before,'--').splitlines())
+        # Only selected dirty paths plus commits already on HEAD. Uncommitted
+        # work outside the selection must not force a version bump to package.
+        changed=set(paths)|set(git(repo,'diff','--name-only',before,'HEAD').splitlines())
         command=any(p.startswith(('src/','bin/','completions/','man/')) and p!='src/version.h' for p in changed)
         generated={'knowledge/version','knowledge/coverage.json','knowledge/.build_id'}
         corpus=any(p.startswith('knowledge/') and p not in generated and not p.startswith('knowledge/index.') for p in changed)
@@ -220,6 +222,9 @@ class Workflow:
             raise WorkflowError('tam: finalize the corpus version under its component rules before packaging')
 
     def inspect(self):
+        # Select only dirty paths claimed by this session or a registered trial.
+        # Unrelated dirty work in a component checkout stays local and does not
+        # enter the candidate; pin HEAD when nothing is selected there.
         result = {}
         legacy=Path(os.environ.get('XDG_STATE_HOME',Path.home()/'.local/state'))/'tamlinux/dev-trials'
         if list(legacy.glob('*.json')):
@@ -230,19 +235,17 @@ class Workflow:
             if git(repo, 'branch', '--show-current') != 'develop':
                 raise WorkflowError(name+': candidate sources must be on develop')
             changes = dirty(repo)
-            self.component_versions(name,repo,changes)
-            conflicts = [p for p in changes if within(p, self.owner_scopes(repo, foreign=True))]
-            if conflicts:
-                raise WorkflowError(name+': changes held by another session: '+', '.join(conflicts))
             owned = self.owner_scopes(repo)
             owned += [p for trial in trials if trial['repo']==str(repo) for p in trial['files']]
-            unowned = [p for p in changes if not within(p, owned)]
-            if unowned:
-                raise WorkflowError(name+': unregistered or conflicting changes: '+', '.join(unowned))
-            result[name] = {'revision':git(repo,'rev-parse','HEAD'),'paths':changes,
-                            'diff':digest(git(repo,'diff','HEAD','--',*changes)) if changes else None,
+            selected = [p for p in changes if within(p, owned)]
+            conflicts = [p for p in selected if within(p, self.owner_scopes(repo, foreign=True))]
+            if conflicts:
+                raise WorkflowError(name+': changes held by another session: '+', '.join(conflicts))
+            self.component_versions(name,repo,selected)
+            result[name] = {'revision':git(repo,'rev-parse','HEAD'),'paths':selected,
+                            'diff':digest(git(repo,'diff','HEAD','--',*selected)) if selected else None,
                             'files':{p:hashlib.sha256((repo/p).read_bytes()).hexdigest()
-                                     if (repo/p).is_file() else None for p in changes}}
+                                     if (repo/p).is_file() else None for p in selected}}
         return result
 
     def claim(self, repo, paths):
@@ -443,7 +446,9 @@ class Workflow:
                     continue
                 if git(repo,'rev-parse','HEAD') != selected['revision']:
                     raise WorkflowError(name+': HEAD moved during selection; inspect transaction')
-                if dirty(repo)!=selected['paths']:
+                # Unrelated dirty paths outside the frozen selection may remain.
+                current = set(dirty(repo))
+                if set(selected['paths']) - current:
                     raise WorkflowError(name+': selected dirty paths changed')
                 for p,sha in selected['files'].items():
                     actual=hashlib.sha256((repo/p).read_bytes()).hexdigest() if (repo/p).is_file() else None
