@@ -453,14 +453,27 @@ let
   shellRuntimeDeps = [ pkgs.coreutils pkgs.findutils pkgs.gnugrep pkgs.gawk
     pkgs.jq pkgs.perl pkgs.util-linux pkgs.procps pkgs.systemd pkgs.wl-clipboard
     pkgs.wtype pkgs.inotify-tools pkgs.xdg-utils pkgs.python3 ];
-  shell =
-    pkgs.runCommand "tamlinux-shell-${packageVersion}"
+  # Content-addressed shell tree: candidate VERSION/CULTIVAR stamps stay out so
+  # VERSION-only bumps reuse this payload (A3).
+  shellPayloadSource = builtins.path {
+    path = product;
+    name = "tamlinux-shell-payload-source";
+    filter = path: type:
+      let relative = lib.removePrefix "${product}/" (toString path);
+      in toString path == toString product
+        || relative == "desktop"
+        || relative == "LICENSE"
+        || lib.any (prefix: relative == prefix || lib.hasPrefix "${prefix}/" relative) [
+          "desktop/shell" "desktop/session" "desktop/skills" "desktop/menu"
+          "desktop/protocol-shadow" "desktop/user-defaults" "desktop/README.md"
+          "share/nftables"
+        ];
+  };
+  shellPayload =
+    pkgs.runCommand "tamlinux-shell-payload-1"
       {
         nativeBuildInputs = [ pkgs.bash pkgs.python3 pkgs.makeWrapper ];
         passthru = {
-          version = productVersion;
-          cultivar = productCultivar;
-          revision = product.rev;
           deploymentSelectionRecord = true;
           inherit features protocolShadowId;
           runtimePath = lib.makeBinPath shellRuntimeDeps;
@@ -468,65 +481,96 @@ let
       }
       ''
         mkdir -p $out/share/tamlinux $out/bin
-        cp -R ${product}/desktop/shell $out/share/tamlinux/
+        cp -R ${shellPayloadSource}/desktop/shell $out/share/tamlinux/
         chmod -R u+w $out/share/tamlinux/shell
-        cp ${product}/VERSION $out/share/tamlinux/version
-        ${lib.optionalString (productCultivar != null) "cp ${product}/CULTIVAR $out/share/tamlinux/cultivar"}
         ${lib.optionalString features.consoleWelcome ''
           mkdir -p $out/share/tamlinux/console
-          python3 ${product}/desktop/session/console-welcome.py > $out/share/tamlinux/console/welcome-generic.issue
-          python3 ${product}/desktop/session/console-welcome.py ${lib.optionalString (productCultivar != null) "--cultivar ${lib.escapeShellArg productCultivar} --version ${lib.escapeShellArg productVersion}"} > $out/share/tamlinux/console/welcome.issue
+          python3 ${shellPayloadSource}/desktop/session/console-welcome.py > $out/share/tamlinux/console/welcome-generic.issue
         ''}
         ${lib.optionalString features.agentSkills ''
-          cp -R ${product}/desktop/skills $out/share/tamlinux/skills
+          cp -R ${shellPayloadSource}/desktop/skills $out/share/tamlinux/skills
         ''}
-        printf '%s\n' ${lib.escapeShellArg product.rev} > $out/share/tamlinux/source-revision
-        ${lib.optionalString features.documentation "cp ${product}/desktop/README.md $out/share/tamlinux/README.md"}
+        ${lib.optionalString features.documentation "cp ${shellPayloadSource}/desktop/README.md $out/share/tamlinux/README.md"}
         ${lib.optionalString features.sessionProviders ''
-          cp -R ${product}/desktop/session $out/share/tamlinux/session
-          install -m755 ${product}/desktop/session/start $out/bin/tam-hyprland-session
-          ${lib.optionalString features.consoleDesktop "install -m755 ${product}/desktop/session/desktop $out/bin/tam-desktop"}
+          cp -R ${shellPayloadSource}/desktop/session $out/share/tamlinux/session
+          install -m755 ${shellPayloadSource}/desktop/session/start $out/bin/tam-hyprland-session
+          ${lib.optionalString features.consoleDesktop "install -m755 ${shellPayloadSource}/desktop/session/desktop $out/bin/tam-desktop"}
           chmod +x $out/share/tamlinux/session/Hyprland
-          # D204 host firewall template (subnet filled per machine; never in Git).
           mkdir -p $out/share/tamlinux/nftables
-          cp -R ${product}/share/nftables/. $out/share/tamlinux/nftables/
+          cp -R ${shellPayloadSource}/share/nftables/. $out/share/tamlinux/nftables/
         ''}
         ${lib.optionalString features.menu ''
           mkdir -p $out/share/tamlinux/menu
-          cp ${product}/desktop/menu/default.jsonc $out/share/tamlinux/menu/default.jsonc
-          install -m755 ${product}/desktop/menu/tam-menu $out/bin/tam-menu
+          cp ${shellPayloadSource}/desktop/menu/default.jsonc $out/share/tamlinux/menu/default.jsonc
+          install -m755 ${shellPayloadSource}/desktop/menu/tam-menu $out/bin/tam-menu
         ''}
-        ${lib.optionalString features.protocolShadow "install -m755 ${product}/desktop/protocol-shadow $out/bin/tam-protocol-shadow"}
+        ${lib.optionalString features.protocolShadow "install -m755 ${shellPayloadSource}/desktop/protocol-shadow $out/bin/tam-protocol-shadow"}
         ${lib.optionalString features.userDefaults ''
           mkdir -p $out/share/tamlinux/user-defaults
-          cp -R ${product}/desktop/user-defaults/bash ${product}/desktop/user-defaults/gnupg $out/share/tamlinux/user-defaults/
-          install -m644 ${product}/desktop/user-defaults/apply ${product}/desktop/user-defaults/LICENSE-bash $out/share/tamlinux/user-defaults/
+          cp -R ${shellPayloadSource}/desktop/user-defaults/bash ${shellPayloadSource}/desktop/user-defaults/gnupg $out/share/tamlinux/user-defaults/
+          install -m644 ${shellPayloadSource}/desktop/user-defaults/apply ${shellPayloadSource}/desktop/user-defaults/LICENSE-bash $out/share/tamlinux/user-defaults/
         ''}
         patchShebangs $out/bin $out/share/tamlinux/shell
-        # The reminder card and transient timer execute this embedded helper
-        # directly, without entering the tam-reminder command wrapper first.
         for script in $out/share/tamlinux/shell/services/*/*.sh; do
           test -f "$script" || continue
           wrapProgram "$script" --prefix PATH : ${lib.makeBinPath shellRuntimeDeps}
         done
       '';
-  # Plugin payloads come from the same product revision as the shell.
-  plugins =
-    pkgs.runCommand "tamlinux-plugins-${packageVersion}"
+  shell =
+    pkgs.runCommand "tamlinux-shell-${packageVersion}"
       {
-        passthru = {
-          ids = pluginIds;
+        nativeBuildInputs = lib.optional features.consoleWelcome pkgs.python3;
+        passthru = shellPayload.passthru // {
+          version = productVersion;
+          cultivar = productCultivar;
           revision = product.rev;
+          payload = shellPayload;
         };
+      }
+      ''
+        cp -a ${shellPayload}/. $out/
+        chmod -R u+w $out
+        printf '%s\n' ${lib.escapeShellArg productVersion} > $out/share/tamlinux/version
+        ${lib.optionalString (productCultivar != null) "printf '%s\\n' ${lib.escapeShellArg productCultivar} > $out/share/tamlinux/cultivar"}
+        printf '%s\n' ${lib.escapeShellArg product.rev} > $out/share/tamlinux/source-revision
+        ${lib.optionalString features.consoleWelcome ''
+          python3 ${shellPayloadSource}/desktop/session/console-welcome.py ${lib.optionalString (productCultivar != null) "--cultivar ${lib.escapeShellArg productCultivar} --version ${lib.escapeShellArg productVersion}"} > $out/share/tamlinux/console/welcome.issue
+        ''}
+      '';
+  pluginsPayloadSource = builtins.path {
+    path = product;
+    name = "tamlinux-plugins-payload-source";
+    filter = path: type:
+      let relative = lib.removePrefix "${product}/" (toString path);
+      in toString path == toString product
+        || relative == "desktop"
+        || relative == "desktop/plugins"
+        || lib.any (id: relative == "desktop/plugins/${id}" || lib.hasPrefix "desktop/plugins/${id}/" relative) pluginIds;
+  };
+  pluginsPayload =
+    pkgs.runCommand "tamlinux-plugins-payload-1"
+      {
+        passthru = { ids = pluginIds; };
       }
       ''
         mkdir -p $out/share/tamlinux/plugins
         ${lib.concatMapStrings (id: ''
-          cp -R ${product}/desktop/plugins/${id} $out/share/tamlinux/plugins/${id}
+          cp -R ${pluginsPayloadSource}/desktop/plugins/${id} $out/share/tamlinux/plugins/${id}
         '') pluginIds}
         chmod -R u+w $out
         find $out -name __pycache__ -type d -prune -exec rm -rf {} +
         find $out -name '*.pyc' -delete
+      '';
+  plugins =
+    pkgs.runCommand "tamlinux-plugins-${packageVersion}"
+      {
+        passthru = pluginsPayload.passthru // {
+          revision = product.rev;
+          payload = pluginsPayload;
+        };
+      }
+      ''
+        cp -a ${pluginsPayload}/. $out/
       '';
   commandSource = name: builtins.path {
     path = product;
@@ -536,18 +580,67 @@ let
       in toString path == toString product || relative == "commands" || relative == "commands/${name}"
         || relative == "LICENSE" || lib.hasPrefix "commands/${name}/" relative;
   };
+  # Checks that need desktop/ fixtures beside commands/<name> (inventory 2026-11-04).
+  desktopCheckNames = [
+    "suspend-unless-stay-awake"
+    "tam-audio-tuning"
+    "tam-capture-region"
+    "tam-capture-screenrecording-with-webcam"
+    "tam-desktop-mode"
+    "tam-desktop-test"
+    "tam-display-text-size"
+    "tam-menu-images"
+    "tam-migrate-desktop"
+    "tam-notification-send"
+    "tam-plugin"
+    "tam-powerprofiles-set"
+    "tam-session-init"
+    "tam-shell"
+    "tam-system-lock"
+    "tam-system-sleep-lock"
+    "tam-theme-set"
+    "tam-work"
+  ];
+  extraCheckCommands = {
+    tam-dev = [ "tam-demo" "tam-macro" "tam-menu-keybindings" "tam-sibling" ];
+  };
+  # Opt-in only; shrink this set, do not grow it casually.
+  fullProductCheckNames = [ ];
+  checkSource = name: builtins.path {
+    path = product;
+    name = "${name}-check-source";
+    filter = path: type:
+      let
+        relative = lib.removePrefix "${product}/" (toString path);
+        extras = extraCheckCommands.${name} or [ ];
+        allowCommand = cmd:
+          relative == "commands/${cmd}" || lib.hasPrefix "commands/${cmd}/" relative;
+      in if lib.elem name fullProductCheckNames then true
+      else toString path == toString product
+        || relative == "LICENSE"
+        || relative == "commands"
+        || allowCommand name
+        || lib.any allowCommand extras
+        || (lib.elem name desktopCheckNames && (
+          relative == "desktop" || lib.hasPrefix "desktop/" relative
+        ));
+  };
   simpleSyntaxCheck = name:
     let text = builtins.readFile "${product}/commands/${name}/Makefile";
         parts = lib.splitString "\ncheck:\n" text;
         block = if lib.length parts == 2 then lib.trim (builtins.head (lib.splitString "\n\n" (builtins.elemAt parts 1))) else "";
     in block == "bash -n ${name}" && !(lib.hasInfix "include" text) && !(lib.hasInfix "$(shell" text);
-  # Unknown test closures deliberately retain the entire product. Narrow a
-  # closure only when the test is syntax-only or its fixture isolation is known.
-  isolatedCheckNames = [ "tam-dev" "tam-deploy" ];
+  needsDesktopFixtures = name: lib.elem name desktopCheckNames || lib.elem name fullProductCheckNames;
+  # nativeNames must precede commandChecks (subtractLists).
+  nativeNames = lib.filter (name:
+    has "commands/${name}/native.c"
+    || (name == "tam-hardware" && has "commands/${name}/Makefile")
+    || (name == "start" && has "commands/start/Makefile")
+  ) [ "tam-monitor" "tam-hardware" "start" ];
   commandChecks = lib.genAttrs (lib.subtractLists nativeNames commandNames) (name: pkgs.stdenv.mkDerivation {
     pname = "${name}-checks";
     version = "1";
-    src = if simpleSyntaxCheck name || lib.elem name isolatedCheckNames then commandSource name else product;
+    src = if lib.elem name fullProductCheckNames then product else checkSource name;
     nativeBuildInputs = [ pkgs.bash pkgs.python3 pkgs.git pkgs.jq pkgs.which pkgs.nodejs pkgs.perl pkgs.lua
       pkgs.pkg-config (lib.getBin pkgs.util-linux) (lib.getBin pkgs.procps) ];
     dontConfigure = true;
@@ -556,8 +649,8 @@ let
     checkPhase = ''
       patchShebangs commands
       ${lib.optionalString (name == "tam-macro") "export TAMLINUX_XKBCOMMON=${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"}
-      ${lib.optionalString (has "desktop/widget-proof" && !(simpleSyntaxCheck name || lib.elem name isolatedCheckNames)) "patchShebangs desktop/widget-proof"}
-      ${lib.optionalString (features.menu && !(simpleSyntaxCheck name || lib.elem name isolatedCheckNames)) "patchShebangs desktop/menu/tam-menu"}
+      ${lib.optionalString (has "desktop/widget-proof" && needsDesktopFixtures name) "patchShebangs desktop/widget-proof"}
+      ${lib.optionalString (features.menu && needsDesktopFixtures name) "patchShebangs desktop/menu/tam-menu"}
       export HOME=$TMPDIR/home
       mkdir -p $HOME
       git config --global user.email check@example.invalid
@@ -567,14 +660,6 @@ let
     '';
     installPhase = "touch $out";
   });
-  # Expensive native code has a source closure independent of the candidate
-  # number, documentation, plugins and shell. Small aggregate packages retain
-  # the assembly's version/revision at the public endpoint.
-  nativeNames = lib.filter (name:
-    has "commands/${name}/native.c"
-    || (name == "tam-hardware" && has "commands/tam-hardware/Makefile")
-    || (name == "start" && has "commands/start/Makefile")
-  ) [ "tam-monitor" "tam-hardware" "start" ];
   nativePayload = name: pkgs.stdenv.mkDerivation {
     pname = "${name}-payload";
     version = "1";
@@ -600,18 +685,26 @@ let
     installPhase = "make -C commands/${name} install PREFIX=$out LIBTAM_PREFIX=${libtam}";
   };
   nativePayloads = lib.genAttrs nativeNames nativePayload;
-  # Product commands: each commands/<name>/ installs bin/<name>.
-  commands = pkgs.stdenv.mkDerivation {
+  commandsPayloadSource = builtins.path {
+    path = product;
+    name = "tamlinux-commands-payload-source";
+    filter = path: type:
+      let relative = lib.removePrefix "${product}/" (toString path);
+      in toString path == toString product
+        || relative == "LICENSE"
+        || relative == "commands" || lib.hasPrefix "commands/" relative
+        || relative == "desktop" || lib.hasPrefix "desktop/" relative;
+  };
+  commandsPayload = pkgs.stdenv.mkDerivation {
     NIX_LDFLAGS = "--build-id";
-    pname = "tamlinux-commands";
-    version = packageVersion;
-    src = product;
+    pname = "tamlinux-commands-payload";
+    version = "1";
+    src = commandsPayloadSource;
     dontConfigure = true;
     dontStrip = true;
     nativeBuildInputs = [ pkgs.makeWrapper themeFontPython pkgs.pkg-config ];
     buildPhase = ''
       runHook preBuild
-
       runHook postBuild
     '';
     buildInputs = [
@@ -625,7 +718,6 @@ let
       || has "commands/tam-hardware/Makefile"
       || has "commands/start/Makefile"
     ) "LIBTAM_PREFIX=${libtam}";
-    # Realize the independently cached checks before assembling launchers.
     preBuild = ''
       for check in ${lib.concatStringsSep " " (map toString (builtins.attrValues commandChecks))}; do
         test -e "$check"
@@ -669,7 +761,6 @@ let
         cp -R ${pkgs.atkinson-hyperlegible}/share/fonts/. $out/share/fonts/
         chmod -R u+w $out/share/fonts
         cp -R ${pkgs.nerd-fonts.atkynson-mono}/share/fonts/. $out/share/fonts/
-        cp VERSION $out/share/tamlinux/assets/version
         cp desktop/assets/LICENSE-omarchy $out/share/tamlinux/assets/fonts/LICENSE
         ${lib.optionalString (has "desktop/assets/icons/tamlinux-discord.png") ''
           install -Dm644 desktop/assets/icons/tamlinux-discord.png \
@@ -685,16 +776,29 @@ let
     postFixup = lib.concatMapStrings (name:
       lib.optionalString (lib.elem name commandNames) ''
         wrapProgram $out/bin/${name} \
-          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (name == "tam-macro") "--set TAMLINUX_XKBCOMMON ${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0 --run 'export TAMLINUX_MACRO_ENTRY=\"$HOME/.local/bin/tam-macro\"'"} ${lib.optionalString (name == "tam-desktop-test") "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ pkgs.wayland pkgs.libxkbcommon ]} --set-default TAMLINUX_WAYLAND_CLIENT ${lib.getLib pkgs.wayland}/lib/libwayland-client.so.0 --set-default TAMLINUX_XKBCOMMON ${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"} ${lib.optionalString (name == "tam-plugin") "--set TAMLINUX_PLUGIN_CATALOG ${plugins}/share/tamlinux/plugins"} ${lib.optionalString (name == "tam-shell") "--set-default TAMLINUX_QUICKSHELL_IPC ${pkgs.quickshell}/bin/qs"} ${lib.optionalString (name == "tam-capture-edit" && tensaku != null) "--set-default TAMLINUX_TENSAKU ${tensaku}/bin/tensaku"} ${lib.optionalString (lib.elem name [ "tam-display-text-size" "tam-theme-set-gnome" ]) "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
+          --prefix PATH : "$out/bin${lib.optionalString (commandRuntimeDeps.${name} != [ ]) ":${lib.makeBinPath commandRuntimeDeps.${name}}"}" ${lib.optionalString (name == "tam-macro") "--set TAMLINUX_XKBCOMMON ${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0 --run 'export TAMLINUX_MACRO_ENTRY=\"$HOME/.local/bin/tam-macro\"'"} ${lib.optionalString (name == "tam-desktop-test") "--prefix LD_LIBRARY_PATH : ${lib.makeLibraryPath [ pkgs.wayland pkgs.libxkbcommon ]} --set-default TAMLINUX_WAYLAND_CLIENT ${lib.getLib pkgs.wayland}/lib/libwayland-client.so.0 --set-default TAMLINUX_XKBCOMMON ${lib.getLib pkgs.libxkbcommon}/lib/libxkbcommon.so.0"} ${lib.optionalString (name == "tam-plugin") "--set TAMLINUX_PLUGIN_CATALOG ${pluginsPayload}/share/tamlinux/plugins"} ${lib.optionalString (name == "tam-shell") "--set-default TAMLINUX_QUICKSHELL_IPC ${pkgs.quickshell}/bin/qs"} ${lib.optionalString (name == "tam-capture-edit" && tensaku != null) "--set-default TAMLINUX_TENSAKU ${tensaku}/bin/tensaku"} ${lib.optionalString (lib.elem name [ "tam-display-text-size" "tam-theme-set-gnome" ]) "--prefix XDG_DATA_DIRS : ${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name} --prefix GIO_EXTRA_MODULES : ${pkgs.dconf.lib}/lib/gio/modules"}
       ''
     ) (lib.attrNames commandRuntimeDeps);
     passthru = {
       names = commandNames;
       inherit commandChecks nativePayloads;
-      revision = product.rev;
     };
     meta.license = lib.licenses.gpl3Plus;
   };
+  commands = pkgs.runCommand "tamlinux-commands-${packageVersion}" {
+    passthru = commandsPayload.passthru // {
+      revision = product.rev;
+      payload = commandsPayload;
+    };
+    meta = commandsPayload.meta;
+  } ''
+    cp -a ${commandsPayload}/. $out/
+    chmod -R u+w $out
+    if [ -d $out/share/tamlinux/assets ]; then
+      printf '%s\n' ${lib.escapeShellArg productVersion} > $out/share/tamlinux/assets/version
+    fi
+  '';
+
 in
 {
   inherit libtam tam;

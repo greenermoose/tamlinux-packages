@@ -229,6 +229,43 @@ def evidence_dir(version: str) -> Path:
     return state / "tamlinux" / "candidates" / version
 
 
+def summarize_rebuilds(log_text: str, elapsed: float) -> dict:
+    """Count planned local rebuilds from a nix build log (stderr).
+
+    Nix prints the planned derivation list once. Store results already present
+    are omitted from that list, so a VERSION-only candidate with narrow check
+    sources should show far fewer *-checks-* entries than a full-product src.
+    """
+    planned = re.findall(r'/nix/store/[a-z0-9]{32}-([^/\s]+)\.drv', log_text)
+    # Prefer the "these N derivations will be built" block when present.
+    block = re.search(
+        r'these \d+ derivations will be built:\n((?:  /nix/store/[a-z0-9]{32}-.+\.drv\n)+)',
+        log_text,
+    )
+    if block:
+        planned = re.findall(r'/nix/store/[a-z0-9]{32}-([^/\s]+)\.drv', block.group(1))
+    names = sorted(set(planned))
+    checks = sorted(n for n in names if n.endswith('-checks-1') or '-checks-1' in n)
+    required = sorted(n for n in names if n.startswith((
+        'tamlinux-shell-', 'tamlinux-plugins-', 'tamlinux-commands-',
+        'tamlinux-shell-payload-', 'tamlinux-plugins-payload-', 'tamlinux-commands-payload-',
+        'tam-', 'libtam-', 'tamlinux-tools-',
+    )) and n not in checks)
+    # Top rebuild names for the ledger note (alphabetical when no per-drv times).
+    top = sorted(names)[:12]
+    return {
+        'schema': 1,
+        'elapsedSeconds': round(elapsed, 3),
+        'drvRebuilds': len(names),
+        'checkRebuilds': len(checks),
+        'requiredRebuilds': len(required),
+        'checks': checks,
+        'required': required,
+        'topRebuilds': top,
+        'reusedAllOutputs': False,
+    }
+
+
 def cmd_build(root: Path, args) -> None:
     version = read_version(root)
     out = Path(args.evidence) if args.evidence else evidence_dir(version)
@@ -243,22 +280,39 @@ def cmd_build(root: Path, args) -> None:
         if (saved.get('schema') == 2 and saved.get('fingerprint') == identity
                 and saved.get('targets') == targets and len(paths) == len(targets)
                 and subprocess.run([nix(), 'path-info', *paths], capture_output=True).returncode == 0):
+            summary = {
+                'schema': 1, 'elapsedSeconds': 0, 'drvRebuilds': 0, 'checkRebuilds': 0,
+                'requiredRebuilds': 0, 'checks': [], 'required': [], 'topRebuilds': [],
+                'reusedAllOutputs': True,
+            }
+            atomic_json(out / 'rebuilds.json', summary)
             print('build: reusing all available outputs for identical assembly inputs', flush=True)
+            print('build: rebuilds checks=0 drv=0 (full output reuse)', flush=True)
             return
     started = time.monotonic()
     print(f'build: {len(targets)} required outputs (Nix reuses valid store results)', flush=True)
     with open(out / "build.log", "w", encoding="utf-8") as log:
         run = subprocess.run([nix(), "build", "--no-link", "--json", *targets], cwd=root,
                              stdout=subprocess.PIPE, stderr=log, text=True)
+    elapsed = time.monotonic() - started
     if run.returncode:
         fail(f"build failed ({run.returncode}); log: {out / 'build.log'}")
     built = [{"drvPath": item["drvPath"], "outputs": item["outputs"]} for item in json.loads(run.stdout)]
     if fingerprint(root) != identity:
         fail('assembly inputs changed during build; evidence not recorded')
+    summary = summarize_rebuilds((out / 'build.log').read_text(errors='replace'), elapsed)
+    atomic_json(out / 'rebuilds.json', summary)
     atomic_json(out / 'build.json', {"schema": 2, "fingerprint": identity,
                 "checks": {k:v for k,v in load_checks(root,out).items() if k!='reused'},
-                "version":version,"targets":targets,"outputs":built})
-    print(f"build: {len(built)} outputs for {version} in {time.monotonic()-started:.1f}s; evidence {out / 'build.json'}", flush=True)
+                "version":version,"targets":targets,"outputs":built,
+                "rebuilds": {k: summary[k] for k in (
+                    'drvRebuilds', 'checkRebuilds', 'requiredRebuilds', 'topRebuilds', 'reusedAllOutputs')}})
+    print(
+        f"build: {len(built)} outputs for {version} in {elapsed:.1f}s; "
+        f"rebuilds checks={summary['checkRebuilds']} drv={summary['drvRebuilds']}; "
+        f"evidence {out / 'build.json'}",
+        flush=True,
+    )
 
 
 def cmd_record(root: Path, args) -> None:
@@ -337,6 +391,48 @@ def cmd_record(root: Path, args) -> None:
     print(f"record: wrote {path.relative_to(root)}")
 
 
+FLEET_PROFILES = ("fred@slowhp", "fred@toughbook")
+
+
+def cmd_fleet_profiles(root: Path, args) -> None:
+    """Build follower Home Manager profiles for the pinned assembly (plan 47 §B5).
+
+    Runs on the stage host after the ten required outputs exist. Receipts land
+    beside candidate build evidence so upgrade day starts from known paths.
+    """
+    version = read_version(root)
+    out = Path(args.evidence) if args.evidence else evidence_dir(version)
+    consumer = Path(args.consumer)
+    if not (consumer / "flake.nix").is_file():
+        fail(f"consumer flake missing: {consumer}")
+    assembly = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
+    if not REV.fullmatch(assembly):
+        fail("assembly HEAD is not a full revision")
+    started = time.monotonic()
+    receipts = []
+    for profile in args.profile or list(FLEET_PROFILES):
+        attr = f"{consumer}#homeConfigurations.{profile}.activationPackage"
+        print(f"fleet-profiles: building {profile}", flush=True)
+        generation = subprocess.check_output(
+            [nix(), "build", "--no-link", "--print-out-paths", "--no-write-lock-file",
+             "--override-input", "tamlinux-packages",
+             f"github:greenermoose/tamlinux-packages/{assembly}", attr],
+            text=True,
+        ).strip()
+        if not re.fullmatch(r"/nix/store/[a-z0-9]{32}-home-manager-generation", generation):
+            fail(f"fleet profile {profile} did not return one generation")
+        receipts.append({"profile": profile, "generation": generation, "assembly": assembly})
+        print(f"fleet-profiles: {profile} -> {generation}", flush=True)
+    atomic_json(out / "fleet-profiles.json", {
+        "schema": 1,
+        "version": version,
+        "assembly": assembly,
+        "elapsedSeconds": round(time.monotonic() - started, 3),
+        "profiles": receipts,
+    })
+    print(f"fleet-profiles: {len(receipts)} receipts in {time.monotonic()-started:.1f}s", flush=True)
+
+
 def cmd_check(root: Path, args) -> int:
     problems = []
     version = read_version(root)
@@ -391,6 +487,11 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser('verify', help='run focused checks on the exact pinned product source')
     p.add_argument('--product', default=str(ROOT.parent / 'tamlinux'))
     p.add_argument('--evidence')
+    p = sub.add_parser('fleet-profiles', help='build follower HM profiles for the pinned assembly')
+    p.add_argument('--consumer', default=str(ROOT.parent / 'config-fred-tamlinux'),
+                   help='consumer flake that defines fred@slowhp / fred@toughbook')
+    p.add_argument('--profile', action='append', help='homeConfigurations profile (repeatable)')
+    p.add_argument('--evidence')
     p = sub.add_parser('prepare', help='resume inspect, focused checks, build, verify and record')
     p.add_argument('--product', default=str(ROOT.parent / 'tamlinux'))
     p.add_argument('--evidence')
@@ -398,6 +499,10 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument('--scope', required=True)
     p.add_argument('--extra')
     p.add_argument('--native-archive')
+    p.add_argument('--consumer', default=str(ROOT.parent / 'config-fred-tamlinux'))
+    p.add_argument('--profile', action='append')
+    p.add_argument('--skip-fleet-profiles', action='store_true',
+                   help='omit follower profile prebuild (plan 47 §B5)')
     args = parser.parse_args(argv)
     root = Path(args.root)
     if args.command == "check":
@@ -414,10 +519,13 @@ def main(argv: list[str] | None = None) -> int:
         cmd_build(root, args)
         args.build = str((Path(args.evidence) if args.evidence else evidence_dir(read_version(root))) / 'build.json')
         cmd_record(root, args)
+        if not getattr(args, 'skip_fleet_profiles', False):
+            cmd_fleet_profiles(root, args)
         print(f'prepare: completed in {time.monotonic()-started:.1f}s; no promotion or activation', flush=True)
         return 0
     {"version": cmd_version, "pin": cmd_pin, "verify": cmd_verify,
-     "build": cmd_build, "record": cmd_record}[args.command](root, args)
+     "build": cmd_build, "record": cmd_record,
+     "fleet-profiles": cmd_fleet_profiles}[args.command](root, args)
     return 0
 
 
