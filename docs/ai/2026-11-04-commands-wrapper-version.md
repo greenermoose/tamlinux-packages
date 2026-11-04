@@ -9,3 +9,6 @@
 The version-stable commands payload left the public `tamlinux-commands`
 wrapper without a derivation `.version`. Restore `version = packageVersion`
 so assembly-contract and `.version` consumers keep working.
+
+Also keep `share` in the shell payload source filter so
+`share/nftables` is copied into the payload.

@@ -23,6 +23,8 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    `tamlinux-plugins-payload-1` and `tamlinux-commands-payload-1` exclude
    candidate VERSION stamps. Thin versioned wrappers only stamp metadata;
    the commands wrapper keeps derivation `.version` for assembly-contract.
+   Shell payload filters must keep parent dirs (`share`) so `share/nftables`
+   is reachable.
 4. **Consumer prepare reuse** — `fred-stage prepare test` reuses an already
    realized `activationPackage` outPath when eval finds it in the store.
 5. **Deploy phase times** — `tam-deploy` records `phaseTimes` on successful

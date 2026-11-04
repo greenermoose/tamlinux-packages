@@ -462,6 +462,7 @@ let
       let relative = lib.removePrefix "${product}/" (toString path);
       in toString path == toString product
         || relative == "desktop"
+        || relative == "share"
         || relative == "LICENSE"
         || lib.any (prefix: relative == prefix || lib.hasPrefix "${prefix}/" relative) [
           "desktop/shell" "desktop/session" "desktop/skills" "desktop/menu"
