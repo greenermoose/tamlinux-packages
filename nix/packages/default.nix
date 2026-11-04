@@ -355,6 +355,8 @@ let
     tam-menu-timezone = [ pkgs.systemd ];
     tam-launch-tui = [ pkgs.coreutils pkgs.util-linux ];
     tam-launch-terminal = [ pkgs.coreutils pkgs.util-linux ];
+    tam-launch-nautilus = [ pkgs.coreutils pkgs.util-linux ];
+    tam-launch-nautilus-cwd = [ pkgs.coreutils pkgs.util-linux ];
     tam-cmd-terminal-cwd = [ pkgs.coreutils pkgs.gawk pkgs.gnugrep
       pkgs.procps pkgs.jq ];
     tam-launch-editor = [ pkgs.util-linux ];
