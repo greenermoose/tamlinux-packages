@@ -209,7 +209,7 @@ let
   commandRuntimeDeps = {
     tam-dev = [ pkgs.python3 pkgs.git pkgs.gnumake pkgs.coreutils pkgs.systemd ];
     tam-desktop-test = [ pkgs.python3 pkgs.wl-clipboard pkgs.libnotify pkgs.util-linux pkgs.systemd ];
-    start = [ pkgs.python3 ];
+    start = [ ];
     tam-macro = [ pkgs.python3 pkgs.wl-clipboard ];
     tam-nut = [ pkgs.coreutils pkgs.gawk pkgs.util-linux pkgs.pciutils ];
     tam-theme-set = themeTools;
@@ -570,14 +570,20 @@ let
   # Expensive native code has a source closure independent of the candidate
   # number, documentation, plugins and shell. Small aggregate packages retain
   # the assembly's version/revision at the public endpoint.
-  nativeNames = lib.filter (name: has "commands/${name}/native.c" || name == "tam-hardware" && has "commands/tam-hardware/Makefile") [ "tam-monitor" "tam-hardware" ];
+  nativeNames = lib.filter (name:
+    has "commands/${name}/native.c"
+    || (name == "tam-hardware" && has "commands/tam-hardware/Makefile")
+    || (name == "start" && has "commands/start/Makefile")
+  ) [ "tam-monitor" "tam-hardware" "start" ];
   nativePayload = name: pkgs.stdenv.mkDerivation {
     pname = "${name}-payload";
     version = "1";
     NIX_LDFLAGS = "--build-id";
     src = commandSource name;
     nativeBuildInputs = [ pkgs.pkg-config pkgs.python3 pkgs.bash ];
-    buildInputs = [ libtam pkgs.systemd pkgs.libdrm pkgs.libcpuid ];
+    buildInputs = [ libtam ]
+      ++ lib.optionals (name == "tam-monitor") [ pkgs.systemd pkgs.libdrm ]
+      ++ lib.optionals (name == "tam-hardware") [ pkgs.libcpuid ];
     dontStrip = true;
     buildPhase = "make -C commands/${name} LIBTAM_PREFIX=${libtam}";
     doCheck = true;
@@ -612,8 +618,13 @@ let
       pkgs.bash
       pkgs.python3
     ] ++ lib.optionals (has "commands/tam-monitor/native.c") [ libtam pkgs.systemd pkgs.libdrm ]
-      ++ lib.optionals (has "commands/tam-hardware/Makefile") [ libtam pkgs.libcpuid ];
-    makeFlags = lib.optional (has "commands/tam-monitor/native.c" || has "commands/tam-hardware/Makefile") "LIBTAM_PREFIX=${libtam}";
+      ++ lib.optionals (has "commands/tam-hardware/Makefile") [ libtam pkgs.libcpuid ]
+      ++ lib.optionals (has "commands/start/Makefile") [ libtam ];
+    makeFlags = lib.optional (
+      has "commands/tam-monitor/native.c"
+      || has "commands/tam-hardware/Makefile"
+      || has "commands/start/Makefile"
+    ) "LIBTAM_PREFIX=${libtam}";
     # Realize the independently cached checks before assembling launchers.
     preBuild = ''
       for check in ${lib.concatStringsSep " " (map toString (builtins.attrValues commandChecks))}; do
@@ -624,7 +635,11 @@ let
     installPhase = ''
       runHook preInstall
       ${lib.concatMapStrings (name: ''
-        make -C commands/${name} install PREFIX=$out ${lib.optionalString ((name == "tam-monitor" && has "commands/tam-monitor/native.c") || name == "tam-hardware") "LIBTAM_PREFIX=${libtam}"}
+        make -C commands/${name} install PREFIX=$out ${lib.optionalString (
+          (name == "tam-monitor" && has "commands/tam-monitor/native.c")
+          || name == "tam-hardware"
+          || name == "start"
+        ) "LIBTAM_PREFIX=${libtam}"}
       '') (lib.subtractLists nativeNames commandNames)}
       ${lib.concatMapStrings (name: "cp -R ${nativePayloads.${name}}/. $out/\nchmod -R u+w $out\n") nativeNames}
       mkdir -p $out/bin

@@ -102,8 +102,10 @@ PY
     HOME=${files} XDG_DATA_DIRS=/nonexistent TAM_DATADIR=/nonexistent \
       PATH="${files}/.local/bin:$PATH" ${files}/.local/bin/hi --pipe | grep -q Welcome
     PATH="${files}/.local/bin:${hm.activationPackage}/home-path/bin:$PATH" \
-      ${files}/.local/bin/start --check | grep -Fq '16/16 activities installed on this system.'
-    ${files}/.local/bin/start --version | grep -Fxq 'start (Tamlinux) ${components.tamlinux-shell.passthru.version}'
+      ${files}/.local/bin/start --check | grep -Fq '18/18 activities installed on this system.'
+    # start 0.2+ reports its own command semver (D224), not the product version.
+    ${files}/.local/bin/start --version | grep -Eq '^start [0-9]+\.[0-9]+\.[0-9]+$'
+    test -f ${components.tamlinux-commands}/share/start/menu.json
   ''}
   for game in astroterm bastet trek adventure cataclysm-dda cbonsai curseofwar frotz gnugo nethack pmars vms-empire; do
     test -x ${hm.activationPackage}/home-path/bin/"$game"

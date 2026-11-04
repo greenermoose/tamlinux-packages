@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-04: Cursor (`composer`) packages `start` 0.2 as a native `libtam` payload (no Python). [Session](docs/ai/2026-11-04-start-c-native.md).
+
 2026-11-04: Cursor (`composer`) scopes candidate inspect so unrelated dirty component work does not block packaging. [Session](docs/ai/2026-11-04-scoped-candidate-inspect.md).
 
 2026-11-04: Cursor (`composer`) wires nautilus launcher packaging for Tamlinux 0.6.3. [Session](docs/ai/2026-11-04-0.6.3-nautilus-launchers.md).

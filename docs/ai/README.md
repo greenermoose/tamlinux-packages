@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-04 — Package start as native C payload](2026-11-04-start-c-native.md)
+
 - [2026-11-02 — Candidate inclusions](2026-11-02-candidate-inclusions.md)
 
 - [2026-11-02 — Package tam-desktop-test](2026-11-02-package-tam-desktop-test.md)
@@ -19,6 +21,7 @@ archived or kept session notes as open deploy instructions — use
 
 | Date | Topic | Document |
 | --- | --- | --- |
+| 2026-11-04 | Package start as native C payload | [`2026-11-04-start-c-native.md`](2026-11-04-start-c-native.md) |
 | 2026-11-02 | Package tam-desktop-test | [`2026-11-02-package-tam-desktop-test.md`](2026-11-02-package-tam-desktop-test.md) |
 | 2026-11-02 | Prepare the 0.6.1 KBN WB assembly | [`2026-11-02-061-preparation.md`](2026-11-02-061-preparation.md) |
 | 2026-11-02 | Packaging runtime dependencies for start command | [`2026-11-02-hi-and-start-packaging.md`](2026-11-02-hi-and-start-packaging.md) |
