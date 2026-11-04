@@ -223,6 +223,32 @@ class Workflow(unittest.TestCase):
                     self.flow.prepare('0.6.2',resume=True,trailers='AI-Tool: fixture')
             self.assertEqual(self.git(self.root/'tamlinux','rev-parse','HEAD'),head)
 
+    def test_pin_only_source_resume_allows_unrelated_dirty_work(self):
+        # After a pin-only source commit is recorded, another session's dirty
+        # files must not block resume of the same finalized HEAD.
+        outer=self
+        class Prepare:
+            def read_version(self,root):return (root/'VERSION').read_text().strip()
+            def cmd_version(self,root,args):(root/'VERSION').write_text(args.version+'\n')
+            def lock_inputs(self,root):return {n:{'locked':{'rev':outer.git(outer.root/n,'rev-parse','HEAD')}} for n in w.COMPONENTS}
+            def fingerprint(self,root):return 'stable-recipe'
+            def cmd_verify(self,root,args):pass
+            def cmd_build(self,root,args):raise w.WorkflowError('simulated build interruption')
+            def cmd_pin(self,root,args):raise AssertionError('pin should not run before build')
+            def cmd_record(self,root,args):raise AssertionError('record should not run before build')
+        self.flow.native=lambda *args:{'archive':'/fixture/archive','package':{},'requirement':{}}
+        with patch.object(w,'module',return_value=Prepare()):
+            with self.assertRaisesRegex(w.WorkflowError,'simulated build'):
+                self.flow.prepare(word='Package and test the next version of Tamlinux',trailers='AI-Tool: fixture')
+            pinned=json.loads((self.flow.state/'active.json').read_text())['sourceCommits']['tam']
+            (self.root/'tam/knowledge').mkdir(parents=True, exist_ok=True)
+            (self.root/'tam/knowledge/local-draft.md').write_text('unrelated corpus draft\n')
+            with patch.object(self.flow,'publish_sources',side_effect=AssertionError('repeated publication')):
+                with self.assertRaisesRegex(w.WorkflowError,'simulated build'):
+                    self.flow.prepare('0.6.2',resume=True,trailers='AI-Tool: fixture')
+            self.assertEqual(self.git(self.root/'tam','rev-parse','HEAD'),pinned)
+            self.assertTrue((self.root/'tam/knowledge/local-draft.md').exists())
+
     def test_interrupted_commit_recognized_and_newer_edits_refused(self):
         repo=self.root/'tamlinux';parent=self.git(repo,'rev-parse','HEAD');file=repo/'source';file.write_text('selected')
         intent={'parent':parent,'message':'Select candidate','trailers':'AI-Tool: fixture',

@@ -440,7 +440,14 @@ class Workflow:
                 # A completed source commit is discoverable after interruption.
                 expected=state.setdefault('sourceCommits',{}).get(name)
                 if expected:
-                    if git(repo,'rev-parse','HEAD')!=expected or dirty(repo):
+                    if git(repo,'rev-parse','HEAD')!=expected:
+                        raise WorkflowError(name+': sources moved after finalization')
+                    # Pin-only resumes keep HEAD; unrelated dirty work may remain.
+                    # Selected or previously written paths must stay clean.
+                    watched=set(selected['paths'])
+                    intent_files=state.get('sourceIntents',{}).get(name,{}).get('files',{})
+                    watched.update(intent_files)
+                    if watched & set(dirty(repo)):
                         raise WorkflowError(name+': sources moved after finalization')
                     pins[name]=expected;continue
                 intent=state.setdefault('sourceIntents',{}).get(name)

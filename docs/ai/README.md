@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-04 — Pin-only source resume with unrelated dirty work](2026-11-04-pin-only-resume-dirty.md)
+
 - [2026-11-04 — Tamlinux 0.6.6 package/test speed (assembly)](2026-11-04-0.6.6-package-speed.md)
 
 - [2026-11-04 — Package start as native C payload](2026-11-04-start-c-native.md)
@@ -23,6 +25,7 @@ archived or kept session notes as open deploy instructions — use
 
 | Date | Topic | Document |
 | --- | --- | --- |
+| 2026-11-04 | Pin-only source resume with unrelated dirty work | [`2026-11-04-pin-only-resume-dirty.md`](2026-11-04-pin-only-resume-dirty.md) |
 | 2026-11-04 | Tamlinux 0.6.6 package/test speed (assembly) | [`2026-11-04-0.6.6-package-speed.md`](2026-11-04-0.6.6-package-speed.md) |
 | 2026-11-04 | Package start as native C payload | [`2026-11-04-start-c-native.md`](2026-11-04-start-c-native.md) |
 | 2026-11-02 | Package tam-desktop-test | [`2026-11-02-package-tam-desktop-test.md`](2026-11-02-package-tam-desktop-test.md) |
