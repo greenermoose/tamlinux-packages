@@ -487,6 +487,9 @@ let
           install -m755 ${product}/desktop/session/start $out/bin/tam-hyprland-session
           ${lib.optionalString features.consoleDesktop "install -m755 ${product}/desktop/session/desktop $out/bin/tam-desktop"}
           chmod +x $out/share/tamlinux/session/Hyprland
+          # D204 host firewall template (subnet filled per machine; never in Git).
+          mkdir -p $out/share/tamlinux/nftables
+          cp -R ${product}/share/nftables/. $out/share/tamlinux/nftables/
         ''}
         ${lib.optionalString features.menu ''
           mkdir -p $out/share/tamlinux/menu
