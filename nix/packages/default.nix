@@ -659,14 +659,10 @@ let
     ];
     tam-update = [ "tam-update-firmware" ];
   };
-  # Opt-in only; shrink this set, do not grow it casually.
-  fullProductCheckNames = [
-    "tam-shell"
-    "tam-theme-set"
-    "tam-launch-terminal"
-    "tam-browser-command"
-    "tam-capture-region"
-  ];
+  # Keep empty: every check uses filtered checkSource so VERSION/docs/ai
+  # bumps do not invalidate command checks (0.6.6 speed contract; restored
+  # for 0.6.9 after fullProductCheckNames regressed assembly to ~260s).
+  fullProductCheckNames = [ ];
   checkSource = name: builtins.path {
     path = product;
     name = "${name}-check-source";
@@ -676,8 +672,7 @@ let
         extras = extraCheckCommands.${name} or [ ];
         allowCommand = cmd:
           relative == "commands/${cmd}" || lib.hasPrefix "commands/${cmd}/" relative;
-      in if lib.elem name fullProductCheckNames then true
-      else toString path == toString product
+      in toString path == toString product
         || relative == "LICENSE"
         || relative == "commands"
         || allowCommand name
@@ -701,7 +696,7 @@ let
   commandChecks = lib.genAttrs (lib.subtractLists nativeNames commandNames) (name: pkgs.stdenv.mkDerivation {
     pname = "${name}-checks";
     version = "1";
-    src = if lib.elem name fullProductCheckNames then product else checkSource name;
+    src = checkSource name;
     nativeBuildInputs = [ pkgs.bash pkgs.python3 pkgs.git pkgs.jq pkgs.which pkgs.nodejs pkgs.perl pkgs.lua
       pkgs.pkg-config (lib.getBin pkgs.util-linux) (lib.getBin pkgs.procps) ];
     dontConfigure = true;
@@ -746,6 +741,8 @@ let
     installPhase = "make -C commands/${name} install PREFIX=$out LIBTAM_PREFIX=${libtam}";
   };
   nativePayloads = lib.genAttrs nativeNames nativePayload;
+  # Only the desktop trees the commands install phase copies. Session/shell
+  # edits must not rebuild the ~130-command payload (K25 looknfeel, etc.).
   commandsPayloadSource = builtins.path {
     path = product;
     name = "tamlinux-commands-payload-source";
@@ -754,7 +751,10 @@ let
       in toString path == toString product
         || relative == "LICENSE"
         || relative == "commands" || lib.hasPrefix "commands/" relative
-        || relative == "desktop" || lib.hasPrefix "desktop/" relative;
+        || relative == "desktop"
+        || lib.any (prefix: relative == prefix || lib.hasPrefix "${prefix}/" relative) [
+          "desktop/assets" "desktop/browser" "desktop/theme"
+        ];
   };
   commandsPayload = pkgs.stdenv.mkDerivation {
     NIX_LDFLAGS = "--build-id";

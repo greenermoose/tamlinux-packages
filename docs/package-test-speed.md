@@ -16,9 +16,9 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    (check/drv rebuild counts and top names) beside `build.log`. `fred-stage`
    copies a short summary into the timing ledger notes.
 2. **Narrow check sources** — every command check uses a filtered
-   `builtins.path` (`checkSource`) unless listed in `fullProductCheckNames`
-   (multi-command integrators such as `tam-shell`, `tam-theme-set`,
-   `tam-launch-terminal`, `tam-browser-command`, `tam-capture-region`).
+   `builtins.path` (`checkSource`). `fullProductCheckNames` stays empty so
+   VERSION/`docs/ai` bumps do not rebuild checks (restored in 0.6.9 after a
+   regression that put five names back and drove assembly to ~260 s).
    Desktop fixture checks list `desktop/` explicitly; `extraCheckCommands`
    lists sibling commands for narrower checks.
 3. **Version-stable payloads** — `tamlinux-shell-payload-1`,
@@ -26,9 +26,13 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    candidate VERSION stamps. Thin versioned wrappers only stamp metadata;
    the commands wrapper keeps derivation `.version` for assembly-contract.
    Shell payload filters must keep parent dirs (`share`) so `share/nftables`
-   is reachable.
-4. **Consumer prepare reuse** — `fred-stage prepare test` reuses an already
-   realized `activationPackage` outPath when eval finds it in the store.
+   is reachable. Commands payload desktop filter includes only
+   `desktop/assets`, `desktop/browser`, and `desktop/theme` so session/shell
+   edits do not rebuild the ~130-command payload.
+4. **Consumer prepare reuse** — `fred-stage prepare test` evals
+   `activationPackage.outPath` first and reuses a realized store generation
+   before calling `tam-deploy preflight` (0.6.9 restores this path; the
+   earlier preflight-first branch skipped reuse).
 5. **Deploy phase times** — `tam-deploy` records `phaseTimes` on successful
    install (preflight, realize, activate, shellRestart, verify, total).
 

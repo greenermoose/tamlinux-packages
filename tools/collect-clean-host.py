@@ -18,9 +18,12 @@ import subprocess
 import time
 
 INHERITED=re.compile('omarchy',re.I)
+# Quickshell is session-selected via TAMLINUX_QUICKSHELL (Nix). Pacman
+# /usr/bin/quickshell and /usr/bin/qs are not required native endpoints and
+# may be removed under Plan 32 once product callers resolve Nix Quickshell.
 CRITICAL=[
  '/usr/bin/Hyprland','/usr/bin/hyprctl','/usr/bin/uwsm','/usr/bin/uwsm-app',
- '/usr/bin/quickshell','/usr/bin/qs','/usr/bin/xdg-terminal-exec',
+ '/usr/bin/xdg-terminal-exec',
  '/usr/bin/foot','/usr/share/applications/foot.desktop',
  '/usr/lib/tamlinux/asdcontrol','/usr/bin/tam-theme-set-browser-policy',
  '/usr/lib/tamlinux/browser_policy.py','/usr/lib/tamlinux/hyprland-reload-guard',

@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-04: Cursor (`composer`) recovers Package/Test speed for 0.6.9 and unblocks Pacman quickshell removal in the clean-host collector. [Session](docs/ai/2026-11-04-0.6.9-speed-quickshell.md).
+
 2026-11-04: Cursor (`composer`) restores `tamlinux-commands` wrapper `.version` after the version-stable payload split. [Session](docs/ai/2026-11-04-commands-wrapper-version.md).
 
 2026-11-04: Cursor (`composer`) lets pin-only source resume keep unrelated dirty component drafts. [Session](docs/ai/2026-11-04-pin-only-resume-dirty.md).
