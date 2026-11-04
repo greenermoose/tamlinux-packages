@@ -786,6 +786,9 @@ let
     meta.license = lib.licenses.gpl3Plus;
   };
   commands = pkgs.runCommand "tamlinux-commands-${packageVersion}" {
+    # Keep the derivation version for assembly-contract and consumers that read
+    # .version; the payload stays version-stable at "1".
+    version = packageVersion;
     passthru = commandsPayload.passthru // {
       revision = product.rev;
       payload = commandsPayload;

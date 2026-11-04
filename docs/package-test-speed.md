@@ -21,7 +21,8 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    `tam-dev` lists sibling commands it needs.
 3. **Version-stable payloads** — `tamlinux-shell-payload-1`,
    `tamlinux-plugins-payload-1` and `tamlinux-commands-payload-1` exclude
-   candidate VERSION stamps. Thin versioned wrappers only stamp metadata.
+   candidate VERSION stamps. Thin versioned wrappers only stamp metadata;
+   the commands wrapper keeps derivation `.version` for assembly-contract.
 4. **Consumer prepare reuse** — `fred-stage prepare test` reuses an already
    realized `activationPackage` outPath when eval finds it in the store.
 5. **Deploy phase times** — `tam-deploy` records `phaseTimes` on successful
