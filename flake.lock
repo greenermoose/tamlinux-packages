@@ -84,34 +84,34 @@
     "tamlinux": {
       "flake": false,
       "locked": {
-        "lastModified": 1793703142,
-        "narHash": "sha256-hsOiWYWAPPOW5mgmbjMEdTHwNYi90YFvqlXN/WtxJZ0=",
+        "lastModified": 1793797947,
+        "narHash": "sha256-rQ6w6LNISA9uzKW8r+FfN2g8WxFxHfqzyiZ4S1jHytY=",
         "owner": "greenermoose",
         "repo": "tamlinux",
-        "rev": "c44453fb7c2b5c0618ad3e4e6f445941f1c30ebb",
+        "rev": "9bc04c44a400fc5f15e781bed87cd42cd5b15e16",
         "type": "github"
       },
       "original": {
         "owner": "greenermoose",
         "repo": "tamlinux",
-        "rev": "c44453fb7c2b5c0618ad3e4e6f445941f1c30ebb",
+        "rev": "9bc04c44a400fc5f15e781bed87cd42cd5b15e16",
         "type": "github"
       }
     },
     "tamlinux-tools": {
       "flake": false,
       "locked": {
-        "lastModified": 1793481186,
-        "narHash": "sha256-h+quQDqVMGjWVayD86z5q+6hEokG20tDDPlD15cN5Ac=",
+        "lastModified": 1793792700,
+        "narHash": "sha256-acZuGD7xn+58HOfcblF3pQv90/eBsyTy7KW+75ma97U=",
         "owner": "greenermoose",
         "repo": "tamlinux-tools",
-        "rev": "1d4675e5f8c5aea1e439c9abce197a725b6b3049",
+        "rev": "bbe0574c7ce8fdf2fb4701d1c3a56856bd456fbb",
         "type": "github"
       },
       "original": {
         "owner": "greenermoose",
         "repo": "tamlinux-tools",
-        "rev": "1d4675e5f8c5aea1e439c9abce197a725b6b3049",
+        "rev": "bbe0574c7ce8fdf2fb4701d1c3a56856bd456fbb",
         "type": "github"
       }
     }

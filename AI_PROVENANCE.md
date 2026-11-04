@@ -79,3 +79,5 @@ Older milestones through first extraction (2026-10-09) remain in Git; retrieve
 paths listed on [`docs/ai/FILING-CARD.md`](docs/ai/FILING-CARD.md).
 
 Candidate 0.6.2: [preparation](docs/ai/0.6.2-candidate-preparation.md).
+
+Candidate 0.6.3: [preparation](docs/ai/0.6.3-candidate-preparation.md).
