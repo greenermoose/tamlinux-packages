@@ -85,3 +85,5 @@ Candidate 0.6.2: [preparation](docs/ai/0.6.2-candidate-preparation.md).
 Candidate 0.6.3: [preparation](docs/ai/0.6.3-candidate-preparation.md).
 
 Candidate 0.6.4: [preparation](docs/ai/0.6.4-candidate-preparation.md).
+
+Candidate 0.6.5: [preparation](docs/ai/0.6.5-candidate-preparation.md).
