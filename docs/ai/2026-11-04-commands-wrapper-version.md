@@ -14,3 +14,5 @@ Also keep `share` in the shell payload source filter so
 `share/nftables` is copied into the payload.
 
 Narrowed command checks need sibling lists or full-product opt-in for multi-command integrators.
+
+Payload source filters use toString product so fixture paths keep their relative names.

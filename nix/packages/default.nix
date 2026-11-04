@@ -459,7 +459,7 @@ let
     path = product;
     name = "tamlinux-shell-payload-source";
     filter = path: type:
-      let relative = lib.removePrefix "${product}/" (toString path);
+      let relative = lib.removePrefix ((toString product) + "/") (toString path);
       in toString path == toString product
         || relative == "desktop"
         || relative == "share"
@@ -542,7 +542,7 @@ let
     path = product;
     name = "tamlinux-plugins-payload-source";
     filter = path: type:
-      let relative = lib.removePrefix "${product}/" (toString path);
+      let relative = lib.removePrefix ((toString product) + "/") (toString path);
       in toString path == toString product
         || relative == "desktop"
         || relative == "desktop/plugins"
@@ -577,7 +577,7 @@ let
     path = product;
     name = "${name}-source";
     filter = path: type:
-      let relative = lib.removePrefix "${product}/" (toString path);
+      let relative = lib.removePrefix ((toString product) + "/") (toString path);
       in toString path == toString product || relative == "commands" || relative == "commands/${name}"
         || relative == "LICENSE" || lib.hasPrefix "commands/${name}/" relative;
   };
@@ -672,7 +672,7 @@ let
     name = "${name}-check-source";
     filter = path: type:
       let
-        relative = lib.removePrefix "${product}/" (toString path);
+        relative = lib.removePrefix ((toString product) + "/") (toString path);
         extras = extraCheckCommands.${name} or [ ];
         allowCommand = cmd:
           relative == "commands/${cmd}" || lib.hasPrefix "commands/${cmd}/" relative;
@@ -750,7 +750,7 @@ let
     path = product;
     name = "tamlinux-commands-payload-source";
     filter = path: type:
-      let relative = lib.removePrefix "${product}/" (toString path);
+      let relative = lib.removePrefix ((toString product) + "/") (toString path);
       in toString path == toString product
         || relative == "LICENSE"
         || relative == "commands" || lib.hasPrefix "commands/" relative
