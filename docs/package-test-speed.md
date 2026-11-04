@@ -16,11 +16,11 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    (check/drv rebuild counts and top names) beside `build.log`. `fred-stage`
    copies a short summary into the timing ledger notes.
 2. **Narrow check sources** — every command check uses a filtered
-   `builtins.path` (`checkSource`). `fullProductCheckNames` stays empty so
-   VERSION/`docs/ai` bumps do not rebuild checks (restored in 0.6.9 after a
-   regression that put five names back and drove assembly to ~260 s).
-   Desktop fixture checks list `desktop/` explicitly; `extraCheckCommands`
-   lists sibling commands for narrower checks.
+   `builtins.path` (`checkSource`). Multi-command integrators in
+   `fullProductCheckNames` get `commands/` + `desktop/` + `share/` + LICENSE
+   only (not VERSION/`docs/ai`), so candidate stamps do not rebuild them.
+   Other checks list sibling commands in `extraCheckCommands`; desktop
+   fixture checks list `desktop/` explicitly.
 3. **Version-stable payloads** — `tamlinux-shell-payload-1`,
    `tamlinux-plugins-payload-1` and `tamlinux-commands-payload-1` exclude
    candidate VERSION stamps. Thin versioned wrappers only stamp metadata;

@@ -611,10 +611,10 @@ let
       "tam-settings-preserve"
     ];
     tam-launch-terminal = [
-      "tam-cmd-terminal-cwd" "tam-default-editor" "tam-default-terminal"
+      "tam-cmd-present" "tam-cmd-terminal-cwd" "tam-default-editor" "tam-default-terminal"
       "tam-launch-config-editor" "tam-launch-editor"
-      "tam-launch-floating-terminal-with-presentation" "tam-show-done"
-      "tam-show-logo"
+      "tam-launch-floating-terminal-with-presentation" "tam-launch-tui"
+      "tam-notification-send" "tam-settings-preserve" "tam-show-done" "tam-show-logo"
     ];
     tam-capture-region = [
       "tam-capture-edit"
@@ -659,10 +659,16 @@ let
     ];
     tam-update = [ "tam-update-firmware" ];
   };
-  # Keep empty: every check uses filtered checkSource so VERSION/docs/ai
-  # bumps do not invalidate command checks (0.6.6 speed contract; restored
-  # for 0.6.9 after fullProductCheckNames regressed assembly to ~260s).
-  fullProductCheckNames = [ ];
+  # Multi-command integrators need commands+desktop (646880e). Keep them on a
+  # filtered tree that omits VERSION/docs so candidate stamps do not rebuild
+  # these checks (0.6.9 speed recovery without the empty-list breakage).
+  fullProductCheckNames = [
+    "tam-shell"
+    "tam-theme-set"
+    "tam-launch-terminal"
+    "tam-browser-command"
+    "tam-capture-region"
+  ];
   checkSource = name: builtins.path {
     path = product;
     name = "${name}-check-source";
@@ -672,7 +678,14 @@ let
         extras = extraCheckCommands.${name} or [ ];
         allowCommand = cmd:
           relative == "commands/${cmd}" || lib.hasPrefix "commands/${cmd}/" relative;
-      in toString path == toString product
+        productTree =
+          toString path == toString product
+          || relative == "LICENSE"
+          || relative == "commands" || lib.hasPrefix "commands/" relative
+          || relative == "desktop" || lib.hasPrefix "desktop/" relative
+          || relative == "share" || lib.hasPrefix "share/" relative;
+      in if lib.elem name fullProductCheckNames then productTree
+      else toString path == toString product
         || relative == "LICENSE"
         || relative == "commands"
         || allowCommand name
