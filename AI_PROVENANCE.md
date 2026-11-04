@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-04: Cursor (`composer`) speeds Package/Test assembly for Tamlinux 0.6.6 (narrowed check sources, version-stable payloads, rebuild instrumentation, fleet profile prebuild). [Session](docs/ai/2026-11-04-0.6.6-package-speed.md).
+
 2026-11-04: Cursor (`composer`) packages `start` 0.2 as a native `libtam` payload (no Python). [Session](docs/ai/2026-11-04-start-c-native.md).
 
 2026-11-04: Cursor (`composer`) scopes candidate inspect so unrelated dirty component work does not block packaging. [Session](docs/ai/2026-11-04-scoped-candidate-inspect.md).
