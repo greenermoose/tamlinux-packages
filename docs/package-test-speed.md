@@ -17,8 +17,10 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    copies a short summary into the timing ledger notes.
 2. **Narrow check sources** — every command check uses a filtered
    `builtins.path` (`checkSource`) unless listed in `fullProductCheckNames`
-   (kept empty). Desktop fixture checks list `desktop/` explicitly;
-   `tam-dev` lists sibling commands it needs.
+   (multi-command integrators such as `tam-shell`, `tam-theme-set`,
+   `tam-launch-terminal`, `tam-browser-command`, `tam-capture-region`).
+   Desktop fixture checks list `desktop/` explicitly; `extraCheckCommands`
+   lists sibling commands for narrower checks.
 3. **Version-stable payloads** — `tamlinux-shell-payload-1`,
    `tamlinux-plugins-payload-1` and `tamlinux-commands-payload-1` exclude
    candidate VERSION stamps. Thin versioned wrappers only stamp metadata;

@@ -604,9 +604,69 @@ let
   ];
   extraCheckCommands = {
     tam-dev = [ "tam-demo" "tam-macro" "tam-menu-keybindings" "tam-sibling" ];
+    tam-browser-command = [
+      "tam-default-browser" "tam-launch-browser" "tam-launch-webapp"
+      "tam-hyprland-focus-app" "tam-launch-or-focus" "tam-launch-or-focus-webapp"
+      "tam-launch-or-focus-tui" "tam-launch-tui" "tam-notification-send"
+      "tam-settings-preserve"
+    ];
+    tam-launch-terminal = [
+      "tam-cmd-terminal-cwd" "tam-default-editor" "tam-default-terminal"
+      "tam-launch-config-editor" "tam-launch-editor"
+      "tam-launch-floating-terminal-with-presentation" "tam-show-done"
+      "tam-show-logo"
+    ];
+    tam-capture-region = [
+      "tam-capture-edit"
+      "tam-capture-qr"
+      "tam-capture-screenrecording"
+      "tam-capture-screenrecording-with-webcam"
+      "tam-capture-screenshot"
+      "tam-capture-text"
+      "tam-capture-webcam-list"
+      "tam-capture-webcam-resize"
+    ];
+    tam-theme-set = [
+      "tam-theme-bg-install"
+      "tam-theme-bg-next"
+      "tam-theme-bg-set"
+      "tam-theme-bg-switcher"
+      "tam-theme-color"
+      "tam-theme-colors-from-alacritty"
+      "tam-theme-current"
+      "tam-theme-init"
+      "tam-theme-install"
+      "tam-theme-journal"
+      "tam-theme-list"
+      "tam-theme-osc"
+      "tam-theme-payload"
+      "tam-theme-refresh"
+      "tam-theme-remove"
+      "tam-theme-set-browser"
+      "tam-theme-set-claude"
+      "tam-theme-set-foot"
+      "tam-theme-set-gnome"
+      "tam-theme-set-keyboard"
+      "tam-theme-set-keyboard-asus-rog"
+      "tam-theme-set-keyboard-f16"
+      "tam-theme-set-obsidian"
+      "tam-theme-set-pi"
+      "tam-theme-set-t3code"
+      "tam-theme-set-templates"
+      "tam-theme-set-tmux"
+      "tam-theme-set-vscode"
+      "tam-theme-switcher"
+    ];
+    tam-update = [ "tam-update-firmware" ];
   };
   # Opt-in only; shrink this set, do not grow it casually.
-  fullProductCheckNames = [ ];
+  fullProductCheckNames = [
+    "tam-shell"
+    "tam-theme-set"
+    "tam-launch-terminal"
+    "tam-browser-command"
+    "tam-capture-region"
+  ];
   checkSource = name: builtins.path {
     path = product;
     name = "${name}-check-source";
