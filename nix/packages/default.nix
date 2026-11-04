@@ -754,8 +754,9 @@ let
     installPhase = "make -C commands/${name} install PREFIX=$out LIBTAM_PREFIX=${libtam}";
   };
   nativePayloads = lib.genAttrs nativeNames nativePayload;
-  # Only the desktop trees the commands install phase copies. Session/shell
-  # edits must not rebuild the ~130-command payload (K25 looknfeel, etc.).
+  # Commands install copies several desktop/ trees (audio, lock, migration,
+  # theme, session helpers, test-battery). Keep the full desktop/ input; do not
+  # narrow to assets/browser/theme alone.
   commandsPayloadSource = builtins.path {
     path = product;
     name = "tamlinux-commands-payload-source";
@@ -764,10 +765,7 @@ let
       in toString path == toString product
         || relative == "LICENSE"
         || relative == "commands" || lib.hasPrefix "commands/" relative
-        || relative == "desktop"
-        || lib.any (prefix: relative == prefix || lib.hasPrefix "${prefix}/" relative) [
-          "desktop/assets" "desktop/browser" "desktop/theme"
-        ];
+        || relative == "desktop" || lib.hasPrefix "desktop/" relative;
   };
   commandsPayload = pkgs.stdenv.mkDerivation {
     NIX_LDFLAGS = "--build-id";

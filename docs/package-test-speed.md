@@ -26,9 +26,8 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    candidate VERSION stamps. Thin versioned wrappers only stamp metadata;
    the commands wrapper keeps derivation `.version` for assembly-contract.
    Shell payload filters must keep parent dirs (`share`) so `share/nftables`
-   is reachable. Commands payload desktop filter includes only
-   `desktop/assets`, `desktop/browser`, and `desktop/theme` so session/shell
-   edits do not rebuild the ~130-command payload.
+   is reachable. Commands payload still includes `commands/` and `desktop/`
+   (installs need audio, lock, migration, and related trees).
 4. **Consumer prepare reuse** — `fred-stage prepare test` evals
    `activationPackage.outPath` first and reuses a realized store generation
    before calling `tam-deploy preflight` (0.6.9 restores this path; the
