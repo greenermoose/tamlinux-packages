@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.6.11",
+  "version": "0.6.11",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "cb805b46517bac2e124bfd2cc3eac8e8edbdcfdd",
+  "scope": "Selected development state for 0.6.11",
+  "components": {
+    "home-manager": {
+      "lastModified": 1792605213,
+      "narHash": "sha256-J73EBU30r2hXvHCcBtaigQDAIu/GGPYk1nc6P9THcmg=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1793126685,
+      "narHash": "sha256-vQEPTTfxWlpUx55YDJyJJqeQ+xGsHw8pn9QMDMG09cQ=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "02576574d4b1438a1edf510d7a1b357643d2cfcc",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1792626989,
+      "narHash": "sha256-SqQcbCptvcTV4Iargthk+aQH75jOzYFP8WT4BHOyUnQ=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "d630516d328323b5440895ffcd3b273de93d88e7",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1793875297,
+      "narHash": "sha256-y52Kl2TnDcKtA+vh/TIfD7IPLTczbx7uVciNyl9aNJc=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "eee95ca4d2afd7441afac66bf877a736f85e75cf",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1793876082,
+      "narHash": "sha256-95NsN/7g5z3e4mc0N2rLHMLtJnGfxvaaxXvfFM0U1hQ=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "206d3d5b5b99f87818234833daae7cbc5d8a69f1",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1793792700,
+      "narHash": "sha256-acZuGD7xn+58HOfcblF3pQv90/eBsyTy7KW+75ma97U=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "bbe0574c7ce8fdf2fb4701d1c3a56856bd456fbb",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/fj3rsc932qws1lwdmqk5r2bh9kkn96i3-tamlinux-shell-0.6.11.drv",
+      "outputs": {
+        "out": "/nix/store/3qnzf5lbws4zz8ikxw5yjr50ykry2vw8-tamlinux-shell-0.6.11"
+      }
+    },
+    {
+      "drvPath": "/nix/store/3nrh8aqb99a5mvap3sf7mzl1waga4mxd-tamlinux-plugins-0.6.11.drv",
+      "outputs": {
+        "out": "/nix/store/94bh787a4g7vsmwlbj4md9b05yk6wv3g-tamlinux-plugins-0.6.11"
+      }
+    },
+    {
+      "drvPath": "/nix/store/7nrp607m1cjk3hf70ah36vq38j9lr49d-tamlinux-commands-0.6.11.drv",
+      "outputs": {
+        "out": "/nix/store/lccfmpw8cabi0hmgr4k3p1gxrnafakh4-tamlinux-commands-0.6.11"
+      }
+    },
+    {
+      "drvPath": "/nix/store/ya8l5pc349djjl26jck99yq3lql76wjr-tam-0.48.2.drv",
+      "outputs": {
+        "out": "/nix/store/bdnkm1qpsgvmcxazbwhk4w8jcy3ndq1z-tam-0.48.2"
+      }
+    },
+    {
+      "drvPath": "/nix/store/k687x5bilsmfd993fzp0dicg76i7rw0c-libtam-0.4.0.drv",
+      "outputs": {
+        "out": "/nix/store/a8aif483ngx3h6i6b6z8j4j169482103-libtam-0.4.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/bg0sqdpr4vdqis34x0j1p47sfjc9cwrq-tamlinux-tools-0-unstable-bbe0574.drv",
+      "outputs": {
+        "out": "/nix/store/1bv77wgmh9h3lwcgbzlmkh3qc9i7v9cj-tamlinux-tools-0-unstable-bbe0574"
+      }
+    },
+    {
+      "drvPath": "/nix/store/jz2xv22ib70frwlkcsr133vjdsxl7lrr-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/8kmwlygdxhi7rswmy1rs9w6j731cd26l-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/gwjldgrw6qyzp3ly8k0w96bgnmgl1rlz-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/f8iipahi77b02xj5xc3z39347sqw5p9k-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/dg6p27lln7m9adm77pb0fvg6mly56mg0-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/r6dxsqmwidprjj4r0vbj42bnif3452az-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/0pm92h4wmimp71cr9cvj3ln169vmadpn-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/6dx997hq73h7lk3v93m4lxcpclphzx12-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#libtam",
+      ".#tamlinux-tools",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass",
+    "fingerprint": "ada31b2e37dbff84ec800ce1350b040c50a1cb4287dfd8862ea1028909ebc84b",
+    "focusedChecks": {
+      "fingerprint": "ada31b2e37dbff84ec800ce1350b040c50a1cb4287dfd8862ea1028909ebc84b",
+      "tests": [
+        "test_theme_ownership.py",
+        "test_keybinding_defaults.py",
+        "test_user_defaults.py"
+      ],
+      "product": "206d3d5b5b99f87818234833daae7cbc5d8a69f1",
+      "sourceKey": "910ed417daf5cb4ece1da9030551e606a1c57d804bbd075c99d0b50a3ef4eea8"
+    }
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.6.2-0.1",
+    "archive": "tamlinux-native-0.6.2-0.1-x86_64.pkg.tar.zst",
+    "sha256": "09d780485f9829caa88e66b5812c2f30ef8689ccdde2b569bd418a70db9ee380",
+    "productRevision": "c44453fb7c2b5c0618ad3e4e6f445941f1c30ebb",
+    "payloadId": "2a46392b01a65cd8f87aa53601d237734e12ff921ab8d24cc87b370e0e2cce1a"
+  },
+  "nativeRequirement": {
+    "payloadId": "2a46392b01a65cd8f87aa53601d237734e12ff921ab8d24cc87b370e0e2cce1a",
+    "interface": 1
+  },
+  "inclusions": [
+    {
+      "name": "tam",
+      "repo": "tam",
+      "sourcePath": ".",
+      "revision": "eee95ca4d2afd7441afac66bf877a736f85e75cf",
+      "output": "tam",
+      "artifact": "bin/tam",
+      "versions": {
+        "command": "0.48.2",
+        "corpus": "0.72.2"
+      }
+    }
+  ],
+  "readiness": {
+    "nativeInstallationRequired": true
+  }
+}
