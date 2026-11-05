@@ -754,18 +754,34 @@ let
     installPhase = "make -C commands/${name} install PREFIX=$out LIBTAM_PREFIX=${libtam}";
   };
   nativePayloads = lib.genAttrs nativeNames nativePayload;
-  # Commands install copies several desktop/ trees (audio, lock, migration,
-  # theme, session helpers, test-battery). Keep the full desktop/ input; do not
-  # narrow to assets/browser/theme alone.
+  # Desktop trees command installs and the payload installPhase actually copy.
+  # Keep this allowlist (not full desktop/): session/hypr looknfeel edits must
+  # not rebuild the commands payload. Do not drop audio/lock/migration/theme.
+  commandsDesktopAllow = [
+    "desktop/assets"
+    "desktop/audio"
+    "desktop/browser"
+    "desktop/lock"
+    "desktop/migration"
+    "desktop/theme"
+    "desktop/session/initialize.py"
+    "desktop/test-battery"
+    "desktop/virtual_input.py"
+    "desktop/plugins/fred.workspaces"
+    "desktop/shell/host"
+  ];
   commandsPayloadSource = builtins.path {
     path = product;
     name = "tamlinux-commands-payload-source";
     filter = path: type:
       let relative = lib.removePrefix ((toString product) + "/") (toString path);
+          allowDesktop = prefix:
+            relative == prefix || lib.hasPrefix (prefix + "/") relative;
       in toString path == toString product
         || relative == "LICENSE"
         || relative == "commands" || lib.hasPrefix "commands/" relative
-        || relative == "desktop" || lib.hasPrefix "desktop/" relative;
+        || relative == "desktop"
+        || lib.any allowDesktop commandsDesktopAllow;
   };
   commandsPayload = pkgs.stdenv.mkDerivation {
     NIX_LDFLAGS = "--build-id";

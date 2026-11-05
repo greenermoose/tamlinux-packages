@@ -26,12 +26,16 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    candidate VERSION stamps. Thin versioned wrappers only stamp metadata;
    the commands wrapper keeps derivation `.version` for assembly-contract.
    Shell payload filters must keep parent dirs (`share`) so `share/nftables`
-   is reachable. Commands payload still includes `commands/` and `desktop/`
-   (installs need audio, lock, migration, and related trees).
+   is reachable. Commands payload includes `commands/` plus a desktop allowlist
+   of trees installs copy (audio, lock, migration, theme, session helpers,
+   test-battery, assets, browser, workspaces host files) — not full
+   `desktop/` (0.6.10; avoids looknfeel-only rebuilds without repeating the
+   assets/browser/theme-only breakage).
 4. **Consumer prepare reuse** — `fred-stage prepare test` evals
    `activationPackage.outPath` first and reuses a realized store generation
    before calling `tam-deploy preflight` (0.6.9 restores this path; the
-   earlier preflight-first branch skipped reuse).
+   earlier preflight-first branch skipped reuse). Version-stamp matching
+   prevents reusing a different candidate's generation.
 5. **Deploy phase times** — `tam-deploy` records `phaseTimes` on successful
    install (preflight, realize, activate, shellRestart, verify, total).
 
@@ -39,4 +43,7 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
 
 Warm Package→Test after a small product delta should show assembly well under
 100 s with `rebuilds checks=` far below ~130, and machine total under ~60 s
-once prepare/deploy reuse lands in the measured run.
+once prepare/deploy reuse lands in the measured run. 0.6.9 measured 171 s
+machine / 105 s assembly with a commands-payload rebuild; 0.6.10 keeps that
+target and narrows the commands desktop input so shell/session-only product
+deltas skip the payload.

@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-04 — Tamlinux 0.6.10 commands payload desktop allowlist](2026-11-04-0.6.10-commands-desktop-allowlist.md)
+
 - [2026-11-04 — Tamlinux 0.6.9 speed and clean-host quickshell](2026-11-04-0.6.9-speed-quickshell.md)
 
 - [2026-11-04 — Restore tamlinux-commands wrapper version](2026-11-04-commands-wrapper-version.md)
@@ -29,6 +31,7 @@ archived or kept session notes as open deploy instructions — use
 
 | Date | Topic | Document |
 | --- | --- | --- |
+| 2026-11-04 | Tamlinux 0.6.10 commands payload desktop allowlist | [`2026-11-04-0.6.10-commands-desktop-allowlist.md`](2026-11-04-0.6.10-commands-desktop-allowlist.md) |
 | 2026-11-04 | Restore tamlinux-commands wrapper version | [`2026-11-04-commands-wrapper-version.md`](2026-11-04-commands-wrapper-version.md) |
 | 2026-11-04 | Pin-only source resume with unrelated dirty work | [`2026-11-04-pin-only-resume-dirty.md`](2026-11-04-pin-only-resume-dirty.md) |
 | 2026-11-04 | Tamlinux 0.6.6 package/test speed (assembly) | [`2026-11-04-0.6.6-package-speed.md`](2026-11-04-0.6.6-package-speed.md) |
