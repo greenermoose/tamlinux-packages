@@ -775,8 +775,12 @@ let
     name = "tamlinux-commands-payload-source";
     filter = path: type:
       let relative = lib.removePrefix ((toString product) + "/") (toString path);
+          # Allow listed trees, their descendants, and parent dirs Nix must
+          # traverse (e.g. desktop/plugins for fred.workspaces).
           allowDesktop = prefix:
-            relative == prefix || lib.hasPrefix (prefix + "/") relative;
+            relative == prefix
+            || lib.hasPrefix (prefix + "/") relative
+            || lib.hasPrefix (relative + "/") prefix;
       in toString path == toString product
         || relative == "LICENSE"
         || relative == "commands" || lib.hasPrefix "commands/" relative

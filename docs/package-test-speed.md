@@ -30,7 +30,8 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
    of trees installs copy (audio, lock, migration, theme, session helpers,
    test-battery, assets, browser, workspaces host files) — not full
    `desktop/` (0.6.10; avoids looknfeel-only rebuilds without repeating the
-   assets/browser/theme-only breakage).
+   assets/browser/theme-only breakage). Parent directories of allowlisted
+   paths are kept so `builtins.path` can traverse them.
 4. **Consumer prepare reuse** — `fred-stage prepare test` evals
    `activationPackage.outPath` first and reuses a realized store generation
    before calling `tam-deploy preflight` (0.6.9 restores this path; the
