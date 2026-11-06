@@ -30,6 +30,10 @@ pkgs.runCommand "tamlinux-installed-components"
     ''}
     TAM_PLUGIN_STORAGE_ROOT=${components.tamlinux-plugins}/share/tamlinux/plugins \
       ${pkgs.python3}/bin/python3 -B ${productSource}/desktop/tests/test_plugin_storage.py
+    # desktop/tests skips these where Python has no json5; run them here with it.
+    ${pkgs.python3.withPackages (python: [ python.json5 ])}/bin/python3 -B -m unittest discover -v \
+      -s ${productSource}/desktop/tests -p test_migration.py 2>&1 | tee migration-tests.log
+    grep -q '^OK$' migration-tests.log
     ${pkgs.lib.optionalString (pkgs.lib.elem "tam-shell" components.tamlinux-commands.passthru.names) ''
       ${pkgs.python3}/bin/python3 -B ${./installed-desktop-helpers.py} \
         --commands ${components.tamlinux-commands} --shell ${components.tamlinux-shell} \
