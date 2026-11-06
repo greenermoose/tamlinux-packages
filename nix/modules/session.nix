@@ -112,6 +112,7 @@ in {
     };
     home.packages = [ pkgs.udiskie pkgs.helix pkgs.nix.man ];
     fonts.fontconfig.enable = true;
+    programs.man.generateCaches = lib.mkDefault true;
     systemd.user.services.tam-crash-watch = {
       Unit = {
         Description = "Tamlinux process crash notifications";

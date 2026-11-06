@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-06 — Generate man page caches in Home Manager session module](2026-11-06-man-cache-generation.md)
+
 - [2026-11-06 — Run the json5 migration tests in the installed components check](2026-11-06-json5-migration-tests.md)
 
 - [2026-11-04 — Tamlinux 0.6.10 commands payload desktop allowlist](2026-11-04-0.6.10-commands-desktop-allowlist.md)

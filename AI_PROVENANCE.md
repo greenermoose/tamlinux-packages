@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-06: Antigravity `1.4.12` (`gemini-3.8-flash`) enables Home Manager man page cache generation in the session module (D228). [Session](docs/ai/2026-11-06-man-cache-generation.md).
+
 2026-11-06: Claude Code `2.1.318` (`claude-opus-5-5`) runs the `json5` migration tests in the installed components check. [Session](docs/ai/2026-11-06-json5-migration-tests.md).
 
 2026-11-06: Claude Code `2.1.318` (`claude-opus-5-5`) gives `tam-open`'s Nix viewers a GPU driver after `imv` aborted on a non-NixOS host. [Session](docs/ai/2026-11-06-tam-open-graphics.md).
