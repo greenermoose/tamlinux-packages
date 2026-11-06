@@ -263,7 +263,8 @@ class PrepareCandidate(unittest.TestCase):
     def test_unchanged_checks_are_reused_and_prepare_records_all_ten(self):
         self.ok('version', '0.4.4-c')
         self.ok('build')
-        result = self.ok('prepare', '--product', str(self.product), '--parent', PARENT, '--scope', 'x')
+        result = self.ok('prepare', '--product', str(self.product), '--parent', PARENT, '--scope', 'x',
+                         '--skip-fleet-profiles')
         self.assertIn('reusing focused checks', result.stdout)
         record = json.loads((self.root/'deliveries/tamlinux-0.4.4-c.json').read_text())
         self.assertEqual(len(record['verification']['builtTargets']), 10)
