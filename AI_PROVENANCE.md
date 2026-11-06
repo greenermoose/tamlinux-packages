@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-06: Claude Code `2.1.318` (`claude-opus-5-5`) gives `tam-open`'s Nix viewers a GPU driver after `imv` aborted on a non-NixOS host. [Session](docs/ai/2026-11-06-tam-open-graphics.md).
+
 2026-11-04: Cursor (`composer`) narrows the commands payload desktop allowlist for Tamlinux 0.6.10 Package/Test speed. [Session](docs/ai/2026-11-04-0.6.10-commands-desktop-allowlist.md).
 
 2026-11-04: Cursor (`composer`) recovers Package/Test speed for 0.6.9 and unblocks Pacman quickshell removal in the clean-host collector. [Session](docs/ai/2026-11-04-0.6.9-speed-quickshell.md).
