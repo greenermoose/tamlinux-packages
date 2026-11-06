@@ -206,8 +206,9 @@ let
   themeFontPython = pkgs.python3.withPackages (python: [ python.fonttools ]);
   themeTools = [ pkgs.coreutils pkgs.python3 pkgs.gawk pkgs.gnused pkgs.gnugrep
     pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq pkgs.dconf ];
+  withNixGraphics = import ./nix-graphics.nix { inherit pkgs; };
   commandRuntimeDeps = {
-    tam-dev = [ pkgs.python3 pkgs.git pkgs.gnumake pkgs.coreutils pkgs.systemd ];
+    tam-dev =[ pkgs.python3 pkgs.git pkgs.gnumake pkgs.coreutils pkgs.systemd ];
     tam-desktop-test = [ pkgs.python3 pkgs.wl-clipboard pkgs.libnotify pkgs.util-linux pkgs.systemd ];
     start = [ ];
     tam-macro = [ pkgs.python3 pkgs.wl-clipboard ];
@@ -269,7 +270,11 @@ let
     tam-notification-battery = [ ];
     tam-notification-time = [ pkgs.coreutils ];
     tam-hardware = [ ];
-    tam-open = [ pkgs.zathura pkgs.imv pkgs.mpv pkgs.micro pkgs.hexyl pkgs.hexedit pkgs.p7zip pkgs.poppler-utils pkgs.less pkgs.lynx pkgs.coreutils pkgs.libarchive ];
+    tam-open = [
+      (withNixGraphics { package = pkgs.zathura; programs = [ "zathura" ]; })
+      (withNixGraphics { package = pkgs.imv; programs = [ "imv" "imv-wayland" "imv-x11" ]; })
+      (withNixGraphics { package = pkgs.mpv; programs = [ "mpv" ]; })
+      pkgs.micro pkgs.hexyl pkgs.hexedit pkgs.p7zip pkgs.poppler-utils pkgs.less pkgs.lynx pkgs.coreutils pkgs.libarchive ];
     tam-hw-touchpad = [ pkgs.jq ];
     tam-hw-touchscreen = [ pkgs.jq ];
     tam-hw-laptop = [ ];

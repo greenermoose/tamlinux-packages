@@ -108,6 +108,20 @@ pkgs.runCommand "tamlinux-installed-components"
       test -x ${components.tamlinux-commands}/bin/tam-open
       ${components.tamlinux-commands}/bin/tam-open --help | grep -q tam-open
       ${components.tamlinux-commands}/bin/tam-open --version | grep -q 0.1.0
+      # A bare Nix viewer has no GPU driver on a non-NixOS host and imv aborts.
+      viewers=$(grep -oE '/nix/store/[^:'"'"']*-tamlinux-graphics/bin' ${components.tamlinux-commands}/bin/tam-open | sort -u)
+      for viewer in imv mpv zathura; do
+        found=0
+        for dir in $viewers; do
+          if [ -x "$dir/$viewer" ]; then
+            found=1
+            vendor=$(sed -n "s/^export __EGL_VENDOR_LIBRARY_FILENAMES='\(.*\)'$/\1/p" "$dir/$viewer")
+            jq -e '.ICD.library_path | startswith("/nix/store/")' "$vendor"
+            test -d "$(sed -n "s/^export LIBGL_DRIVERS_PATH='\(.*\)'$/\1/p" "$dir/$viewer")"
+          fi
+        done
+        test "$found" = 1
+      done
     ''}
     mkdir -p $out
     cp consumer consumer.c $out/
