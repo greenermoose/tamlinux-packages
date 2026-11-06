@@ -2,12 +2,16 @@
 
 - **CLI Tool**: `claude` `2.1.318`
 - **Model**: Claude Opus 5.5 (`claude-opus-5-5`)
-- **Commit**: `753932f`
+- **Commits**: `753932f`, `3053685`
 - **Transcript**: Retained privately by the author.
 - **Prompts**:
   > A process crashed on this workstation and I want to know why. (excerpt)
 
   > Yes, make the fix on develop
+
+  > Yes
+
+  > Include all the commands you fix in Tamlinux 0.6.13
 
 ## Key decisions and implementation notes
 
@@ -19,8 +23,8 @@
   `--set` because a value inherited from another closure would not work either.
 - All three viewers are wrapped because they share the cause: `imv` and `mpv`
   aborted, and `zathura` fell back to CPU rendering.
-- `tam-capture-screenrecording` and `tam-chromium-ytdlp-host` still use the bare
-  `mpv`. They were outside this request and were not tested or changed.
+- `3053685` moves `tam-capture-screenrecording`, `tam-chromium-ytdlp-host` and
+  the capture tools manifest onto one shared wrapped `mpv`.
 
 ## Verification
 
@@ -34,3 +38,6 @@ live Hyprland session.
 - The built `tam-open` exited 0 and an `imv` window appeared in the compositor.
 - `nix build .#tamlinux-commands` and the `installed-components` check passed.
   The check now fails if a viewer's wrapper or Mesa paths are missing.
+- All four `mpv` uses resolve to the same store path that passed the playback
+  test above. Webcam preview and yt-dlp playback through those commands were
+  not run.
