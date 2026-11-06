@@ -197,7 +197,7 @@ let
     englishData = "${englishOcr}/share/tessdata/eng.traineddata";
     zbarimg = "${pkgs.zbar}/bin/zbarimg";
     v4l2-ctl = "${pkgs.v4l-utils}/bin/v4l2-ctl";
-    mpv = "${pkgs.mpv}/bin/mpv";
+    mpv = "${mpvWithGraphics}/bin/mpv";
     ffmpeg = "${lib.getBin pkgs.ffmpeg}/bin/ffmpeg";
     ffprobe = "${lib.getBin pkgs.ffmpeg}/bin/ffprobe";
   };
@@ -207,6 +207,7 @@ let
   themeTools = [ pkgs.coreutils pkgs.python3 pkgs.gawk pkgs.gnused pkgs.gnugrep
     pkgs.findutils pkgs.util-linux pkgs.procps pkgs.jq pkgs.dconf ];
   withNixGraphics = import ./nix-graphics.nix { inherit pkgs; };
+  mpvWithGraphics = withNixGraphics { package = pkgs.mpv; programs = [ "mpv" ]; };
   commandRuntimeDeps = {
     tam-dev =[ pkgs.python3 pkgs.git pkgs.gnumake pkgs.coreutils pkgs.systemd ];
     tam-desktop-test = [ pkgs.python3 pkgs.wl-clipboard pkgs.libnotify pkgs.util-linux pkgs.systemd ];
@@ -273,7 +274,7 @@ let
     tam-open = [
       (withNixGraphics { package = pkgs.zathura; programs = [ "zathura" ]; })
       (withNixGraphics { package = pkgs.imv; programs = [ "imv" "imv-wayland" "imv-x11" ]; })
-      (withNixGraphics { package = pkgs.mpv; programs = [ "mpv" ]; })
+      mpvWithGraphics
       pkgs.micro pkgs.hexyl pkgs.hexedit pkgs.p7zip pkgs.poppler-utils pkgs.less pkgs.lynx pkgs.coreutils pkgs.libarchive ];
     tam-hw-touchpad = [ pkgs.jq ];
     tam-hw-touchscreen = [ pkgs.jq ];
@@ -350,7 +351,7 @@ let
       pkgs.wl-clipboard englishOcr ];
     tam-capture-qr = [ pkgs.coreutils pkgs.hyprpicker pkgs.slurp pkgs.grim pkgs.wl-clipboard pkgs.zbar ];
     tam-capture-screenrecording = [ pkgs.coreutils pkgs.util-linux pkgs.jq
-      pkgs.gnugrep pkgs.gnused pkgs.v4l-utils pkgs.mpv pkgs.ffmpeg ];
+      pkgs.gnugrep pkgs.gnused pkgs.v4l-utils mpvWithGraphics pkgs.ffmpeg ];
     tam-capture-screenrecording-with-webcam = [ ];
     tam-capture-webcam-list = [ pkgs.v4l-utils pkgs.gawk ];
     tam-capture-webcam-resize = [ pkgs.jq ];
@@ -438,7 +439,7 @@ let
     tam-audio-input-set-default = [ pkgs.wireplumber pkgs.pulseaudio pkgs.gawk ];
     tam-browser-command = [ pkgs.python3 ];
     tam-chromium-copy-url-host = [ pkgs.coreutils pkgs.python3 pkgs.wl-clipboard ];
-    tam-chromium-ytdlp-host = [ pkgs.bash pkgs.python3 pkgs.yt-dlp pkgs.ffmpeg pkgs.mpv
+    tam-chromium-ytdlp-host = [ pkgs.bash pkgs.python3 pkgs.yt-dlp pkgs.ffmpeg mpvWithGraphics
       pkgs.coreutils pkgs.jq ];
     tam-default-browser = [ pkgs.coreutils pkgs.xdg-utils ];
     tam-launch-browser = [ pkgs.coreutils pkgs.jq pkgs.gnugrep

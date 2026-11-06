@@ -104,24 +104,39 @@ pkgs.runCommand "tamlinux-installed-components"
         ${components.tamlinux-commands}/bin/tam-hardware --json | ${pkgs.jq}/bin/jq -e '.schema == 1 and .cpu.brand != null'
       ${components.tamlinux-commands}/bin/tam-hardware --help | grep -q tam-hardware
     ''}
-    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-open" components.tamlinux-commands.passthru.names) ''
-      test -x ${components.tamlinux-commands}/bin/tam-open
-      ${components.tamlinux-commands}/bin/tam-open --help | grep -q tam-open
-      ${components.tamlinux-commands}/bin/tam-open --version | grep -q 0.1.0
-      # A bare Nix viewer has no GPU driver on a non-NixOS host and imv aborts.
-      viewers=$(grep -oE '/nix/store/[^:'"'"']*-tamlinux-graphics/bin' ${components.tamlinux-commands}/bin/tam-open | sort -u)
-      for viewer in imv mpv zathura; do
+    # A bare Nix viewer has no GPU driver on a non-NixOS host and imv and mpv abort.
+    check_graphics_program() {
+      vendor=$(sed -n "s/^export __EGL_VENDOR_LIBRARY_FILENAMES='\(.*\)'$/\1/p" "$1")
+      jq -e '.ICD.library_path | startswith("/nix/store/")' "$vendor"
+      test -d "$(sed -n "s/^export LIBGL_DRIVERS_PATH='\(.*\)'$/\1/p" "$1")"
+    }
+    check_nix_graphics() {
+      command=$1
+      shift
+      viewers=$(grep -oE '/nix/store/[^:'"'"']*-tamlinux-graphics/bin' "$command" | sort -u)
+      for viewer in "$@"; do
         found=0
         for dir in $viewers; do
           if [ -x "$dir/$viewer" ]; then
             found=1
-            vendor=$(sed -n "s/^export __EGL_VENDOR_LIBRARY_FILENAMES='\(.*\)'$/\1/p" "$dir/$viewer")
-            jq -e '.ICD.library_path | startswith("/nix/store/")' "$vendor"
-            test -d "$(sed -n "s/^export LIBGL_DRIVERS_PATH='\(.*\)'$/\1/p" "$dir/$viewer")"
+            check_graphics_program "$dir/$viewer"
           fi
         done
         test "$found" = 1
       done
+    }
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-open" components.tamlinux-commands.passthru.names) ''
+      test -x ${components.tamlinux-commands}/bin/tam-open
+      ${components.tamlinux-commands}/bin/tam-open --help | grep -q tam-open
+      ${components.tamlinux-commands}/bin/tam-open --version | grep -q 0.1.0
+      check_nix_graphics ${components.tamlinux-commands}/bin/tam-open imv mpv zathura
+    ''}
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-capture-screenrecording" components.tamlinux-commands.passthru.names) ''
+      check_nix_graphics ${components.tamlinux-commands}/bin/tam-capture-screenrecording mpv
+      check_graphics_program "$(jq -er .mpv ${components.tamlinux-commands}/share/tamlinux/capture-tools.json)"
+    ''}
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-chromium-ytdlp-host" components.tamlinux-commands.passthru.names) ''
+      check_nix_graphics ${components.tamlinux-commands}/bin/tam-chromium-ytdlp-host mpv
     ''}
     mkdir -p $out
     cp consumer consumer.c $out/
