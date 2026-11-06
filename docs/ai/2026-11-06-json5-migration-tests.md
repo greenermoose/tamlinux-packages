@@ -2,7 +2,7 @@
 
 - **CLI Tool**: `claude` `2.1.318`
 - **Model**: Claude Opus 5.5 (`claude-opus-5-5`)
-- **Commit**: `811609e`
+- **Commits**: `811609e`, `5481609`
 - **Authorship**: AI-assisted, directed by Fred.
 - **Transcript**: Retained privately by the author.
 - **Prompts**:
@@ -20,6 +20,10 @@
 `tamlinux` now skips its `json5` migration tests where Python lacks the module. This
 check runs them with a Python that has it, so they are still enforced, and it fails
 if any is skipped.
+
+`test_prepare_candidate` had failed since `prepare` began building fleet profiles by
+default. It tests check reuse, so it now skips them. All 165 unit tests pass from a
+clean clone, and a candidate now has to pass them.
 
 ### Verification
 
