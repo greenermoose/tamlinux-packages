@@ -104,6 +104,11 @@ pkgs.runCommand "tamlinux-installed-components"
         ${components.tamlinux-commands}/bin/tam-hardware --json | ${pkgs.jq}/bin/jq -e '.schema == 1 and .cpu.brand != null'
       ${components.tamlinux-commands}/bin/tam-hardware --help | grep -q tam-hardware
     ''}
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-open" components.tamlinux-commands.passthru.names) ''
+      test -x ${components.tamlinux-commands}/bin/tam-open
+      ${components.tamlinux-commands}/bin/tam-open --help | grep -q tam-open
+      ${components.tamlinux-commands}/bin/tam-open --version | grep -q 0.1.0
+    ''}
     mkdir -p $out
     cp consumer consumer.c $out/
   ''

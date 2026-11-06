@@ -269,6 +269,7 @@ let
     tam-notification-battery = [ ];
     tam-notification-time = [ pkgs.coreutils ];
     tam-hardware = [ ];
+    tam-open = [ pkgs.zathura pkgs.imv pkgs.mpv pkgs.micro pkgs.hexyl pkgs.hexedit pkgs.p7zip pkgs.poppler-utils pkgs.less pkgs.lynx pkgs.coreutils pkgs.libarchive ];
     tam-hw-touchpad = [ pkgs.jq ];
     tam-hw-touchscreen = [ pkgs.jq ];
     tam-hw-laptop = [ ];
@@ -704,8 +705,9 @@ let
   nativeNames = lib.filter (name:
     has "commands/${name}/native.c"
     || (name == "tam-hardware" && has "commands/${name}/Makefile")
+    || (name == "tam-open" && has "commands/${name}/Makefile")
     || (name == "start" && has "commands/start/Makefile")
-  ) [ "tam-monitor" "tam-hardware" "start" ];
+  ) [ "tam-monitor" "tam-hardware" "tam-open" "start" ];
   commandChecks = lib.genAttrs (lib.subtractLists nativeNames commandNames) (name: pkgs.stdenv.mkDerivation {
     pname = "${name}-checks";
     version = "1";
@@ -737,7 +739,8 @@ let
     nativeBuildInputs = [ pkgs.pkg-config pkgs.python3 pkgs.bash ];
     buildInputs = [ libtam ]
       ++ lib.optionals (name == "tam-monitor") [ pkgs.systemd pkgs.libdrm ]
-      ++ lib.optionals (name == "tam-hardware") [ pkgs.libcpuid ];
+      ++ lib.optionals (name == "tam-hardware") [ pkgs.libcpuid ]
+      ++ lib.optionals (name == "tam-open") [ pkgs.file ];
     dontStrip = true;
     buildPhase = "make -C commands/${name} LIBTAM_PREFIX=${libtam}";
     doCheck = true;
