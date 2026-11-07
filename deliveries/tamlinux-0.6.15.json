@@ -4,7 +4,7 @@
   "version": "0.6.15",
   "stage": "Develop candidate prepared for Test",
   "packagingRevision": "The Git commit containing this record",
-  "parentAssembly": "65fda2f193c4b6abb64ffab4a13dcd7fe620826e",
+  "parentAssembly": "cd892423b6e297b36306bf77d597f369177d759b",
   "scope": "Selected development state for 0.6.15",
   "components": {
     "home-manager": {
@@ -32,11 +32,11 @@
       "type": "github"
     },
     "tam": {
-      "lastModified": 1794001344,
-      "narHash": "sha256-yhGvdptwiwYV/5XgW9LC7nKL/V0docB2fW+mQ7Bre5k=",
+      "lastModified": 1794078369,
+      "narHash": "sha256-MUSaCFLoMYFdfUZfmld6GdJJJbObKIw7WJlfx52AztA=",
       "owner": "greenermoose",
       "repo": "tam",
-      "rev": "b3516f82dd048dcc912760f3a606b4019fc0f39e",
+      "rev": "8eb2fe6ef5a359fa0211a375aa19624f05cec4d8",
       "type": "github"
     },
     "tamlinux": {
@@ -76,9 +76,9 @@
       }
     },
     {
-      "drvPath": "/nix/store/bvmczm8sjzwk01zmrc55gg9b0j7jckzd-tam-0.49.1.drv",
+      "drvPath": "/nix/store/c7ihdsdrx1bhaqf1rc1yqj5y06hl7bd7-tam-0.49.1.drv",
       "outputs": {
-        "out": "/nix/store/6p73j9krqqjr4i3r1piw2jwrlyijhyb3-tam-0.49.1"
+        "out": "/nix/store/vkka665zvqwdlidwiqnlyn8ymzwps58b-tam-0.49.1"
       }
     },
     {
@@ -94,27 +94,27 @@
       }
     },
     {
-      "drvPath": "/nix/store/spcy2jxyq2vfibh0qlw5vwggjpb8ry56-tamlinux-assembly-contract.drv",
+      "drvPath": "/nix/store/g6ir0gb1w6awzy0bdqx3sbfxvsz772zh-tamlinux-assembly-contract.drv",
       "outputs": {
-        "out": "/nix/store/05hvq06j8j9ybi8b3xp8mld1d7xfjmfc-tamlinux-assembly-contract"
+        "out": "/nix/store/fbvn2dfzjcxircjjmvapz4nc7jvh2pf0-tamlinux-assembly-contract"
       }
     },
     {
-      "drvPath": "/nix/store/615xag0idlsyqg3mmgn7883z6sa85qix-tamlinux-installed-components.drv",
+      "drvPath": "/nix/store/hcnfdrrdd4avs25ipjpvaa1ng2hy2zb8-tamlinux-installed-components.drv",
       "outputs": {
-        "out": "/nix/store/mdakkq6mcimn6hmp6aknnjk7rxsfnaiy-tamlinux-installed-components"
+        "out": "/nix/store/25y9sbnzxpa3qgrsxj80cl7m0pbifpki-tamlinux-installed-components"
       }
     },
     {
-      "drvPath": "/nix/store/xslnlxmjak17iimidyj6x4wra5cl2pnq-tamlinux-fresh-session-contract.drv",
+      "drvPath": "/nix/store/5ihdlmr3yviky6mljzn48aawrkvp30mp-tamlinux-fresh-session-contract.drv",
       "outputs": {
-        "out": "/nix/store/ic5mgg5di50ljqw322c3hdnlgsv5024p-tamlinux-fresh-session-contract"
+        "out": "/nix/store/m84xhfvx9qcaj0agc8vi1b1bic0lpv80-tamlinux-fresh-session-contract"
       }
     },
     {
-      "drvPath": "/nix/store/yxrk69wxq36yrz8q0j47bw9k3g95qrkb-tamlinux-example-contract.drv",
+      "drvPath": "/nix/store/x76h69j0j666jbnwgalfw0mfqw38ic1j-tamlinux-example-contract.drv",
       "outputs": {
-        "out": "/nix/store/ry05jfyln7qh9lxxizgaqg5njhcbg1xr-tamlinux-example-contract"
+        "out": "/nix/store/zxi1khvnqsr7894jx56107xsqwsh3fax-tamlinux-example-contract"
       }
     }
   ],
@@ -132,9 +132,9 @@
       ".#checks.x86_64-linux.example-contract"
     ],
     "build": "pass",
-    "fingerprint": "b60cc7d4713f06666c664f8ed57ffe9354428940e649cb965d4baf30598ba88f",
+    "fingerprint": "4bd10cc3af54eac74c2a33b3dc63eba0bde024e54cf2f443f47d963d2de65ddc",
     "focusedChecks": {
-      "fingerprint": "b60cc7d4713f06666c664f8ed57ffe9354428940e649cb965d4baf30598ba88f",
+      "fingerprint": "4bd10cc3af54eac74c2a33b3dc63eba0bde024e54cf2f443f47d963d2de65ddc",
       "tests": [
         "test_theme_ownership.py",
         "test_keybinding_defaults.py",
