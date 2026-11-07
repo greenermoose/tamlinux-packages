@@ -81,6 +81,7 @@ in
     home.packages = [ cfg.commandPackage ] ++ lib.optional (cfg.quickshellPackage != null) cfg.quickshellPackage;
     home.sessionVariables = {
       TAMLINUX_STAY_AWAKE_FILE = stayAwakeStateFile;
+      TAMLINUX_VERSION_NOTES = "${shell}/share/tamlinux/version-notes.txt";
     } // lib.optionalAttrs (cfg.quickshellPackage != null) {
       TAMLINUX_QUICKSHELL = "${cfg.quickshellPackage}/bin/quickshell";
       TAMLINUX_QUICKSHELL_IPC = "${cfg.quickshellPackage}/bin/qs";
@@ -121,6 +122,8 @@ in
       {
         # Identity follows the selected assembly, including in fresh consumers.
         ".config/tamlinux/version".text = "${shell.passthru.version}\n";
+        ".config/tamlinux/version-notes.txt".source = "${shell}/share/tamlinux/version-notes.txt";
+        ".local/share/tamlinux/version-notes.txt".source = "${shell}/share/tamlinux/version-notes.txt";
         ".local/share/tamlinux/shell".source = "${shell}/share/tamlinux/shell";
         ".local/share/tamlinux/shell-revision".text = "${shell.passthru.revision}\n";
         ".local/share/tamlinux/deployment-selection.json".text = builtins.toJSON {
@@ -232,6 +235,7 @@ in
           "TAMLINUX_SERVICES=theme,notifications,osd,clipboard,emojis,imagepicker,reminders,menu,background,polkit,media,idle,nightlight,battery,keybindings,panels"
           "TAMLINUX_PANELS=audio,bluetooth,network,wifiqr,power,speedtest,disk-speedtest"
           "TAMLINUX_STAY_AWAKE_FILE=${stayAwakeStateFile}"
+          "TAMLINUX_VERSION_NOTES=${shell}/share/tamlinux/version-notes.txt"
           "TAMLINUX_BACKGROUND_LINK=${cfg.backgroundLink}"
           "TAMLINUX_MENU_EXTENSION=${cfg.menuExtension}"
           "TAMLINUX_APP_REMOVER=tam-remove-launcher-entry"

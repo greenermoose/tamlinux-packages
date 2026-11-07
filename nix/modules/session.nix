@@ -81,6 +81,7 @@ in {
         export TAMLINUX_QUICKSHELL=${shell.quickshellPackage}/bin/quickshell
         export TAMLINUX_QUICKSHELL_IPC=${shell.quickshellPackage}/bin/qs
         export TAMLINUX_STAY_AWAKE_FILE=${lib.escapeShellArg config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE}
+        export TAMLINUX_VERSION_NOTES=${lib.escapeShellArg config.home.sessionVariables.TAMLINUX_VERSION_NOTES}
       '';
       "xdg-desktop-portal/hyprland-portals.conf".text = ''
         [preferred]

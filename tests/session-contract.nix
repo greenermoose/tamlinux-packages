@@ -40,6 +40,8 @@ assert builtins.elem "TAMLINUX_QUICKSHELL_IPC=${q}/bin/qs" unit.Environment;
 assert c.home.sessionVariables.TAMLINUX_QUICKSHELL_IPC == "${q}/bin/qs";
 assert c.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE == "/home/alex/.local/state/tamlinux/stay-awake";
 assert builtins.elem "TAMLINUX_STAY_AWAKE_FILE=${c.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE}" unit.Environment;
+assert c.home.sessionVariables.TAMLINUX_VERSION_NOTES == "${components.tamlinux-shell}/share/tamlinux/version-notes.txt";
+assert builtins.elem "TAMLINUX_VERSION_NOTES=${c.home.sessionVariables.TAMLINUX_VERSION_NOTES}" unit.Environment;
 assert customHome.config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE == "/home/alex/state with spaces/tamlinux/stay-awake";
 assert builtins.elem "TAMLINUX_STAY_AWAKE_FILE=${customHome.config.home.sessionVariables.TAMLINUX_STAY_AWAKE_FILE}"
   customHome.config.systemd.user.services.tamlinux-shell.Service.Environment;
@@ -150,9 +152,10 @@ PY
   grep -q ${q}/bin/qs ${files}/.config/uwsm/env.d/10-tamlinux.sh
   # Source the actual delivered session snippets: a spaced custom XDG root
   # must reach command/suspend clients as the same single path as the bar.
-  ${pkgs.bash}/bin/bash -c '. "$1"; test "$TAMLINUX_STAY_AWAKE_FILE" = "$2"' -- \
+  ${pkgs.bash}/bin/bash -c '. "$1"; test "$TAMLINUX_STAY_AWAKE_FILE" = "$2" && test "$TAMLINUX_VERSION_NOTES" = "$3" && test -f "$TAMLINUX_VERSION_NOTES"' -- \
     ${files}/.config/uwsm/env.d/10-tamlinux.sh \
-    /home/alex/.local/state/tamlinux/stay-awake
+    /home/alex/.local/state/tamlinux/stay-awake \
+    ${components.tamlinux-shell}/share/tamlinux/version-notes.txt
   ${pkgs.bash}/bin/bash -c '. "$1"; test "$TAMLINUX_STAY_AWAKE_FILE" = "$2"' -- \
     ${customHome.activationPackage}/home-files/.config/uwsm/env.d/10-tamlinux.sh \
     '/home/alex/state with spaces/tamlinux/stay-awake'

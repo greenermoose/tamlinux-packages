@@ -150,6 +150,71 @@ let
   letterVersion = builtins.match "([0-9]+\\.[0-9]+\\.[0-9]+)-([a-z]+)" productVersion;
   packageVersion = if letterVersion == null then productVersion
     else "${builtins.elemAt letterVersion 0}pre.${builtins.elemAt letterVersion 1}";
+  assemblyRoot = ../..;
+  versionNotesPath = assemblyRoot + "/notes/tamlinux-${productVersion}.txt";
+  deliveryRecordPath = assemblyRoot + "/deliveries/tamlinux-${productVersion}.json";
+  inferredParentVersion =
+    let
+      parts = builtins.match "([0-9]+)\\.([0-9]+)\\.([0-9]+)" productVersion;
+      patch = if parts == null then 0 else lib.toInt (builtins.elemAt parts 2);
+      prev = if parts == null || patch <= 0 then null
+        else "${builtins.elemAt parts 0}.${builtins.elemAt parts 1}.${toString (patch - 1)}";
+    in
+    if prev != null && builtins.pathExists (assemblyRoot + "/deliveries/tamlinux-${prev}.json")
+    then prev else null;
+  renderDeliveryNotes = delivery:
+    let
+      inclusions = delivery.inclusions or [ ];
+      components = delivery.components or { };
+      parentVer = delivery.parentVersion or inferredParentVersion;
+      formatInclusion = item:
+        let
+          name = item.name or "component";
+          versions = item.versions or null;
+          ver = item.version or null;
+          rev = item.revision or (if (item ? repo) && item.repo != null && (components ? ${item.repo}) then (components.${item.repo}.rev or null) else null);
+          repo = item.repo or null;
+          summary = item.summary or null;
+          label =
+            if versions != null && (versions ? command) && (versions ? corpus) then
+              "${name} ${versions.command} (${versions.corpus})"
+            else if ver != null then
+              "${name} ${ver}"
+            else
+              name;
+        in
+        if summary != null && summary != "" then
+          "- ${label}: ${summary}"
+        else if label != name then
+          "- ${label}"
+        else if repo != null && rev != null && rev != "" then
+          "- ${name} (${repo} ${builtins.substring 0 12 rev})"
+        else if repo != null then
+          "- ${name} (${repo})"
+        else
+          "- ${name}";
+      componentNames = lib.filter (n: components ? ${n}) [ "libtam" "tam" "tamlinux-tools" "tamlinux" ];
+      formatComponent = name:
+        let
+          c = components.${name};
+          rev = c.rev or "";
+        in
+        if rev != "" then "- ${name} (${builtins.substring 0 12 rev})" else "- ${name}";
+      bullets =
+        if inclusions != [ ] then map formatInclusion inclusions
+        else if componentNames != [ ] then map formatComponent componentNames
+        else [ "- tamlinux (${builtins.substring 0 12 (product.rev or "unknown")})" ];
+      header = [ "Tamlinux ${productVersion} version notes" "" ]
+        ++ lib.optional (parentVer != null && parentVer != "" && parentVer != productVersion) "Changes since Tamlinux ${parentVer}:";
+    in
+    lib.concatStringsSep "\n" (header ++ bullets) + "\n";
+  versionNotesText =
+    if builtins.pathExists versionNotesPath then
+      builtins.readFile versionNotesPath
+    else if builtins.pathExists deliveryRecordPath then
+      renderDeliveryNotes (builtins.fromJSON (builtins.readFile deliveryRecordPath))
+    else
+      "Tamlinux ${productVersion} version notes\n\n- tamlinux (${builtins.substring 0 12 (product.rev or "unknown")})\n";
   features = {
     menu = has "desktop/menu/default.jsonc" && has "desktop/menu/tam-menu";
     protocolShadow = has "desktop/protocol-shadow";
@@ -541,6 +606,8 @@ let
         cp -a ${shellPayload}/. $out/
         chmod -R u+w $out
         printf '%s\n' ${lib.escapeShellArg productVersion} > $out/share/tamlinux/version
+        printf '%s' ${lib.escapeShellArg versionNotesText} > $out/share/tamlinux/version-notes.txt
+        chmod 644 $out/share/tamlinux/version-notes.txt
         ${lib.optionalString (productCultivar != null) "printf '%s\\n' ${lib.escapeShellArg productCultivar} > $out/share/tamlinux/cultivar"}
         printf '%s\n' ${lib.escapeShellArg product.rev} > $out/share/tamlinux/source-revision
         ${lib.optionalString features.consoleWelcome ''
@@ -902,6 +969,9 @@ let
   } ''
     cp -a ${commandsPayload}/. $out/
     chmod -R u+w $out
+    mkdir -p $out/share/tamlinux
+    printf '%s' ${lib.escapeShellArg versionNotesText} > $out/share/tamlinux/version-notes.txt
+    chmod 644 $out/share/tamlinux/version-notes.txt
     if [ -d $out/share/tamlinux/assets ]; then
       printf '%s\n' ${lib.escapeShellArg productVersion} > $out/share/tamlinux/assets/version
     fi

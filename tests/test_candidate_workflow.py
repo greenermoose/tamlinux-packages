@@ -361,6 +361,11 @@ class Workflow(unittest.TestCase):
             self.assertEqual(result['phase'],'frozen');self.assertEqual(result['version'],'0.6.2')
             delivery = json.loads((self.packages/'deliveries/tamlinux-0.6.2.json').read_text())
             self.assertEqual(delivery['inclusions'], required)
+            notes = (self.packages/'notes/tamlinux-0.6.2.txt').read_text()
+            self.assertIn('Tamlinux 0.6.2 version notes\n\nChanges since Tamlinux 0.6.1:\n', notes)
+            self.assertIn('- tam 1.2.3 (4.5.6)\n', notes)
+            self.assertIn('- tam-desktop-test (tamlinux ', notes)
+            self.assertEqual(self.git(self.packages, 'show', 'HEAD:notes/tamlinux-0.6.2.txt'), notes.strip())
             before=log.read_text();head=self.git(self.packages,'rev-parse','HEAD')
             (product/'source').write_text('new development after selection')
             resumed=self.flow.prepare('0.6.2',resume=True,trailers='AI-Tool: fixture')
@@ -372,3 +377,52 @@ class Workflow(unittest.TestCase):
             required[1]['versions']['corpus'] = '4.5.7'
             with self.assertRaisesRegex(w.WorkflowError, 'requested contents changed'):
                 self.flow.prepare('0.6.2', resume=True, trailers='fixture')
+
+    def test_render_version_notes_with_summaries_and_component_fallback(self):
+        inclusions = [
+            {'name': 'opencode', 'provider': 'mise', 'version': '2.2.5', 'summary': 'Update OpenCode CLI'},
+            {'name': 'tam', 'repo': 'tam', 'versions': {'command': '0.49.1', 'corpus': '0.75.3'}},
+            {'name': 'tam-boot', 'repo': 'tamlinux', 'revision': '20521a9591fc9b39262b85f005d78c094c141df6',
+             'summary': 'Explain startup timeline'},
+            {'name': 'tam-meter', 'repo': 'tamlinux', 'revision': '20521a9591fc9b39262b85f005d78c094c141df6'},
+        ]
+        rendered = w.render_version_notes('0.6.15', '0.6.14', inclusions, {})
+        self.assertEqual(
+            rendered,
+            'Tamlinux 0.6.15 version notes\n\n'
+            'Changes since Tamlinux 0.6.14:\n'
+            '- opencode 2.2.5: Update OpenCode CLI\n'
+            '- tam 0.49.1 (0.75.3)\n'
+            '- tam-boot: Explain startup timeline\n'
+            '- tam-meter (tamlinux 20521a9591fc)\n',
+        )
+        fallback = w.render_version_notes('0.6.16', None, [], {
+            'libtam': {'rev': '02576574d4b1438a1edf510d7a1b357643d2cfcc'},
+            'tam': {'rev': '8eb2fe6ef5a359fa0211a375aa19624f05cec4d8'},
+            'tamlinux': {'rev': '5f11732655f5654d7b9da61ab86d427e78fdd9ef'},
+            'nixpkgs': {'rev': 'd630516d328323b5440895ffcd3b273de93d88e7'},
+        })
+        self.assertEqual(
+            fallback,
+            'Tamlinux 0.6.16 version notes\n\n'
+            '- libtam (02576574d4b1)\n'
+            '- tam (8eb2fe6ef5a3)\n'
+            '- tamlinux (5f11732655f5)\n',
+        )
+        repo_root = Path(__file__).resolve().parents[1]
+        delivery_0615 = json.loads((repo_root/'deliveries/tamlinux-0.6.15.json').read_text())
+        notes_0615 = (repo_root/'notes/tamlinux-0.6.15.txt').read_text()
+        self.assertEqual(
+            w.render_version_notes('0.6.15', '0.6.14', delivery_0615['inclusions'], delivery_0615['components']),
+            notes_0615,
+        )
+
+    def test_requested_contents_validates_optional_summary(self):
+        item = self.inclusion()
+        item['summary'] = 'Add desktop test runner'
+        self.flow.inclusions = lambda version: [item]
+        self.assertEqual(self.flow.requested_contents('0.6.2')[0]['summary'], 'Add desktop test runner')
+        for bad in ('', '   ', 'line one\nline two', 123):
+            item['summary'] = bad
+            with self.assertRaisesRegex(w.WorkflowError, 'invalid requested component summary'):
+                self.flow.requested_contents('0.6.2')

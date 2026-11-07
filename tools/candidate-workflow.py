@@ -67,7 +67,66 @@ def within(path, scopes):
     return any(path == scope or path.startswith(scope.rstrip('/')+'/') for scope in scopes)
 
 
+def render_version_notes(version, parent_version=None, inclusions=None, components=None):
+    lines = [f'Tamlinux {version} version notes', '']
+    if parent_version and parent_version != version:
+        lines.append(f'Changes since Tamlinux {parent_version}:')
+    comp_map = components if isinstance(components, dict) else {}
+    bullets = []
+    for item in (inclusions or []):
+        name = item.get('name', 'component')
+        versions = item.get('versions')
+        if isinstance(versions, dict) and versions.get('command') and versions.get('corpus'):
+            label = f"{name} {versions['command']} ({versions['corpus']})"
+        elif item.get('version'):
+            label = f"{name} {item['version']}"
+        else:
+            label = name
+        summary = (item.get('summary') or '').strip() if isinstance(item.get('summary'), str) else ''
+        if summary:
+            bullets.append(f'- {label}: {summary}')
+        elif label != name:
+            bullets.append(f'- {label}')
+        else:
+            repo = item.get('repo')
+            rev = item.get('revision')
+            if not rev and repo and repo in comp_map:
+                entry = comp_map[repo]
+                rev = entry.get('rev') if isinstance(entry, dict) else entry
+            if repo and isinstance(rev, str) and rev:
+                bullets.append(f'- {name} ({repo} {rev[:12]})')
+            elif repo:
+                bullets.append(f'- {name} ({repo})')
+            else:
+                bullets.append(f'- {name}')
+    if not bullets:
+        ordered = [k for k in COMPONENTS if k in comp_map]
+        ordered.extend(k for k in sorted(comp_map) if k not in ordered and k not in ('nixpkgs', 'home-manager'))
+        for name in ordered:
+            entry = comp_map[name]
+            if isinstance(entry, dict):
+                ver = entry.get('version')
+                rev = (entry.get('rev') or '')[:12]
+            else:
+                ver = None
+                rev = str(entry or '')[:12]
+            if ver and rev:
+                bullets.append(f'- {name} {ver} ({rev})')
+            elif ver:
+                bullets.append(f'- {name} {ver}')
+            elif rev:
+                bullets.append(f'- {name} ({rev})')
+            else:
+                bullets.append(f'- {name}')
+    if not bullets:
+        bullets.append(f'- Tamlinux {version}')
+    lines.extend(bullets)
+    return '\n'.join(lines) + '\n'
+
+
 class Workflow:
+    render_version_notes = staticmethod(render_version_notes)
+
     def __init__(self, workspace, state=None, registrar=None, inclusions=None):
         self.registrar = registrar
         self.inclusions = inclusions
@@ -90,6 +149,9 @@ class Workflow:
                 path = item.get(key)
                 if not isinstance(path, str) or not path or Path(path).is_absolute() or '..' in Path(path).parts:
                     raise WorkflowError('invalid requested component path')
+            summary = item.get('summary')
+            if summary is not None and (not isinstance(summary, str) or not summary.strip() or '\n' in summary or '\r' in summary):
+                raise WorkflowError('invalid requested component summary')
             versions = item.get('versions')
             if versions is not None:
                 if (item['name'] != 'tam' or item['repo'] != 'tam' or item['output'] != 'tam' or
@@ -400,7 +462,7 @@ class Workflow:
                 raise WorkflowError('next unused version is '+chosen)
             included = self.requested_contents(chosen)
             self.verify_tam_versions(included)
-            state = {'schema':1,'version':chosen,'word':word,'host':os.uname().nodename,
+            state = {'schema':1,'version':chosen,'previousVersion':current,'word':word,'host':os.uname().nodename,
                      'inclusions':included,
                      'selected':selected,'assemblySelection':assembly_selection,'parentAssembly':parent,'phase':'selected','steps':{},
                      'requestId':digest({'parent':parent,'selected':selected,'inclusions':included,
@@ -518,8 +580,9 @@ class Workflow:
             return self.publish_sources(pins)
         phase('published-sources', publish_selected)
         prepare=module('prepare-candidate')
+        notes_rel=f'notes/tamlinux-{version}.txt'
         def pin():
-            paths=['VERSION','flake.nix','flake.lock',f'deliveries/tamlinux-{version}.json']
+            paths=['VERSION','flake.nix','flake.lock',f'deliveries/tamlinux-{version}.json',notes_rel]
             self.claim(self.packages,paths)
             current=(self.packages/'VERSION').read_text().strip()
             if current!=version:
@@ -533,6 +596,13 @@ class Workflow:
             raise WorkflowError('assembly inputs changed after pinning')
         native=phase('native',lambda:self.native(pins['tamlinux'],state))
         def assemble_locked():
+            self.claim(self.packages,[notes_rel])
+            notes_file=self.packages/notes_rel
+            notes_file.parent.mkdir(parents=True,exist_ok=True)
+            notes_text=render_version_notes(version,self.parent_version(state),state.get('inclusions',[]),pins)
+            if not notes_file.exists() or notes_file.read_text()!=notes_text:
+                notes_file.write_text(notes_text)
+            run('git','-C',self.packages,'add','--',notes_rel)
             args=argparse.Namespace(product=str(self.workspace/'tamlinux'),evidence=None,target=None,
                  parent=state['parentAssembly'],scope='Selected development state for '+version,build=None,
                  extra=None,native_archive=native['archive'])
@@ -566,7 +636,7 @@ class Workflow:
             entry=f'\nCandidate {version}: [preparation]({record}).\n'
             existing=index.read_text() if index.exists() else '# AI provenance\n'
             if entry not in existing:index.write_text(existing+entry)
-            revision=self.commit(self.packages,['VERSION','flake.nix','flake.lock',str(delivery.relative_to(self.packages)),record,'AI_PROVENANCE.md'],
+            revision=self.commit(self.packages,['VERSION','flake.nix','flake.lock',str(delivery.relative_to(self.packages)),notes_rel,record,'AI_PROVENANCE.md'],
                                  'Prepare Tamlinux '+version+' candidate',trailers)
             if self.registrar:self.registrar('tamlinux-packages',record)
             self.frozen_outputs(revision,json.loads(delivery.read_text()))
@@ -589,6 +659,25 @@ class Workflow:
         save(self.state/(version+'.json'),state)
         self.verify_frozen(state)
         return state
+
+    def parent_version(self, state):
+        previous = state.get('previousVersion')
+        if previous and previous != state.get('version'):
+            return previous
+        parent = state.get('parentAssembly')
+        if parent:
+            try:
+                shown = git(self.packages, 'show', parent + ':VERSION').strip()
+                if shown and shown != state.get('version'):
+                    return shown
+            except WorkflowError:
+                pass
+        match = re.fullmatch(r'(\d+)\.(\d+)\.(\d+)', state.get('version', ''))
+        if match and int(match[3]) > 0:
+            candidate = f'{match[1]}.{match[2]}.{int(match[3]) - 1}'
+            if (self.packages / f'deliveries/tamlinux-{candidate}.json').exists():
+                return candidate
+        return None
 
     def verify_frozen(self,state):
         revision=state['assembly'];version=state['version']

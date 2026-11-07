@@ -66,6 +66,7 @@ assert builtins.compareVersions components.tamlinux-commands.version "0.4.2" == 
 assert builtins.compareVersions components.tamlinux-commands.version "0.4.2pre.b" == -1;
 assert c.home.file.".local/share/tamlinux/shell-revision".text == "${product.rev}\n";
 assert c.home.file.".config/tamlinux/version".text == "0.4.2-a\n";
+assert c.home.sessionVariables.TAMLINUX_VERSION_NOTES == "${components.tamlinux-shell}/share/tamlinux/version-notes.txt";
 assert components.tamlinux-shell.passthru.cultivar == "Incipiens";
 assert c.home.file.".config/tamlinux/cultivar".text == "Incipiens\n";
 pkgs.runCommand "tamlinux-assembly-contract" { } ''
@@ -75,6 +76,9 @@ pkgs.runCommand "tamlinux-assembly-contract" { } ''
     ${components.tamlinux-shell}/share/tamlinux/shell) ;;
     *) echo "shell does not resolve into the shell package" >&2; exit 1 ;;
   esac
+  test "$(head -1 ${files}/.config/tamlinux/version-notes.txt)" = 'Tamlinux 0.4.2-a version notes'
+  test "$(head -1 ${files}/.local/share/tamlinux/version-notes.txt)" = 'Tamlinux 0.4.2-a version notes'
+  test "$(head -1 ${hm.activationPackage}/home-path/share/tamlinux/version-notes.txt)" = 'Tamlinux 0.4.2-a version notes'
   case "$(resolve ${files}/.config/tamlinux/plugins/fred.demo)" in
     ${components.tamlinux-plugins}/share/tamlinux/plugins/fred.demo) ;;
     *) echo "plugin does not resolve into the plugin package" >&2; exit 1 ;;

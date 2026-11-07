@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-07 — Generate and package Tamlinux version notes](2026-11-07-version-notes-generation.md)
+
 - [2026-11-07 — Verify every packaged launcher activity](2026-11-07-session-activity-count.md)
 
 - [2026-11-06 — Generate man page caches in Home Manager session module](2026-11-06-man-cache-generation.md)
