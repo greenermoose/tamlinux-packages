@@ -1,0 +1,7 @@
+Tamlinux 0.6.17 version notes
+
+Changes since Tamlinux 0.6.15:
+- libtam (02576574d4b1)
+- tam (f0c633c44191)
+- tamlinux-tools (bbe0574c7ce8)
+- tamlinux (08015252e404)
