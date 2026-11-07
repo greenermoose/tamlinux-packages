@@ -271,6 +271,8 @@ let
     tam-notification-battery = [ ];
     tam-notification-time = [ pkgs.coreutils ];
     tam-hardware = [ ];
+    tam-meter = [ ];
+    tam-boot = [ (lib.getBin pkgs.systemd) ];
     tam-open = [
       (withNixGraphics { package = pkgs.zathura; programs = [ "zathura" ]; })
       (withNixGraphics { package = pkgs.imv; programs = [ "imv" "imv-wayland" "imv-x11" ]; })
@@ -713,7 +715,9 @@ let
     || (name == "tam-hardware" && has "commands/${name}/Makefile")
     || (name == "tam-open" && has "commands/${name}/Makefile")
     || (name == "start" && has "commands/start/Makefile")
-  ) [ "tam-monitor" "tam-hardware" "tam-open" "start" ];
+    || (name == "tam-meter" && has "commands/${name}/Makefile")
+    || (name == "tam-boot" && has "commands/${name}/Makefile")
+  ) [ "tam-monitor" "tam-hardware" "tam-open" "start" "tam-meter" "tam-boot" ];
   commandChecks = lib.genAttrs (lib.subtractLists nativeNames commandNames) (name: pkgs.stdenv.mkDerivation {
     pname = "${name}-checks";
     version = "1";

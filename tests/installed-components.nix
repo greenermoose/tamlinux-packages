@@ -129,6 +129,16 @@ pkgs.runCommand "tamlinux-installed-components"
         test "$found" = 1
       done
     }
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-meter" components.tamlinux-commands.passthru.names) ''
+      test -x ${components.tamlinux-commands}/bin/tam-meter
+      ${components.tamlinux-commands}/bin/tam-meter --help | grep -q tam-meter
+      ${components.tamlinux-commands}/bin/tam-meter --version | grep -q 0.1.0
+    ''}
+    ${pkgs.lib.optionalString (pkgs.lib.elem "tam-boot" components.tamlinux-commands.passthru.names) ''
+      test -x ${components.tamlinux-commands}/bin/tam-boot
+      ${components.tamlinux-commands}/bin/tam-boot --help | grep -q tam-boot
+      ${components.tamlinux-commands}/bin/tam-boot --version | grep -q 0.1.0
+    ''}
     ${pkgs.lib.optionalString (pkgs.lib.elem "tam-open" components.tamlinux-commands.passthru.names) ''
       test -x ${components.tamlinux-commands}/bin/tam-open
       ${components.tamlinux-commands}/bin/tam-open --help | grep -q tam-open
