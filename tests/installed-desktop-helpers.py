@@ -323,13 +323,13 @@ elif name == 'hyprctl':
         assert not (root / 'home/.config').exists()
         checks.append('terminal selector writes only the configured XDG destination')
 
-        run('tam-default-editor', 'nvim', check=False)
+        run('tam-default-editor', 'vim', check=False)
         run('tam-launch-editor', 'file with spaces')
         launch = json.loads(launch_log.read_text().splitlines()[-1])
-        assert launch['args'] == ['--app-id=org.tamlinux.nvim', '-e', 'nvim', 'file with spaces']
+        assert launch['args'] == ['--app-id=org.tamlinux.vim', '-e', 'vim', 'file with spaces']
         run('tam-launch-editor', '--inline', 'file with spaces')
         launch = json.loads(launch_log.read_text().splitlines()[-1])
-        assert launch['name'] == 'nvim' and launch['args'] == ['file with spaces']
+        assert launch['name'] == 'vim' and launch['args'] == ['file with spaces']
         checks.append('terminal and inline editor routes resolve packaged sibling helpers')
 
         env['TEST_EXEC_PRESENTATION'] = '1'
