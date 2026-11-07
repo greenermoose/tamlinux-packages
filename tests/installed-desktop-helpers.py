@@ -298,7 +298,7 @@ elif name == 'hyprctl':
         assert 'command not found' not in result.stderr.lower(), result.stderr
         checks.append('volume controls fail safely at an unavailable server with complete packaged tools')
 
-        assert run('tam-default-editor').stdout == 'nvim\n'
+        assert run('tam-default-editor').stdout == 'micro\n'
         assert run('tam-default-terminal').stdout == 'foot\n'
         assert not (root / 'state/tamlinux/defaults/editor').exists()
         checks.append('fresh terminal/editor default readers need no workstation state')
