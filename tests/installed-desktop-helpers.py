@@ -72,7 +72,7 @@ elif name == 'hyprctl':
     elif args[0] == 'monitors': print(os.environ.get('TEST_MONITORS', '[]'))
     else: print('{}')
 '''
-        for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'code', 'chromium', 'codex'):
+        for name in ('uwsm-app', 'xdg-terminal-exec', 'hyprctl', 'nvim', 'vim', 'micro', 'nano', 'code', 'chromium', 'codex'):
             path = host_bin / name
             path.write_text(launch_recorder)
             path.chmod(0o755)
@@ -323,13 +323,13 @@ elif name == 'hyprctl':
         assert not (root / 'home/.config').exists()
         checks.append('terminal selector writes only the configured XDG destination')
 
-        run('tam-default-editor', 'vim', check=False)
+        run('tam-default-editor', 'micro', check=False)
         run('tam-launch-editor', 'file with spaces')
         launch = json.loads(launch_log.read_text().splitlines()[-1])
-        assert launch['args'] == ['--app-id=org.tamlinux.vim', '-e', 'vim', 'file with spaces']
+        assert launch['args'] == ['--app-id=org.tamlinux.micro', '-e', 'micro', 'file with spaces']
         run('tam-launch-editor', '--inline', 'file with spaces')
         launch = json.loads(launch_log.read_text().splitlines()[-1])
-        assert launch['name'] == 'vim' and launch['args'] == ['file with spaces']
+        assert launch['name'] == 'micro' and launch['args'] == ['file with spaces']
         checks.append('terminal and inline editor routes resolve packaged sibling helpers')
 
         env['TEST_EXEC_PRESENTATION'] = '1'
