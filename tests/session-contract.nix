@@ -102,7 +102,16 @@ PY
     HOME=${files} XDG_DATA_DIRS=/nonexistent TAM_DATADIR=/nonexistent \
       PATH="${files}/.local/bin:$PATH" ${files}/.local/bin/hi --pipe | grep -q Welcome
     PATH="${files}/.local/bin:${hm.activationPackage}/home-path/bin:$PATH" \
-      ${files}/.local/bin/start --check | grep -Fq '18/18 activities installed on this system.'
+      ${pkgs.python3}/bin/python3 - ${files}/.local/bin/start ${components.tamlinux-commands}/share/start/menu.json <<'PY'
+import json, subprocess, sys
+from pathlib import Path
+menu = json.loads(Path(sys.argv[2]).read_text())
+assert menu, 'The packaged activity menu must not be empty'
+result = subprocess.run([sys.argv[1], '--check'], check=True, capture_output=True, text=True)
+print(result.stdout, end="")
+expected = f'{len(menu)}/{len(menu)} activities installed on this system.'
+assert expected in result.stdout.splitlines(), f'Expected all packaged activities: {expected}'
+PY
     # start 0.2+ reports its own command semver (D224), not the product version.
     ${files}/.local/bin/start --version | grep -Eq '^start [0-9]+\.[0-9]+\.[0-9]+$'
     test -f ${components.tamlinux-commands}/share/start/menu.json

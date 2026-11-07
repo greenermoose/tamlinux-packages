@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-07: Codex CLI `0.167.0` (`gpt-6.1-sol`) derives the fresh-session launcher's installed activity count from its packaged menu. [Session](docs/ai/2026-11-07-session-activity-count.md).
+
 2026-11-06: Antigravity `1.4.12` (`gemini-3.8-flash`) enables Home Manager man page cache generation in the session module (D228). [Session](docs/ai/2026-11-06-man-cache-generation.md).
 
 2026-11-06: Claude Code `2.1.318` (`claude-opus-5-5`) runs the `json5` migration tests in the installed components check. [Session](docs/ai/2026-11-06-json5-migration-tests.md).
