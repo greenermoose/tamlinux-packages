@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-08 — Retire the previous default game selection](2026-11-08-games-reset.md)
+
 - [2026-11-07 — Generate and package Tamlinux version notes](2026-11-07-version-notes-generation.md)
 
 - [2026-11-07 — Verify every packaged launcher activity](2026-11-07-session-activity-count.md)

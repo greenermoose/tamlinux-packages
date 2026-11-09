@@ -50,6 +50,7 @@ assert c.xdg.configFile."bash/tamlinux".source == "${defaults}/bash";
 assert !(withoutDefaults.home.activation ? tamlinuxUserDefaults);
 assert !(withoutDefaults.xdg.configFile ? "bash/tamlinux");
 assert c.tamlinux.terminalGames.enable;
+assert c.tamlinux.terminalGames.packages == [ ];
 assert !withoutGames.tamlinux.terminalGames.enable;
 assert !(builtins.any (pkg: (pkg.pname or "") == "astroterm") withoutGames.home.packages);
 assert customAutostart.xdg.configFile."autostart/org.fcitx.Fcitx5.desktop".text == "[Desktop Entry]\nHidden=false\n";
@@ -105,21 +106,26 @@ PY
       PATH="${files}/.local/bin:$PATH" ${files}/.local/bin/hi --pipe | grep -q Welcome
     PATH="${files}/.local/bin:${hm.activationPackage}/home-path/bin:$PATH" \
       ${pkgs.python3}/bin/python3 - ${files}/.local/bin/start ${components.tamlinux-commands}/share/start/menu.json <<'PY'
-import json, subprocess, sys
+import json, shutil, subprocess, sys
 from pathlib import Path
 menu = json.loads(Path(sys.argv[2]).read_text())
 assert menu, 'The packaged activity menu must not be empty'
 result = subprocess.run([sys.argv[1], '--check'], check=True, capture_output=True, text=True)
 print(result.stdout, end="")
-expected = f'{len(menu)}/{len(menu)} activities installed on this system.'
-assert expected in result.stdout.splitlines(), f'Expected all packaged activities: {expected}'
+# Agents belong to the user's CLI manager and are optional in a fresh profile.
+for item in menu:
+    if item['category'] != 'AI Agents':
+        assert shutil.which(item['check']), f"Missing packaged activity: {item['id']}"
+installed = sum(shutil.which(item['check']) is not None for item in menu)
+expected = f'{installed}/{len(menu)} activities installed on this system.'
+assert expected in result.stdout.splitlines(), f'Expected activity availability: {expected}'
 PY
     # start 0.2+ reports its own command semver (D224), not the product version.
     ${files}/.local/bin/start --version | grep -Eq '^start [0-9]+\.[0-9]+\.[0-9]+$'
     test -f ${components.tamlinux-commands}/share/start/menu.json
   ''}
   for game in astroterm bastet trek adventure cataclysm-dda cbonsai curseofwar frotz gnugo nethack pmars vms-empire; do
-    test -x ${hm.activationPackage}/home-path/bin/"$game"
+    test ! -e ${hm.activationPackage}/home-path/bin/"$game"
   done
   test -f ${files}/.config/systemd/user/tamlinux-monitor-watch.service
   test -f ${files}/.config/systemd/user/tam-crash-watch.service
