@@ -23,9 +23,15 @@ assert !c.tamlinux.shell.package.passthru.features.menu ||
     c.home.file.".local/bin/tam-menu".source != null &&
     builtins.elem "TAMLINUX_MENU_DEFAULT=/home/alex/.config/tamlinux/menu/default.jsonc"
       unit.Service.Environment);
+assert !(c.tamlinux.shell.package.passthru.features.consoleWelcome or false) ||
+  c.home.file.".local/share/tamlinux/console/welcome.issue".source
+    == "${c.tamlinux.shell.package}/share/tamlinux/console/welcome.issue";
 pkgs.runCommand "tamlinux-example-contract" { } ''
   test -f ${example.activationPackage}/home-files/.config/systemd/user/tamlinux-shell.service
   test -x ${example.activationPackage}/home-files/.local/bin/tam-man
+  ${pkgs.lib.optionalString (c.tamlinux.shell.package.passthru.features.consoleWelcome or false) ''
+    grep -q 'Welcome to Tamlinux' ${example.activationPackage}/home-files/.local/share/tamlinux/console/welcome.issue
+  ''}
   ${pkgs.lib.optionalString c.tamlinux.shell.package.passthru.features.menu ''
     test -f ${example.activationPackage}/home-files/.config/tamlinux/menu/default.jsonc
     test -x ${example.activationPackage}/home-files/.local/bin/tam-menu

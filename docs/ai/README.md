@@ -1,5 +1,6 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-09 — A fixed path for the console greeting](2026-11-09-console-greeting-link.md)
 - [2026-11-08 — Retire the previous default game selection](2026-11-08-games-reset.md)
 
 - [2026-11-07 — Generate and package Tamlinux version notes](2026-11-07-version-notes-generation.md)

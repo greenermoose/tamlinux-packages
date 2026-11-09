@@ -138,6 +138,12 @@ in
       // lib.optionalAttrs features.menu {
         ".local/bin/tam-menu".source = "${shell}/bin/tam-menu";
       }
+      # A fixed path for the selected assembly's console greeting. A host may
+      # link /etc/issue.d/70-tamlinux.issue here to show it at the login prompt;
+      # it then follows Test, Run and rollback with no root step.
+      // lib.optionalAttrs (features.consoleWelcome or false) {
+        ".local/share/tamlinux/console/welcome.issue".source = "${shell}/share/tamlinux/console/welcome.issue";
+      }
       // lib.optionalAttrs protocolShadowAvailable {
         ".local/bin/tam-protocol-shadow".source = "${shell}/bin/tam-protocol-shadow";
       }

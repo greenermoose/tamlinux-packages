@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-09: Claude Code `2.1.319` (`claude-opus-5-5`) links the selected assembly's console greeting to `~/.local/share/tamlinux/console/welcome.issue` so a host can show the version at the login prompt. [Session](docs/ai/2026-11-09-console-greeting-link.md).
+
 2026-11-08: Codex CLI `0.167.0` (`gpt-6.1-sol`) empties the previous default terminal-game set and updates fresh-session contracts for optional agent launchers. [Session](docs/ai/2026-11-08-games-reset.md).
 
 2026-11-07: Antigravity `1.5.3` (`claude-opus-5.5-high` / `gemini-4-argon-high`) generates `notes/tamlinux-<version>.txt` during candidate packaging, installs `share/tamlinux/version-notes.txt` (with delivery fallback), and exposes `TAMLINUX_VERSION_NOTES` in the shell and session environments. [Session](docs/ai/2026-11-07-version-notes-generation.md).
