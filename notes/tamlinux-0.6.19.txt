@@ -1,0 +1,11 @@
+Tamlinux 0.6.19 version notes
+
+Changes since Tamlinux 0.6.18:
+- chafa: Add chafa so yazi previews image files on a text console (VT); remove nnn
+- console-welcome-link: Show the selected Tamlinux version in the console login greeting
+- console-welcome-version: Show the installed Tamlinux version beside the logo in the console greeting: Welcome to Tamlinux <version>!
+- start: Replace the old games in start with an AI Agents section for installed CLI agents
+- steady-boot-console-font: Keep the large console font the kernel picks for high-resolution displays through the whole boot instead of switching to default8x16
+- tamlinux-packages: Remove the previous eleven-package game selection; science simulations and learning games await review before any downloads
+- vt-palette: Higher-contrast 16-color Linux console (VT) palette as the default
+- vt-screenshot: PrtSc saves a screenshot of the visible text console (VT) to ~/Pictures

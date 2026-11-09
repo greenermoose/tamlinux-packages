@@ -1,0 +1,224 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.6.19",
+  "version": "0.6.19",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "f540b16c7b7565bc329b3cf4c586e6ff9db8d3a8",
+  "scope": "Selected development state for 0.6.19",
+  "components": {
+    "home-manager": {
+      "lastModified": 1792605213,
+      "narHash": "sha256-J73EBU30r2hXvHCcBtaigQDAIu/GGPYk1nc6P9THcmg=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1793126685,
+      "narHash": "sha256-vQEPTTfxWlpUx55YDJyJJqeQ+xGsHw8pn9QMDMG09cQ=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "02576574d4b1438a1edf510d7a1b357643d2cfcc",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1792626989,
+      "narHash": "sha256-SqQcbCptvcTV4Iargthk+aQH75jOzYFP8WT4BHOyUnQ=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "d630516d328323b5440895ffcd3b273de93d88e7",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1794188726,
+      "narHash": "sha256-guiikx+yz8MdxNUzCVgKOtSlC3cxKU1luX/UEwV/ynE=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "ae25ff792d5c83ad654d7e4ba07007ad92bfdfa2",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1794254796,
+      "narHash": "sha256-XF+kN1TcExlv4XoeuV1h9pMP0wedXVVP3BDxRcYjhWk=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "bbc3763121d3fdb46acb6c784e75534318e73ab0",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1793792700,
+      "narHash": "sha256-acZuGD7xn+58HOfcblF3pQv90/eBsyTy7KW+75ma97U=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "bbe0574c7ce8fdf2fb4701d1c3a56856bd456fbb",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/8wchim08njwvcfjzr7wkpk8l66fgp40k-tamlinux-shell-0.6.19.drv",
+      "outputs": {
+        "out": "/nix/store/p8bn54hja992nxwxf6ksgyqlpiyrf7wv-tamlinux-shell-0.6.19"
+      }
+    },
+    {
+      "drvPath": "/nix/store/m6ggbsn331svmbxj4mzi5f0s63imb8l9-tamlinux-plugins-0.6.19.drv",
+      "outputs": {
+        "out": "/nix/store/0pmg5rnsm8lk6k6lnj4y46swsm2w53g3-tamlinux-plugins-0.6.19"
+      }
+    },
+    {
+      "drvPath": "/nix/store/i2y5zjcv6x5cr1hl2d3qxsxd7s1khggw-tamlinux-commands-0.6.19.drv",
+      "outputs": {
+        "out": "/nix/store/1vxniki3a8f9cv359s48gn0k4wqli98h-tamlinux-commands-0.6.19"
+      }
+    },
+    {
+      "drvPath": "/nix/store/gr9j06v06773d25v91pn87ccjr5xh5lq-tam-0.50.3.drv",
+      "outputs": {
+        "out": "/nix/store/9i9f5wyh4wppmp5v2pyhg5x3y6252z0y-tam-0.50.3"
+      }
+    },
+    {
+      "drvPath": "/nix/store/k687x5bilsmfd993fzp0dicg76i7rw0c-libtam-0.4.0.drv",
+      "outputs": {
+        "out": "/nix/store/a8aif483ngx3h6i6b6z8j4j169482103-libtam-0.4.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/bg0sqdpr4vdqis34x0j1p47sfjc9cwrq-tamlinux-tools-0-unstable-bbe0574.drv",
+      "outputs": {
+        "out": "/nix/store/1bv77wgmh9h3lwcgbzlmkh3qc9i7v9cj-tamlinux-tools-0-unstable-bbe0574"
+      }
+    },
+    {
+      "drvPath": "/nix/store/q0vj0mj3c9l78vvc2vncr8fccj076pv9-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/i20dfinr287y0dirqa0f5q7nmzgnfhaa-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/l657yglbqk9f81h0977ak2k4cd7s1akm-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/853z4kx40d9l40bg4jk3zvk0qdjwnl7h-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/4x5a6yrg859zvsl0bwb21w68zvd2646v-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/is26bj8vxivnqlw6l4rq8hrpkzzwra88-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/5f9x86yxrja3z22zxg310dvfafnz6vmf-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/kfmbvyd8gdh0bva1nw9295jkz7gf15rp-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#libtam",
+      ".#tamlinux-tools",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass",
+    "fingerprint": "39eba7dc74c709364ef58a5e68d7b5fc7fced8376e64a0dcad24960d1c3130fa",
+    "focusedChecks": {
+      "fingerprint": "39eba7dc74c709364ef58a5e68d7b5fc7fced8376e64a0dcad24960d1c3130fa",
+      "tests": [
+        "test_theme_ownership.py",
+        "test_keybinding_defaults.py",
+        "test_user_defaults.py"
+      ],
+      "product": "bbc3763121d3fdb46acb6c784e75534318e73ab0",
+      "sourceKey": "198011cdc5032b8836c8419850a0fba2c0dee34bfad3850192d605c30079094c"
+    }
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.6.19-0.1",
+    "archive": "tamlinux-native-0.6.19-0.1-x86_64.pkg.tar.zst",
+    "sha256": "550223d0fad6101a0ba687dea7d76bb6843674ab1b7f65bce20e8a9a6edcbced",
+    "productRevision": "bbc3763121d3fdb46acb6c784e75534318e73ab0",
+    "payloadId": "86de407f68d91c86eeb99b0633ae89e4e4d8704ea896366551fa694b0e68a31f"
+  },
+  "nativeRequirement": {
+    "payloadId": "86de407f68d91c86eeb99b0633ae89e4e4d8704ea896366551fa694b0e68a31f",
+    "interface": 1
+  },
+  "inclusions": [
+    {
+      "name": "chafa",
+      "provider": "host",
+      "inclusionRecord": "0.6.19",
+      "digest": "450e88b73458a5699b3cc6977f5b6099b0557a4efacca2ef50fb86ddd7545635",
+      "summary": "Add chafa so yazi previews image files on a text console (VT); remove nnn"
+    },
+    {
+      "name": "console-welcome-link",
+      "provider": "host",
+      "inclusionRecord": "0.6.19",
+      "digest": "d315dc2a0ec137e1213826dec2ab8f386fda0d40651d923f252b5496137b1b3a",
+      "summary": "Show the selected Tamlinux version in the console login greeting"
+    },
+    {
+      "name": "console-welcome-version",
+      "repo": "tamlinux",
+      "sourcePath": "desktop/session/console-welcome.py",
+      "revision": "fb980a748515ed915b3531899c29874d56cff4f9",
+      "output": "tamlinux-shell",
+      "artifact": "share/tamlinux/console/welcome.issue",
+      "summary": "Show the installed Tamlinux version beside the logo in the console greeting: Welcome to Tamlinux <version>!"
+    },
+    {
+      "name": "start",
+      "repo": "tamlinux",
+      "sourcePath": "commands/start",
+      "revision": "126466d4b1505a372abf417bdf83a06cfccbcc88",
+      "output": "tamlinux-commands",
+      "artifact": "bin/start",
+      "summary": "Replace the old games in start with an AI Agents section for installed CLI agents"
+    },
+    {
+      "name": "steady-boot-console-font",
+      "provider": "host",
+      "inclusionRecord": "0.6.19",
+      "digest": "ad202d4bc9bb5c2ddb448ef095e7c97f4de9bf65508d508f223da21b69fe55c9",
+      "summary": "Keep the large console font the kernel picks for high-resolution displays through the whole boot instead of switching to default8x16"
+    },
+    {
+      "name": "tamlinux-packages",
+      "provider": "assembly",
+      "revision": "00819d47a12c61af17c812d53082277a925c7460",
+      "summary": "Remove the previous eleven-package game selection; science simulations and learning games await review before any downloads"
+    },
+    {
+      "name": "vt-palette",
+      "provider": "host",
+      "inclusionRecord": "0.6.19",
+      "digest": "509101947ef1d198d80558b7d39b7877debc61da504f6409a1904cc835fe8d92",
+      "summary": "Higher-contrast 16-color Linux console (VT) palette as the default"
+    },
+    {
+      "name": "vt-screenshot",
+      "provider": "host",
+      "inclusionRecord": "0.6.19",
+      "digest": "e7fa53cfe3dc85ee80cdca27f0acba8407a158f78ce7ee66806fd5d09f165406",
+      "summary": "PrtSc saves a screenshot of the visible text console (VT) to ~/Pictures"
+    }
+  ],
+  "readiness": {
+    "nativeInstallationRequired": true
+  }
+}
