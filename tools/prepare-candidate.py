@@ -391,7 +391,26 @@ def cmd_record(root: Path, args) -> None:
     print(f"record: wrote {path.relative_to(root)}")
 
 
-FLEET_PROFILES = ("fred@slowhp", "fred@toughbook")
+def fleet_profile_selection(args) -> tuple[Path, list[str]]:
+    """Keep operator-specific defaults in the selected local consumer."""
+    consumer = Path(args.consumer)
+    if not (consumer / 'flake.nix').is_file():
+        fail(f'consumer flake missing: {consumer}')
+    profiles = args.profile
+    defaults = consumer / 'system' / 'fleet-profiles.json'
+    if profiles is None:
+        try:
+            document = json.loads(defaults.read_text(encoding='utf-8'))
+        except FileNotFoundError:
+            fail(f'no default fleet profiles: create {defaults} or pass --profile')
+        except (OSError, ValueError) as error:
+            fail(f'cannot read default fleet profiles from {defaults}: {error}')
+        profiles = document.get('profiles') if isinstance(document, dict) else None
+    if (not isinstance(profiles, list) or not profiles
+            or any(not isinstance(profile, str) or not profile.strip() for profile in profiles)):
+        fail('fleet profiles must be a nonempty list of nonempty profile names; '
+             f'check {defaults} or pass --profile')
+    return consumer, profiles
 
 
 def cmd_fleet_profiles(root: Path, args) -> None:
@@ -402,15 +421,13 @@ def cmd_fleet_profiles(root: Path, args) -> None:
     """
     version = read_version(root)
     out = Path(args.evidence) if args.evidence else evidence_dir(version)
-    consumer = Path(args.consumer)
-    if not (consumer / "flake.nix").is_file():
-        fail(f"consumer flake missing: {consumer}")
+    consumer, profiles = fleet_profile_selection(args)
     assembly = subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True).strip()
     if not REV.fullmatch(assembly):
         fail("assembly HEAD is not a full revision")
     started = time.monotonic()
     receipts = []
-    for profile in args.profile or list(FLEET_PROFILES):
+    for profile in profiles:
         attr = f"{consumer}#homeConfigurations.{profile}.activationPackage"
         print(f"fleet-profiles: building {profile}", flush=True)
         generation = subprocess.check_output(
@@ -489,8 +506,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument('--evidence')
     p = sub.add_parser('fleet-profiles', help='build follower HM profiles for the pinned assembly')
     p.add_argument('--consumer', default=str(ROOT.parent / 'config-fred-tamlinux'),
-                   help='consumer flake that defines fred@slowhp / fred@toughbook')
-    p.add_argument('--profile', action='append', help='homeConfigurations profile (repeatable)')
+                   help='consumer flake; system/fleet-profiles.json supplies default profiles')
+    p.add_argument('--profile', action='append',
+                   help='homeConfigurations profile (repeatable; overrides local defaults)')
     p.add_argument('--evidence')
     p = sub.add_parser('prepare', help='resume inspect, focused checks, build, verify and record')
     p.add_argument('--product', default=str(ROOT.parent / 'tamlinux'))
@@ -500,7 +518,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument('--extra')
     p.add_argument('--native-archive')
     p.add_argument('--consumer', default=str(ROOT.parent / 'config-fred-tamlinux'))
-    p.add_argument('--profile', action='append')
+    p.add_argument('--profile', action='append',
+                   help='homeConfigurations profile (repeatable; overrides local defaults)')
     p.add_argument('--skip-fleet-profiles', action='store_true',
                    help='omit follower profile prebuild (plan 47 §B5)')
     args = parser.parse_args(argv)
@@ -509,6 +528,10 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_check(root, args)
     if args.command == 'prepare':
         started = time.monotonic()
+        if not args.skip_fleet_profiles:
+            # Resolve once, before builds or freezing a delivery. An operator
+            # configuration error must not leave a frozen, incomplete candidate.
+            _, args.profile = fleet_profile_selection(args)
         print('inspect: verifying candidate pins and versions', flush=True)
         if cmd_check(root, args):
             fail('candidate consistency check failed')

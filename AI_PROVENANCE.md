@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-09: Codex CLI `0.167.0` (`gpt-6.1-sol`) moves default fleet profile identities into local operator configuration and validates them before candidate preparation. [Session](docs/ai/2026-11-09-private-fleet-defaults.md).
+
 2026-11-09: Claude Code `2.1.319` (`claude-opus-5-5`) links the selected assembly's console greeting to `~/.local/share/tamlinux/console/welcome.issue` so a host can show the version at the login prompt. [Session](docs/ai/2026-11-09-console-greeting-link.md).
 
 2026-11-08: Codex CLI `0.167.0` (`gpt-6.1-sol`) empties the previous default terminal-game set and updates fresh-session contracts for optional agent launchers. [Session](docs/ai/2026-11-08-games-reset.md).

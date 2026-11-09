@@ -46,3 +46,27 @@ Focused checks use the pinned commands/desktop source closure and a controlled n
 Native requirements bind the selected source payload, recipe, modes, links and interface. A compatible prior native archive retains its package version and original provenance. New native content needs a new archive and a separately approved native installation. Existing historical delivery records retain their original exact-version rules.
 
 A successful record freezes the version permanently. Retry an interrupted transaction; never edit a prepared delivery or reuse its number for changed contents. Preserve required native archives and recovery generations. Routine development caches can be removed only when no active trial references them; generation pruning and global Nix garbage collection remain separate recovery decisions.
+
+## Local fleet profile defaults
+
+`fleet-profiles` and `prepare` read default follower profiles from
+`system/fleet-profiles.json` inside the selected `--consumer` configuration
+folder. Keep your actual machine/account choices in that local configuration;
+the public packaging tool contains no default follower identities. For example:
+
+```json
+{
+  "profiles": ["alex@laptop-a", "alex@laptop-b"]
+}
+```
+
+Each value names a `homeConfigurations` output in the consumer flake. Repeated
+`--profile` options override the file completely and work without that file.
+When no explicit profiles are supplied, a missing or invalid file stops before
+builds or delivery recording. `prepare --skip-fleet-profiles` requires neither
+the defaults file nor a consumer flake for follower builds.
+
+This keeps existing invocations convenient while allowing each installation
+to choose its own fleet. Selected profiles still appear in local terminal
+output and the local `fleet-profiles.json` build receipt; they are not copied
+into the public source by this lookup.

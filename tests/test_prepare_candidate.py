@@ -38,6 +38,9 @@ if args[:2] == ["flake", "update"]:
 elif args[:1] == ["build"]:
     if os.environ.get("FAKE_NIX_FAIL"):
         print("boom", file=sys.stderr); sys.exit(3)
+    if any('#homeConfigurations.' in value for value in args):
+        print('/nix/store/' + 'a' * 32 + '-home-manager-generation')
+        sys.exit(0)
     targets = [a for a in args if a.startswith(".#")]
     print(json.dumps([{"drvPath": f"/nix/store/{i}.drv", "outputs": {"out": f"/nix/store/{i}"},
                        "startTime": 1} for i, _ in enumerate(targets)]))
@@ -275,6 +278,71 @@ class PrepareCandidate(unittest.TestCase):
         result = self.run_tool("check", "--product", str(self.temp / "no-checkout"))
         self.assertEqual(result.returncode, 1)
         self.assertIn("flake.nix pins", result.stdout)
+
+    def fleet_consumer(self):
+        consumer = self.temp / 'consumer'
+        (consumer / 'system').mkdir(parents=True, exist_ok=True)
+        (consumer / 'flake.nix').write_text('{ homeConfigurations = {}; }\n')
+        return consumer
+
+    def commit_assembly_fixture(self):
+        subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
+        subprocess.run(['git', '-C', str(self.root), 'config', 'user.name', 'Fixture'], check=True)
+        subprocess.run(['git', '-C', str(self.root), 'config', 'user.email', 'fixture@example.invalid'], check=True)
+        subprocess.run(['git', '-C', str(self.root), 'add', '--', 'VERSION', 'flake.nix', 'flake.lock'], check=True)
+        subprocess.run(['git', '-C', str(self.root), 'commit', '-qm', 'Fixture assembly'], check=True)
+
+    def test_fleet_profiles_read_operator_values_from_local_consumer(self):
+        consumer = self.fleet_consumer()
+        profiles = ['alex@portable-a', 'sam@portable-b']
+        (consumer / 'system/fleet-profiles.json').write_text(json.dumps({'profiles': profiles}))
+        self.commit_assembly_fixture()
+        self.ok('fleet-profiles', '--consumer', str(consumer))
+        evidence = self.temp / 'state/tamlinux/candidates/0.4.4-b/fleet-profiles.json'
+        receipt = json.loads(evidence.read_text())
+        self.assertEqual([item['profile'] for item in receipt['profiles']], profiles)
+        calls = self.log.read_text().splitlines()
+        self.assertEqual(len(calls), 2)
+        for profile, call in zip(profiles, calls):
+            self.assertIn(f'{consumer}#homeConfigurations.{profile}.activationPackage', call)
+        self.assertEqual(len(list((self.root / 'deliveries').iterdir())), 1)
+
+    def test_explicit_fleet_profiles_override_even_unreadable_defaults(self):
+        consumer = self.fleet_consumer()
+        self.commit_assembly_fixture()
+        for defaults in (None, 'malformed JSON'):
+            if defaults is not None:
+                (consumer / 'system/fleet-profiles.json').write_text(defaults)
+            self.ok('fleet-profiles', '--consumer', str(consumer), '--profile', 'alex@override')
+        calls = self.log.read_text().splitlines()
+        self.assertEqual(len(calls), 2)
+        self.assertTrue(all('#homeConfigurations.alex@override.activationPackage' in call for call in calls))
+
+    def test_missing_fleet_defaults_stop_before_build(self):
+        consumer = self.fleet_consumer()
+        self.refused('no default fleet profiles', 'fleet-profiles', '--consumer', str(consumer))
+        self.assertFalse(self.log.exists())
+
+    def test_bad_fleet_defaults_stop_before_build(self):
+        consumer = self.fleet_consumer()
+        path = consumer / 'system/fleet-profiles.json'
+        for value in ({}, {'profiles': []}, {'profiles': ['']}, {'profiles': [None]},
+                      {'profiles': 'alex@portable'}, ['alex@portable']):
+            with self.subTest(value=value):
+                path.write_text(json.dumps(value))
+                self.refused('nonempty list', 'fleet-profiles', '--consumer', str(consumer))
+        path.write_text('{')
+        self.refused('cannot read default fleet profiles', 'fleet-profiles', '--consumer', str(consumer))
+        self.assertFalse(self.log.exists())
+
+    def test_prepare_checks_local_fleet_defaults_before_freezing_or_building(self):
+        consumer = self.fleet_consumer()
+        baseline = {name: (self.root / name).read_bytes() for name in ('VERSION', 'flake.nix', 'flake.lock')}
+        self.refused('no default fleet profiles', 'prepare', '--consumer', str(consumer),
+                     '--parent', PARENT, '--scope', 'fixture')
+        self.assertFalse(self.log.exists())
+        self.assertEqual(baseline, {name: (self.root / name).read_bytes() for name in baseline})
+        self.assertEqual(len(list((self.root / 'deliveries').iterdir())), 1)
 
 
 if __name__ == "__main__":
