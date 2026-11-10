@@ -1,7 +1,7 @@
 # Development integration recipe; no workstation installation or candidate tag.
 pkgname=tamlinux-native
 pkgver=@PRODUCT_VERSION@
-pkgrel=0.1
+pkgrel=@PKGREL@
 pkgdesc='Tamlinux native session, authorization and recovery adapters (Develop)'
 arch=(x86_64)
 options=(!strip)
@@ -11,12 +11,18 @@ depends=(bash coreutils 'util-linux>=2.41' gawk python polkit hyprland jq glibc 
          zram-generator ttf-liberation noto-fonts noto-fonts-emoji fcitx5 bluez-tools sudo fuse3
          uwsm)
 optdepends=('plocate: index tuned by the updatedb drop-ins')
-makedepends=(gcc make)
+makedepends=(gcc make pkgconf)
 source=(tamlinux-native-source.tar)
 sha256sums=('@SOURCE_SHA256@')
 
 build() {
   make -C "$srcdir/tamlinux-native/asdcontrol"
+  if [[ -d "$srcdir/tamlinux-native/bundle-tool" ]]; then
+    local library="$srcdir/tamlinux-native/bundle-library"
+    make -C "$srcdir/tamlinux-native/bundle-lib" core
+    make -C "$srcdir/tamlinux-native/bundle-lib" install-core PREFIX="$library"
+    make -C "$srcdir/tamlinux-native/bundle-tool" bin/tam-bundle LIBTAM_PREFIX="$library"
+  fi
 }
 
 check() {
@@ -25,6 +31,10 @@ check() {
   python -m py_compile "$srcdir/tamlinux-native/browser_policy.py"
   bash -n "$srcdir/tamlinux-native/defaults/root/usr/lib/systemd/system-sleep/tamlinux-unmount-fuse"
   bash -n "$srcdir/tamlinux-native/defaults/root/usr/lib/systemd/system-sleep/tam-hibernate-swap"
+  if [[ -d "$srcdir/tamlinux-native/bundle-tool" ]]; then
+    "$srcdir/tamlinux-native/bundle-tool/bin/tam-bundle" --version | grep -q '^tam-bundle '
+    sh -n "$srcdir/tamlinux-native/bundle-integration/tamlinux.sh"
+  fi
 }
 
 package() {
@@ -52,5 +62,12 @@ package() {
   install -d "$pkgdir/usr/bin"
   printf '%s\n' '#!/bin/sh' 'exec /usr/bin/python3 -I /usr/lib/tamlinux/native-defaults/convert.py "$@"' > "$pkgdir/usr/bin/tam-native-defaults"
   chmod 755 "$pkgdir/usr/bin/tam-native-defaults"
+  if [[ -d bundle-tool ]]; then
+    make -C bundle-tool install-bundle PREFIX=/usr DESTDIR="$pkgdir" LIBTAM_PREFIX="$srcdir/tamlinux-native/bundle-library"
+    install -d "$pkgdir/usr/lib/tamlinux/kept"
+    install -Dm644 bundle-integration/tamlinux.sh "$pkgdir/etc/profile.d/tamlinux.sh"
+    install -Dm644 bundle-integration/50-tamlinux.conf "$pkgdir/usr/lib/environment.d/50-tamlinux.conf"
+    install -Dm644 bundle-integration/20-tamlinux-bundle.conf "$pkgdir/usr/lib/systemd/system/user@.service.d/20-tamlinux-bundle.conf"
+  fi
   install -Dm644 guard-LICENSE "$pkgdir/usr/share/licenses/tamlinux-native/LICENSE-reload-guard"
 }

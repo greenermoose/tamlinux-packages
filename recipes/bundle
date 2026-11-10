@@ -12,6 +12,5 @@ needs file /usr/bin/python3 arch=python void=python3
 needs file /usr/bin/jq arch=jq void=jq
 needs file /usr/lib/libcpuid.so.18 arch=libcpuid void=libcpuid
 needs command mandb arch=man-db void=man-db
-after user-units-reload
-after qml-cache-purge
-after shell-restart
+# Bring-up is dormant. Active candidate recipes add the reviewed session
+# steps at cutover; an initial slot install must not restart the old shell.

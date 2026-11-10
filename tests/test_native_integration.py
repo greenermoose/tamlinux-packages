@@ -43,6 +43,65 @@ class NativeStaging(unittest.TestCase):
     def write_origins(self):
         (self.product/m.DEFAULTS/'origins.json').write_text(json.dumps({'schema':1,'files':self.origins}))
 
+    def bundle_fixture(self):
+        repos=self.base/'repos';pins={}
+        for name in ('libtam','tamlinux-tools'):
+            repo=repos/name;repo.mkdir(parents=True)
+            subprocess.run(['git','init','-q',str(repo)],check=True)
+            make='core:\n\t@true\ninstall-core:\n\t@true\n'
+            if name=='tamlinux-tools':
+                make=('install-bundle:\n'
+                      '\tinstall -Dm755 bin/tam-bundle $(DESTDIR)$(PREFIX)/bin/tam-bundle\n'
+                      '\tinstall -Dm644 data/policy $(DESTDIR)$(PREFIX)/share/polkit-1/actions/org.tamlinux.bundle.policy\n')
+                (repo/'data').mkdir();(repo/'data/policy').write_text('owned policy\n')
+                script=repo/'src/tool.c';script.parent.mkdir();script.write_text('maintained source\n');script.chmod(0o755)
+            (repo/'Makefile').write_text(make)
+            subprocess.run(['git','-C',str(repo),'add','--','Makefile',*(['src','data'] if name=='tamlinux-tools' else [])],check=True)
+            subprocess.run(['git','-C',str(repo),'-c','user.name=test','-c','user.email=test@example.invalid','commit','-qm','fixture'],check=True)
+            pins[name]=subprocess.check_output(['git','-C',str(repo),'rev-parse','HEAD'],text=True).strip()
+        lock=self.base/'bundle.lock';lock.write_text('format 1\n'+''.join(f'component {n} https://example.invalid/{n} {c}\n' for n,c in pins.items()))
+        root=self.product/'desktop/native/integration/bundle';root.mkdir(parents=True)
+        for name in ('tamlinux.sh','50-tamlinux.conf','20-tamlinux-bundle.conf'):(root/name).write_text('# dormant '+name+'\n')
+        return lock,repos,pins
+
+    def test_bundle_adapter_uses_locked_sources_and_records_pins(self):
+        lock,repos,pins=self.bundle_fixture()
+        (repos/'tamlinux-tools/src/tool.c').write_text('uncommitted change\n')
+        stage=self.base/'bundle'
+        result=m.prepare(self.product,stage,'development',lock,repos)
+        self.assertEqual(result['manifest']['bundleSources'],pins)
+        self.assertIn('pkgrel=0.2',(stage/'PKGBUILD').read_text())
+        with tarfile.open(stage/'tamlinux-native-source.tar') as archive:
+            entry=archive.getmember('tamlinux-native/bundle-tool/src/tool.c')
+            self.assertEqual(entry.mode,0o755)
+            self.assertEqual(archive.extractfile(entry).read(),b'maintained source\n')
+
+    def test_bundle_adapter_packages_the_tool_outside_its_empty_slot(self):
+        lock,repos,pins=self.bundle_fixture();stage=self.base/'bundle'
+        m.prepare(self.product,stage,'development',lock,repos)
+        source=self.base/'source';source.mkdir()
+        with tarfile.open(stage/'tamlinux-native-source.tar') as archive:archive.extractall(source,filter='data')
+        native=source/'tamlinux-native'
+        (native/'asdcontrol/asdcontrol').write_text('fixture provider\n')
+        tool=native/'bundle-tool/bin/tam-bundle';tool.parent.mkdir();tool.write_text('#!/bin/sh\nexit 0\n');tool.chmod(0o755)
+        package=self.base/'package';package.mkdir()
+        result=subprocess.run(['bash','-eu','-c','source "$1"; package','package',str(stage/'PKGBUILD')],
+                              env={**os.environ,'srcdir':str(source),'pkgdir':str(package)},capture_output=True,text=True)
+        self.assertEqual(result.returncode,0,result.stderr)
+        self.assertTrue(os.access(package/'usr/bin/tam-bundle',os.X_OK))
+        self.assertTrue((package/'usr/lib/tamlinux/kept').is_dir())
+        self.assertFalse((package/'usr/lib/tamlinux/current').exists())
+        self.assertTrue((package/'usr/share/polkit-1/actions/org.tamlinux.bundle.policy').is_file())
+        self.assertTrue((package/'etc/profile.d/tamlinux.sh').is_file())
+        self.assertTrue((package/'usr/lib/environment.d/50-tamlinux.conf').is_file())
+        self.assertTrue((package/'usr/lib/systemd/system/user@.service.d/20-tamlinux-bundle.conf').is_file())
+
+    def test_bundle_adapter_refuses_unavailable_locked_commit(self):
+        lock,repos,pins=self.bundle_fixture()
+        lock.write_text(lock.read_text().replace(pins['libtam'],'1'*40))
+        with self.assertRaises(subprocess.CalledProcessError):m.prepare(self.product,self.base/'bundle','development',lock,repos)
+        self.assertFalse((self.base/'bundle').exists())
+
     def test_same_selected_sources_produce_same_digest_bound_recipe_and_archive(self):
         a=m.prepare(self.product,self.base/'a','development')
         b=m.prepare(self.product,self.base/'b','development')
