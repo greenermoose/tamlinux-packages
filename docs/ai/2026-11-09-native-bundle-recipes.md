@@ -46,3 +46,13 @@ The lock later advances to tam-bundle 0.5.1's read-only planning fix, tam
 The preparer accepts an explicit numeric package release, so a changed
 adapter is never passed off as its previously built archive. Sixteen native
 adapter tests pass, including this release selection and its validation.
+
+Final bring-up pins tam-bundle 0.5.2. Bundle
+`8323d1c1fb822ce505cbcafb10d26528f8094b8b9eebfb0df6579e844155f254`
+(packaging `7cf75f5`) reproduced identically with the installed native tool.
+Native adapter `0.6.20-0.4` was built and checked, then installed with
+individual approval and a recorded rollback point. Real product-slot switch,
+full verification, rollback and forward switch passed; exchanges took 0.1
+seconds. The daily desktop service and process stayed on the previous
+delivery. This is dormant development bring-up, not a Test/Run promotion or
+the completed workstation cutover.

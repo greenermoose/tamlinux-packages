@@ -27,3 +27,15 @@ Before switching a workstation, compare the new file list against its
 recorded delivery. Nix command wrappers and compressed manual aliases are
 packaging differences; missing commands or product data must be explained.
 User configuration and user-manager activation are separate migration steps.
+
+The native adapter preparer accepts `--bundle-lock FILE --repos DIR` to
+include the rollback tool from those exact sources. Use an explicit numeric
+`--pkgrel` for a changed adapter after the initial bring-up; do not reuse a
+previously built package version for new contents. The installed tool is
+outside its product slot. Environment settings append the new prefix until
+the separately approved cutover changes precedence.
+
+Native slot install, switch, full verification, rollback and forward switch
+have passed with the development bundle. The remaining workstation migration
+includes the tam-deploy back end, configuration migration and active desktop
+cutover. Existing stage and privileged-step approval rules still apply.
