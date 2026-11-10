@@ -88,7 +88,7 @@ def defaults(product):
     return selected
 
 
-def prepare(product,destination,revision,bundle_lock=None,repos=None):
+def prepare(product,destination,revision,bundle_lock=None,repos=None,pkgrel=None):
     if destination.resolve().is_relative_to(product.resolve()):
         raise ValueError("Keep native staging outside the maintained product tree")
     files={}
@@ -100,6 +100,8 @@ def prepare(product,destination,revision,bundle_lock=None,repos=None):
     files.pop('console/cultivar')
     if not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version):
         raise ValueError('Native package requires a plain product version')
+    release=pkgrel or ('0.2' if bundle_lock is not None else '0.1')
+    if not re.fullmatch(r'[0-9]+(?:\.[0-9]+)*',release):raise ValueError('Invalid native package release')
     special=defaults(product)
     files.update({name:data for name,(mode,data) in special.items() if mode!='link'})
     bundle_modes={};bundle_pins={}
@@ -145,7 +147,7 @@ def prepare(product,destination,revision,bundle_lock=None,repos=None):
             entry.size=len(payload);entry.mode=mode
             handle.addfile(entry,io.BytesIO(payload))
     digest=hashlib.sha256(archive.read_bytes()).hexdigest()
-    recipe=(ROOT/'contracts/providers/recipes/tamlinux-native/PKGBUILD.in').read_text().replace('@SOURCE_SHA256@',digest).replace('@PRODUCT_VERSION@', version).replace('@PKGREL@','0.2' if bundle_pins else '0.1')
+    recipe=(ROOT/'contracts/providers/recipes/tamlinux-native/PKGBUILD.in').read_text().replace('@SOURCE_SHA256@',digest).replace('@PRODUCT_VERSION@', version).replace('@PKGREL@',release)
     (destination/'PKGBUILD').write_text(recipe)
     result={'schema':2,'payloadId':payload_id,'interface':1,'sourceSha256':digest,'recipeSha256':hashlib.sha256(recipe.encode()).hexdigest(),
             'manifest':manifest,'candidateReady':False}
@@ -160,8 +162,9 @@ if __name__=='__main__':
     parser.add_argument('--revision',required=True)
     parser.add_argument('--bundle-lock',type=Path,help='include tam-bundle and its environment from these exact source pins')
     parser.add_argument('--repos',type=Path,help='local clones holding the locked libtam and tamlinux-tools sources')
+    parser.add_argument('--pkgrel',help='explicit native package release for a changed adapter payload')
     args=parser.parse_args()
     try:
-        result=prepare(args.product.resolve(strict=True),args.destination.absolute(),args.revision,args.bundle_lock,args.repos)
+        result=prepare(args.product.resolve(strict=True),args.destination.absolute(),args.revision,args.bundle_lock,args.repos,args.pkgrel)
     except (OSError,ValueError,subprocess.CalledProcessError) as error:parser.exit(2,str(error)+'\n')
     print(json.dumps({k:result[k] for k in ('sourceSha256','recipeSha256','candidateReady')}))

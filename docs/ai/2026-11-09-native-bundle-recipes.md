@@ -40,3 +40,9 @@ the product slot empty and installs the tool and polkit policy outside it.
 Environment settings append the new prefix for dormant bring-up. The
 development recipe carries no session restart steps; active candidate
 recipes must add them at the separately approved cutover.
+
+The lock later advances to tam-bundle 0.5.1's read-only planning fix, tam
+0.51.0's bundle identity/ownership support and prefix-aware shell startup.
+The preparer accepts an explicit numeric package release, so a changed
+adapter is never passed off as its previously built archive. Sixteen native
+adapter tests pass, including this release selection and its validation.

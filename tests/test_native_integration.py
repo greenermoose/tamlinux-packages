@@ -102,6 +102,12 @@ class NativeStaging(unittest.TestCase):
         with self.assertRaises(subprocess.CalledProcessError):m.prepare(self.product,self.base/'bundle','development',lock,repos)
         self.assertFalse((self.base/'bundle').exists())
 
+    def test_changed_adapter_can_have_a_distinct_package_release(self):
+        stage=self.base/'release'
+        m.prepare(self.product,stage,'development',pkgrel='0.3')
+        self.assertIn('pkgrel=0.3',(stage/'PKGBUILD').read_text())
+        with self.assertRaises(ValueError):m.prepare(self.product,self.base/'invalid','development',pkgrel='x; false')
+
     def test_same_selected_sources_produce_same_digest_bound_recipe_and_archive(self):
         a=m.prepare(self.product,self.base/'a','development')
         b=m.prepare(self.product,self.base/'b','development')
