@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-10: Codex CLI `0.167.0` (`gpt-6.1-sol`) rewrites the 0.6.22 version notes as concrete change descriptions, following the 0.6.19 and 0.6.20 examples. [Record](docs/ai/2026-11-10-version-notes.md).
+
 2026-11-10: Codex CLI `0.167.0` (`gpt-6.1-sol`) retires the duplicate tam Arch host-profile patch and supplies Git for tamlinux-tools package tests. [Record](docs/ai/2026-11-10-tam-host-profile-patch.md).
 
 2026-11-09: Codex CLI `0.167.0` (`gpt-6.1-sol`) adds native bundle recipes. [Record](docs/ai/2026-11-09-native-bundle-recipes.md).

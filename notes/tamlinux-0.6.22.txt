@@ -1,7 +1,9 @@
 Tamlinux 0.6.22 version notes
 
 Changes since Tamlinux 0.6.20:
-- libtam (88ce9ac3cffe)
-- tam (be6a8c6069ee)
-- tamlinux-tools (d83628bb5cc9)
-- tamlinux (19db334a3217)
+- tam 0.51.0 (0.78.1)
+- tam-monitor: Fit the text console to the monitors kept lit when keeping one display or blanking displays
+- tam-monitor console-size: Show and adjust the text console's visible area without rebooting
+- tam-workstation-upgrade: Restore the recorded installation after a failed upgrade and accurately report whether recovery succeeded
+- tam-deploy: Prevent overlapping deployments and preserve later user edits during recovery
+- tam-bundle: Add reproducible builds from pinned sources, version switching, recovery, and bundled manual pages
