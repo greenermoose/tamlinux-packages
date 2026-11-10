@@ -9,10 +9,13 @@
 
   > See tamlinux-0.6.15.txt for how to report changes to tam. Report the semver if we have updated tam, not the git hash.
 
-Replaced the four component hashes in `notes/tamlinux-0.6.22.txt` with tam's
-command/corpus semvers, `tam 0.51.0 (0.78.1)`, and short descriptions of the
-monitor and console changes, deployment recovery and file-bundle tools.
-Used 0.6.15 for tam's version format and 0.6.19/0.6.20 for change descriptions.
+  > It's good to explain what changed in tam command and tam knowledge, too, in addition to the semver. Do a line for tam, e.g. tam 0.51.0: what changed, tam knowledge 0.78.1: what changed
+
+Replaced the four component hashes in `notes/tamlinux-0.6.22.txt` with separate
+`tam 0.51.0: ...` and `tam knowledge 0.78.1: ...` lines describing their changes,
+plus descriptions of the monitor and console changes, deployment recovery and
+file-bundle tools. Used 0.6.15 for tam's semantic versions, 0.6.19/0.6.20 for
+change descriptions, and the developer's final clarification for the two-line format.
 Checked the selected component histories against the preceding 0.6.20 delivery
 and used the tam version pair verified from the installed package.
 

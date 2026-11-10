@@ -1,8 +1,9 @@
 Tamlinux 0.6.22 version notes
 
 Changes since Tamlinux 0.6.20:
-- tam 0.51.0 (0.78.1)
-- tam-monitor: Fit the text console to the monitors kept lit when keeping one display or blanking displays
+- tam 0.51.0: Recognize Arch hosts directly and report the installed version and file owners for tam-bundle installations
+- tam knowledge 0.78.1: Add guides to file bundles, object files and static libraries, and writing knowledge pages
+- tam-monitor: Fit the text console to the lit monitors and refit it when other monitors return
 - tam-monitor console-size: Show and adjust the text console's visible area without rebooting
 - tam-workstation-upgrade: Restore the recorded installation after a failed upgrade and accurately report whether recovery succeeded
 - tam-deploy: Prevent overlapping deployments and preserve later user edits during recovery
