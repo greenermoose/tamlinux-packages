@@ -47,8 +47,6 @@ let
       corpusVersion = lib.trim (builtins.readFile "${sources.tam}/knowledge/version");
     };
     src = buildSource sources.tam;
-    patches = pkgs.lib.optional (builtins.pathExists "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch")
-      (builtins.path { path = "${sources.tamlinux}/desktop/native/providers/tam-arch-host-profile.patch"; name = "tam-arch-host-profile.patch"; });
     postPatch = ''
       patchShebangs tests
       install -m 755 ${../../tests/tam-package-navigation.sh} tests/tam-package-navigation.sh
@@ -117,6 +115,7 @@ let
     nativeBuildInputs = [
       pkgs.pkg-config
       pkgs.glibc.bin
+      pkgs.git
     ];
     buildInputs = [
       libtam
