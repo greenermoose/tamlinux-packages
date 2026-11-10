@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+2026-11-09: Codex CLI `0.167.0` (`gpt-6.1-sol`) adds native bundle recipes. [Record](2026-11-09-native-bundle-recipes.md).
+
 - [2026-11-09 — Local fleet profile defaults](2026-11-09-private-fleet-defaults.md)
 
 - [2026-11-09 — A fixed path for the console greeting](2026-11-09-console-greeting-link.md)

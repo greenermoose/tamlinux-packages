@@ -1,0 +1,6 @@
+format 1
+component tamlinux-tools
+build make
+make-vars LIBTAM_PREFIX=@libtam@
+install-targets install-file-select
+after-build libtam

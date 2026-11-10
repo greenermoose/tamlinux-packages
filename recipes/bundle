@@ -1,0 +1,17 @@
+format 1
+name tamlinux
+host any
+index man
+file notes/tamlinux-development.txt share/tamlinux/version-notes.txt
+# The native adapter supplies these; checking fixed paths avoids counting a
+# program that exists only in the old Nix profile as a native prerequisite.
+needs file /usr/bin/quickshell arch=quickshell void=quickshell
+needs file /usr/bin/uwsm arch=uwsm void=uwsm
+needs file /usr/bin/Hyprland arch=hyprland void=hyprland
+needs file /usr/bin/python3 arch=python void=python3
+needs file /usr/bin/jq arch=jq void=jq
+needs file /usr/lib/libcpuid.so.18 arch=libcpuid void=libcpuid
+needs command mandb arch=man-db void=man-db
+after user-units-reload
+after qml-cache-purge
+after shell-restart

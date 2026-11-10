@@ -1,0 +1,5 @@
+format 1
+component tamlinux
+build make
+make-vars LIBTAM_PREFIX=@libtam@ PYTHON=/usr/bin/python3
+after-build libtam

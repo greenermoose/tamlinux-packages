@@ -1,0 +1,8 @@
+Tamlinux 0.6.20-dev
+
+Development bundle for the native delivery migration.
+
+- Build commands, shell, plugins and knowledge pages from tamlinux.lock.
+- Keep source commits and the packaging commit in BUNDLE.
+- Install real files and switch the product tree atomically.
+- This build is not a prepared Test or Run candidate.

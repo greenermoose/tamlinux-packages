@@ -1,0 +1,6 @@
+format 1
+component libtam
+build make
+output build-only
+make-targets all display session
+install-targets install install-display install-session

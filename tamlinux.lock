@@ -1,0 +1,5 @@
+format 1
+component libtam https://github.com/greenermoose/libtam 88ce9ac3cffeb9a5940267ac4de49cc69346ad5d
+component tam https://github.com/greenermoose/tam c4450578d71581a2e85ec2fbf93719e4c68990c1
+component tamlinux-tools https://github.com/greenermoose/tamlinux-tools b690059f827b5afb8339210c61bd76693f9fe70d
+component tamlinux https://github.com/greenermoose/tamlinux c624a21121d455c02767c0be231686d5a842ed87
