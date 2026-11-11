@@ -37,3 +37,12 @@ boot unit accepted by systemd's verifier. Its SHA-256 was
 `2ec1d0cfac8436f680364a41c9646f9b173aa7cfa6d2323cee45c15bdef669bf`.
 This was a temporary development build. The existing native adapter and
 Nix/Home Manager delivery inputs remain pinned.
+
+## Console protocol integration
+
+The development recipes now select libtam 0.6.0, tam command 0.53.0,
+the 0.10.0 bundle tool and the gated native console entries.
+The fixed apply helper takes the checked transaction id. The required
+user action records active product units before stopping them and
+retains that list through a failed restart. Four bootstrap fixture tests
+pass. These source pins are separate from the native adapter's live pin.

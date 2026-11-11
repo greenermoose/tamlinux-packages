@@ -1,3 +1,80 @@
-#!/bin/sh
-[ "$#" -eq 2 ] && [ "$1" = apply ] || exit 2
-exec /usr/bin/systemctl --user daemon-reload
+#!/bin/bash
+set -euo pipefail
+umask 077
+if [[ $# != 2 || ! $2 =~ ^[0-9a-f]{32}$ ]]; then
+    exit 2
+fi
+case "$1" in stop|restart-old|apply) ;; *) exit 2 ;; esac
+
+slot=/usr/lib/tamlinux
+state=$HOME/.local/state/tamlinux/units
+record=$state/$2
+/usr/bin/mkdir -p -- "$state"
+/usr/bin/systemctl --user show-environment >/dev/null
+
+declare -a available=()
+if [[ -L $slot/current ]]; then
+    version=$(/usr/bin/readlink -- "$slot/current")
+    [[ $version =~ ^version/[A-Za-z0-9][A-Za-z0-9._+-]*$ ]] || exit 1
+    while IFS=' ' read -r scope type mode hash path; do
+        if [[ $scope == p && $type == f && $path == usr/lib/systemd/user/* ]]; then
+            name=${path#usr/lib/systemd/user/}
+            if [[ $name != */* && $name =~ ^[A-Za-z0-9@._+-]+\.(service|timer)$ ]]; then
+                available+=("$name")
+            fi
+        fi
+    done < "$slot/$version/MANIFEST"
+fi
+
+if [[ $1 == stop ]]; then
+    if [[ ! -f $record ]]; then
+        temporary=$(/usr/bin/mktemp "$state/.$2.XXXXXXXX")
+        trap '/usr/bin/rm -f -- "$temporary"' EXIT
+        for unit in "${available[@]}"; do
+            if /usr/bin/systemctl --user is-active --quiet "$unit"; then
+                printf '%s\n' "$unit" >> "$temporary"
+            fi
+        done
+        /usr/bin/sync -f -- "$temporary"
+        /usr/bin/mv -T -- "$temporary" "$record"
+        /usr/bin/sync -f -- "$state"
+        trap - EXIT
+    fi
+    mapfile -t stopped < "$record"
+    for unit in "${stopped[@]}"; do
+        found=false
+        for candidate in "${available[@]}"; do
+            if [[ $candidate == "$unit" ]]; then
+                found=true
+                break
+            fi
+        done
+        if [[ $found != true ]]; then
+            printf 'Recorded user unit is outside the selected bundle: %s\n' "$unit" >&2
+            exit 1
+        fi
+    done
+    if (( ${#stopped[@]} )); then
+        /usr/bin/systemctl --user stop -- "${stopped[@]}"
+    fi
+    exit 0
+fi
+
+/usr/bin/systemctl --user daemon-reload
+if [[ -f $record ]]; then
+    while IFS= read -r unit; do
+        for candidate in "${available[@]}"; do
+            if [[ $candidate != "$unit" ]]; then
+                continue
+            fi
+            fragment=$(/usr/bin/systemctl --user show --property=FragmentPath --value "$unit")
+            if [[ $fragment != "/usr/lib/systemd/user/$unit" ]]; then
+                printf 'User unit %s still has a different provider: %s\n' "$unit" "$fragment" >&2
+                exit 1
+            fi
+            /usr/bin/systemctl --user start -- "$unit"
+        done
+    done < "$record"
+    /usr/bin/rm -- "$record"
+    /usr/bin/sync -f -- "$state"
+fi
