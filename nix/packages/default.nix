@@ -111,7 +111,17 @@ let
     pname = "tamlinux-tools";
     version = "0-unstable-${builtins.substring 0 7 sources.tamlinux-tools.rev}";
     src = buildSource sources.tamlinux-tools;
-    postPatch = "patchShebangs tests";
+    postPatch = ''
+      patchShebangs tests
+      # Restrict static libc to the standalone target: adding it to global
+      # buildInputs also makes dynamic sanitizer tests select libc.a.
+      # Retire when the Makefile exposes target-specific static link flags.
+      ${pkgs.lib.optionalString (builtins.pathExists "${sources.tamlinux-tools}/src/tam-bundle") ''
+        substituteInPlace Makefile --replace-fail \
+          '$(CFLAGS) -static $(CORE_CFLAGS)' \
+          '$(CFLAGS) -static -L${pkgs.glibc.static}/lib $(CORE_CFLAGS)'
+      ''}
+    '';
     nativeBuildInputs = [
       pkgs.pkg-config
       pkgs.glibc.bin
@@ -120,7 +130,6 @@ let
     buildInputs = [
       libtam
       pkgs.dbus
-      pkgs.glibc.static # tam-bundle is a standalone static recovery tool
     ];
     makeFlags = [
       "PREFIX=$(out)"
