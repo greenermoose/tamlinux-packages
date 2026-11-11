@@ -57,3 +57,5 @@ repositories. Nix definitions, native package adapters, dependency selection,
 assembly and delivery verification belong here.
 
 GNU GPL v3 or later. See [LICENSE](LICENSE) and [AI provenance](AI_PROVENANCE.md).
+
+[Software defect tracker](bugs/README-bugs.md): report reproducible defects beside their source.
