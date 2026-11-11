@@ -30,6 +30,8 @@ classification: its check had no libtam headers. Register it as a native
 payload, giving its build/check/install the selected library. The integration
 build also selects exact committed libtam/tools revisions through temporary
 Nix overrides because current Develop uses the bundle guard missing from the
-old frozen candidate's library. Candidate pins remain unchanged.
+old frozen candidate's library. The committed tools build also needs the matching static glibc output for
+its standalone tam-bundle binary; add that build-only dependency. Candidate
+pins remain unchanged.
 
 No package is installed and no Test, Run or Release is promoted.

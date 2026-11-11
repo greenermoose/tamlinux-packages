@@ -120,6 +120,7 @@ let
     buildInputs = [
       libtam
       pkgs.dbus
+      pkgs.glibc.static # tam-bundle is a standalone static recovery tool
     ];
     makeFlags = [
       "PREFIX=$(out)"
