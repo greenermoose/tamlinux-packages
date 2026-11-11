@@ -19,8 +19,9 @@ version-only entry also runs against the staged corrected library.
 The archive identities and source commits are frozen in the native provider
 selection. `check-display-integration.py` binds both native archives and
 recipe closures to the exact product patches and actual Nix user-package
-files. Ten synthetic regressions cover exact pairing, changed archives,
-changed recipes, relabeled builds, missing corrections, mixed user sources and a stale standalone command helper.
+files. Eleven synthetic regressions cover exact pairing, changed archives,
+changed recipes, relabeled builds, missing corrections, mixed user sources and a stale standalone command helper and strictly validated Python shebang
+relocation with unchanged isolated mode/body.
 
 Verification: full Hyprland package compile/link; Aquamarine package build
 and three fake-backend tests; native archive metadata/recipe/payload checks.
@@ -33,7 +34,11 @@ Nix overrides because current Develop uses the bundle guard missing from the
 old frozen candidate's library. The committed tools build also needs the matching static glibc output for
 its standalone tam-bundle binary; supply its path only to the static target. Putting static libc on every
 link path also breaks the dynamic sanitizer test build, so the narrow Nix
-Makefile substitution scopes it to `tam-bundle` and fails if the target changes. Candidate
-pins remain unchanged.
+Makefile substitution scopes it to `tam-bundle` and fails if the target changes. Declare Python for the journal tests and relocate their fake editor's
+interpreter. The hermetic tools check runs portal/CLI tests, journal tests,
+sanitizer-binary compilation and manual checks. Native bundle process,
+mount and Arch-database proofs run separately on the host with their
+private PID/mount guards intact; they cannot use the Nix sandbox's layout.
+Candidate pins remain unchanged.
 
 No package is installed and no Test, Run or Release is promoted.

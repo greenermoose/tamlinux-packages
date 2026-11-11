@@ -133,3 +133,11 @@ class DisplayIntegrationTests(unittest.TestCase):
         shell, plugins, commands = self.user_packages()
         with patch.object(CHECK, 'source', side_effect=lambda product, rev, path: path.encode()), self.assertRaisesRegex(ValueError, 'standalone command package'):
             CHECK.verify(self.root, self.root, plugins, shell, self.archives)
+
+    def test_standard_nix_python_relocation_preserves_isolated_mode_and_source(self):
+        original = b"#!/usr/bin/python3 -I\nprint('source')\n"
+        installed = b"#!/nix/store/" + b"a" * 32 + b"-python3-3.14.8/bin/python3 -I\nprint('source')\n"
+        self.assertTrue(CHECK.command_source_matches(original, installed))
+        self.assertFalse(CHECK.command_source_matches(original, installed.replace(b" -I", b"")))
+        self.assertFalse(CHECK.command_source_matches(original, installed.replace(b"source", b"changed")))
+        self.assertFalse(CHECK.command_source_matches(original, installed.replace(b"/nix/store/", b"/tmp/")))

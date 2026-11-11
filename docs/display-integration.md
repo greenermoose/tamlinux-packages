@@ -35,7 +35,9 @@ Run `python3 tools/check-display-integration.py` with:
 - `--hyprland` and `--aquamarine`: the selected native archives.
 
 The check compares the packaged widget, shared queue, both helper entry points and backend
-byte-for-byte with the revision carried by the shell package. Native source
+with the revision carried by the shell package. The only allowed content
+transformation is Nix's standard Python shebang relocation, preserving `-I`
+and every script-body byte. Native source
 patches must match that same revision. It validates the archive and recipe
 closure digests, `.PKGINFO`, `.BUILDINFO`, required files and correction/guard
 markers in ELF payloads. Marker checks supplement reviewed local builds;

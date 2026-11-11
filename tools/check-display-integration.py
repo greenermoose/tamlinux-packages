@@ -56,6 +56,18 @@ def verify_native(root, archives):
     return result
 
 
+def command_source_matches(expected, installed):
+    if expected == installed:
+        return True
+    # Nix's standard fixup changes only the interpreter path. Keep Python's
+    # isolated-mode argument and every body byte exact.
+    source_header, separator, body = expected.partition(b'\n')
+    header, installed_separator, installed_body = installed.partition(b'\n')
+    return (source_header == b'#!/usr/bin/python3 -I' and separator and installed_separator
+            and body == installed_body
+            and re.fullmatch(rb'#!/nix/store/[a-z0-9]{32}-python3-[^/\n]+/bin/python3 -I', header) is not None)
+
+
 def verify(root, product, plugins, shell, archives, commands=None):
     revision = (shell / 'share/tamlinux/source-revision').read_text().strip()
     if not re.fullmatch('[0-9a-f]{40}', revision):
@@ -75,7 +87,7 @@ def verify(root, product, plugins, shell, archives, commands=None):
                        ("compositor_commands.py", "desktop/shell/host/compositor_commands.py")):
         installed = commands / 'share/tamlinux/workspaces' / name
         expected = source(product, revision, path)
-        if installed.is_symlink() or installed.read_bytes() != expected:
+        if installed.is_symlink() or not command_source_matches(expected, installed.read_bytes()):
             raise ValueError('Standalone command differs from selected source: ' + name)
         files['standalone/' + name] = hashlib.sha256(expected).hexdigest()
     # Native recipe patches must be the corrections reviewed with this source.

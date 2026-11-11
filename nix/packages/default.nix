@@ -113,6 +113,10 @@ let
     src = buildSource sources.tamlinux-tools;
     postPatch = ''
       patchShebangs tests
+      ${pkgs.lib.optionalString (builtins.pathExists "${sources.tamlinux-tools}/tests/journal/test_journal.py") ''
+        substituteInPlace tests/journal/test_journal.py --replace-fail \
+          '#!/usr/bin/python3' '#!${pkgs.python3}/bin/python3'
+      ''}
       # Restrict static libc to the standalone target: adding it to global
       # buildInputs also makes dynamic sanitizer tests select libc.a.
       # Retire when the Makefile exposes target-specific static link flags.
@@ -126,6 +130,7 @@ let
       pkgs.pkg-config
       pkgs.glibc.bin
       pkgs.git
+      pkgs.python3
     ];
     buildInputs = [
       libtam
@@ -136,6 +141,19 @@ let
       "LIBTAM_PREFIX=${libtam}"
     ];
     doCheck = true;
+    # Bundle signal/mount/native-database proofs need the Arch host and a
+    # private PID/mount namespace. Run that suite separately before Test;
+    # never weaken its namespace guard to fit the Nix sandbox.
+    checkPhase = ''
+      runHook preCheck
+      tests/run_tests.sh
+      ${pkgs.lib.optionalString (builtins.pathExists "${sources.tamlinux-tools}/tests/journal/test_journal.py") "make test-journal"}
+      ${pkgs.lib.optionalString (builtins.pathExists "${sources.tamlinux-tools}/src/tam-bundle") ''
+        make bin/tam-bundle-test bin/tam-bundle-busy-test
+        tests/man.sh
+      ''}
+      runHook postCheck
+    '';
     meta = {
       license = pkgs.lib.licenses.gpl3Plus;
       mainProgram = "tam-file-select";
