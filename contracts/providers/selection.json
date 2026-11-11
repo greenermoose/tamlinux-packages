@@ -73,47 +73,53 @@
     },
     {
       "architecture": "x86_64",
-      "archive": "hyprland-0.56.2-4.1-x86_64.pkg.tar.zst",
+      "archive": "hyprland-0.56.2-4.2-x86_64.pkg.tar.zst",
       "id": "hyprland",
       "origin": "https://github.com/hyprwm/Hyprland",
       "package": "hyprland",
+      "purpose": "Uninstalled Develop selection: focus-preserving output workspace activation and attributed display logging; retains DPMS and idle guards",
       "recipeFiles": {
-        "recipes/hyprland/PKGBUILD": "64d6fa05f44023fb974c389983b6d2e0286b81e190f76bd3a70a59526f19df85",
+        "recipes/hyprland/PKGBUILD": "d6454b29aaca339c75f3c28fbc3f2b2aadf51378b8c87b48ef049beda3e168c4",
         "recipes/hyprland/hyprland-dpms-off-on-connect.patch": "348e93ae29a988dbca4a42d24ad0e98f84ca026eb8d32c4a916db2f8a880ec13",
         "recipes/hyprland/hyprland-dpms-state-per-monitor.patch": "fee516e2593ba537584e32a44e7e3de51acb368274fa9557c6a9217b77e0836e",
-        "recipes/hyprland/hyprland-idle-inhibit-unchanged-noop.patch": "84e474cf7f1c257f0d7450a7e2a5131fa355f650e31ce8b04e71e64ad4ec220c"
+        "recipes/hyprland/hyprland-idle-inhibit-unchanged-noop.patch": "84e474cf7f1c257f0d7450a7e2a5131fa355f650e31ce8b04e71e64ad4ec220c",
+        "recipes/hyprland/hyprland-output-workspace-logging.patch": "b6bc76839effd67798b552c6f5641293032d511e4e96cc12c5e9cd7cb7170d7c"
       },
-      "recipeSha256": "64d6fa05f44023fb974c389983b6d2e0286b81e190f76bd3a70a59526f19df85",
+      "recipeSha256": "d6454b29aaca339c75f3c28fbc3f2b2aadf51378b8c87b48ef049beda3e168c4",
       "requiredFiles": [
         "usr/bin/Hyprland",
         "usr/bin/hyprctl",
         "usr/bin/start-hyprland"
       ],
-      "sha256": "ddb2c3eb5abd71b5df2185f5dc62b81e483f5007df8be6e07c5ea0867d5d0d11",
+      "sha256": "1043975edb55674a530ca7b2aa95d4f2ede52ebb4c2f74dd1a3bbfb5c003f44b",
+      "sourceRevision": "3b1b3f15e7b7bd05cb497cab296f2df40190c2c7",
       "status": "selected",
       "trust": "reviewed-local-build",
       "updateChannel": "https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/hyprland",
-      "version": "0.56.2-4.1"
+      "version": "0.56.2-4.2"
     },
     {
       "architecture": "x86_64",
-      "archive": "aquamarine-0.15.1-1.1-x86_64.pkg.tar.zst",
+      "archive": "aquamarine-0.15.1-1.2-x86_64.pkg.tar.zst",
       "id": "aquamarine",
       "origin": "https://github.com/hyprwm/aquamarine",
       "package": "aquamarine",
+      "purpose": "Uninstalled Develop selection: attributed synchronous/async DRM errors; retains null connector guard",
       "recipeFiles": {
-        "recipes/aquamarine/PKGBUILD": "e3bca28ed22c4ffaac7a071d95eb98caaedb023e2aa514f52182351389a30a89",
+        "recipes/aquamarine/PKGBUILD": "f0ac16f519ea96a869adfd5a865a3856c2dae4d403a2d71a8c1ca1be514b8c67",
+        "recipes/aquamarine/aquamarine-commit-attribution.patch": "22c28d1cbd584e65f89b615dc84e7e5546bae2814c15f007aa02bbf34eb79f33",
         "recipes/aquamarine/aquamarine-guard-null-connectors.patch": "91b97d3fc9e6a7f78f9f66bb68cecd946329027d246a3162c591ac3b5a04721a"
       },
-      "recipeSha256": "e3bca28ed22c4ffaac7a071d95eb98caaedb023e2aa514f52182351389a30a89",
+      "recipeSha256": "f0ac16f519ea96a869adfd5a865a3856c2dae4d403a2d71a8c1ca1be514b8c67",
       "requiredFiles": [
         "usr/lib/libaquamarine.so.14"
       ],
-      "sha256": "27b5a9ff6912e9680b7244737849331569d767de57e9fe66277ab9664ad4b7d3",
+      "sha256": "8e408436947be7338fe0c0a995bd5998d4fa919acd2f3b9ff689967d839e5e91",
+      "sourceRevision": "25f5e5d04761b33c25e7e526367831a0ca88f422",
       "status": "selected",
       "trust": "reviewed-local-build",
       "updateChannel": "https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/aquamarine",
-      "version": "0.15.1-1.1"
+      "version": "0.15.1-1.2"
     },
     {
       "id": "tensaku",

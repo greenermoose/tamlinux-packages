@@ -1,0 +1,251 @@
+--- a/src/backend/drm/DRM.cpp
++++ b/src/backend/drm/DRM.cpp
+@@ -415,6 +415,11 @@
+             continue;
+ 
+         const bool SUBMITTED = result.status == CDRMCommitThread::AQ_DRM_COMMIT_THREAD_SUBMITTED;
++        if (!SUBMITTED && result.status != CDRMCommitThread::AQ_DRM_COMMIT_THREAD_CANCELLED)
++            backend->log(AQ_LOG_ERROR,
++                         std::format("drm: Async commit failed output={} crtc={} commit={} error={}",
++                                     DATA->output ? DATA->output->name : (DATA->connector ? DATA->connector->szName : "unknown"),
++                                     DATA->connector && DATA->connector->crtc ? DATA->connector->crtc->id : 0, result.request->id, result.error));
+         if (SUBMITTED)
+             DATA->mgpuAcquired = false;
+         ATOMIC_IMPL->finalizeAsync(*DATA->request, DATA->connector, DATA->commitData, SUBMITTED);
+@@ -514,6 +519,11 @@
+             continue;
+ 
+         const bool SUBMITTED = result.status == CDRMCommitThread::AQ_DRM_COMMIT_THREAD_SUBMITTED;
++        if (!SUBMITTED && result.status != CDRMCommitThread::AQ_DRM_COMMIT_THREAD_CANCELLED)
++            backend->log(AQ_LOG_ERROR,
++                         std::format("drm: Async commit failed output={} crtc={} commit={} error={}",
++                                     data->output ? data->output->name : (data->connector ? data->connector->szName : "unknown"),
++                                     data->connector && data->connector->crtc ? data->connector->crtc->id : 0, result.request->id, result.error));
+         if (SUBMITTED)
+             data->mgpuAcquired = false;
+         atomicImpl->finalizeAsync(*data->request, data->connector, data->commitData, SUBMITTED);
+@@ -2504,18 +2514,25 @@
+ }
+ 
+ bool Aquamarine::CDRMOutput::commitState(bool onlyTest) {
++    // Attribute at emission, including preflight failures before a snapshot
++    // exists. Never infer the failed output from a neighbouring debug line.
++    const auto commitLog = [&](eBackendLogLevel level, const std::string& message) {
++        backend->backend->log(level,
++                              std::format("{} output={} crtc={} status={} in_flight={} test={}", message, name, connector->crtc ? connector->crtc->id : 0,
++                                          static_cast<int>(connector->status), connector->sched.frameInFlight(), onlyTest));
++    };
+     if (!backend->backend->session->active) {
+-        backend->backend->log(AQ_LOG_ERROR, "drm: Session inactive");
++        commitLog(AQ_LOG_ERROR, "drm: Session inactive");
+         return false;
+     }
+ 
+     if (!connector->crtc) {
+-        backend->backend->log(AQ_LOG_ERROR, "drm: No CRTC attached to output");
++        commitLog(AQ_LOG_ERROR, "drm: No CRTC attached to output");
+         return false;
+     }
+ 
+     if (connector->status != DRM_MODE_CONNECTED || connector->output != self.lock()) {
+-        backend->backend->log(AQ_LOG_ERROR, "drm: Cannot commit a disconnected output");
++        commitLog(AQ_LOG_ERROR, "drm: Cannot commit a disconnected output");
+         return false;
+     }
+ 
+@@ -2524,13 +2541,13 @@
+     const uint32_t COMMITTED = STATE.committed;
+ 
+     if (SNAPSHOT.error()) {
+-        backend->backend->log(AQ_LOG_ERROR, std::format("drm: Failed to duplicate explicit input fence: {}", strerror(SNAPSHOT.error())));
++        commitLog(AQ_LOG_ERROR, std::format("drm: Failed to duplicate explicit input fence: {}", strerror(SNAPSHOT.error())));
+         return false;
+     }
+ 
+     if ((COMMITTED & COutputState::eOutputStateProperties::AQ_OUTPUT_STATE_ENABLED) && STATE.enabled) {
+         if (!STATE.mode && !STATE.customMode) {
+-            backend->backend->log(AQ_LOG_ERROR, "drm: No mode on enable commit");
++            commitLog(AQ_LOG_ERROR, "drm: No mode on enable commit");
+             return false;
+         }
+     }
+@@ -2546,33 +2563,33 @@
+         }
+ 
+         if (!ok) {
+-            backend->backend->log(AQ_LOG_ERROR, "drm: Selected format is not supported by the primary KMS plane");
++            commitLog(AQ_LOG_ERROR, "drm: Selected format is not supported by the primary KMS plane");
+             return false;
+         }
+     }
+ 
+     if (STATE.enabled && STATE.drmFormat == DRM_FORMAT_INVALID) {
+-        backend->backend->log(AQ_LOG_ERROR, "drm: No format for output");
++        commitLog(AQ_LOG_ERROR, "drm: No format for output");
+         return false;
+     }
+ 
+     if (STATE.adaptiveSync && !connector->canDoVrr) {
+-        backend->backend->log(AQ_LOG_ERROR, "drm: No Adaptive sync support for output");
++        commitLog(AQ_LOG_ERROR, "drm: No Adaptive sync support for output");
+         return false;
+     }
+ 
+     if (STATE.presentationMode == AQ_OUTPUT_PRESENTATION_IMMEDIATE && !backend->drmProps.supportsAsyncCommit) {
+-        backend->backend->log(AQ_LOG_ERROR, "drm: No Immediate presentation support in the backend");
++        commitLog(AQ_LOG_ERROR, "drm: No Immediate presentation support in the backend");
+         return false;
+     }
+ 
+     if ((COMMITTED & COutputState::eOutputStateProperties::AQ_OUTPUT_STATE_BUFFER) && !STATE.buffer) {
+-        backend->backend->log(AQ_LOG_ERROR, "drm: No buffer committed");
++        commitLog(AQ_LOG_ERROR, "drm: No buffer committed");
+         return false;
+     }
+ 
+     if ((COMMITTED & COutputState::eOutputStateProperties::AQ_OUTPUT_STATE_BUFFER) && STATE.buffer->attachments.has<CDRMBufferUnimportable>()) {
+-        TRACE(backend->backend->log(AQ_LOG_TRACE, "drm: Cannot commit a KMS-unimportable buffer."));
++        commitLog(AQ_LOG_ERROR, "drm: Cannot commit a KMS-unimportable buffer.");
+         return false;
+     }
+ 
+@@ -2584,30 +2601,31 @@
+ 
+     const auto MODE = STATE.mode ? STATE.mode : STATE.customMode;
+ 
+-    if (!MODE) // modeless commits are invalid
++    if (!MODE) { // modeless commits are invalid
++        commitLog(AQ_LOG_ERROR, "drm: Cannot commit without a mode");
+         return false;
++    }
+ 
+     uint32_t flags = 0;
+ 
+     if (!onlyTest) {
+         if (NEEDS_RECONFIG) {
+             if (STATE.enabled)
+-                backend->backend->log(AQ_LOG_DEBUG,
+-                                      std::format("drm: Modesetting {} with {}x{}@{:.2f}Hz", name, (int)MODE->pixelSize.x, (int)MODE->pixelSize.y, MODE->refreshRate / 1000.F));
++                commitLog(AQ_LOG_DEBUG, std::format("drm: Modesetting {} with {}x{}@{:.2f}Hz", name, (int)MODE->pixelSize.x, (int)MODE->pixelSize.y, MODE->refreshRate / 1000.F));
+             else
+-                backend->backend->log(AQ_LOG_DEBUG, std::format("drm: Disabling output {}", name));
++                commitLog(AQ_LOG_DEBUG, std::format("drm: Disabling output {}", name));
+         }
+ 
+         if (STATE.enabled && NEEDS_RECONFIG && connector->sched.frameInFlight()) {
+             // ALLOW_MODESET resets the CRTC, so the in-flight flip is either cancelled or
+             // superseded by this commit. drop it either way; whatever event still arrives no
+             // longer matches the crtcs id and is discarded.
+-            backend->backend->log(AQ_LOG_DEBUG, std::format("drm: page-flip on {} cancelled by modeset, clearing flip state", name));
++            commitLog(AQ_LOG_DEBUG, std::format("drm: page-flip on {} cancelled by modeset, clearing flip state", name));
+             connector->invalidateFrame();
+         }
+ 
+         if (STATE.enabled && (COMMITTED & COutputState::eOutputStateProperties::AQ_OUTPUT_STATE_BUFFER) && connector->sched.frameInFlight()) {
+-            backend->backend->log(AQ_LOG_ERROR, "drm: Cannot commit when a page-flip is awaiting");
++            commitLog(AQ_LOG_ERROR, std::format("drm: Cannot commit when a page-flip is awaiting committed={} enabled={}", COMMITTED, STATE.enabled));
+             return false;
+         }
+ 
+@@ -2636,7 +2654,7 @@
+     }
+ 
+     if (STATE.buffer && STATE.enabled) {
+-        TRACE(backend->backend->log(AQ_LOG_TRACE, "drm: Committed a buffer, updating state"));
++        TRACE(commitLog(AQ_LOG_TRACE, "drm: Committed a buffer, updating state"));
+ 
+         SP<CDRMFB> drmFB;
+ 
+@@ -2644,17 +2662,17 @@
+             drmFB = blittedFB;
+         else if (backend->shouldBlit()) {
+             if (!backend->rendererState.renderer) {
+-                backend->backend->log(AQ_LOG_DEBUG, "drm: No renderer attached to backend when required for blitting, initializing");
++                commitLog(AQ_LOG_DEBUG, "drm: No renderer attached to backend when required for blitting, initializing");
+                 if (!backend->initMgpu() || !backend->rendererState.renderer || !backend->rendererState.allocator) {
+-                    backend->backend->log(AQ_LOG_ERROR, "drm: Failed to initialize renderer backend for blitting");
++                    commitLog(AQ_LOG_ERROR, "drm: Failed to initialize renderer backend for blitting");
+                     return false;
+                 }
+             }
+ 
+-            TRACE(backend->backend->log(AQ_LOG_TRACE, "drm: Backend requires blit, blitting"));
++            TRACE(commitLog(AQ_LOG_TRACE, "drm: Backend requires blit, blitting"));
+ 
+             if (!mgpu.swapchain) {
+-                TRACE(backend->backend->log(AQ_LOG_TRACE, "drm: No swapchain for blit, creating"));
++                TRACE(commitLog(AQ_LOG_TRACE, "drm: No swapchain for blit, creating"));
+                 mgpu.swapchain = CSwapchain::create(backend->rendererState.allocator, backend.lock());
+             }
+ 
+@@ -2669,13 +2687,13 @@
+             if (OPTIONS.length == 0) // releaseMgpuResources() cleared the swapchain and we committed without updating it.
+                 OPTIONS.length = 2;
+             if (!mgpu.swapchain->reconfigure(OPTIONS)) {
+-                backend->backend->log(AQ_LOG_ERROR, "drm: Backend requires blit, but the mgpu swapchain failed reconfiguring");
++                commitLog(AQ_LOG_ERROR, "drm: Backend requires blit, but the mgpu swapchain failed reconfiguring");
+                 return false;
+             }
+ 
+             auto NEWAQBUF = mgpu.swapchain->next(nullptr);
+             if (!NEWAQBUF) {
+-                backend->backend->log(AQ_LOG_ERROR, "drm: Backend requires blit, but the mgpu swapchain has no buffer");
++                commitLog(AQ_LOG_ERROR, "drm: Backend requires blit, but the mgpu swapchain has no buffer");
+                 return false;
+             }
+ 
+@@ -2685,7 +2703,7 @@
+             auto blitResult = backend->rendererState.renderer->blit(
+                 STATE.buffer, NEWAQBUF, primaryRenderer, (COMMITTED & COutputState::eOutputStateProperties::AQ_OUTPUT_STATE_EXPLICIT_IN_FENCE) ? STATE.explicitInFence : -1);
+             if (!blitResult.success) {
+-                backend->backend->log(AQ_LOG_ERROR, "drm: Backend requires blit, but blit failed");
++                commitLog(AQ_LOG_ERROR, "drm: Backend requires blit, but blit failed");
+                 return false;
+             }
+ 
+@@ -2702,12 +2720,12 @@
+             drmFB = CDRMFB::create(STATE.buffer, backend, nullptr); // will return attachment if present
+ 
+         if (!drmFB) {
+-            backend->backend->log(AQ_LOG_ERROR, "drm: Buffer failed to import to KMS");
++            commitLog(AQ_LOG_ERROR, "drm: Buffer failed to import to KMS");
+             return false;
+         }
+ 
+         if (drmFB->dead) {
+-            backend->backend->log(AQ_LOG_ERROR, "drm: KMS buffer is dead?!");
++            commitLog(AQ_LOG_ERROR, "drm: KMS buffer is dead?!");
+             return false;
+         }
+ 
+@@ -2719,9 +2737,9 @@
+     if (data.mainFB) {
+         if (const auto params = data.mainFB->buffer->dmabuf(); params.success && params.format != STATE.drmFormat) {
+             // formats mismatch. Update the state format and roll with it
+-            backend->backend->log(AQ_LOG_WARNING,
+-                                  std::format("drm: Formats mismatch in commit, buffer is {} but output is set to {}. Modesetting to {}", fourccToName(params.format),
+-                                              fourccToName(STATE.drmFormat), fourccToName(params.format)));
++            commitLog(AQ_LOG_WARNING,
++                      std::format("drm: Formats mismatch in commit, buffer is {} but output is set to {}. Modesetting to {}", fourccToName(params.format),
++                                  fourccToName(STATE.drmFormat), fourccToName(params.format)));
+             data.outputState.drmFormat = params.format;
+             formatMismatch             = true;
+             // TODO: reject if tearing? We will miss a frame event!
+@@ -2740,7 +2758,7 @@
+         // TODO: add an API to detect this and request drm_dumb linear buffers. Or do something,
+         // idk
+         if (data.cursorFB->dead || data.cursorFB->buffer->dmabuf().modifier == DRM_FORMAT_MOD_INVALID) {
+-            TRACE(backend->backend->log(AQ_LOG_TRACE, "drm: Dropping invalid buffer for cursor plane"));
++            TRACE(commitLog(AQ_LOG_TRACE, "drm: Dropping invalid buffer for cursor plane"));
+             data.cursorFB = nullptr;
+         }
+     }
+@@ -2802,6 +2820,8 @@
+             connector->commitTainted = true;
+     }
+ 
++    if (!ok)
++        commitLog(AQ_LOG_ERROR, std::format("drm: Commit failed committed={} enabled={} modeset={} blocking={}", COMMITTED, data.enabled, data.modeset, data.blocking));
+     if (onlyTest || !ok)
+         return ok;
+ 

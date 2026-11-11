@@ -5,8 +5,8 @@
 
 pkgname=(hyprland hyprpm)
 pkgver=0.56.2
-pkgrel=4.1
-# patches: exported from https://github.com/greenermoose/Hyprland tag v0.56.2-fred.3 by 'tam-ecosystem export hyprland'
+pkgrel=4.2
+# Existing guards: exported from https://github.com/greenermoose/Hyprland tag v0.56.2-fred.3 by 'tam-ecosystem export hyprland'
 # (registry: https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/hyprland)
 pkgdesc='a highly customizable dynamic tiling Wayland compositor'
 arch=(x86_64 aarch64)
@@ -70,18 +70,20 @@ _archive="${pkgname^}-$pkgver"
 source=("$_archive.tar.gz::$url/releases/download/v$pkgver/source-v$pkgver.tar.gz"
         hyprland-dpms-off-on-connect.patch
         hyprland-idle-inhibit-unchanged-noop.patch
-        hyprland-dpms-state-per-monitor.patch)
+        hyprland-dpms-state-per-monitor.patch
+        hyprland-output-workspace-logging.patch)
 sha256sums=('03ad3f5ef152ff44116ffd56fcf808486211ecabf4f0ba567108ee746ba5cd2e'
             '348e93ae29a988dbca4a42d24ad0e98f84ca026eb8d32c4a916db2f8a880ec13'
             '84e474cf7f1c257f0d7450a7e2a5131fa355f650e31ce8b04e71e64ad4ec220c'
-            'fee516e2593ba537584e32a44e7e3de51acb368274fa9557c6a9217b77e0836e')
+            'fee516e2593ba537584e32a44e7e3de51acb368274fa9557c6a9217b77e0836e'
+            'b6bc76839effd67798b552c6f5641293032d511e4e96cc12c5e9cd7cb7170d7c')
 
 prepare() {
 	ln -sf hyprland-source "$_archive"
 	cd "$_archive"
 	sed -i -e '/^release:/{n;s/-D/-DCMAKE_SKIP_RPATH=ON -D/}' Makefile
 	sed -i -e '/find_package.glaze/s/7...<8 //' {.,hyprpm,start}/CMakeLists.txt
-	# Local patches (see each .patch header), carried on the pkgrel=4.1 suffix.
+	# Local patches (see each .patch header), carried on the pkgrel=4.2 suffix.
 	# [local-patches] pins this build; local-patches-upstream-check says when
 	# Arch moves past 0.56.2-4, then rebase or retire (runbook §7/§8).
 	# 1. a monitor that connects while DPMS is off comes up disabled, not lit.
@@ -93,11 +95,14 @@ prepare() {
 	#    per-monitor `dpms off` no longer makes the next mouse move re-light it;
 	#    an output that reconnects (HPD drop) after being blanked stays dark.
 	patch -Np1 -i "$srcdir/hyprland-dpms-state-per-monitor.patch"
+	# Bounded output activation / attributed display diagnostics; source 3b1b3f15.
+	patch -Np1 -i "$srcdir/hyprland-output-workspace-logging.patch"
 }
 
 build() {
 	cd "$_archive"
-	make release PREFIX=/usr
+	cmake --no-warn-unused-cli -DCMAKE_SKIP_RPATH=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -S . -B build
+	cmake --build build --config Release --target all --parallel "${CMAKE_BUILD_PARALLEL_LEVEL:-2}"
 }
 
 package_hyprland() {

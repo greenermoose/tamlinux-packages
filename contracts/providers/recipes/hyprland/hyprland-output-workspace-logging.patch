@@ -1,0 +1,259 @@
+--- a/src/config/lua/bindings/LuaBindingsDispatchers.cpp
++++ b/src/config/lua/bindings/LuaBindingsDispatchers.cpp
+@@ -11,6 +11,8 @@
+ #include "../../../managers/fullscreen/FullscreenController.hpp"
+ #include "../../../state/MonitorState.hpp"
+ #include "../../../state/WorkspaceState.hpp"
++#include "../../../state/WorkspacePlacementController.hpp"
++#include "../../../output/Monitor.hpp"
+ #include "../../../devices/IKeyboard.hpp"
+ #include "../../../desktop/rule/windowRule/WindowRule.hpp"
+ #include "config/shared/actions/ConfigActions.hpp"
+@@ -1325,6 +1327,49 @@
+ 
+     lua_pushstring(L, mon.c_str());
+     lua_pushcclosure(L, dsp_moveCurrentWorkspaceToMonitor, 1);
++    return 1;
++}
++
++// Output-targeted activation. Never borrow focus or move the input cursor.
++static int dsp_selectOutputWorkspace(lua_State* L) {
++    const auto mon = State::monitorState()->query().name(lua_tostring(L, lua_upvalueindex(2))).run();
++    if (!mon)
++        return Internal::dispatcherError(L, "Output unavailable", WARN, C_NOTFOUND);
++    const auto id      = static_cast<WORKSPACEID>(lua_tointeger(L, lua_upvalueindex(1)));
++    auto       ws      = State::workspaceState()->query().id(id).run();
++    const auto focused = Desktop::focusState()->monitor();
++    if (ws && ws->m_monitor != mon) {
++        // Moving the active workspace away from the keyboard owner would
++        // necessarily displace input. Refuse rather than focus and restore.
++        const auto old = ws->m_monitor.lock();
++        if (old && old == focused && old->m_activeWorkspace == ws)
++            return Internal::dispatcherError(L, "Workspace owns keyboard focus", WARN, C_UNAVAIL);
++        State::workspacePlacementController()->moveWorkspaceToMonitor(ws, mon, true);
++    }
++    if (!ws)
++        ws = State::workspaceState()->create(id, mon->m_id, std::to_string(id));
++    if (!ws || ws->m_monitor != mon)
++        return Internal::dispatcherError(L, "Workspace assignment failed", WARN, C_UNAVAIL);
++    mon->changeWorkspace(ws, false, true, mon != focused);
++    Log::logger->displayEvent(std::format("event=workspace-selected output={} workspace={} input_owner={} input_output_preserved={}", mon->m_name, id,
++                                          focused ? focused->m_name : "unknown", Desktop::focusState()->monitor() == focused));
++    return Internal::pushSuccessResult(L);
++}
++
++static int hlWorkspaceSelect(lua_State* L) {
++    if (!lua_istable(L, 1))
++        return Internal::configError(L, "hl.workspace.select: expected workspace and monitor");
++    const auto id = Internal::requireTableFieldWorkspaceSelector(L, 1, "workspace", "hl.workspace.select");
++    // Deliberately bounded normal numeric IDs, not relative/special selectors.
++    if (id.empty() || id.size() > 3 || id.find_first_not_of("0123456789") != std::string::npos)
++        return Internal::configError(L, "hl.workspace.select: invalid workspace");
++    const auto number = std::stoi(id);
++    if (number < 1 || number > 160)
++        return Internal::configError(L, "hl.workspace.select: workspace out of range");
++    const auto mon = Internal::requireTableFieldMonitorSelector(L, 1, "monitor", "hl.workspace.select");
++    lua_pushinteger(L, number);
++    lua_pushstring(L, mon.c_str());
++    lua_pushcclosure(L, dsp_selectOutputWorkspace, 2);
+     return 1;
+ }
+ 
+@@ -1392,6 +1437,7 @@
+         Internal::setFn(L, "rename", hlWorkspaceRename);
+         Internal::setFn(L, "change_id", hlWorkspaceChangeID);
+         Internal::setFn(L, "move", hlWorkspaceMove);
++        Internal::setFn(L, "select", hlWorkspaceSelect);
+         Internal::setFn(L, "swap_monitors", hlWorkspaceSwapMonitors);
+         Internal::setFn(L, "toggle_special", hlWorkspaceToggleSpecial);
+         lua_setfield(L, -2, "workspace");
+--- a/src/output/Monitor.cpp
++++ b/src/output/Monitor.cpp
+@@ -1496,7 +1496,7 @@
+     if (pWorkspace == m_activeWorkspace)
+         return;
+ 
+-    if (!internal) {
++    if (!internal && !noFocus) {
+         g_pInputManager->unconstrainMouse();
+         g_pInputManager->m_emptyFocusCursorSet = false;
+         g_pInputManager->releaseAllMouseButtons();
+--- a/src/debug/log/Logger.hpp
++++ b/src/debug/log/Logger.hpp
+@@ -12,6 +12,8 @@
+         CLogger();
+         ~CLogger() = default;
+ 
++        void displayEvent(const std::string_view& str);
++        void backendLog(Hyprutils::CLI::eLogLevel level, const std::string_view& str);
+         void initIS(const std::string_view& IS);
+         void initCallbacks();
+ 
+@@ -20,7 +22,8 @@
+         template <typename... Args>
+         //NOLINTNEXTLINE
+         void log(Hyprutils::CLI::eLogLevel level, std::format_string<Args...> fmt, Args&&... args) {
+-            if (!m_logsEnabled)
++
++            if (!m_logsEnabled && level < Hyprutils::CLI::LOG_WARN)
+                 return;
+ 
+             if (level == Hyprutils::CLI::LOG_TRACE && !m_isTrace)
+--- a/src/debug/log/Logger.cpp
++++ b/src/debug/log/Logger.cpp
+@@ -1,4 +1,5 @@
+ #include "Logger.hpp"
++#include "DisplayLog.hpp"
+ #include "RollingLogFollow.hpp"
+ 
+ #include "../../event/EventBus.hpp"
+@@ -7,11 +8,20 @@
+ 
+ using namespace Log;
+ 
++// Keep the exported CLogger layout unchanged for existing native plugins.
++static Tamlinux::CDisplayLog& displayLog() {
++    static Tamlinux::CDisplayLog sink;
++    return sink;
++}
++
+ CLogger::CLogger() : m_isTrace(Env::isTrace()) {
+     m_logger.setLogLevel(m_isTrace ? Hyprutils::CLI::LOG_TRACE : Hyprutils::CLI::LOG_DEBUG);
+ }
+ 
+ void CLogger::log(Hyprutils::CLI::eLogLevel level, const std::string_view& str) {
++    const int priority = level >= Hyprutils::CLI::LOG_CRIT ? 2 : level >= Hyprutils::CLI::LOG_ERR ? 3 : level >= Hyprutils::CLI::LOG_WARN ? 4 : 7;
++    if (!displayLog().write("hyprland", priority, str))
++        std::fputs("<3>tamlinux display logging write failed\n", stderr);
+     if (!m_logsEnabled)
+         return;
+ 
+@@ -27,6 +37,8 @@
+ void CLogger::initIS(const std::string_view& IS) {
+     // NOLINTNEXTLINE
+     m_logger.setOutputFile(std::string{IS} + (ISDEBUG ? "/hyprlandd.log" : "/hyprland.log"));
++    if (!displayLog().open(std::string{IS} + "/display.log"))
++        std::fputs("<3>tamlinux display log file open failed\n", stderr);
+     m_logger.setEnableRolling(true);
+     m_logger.setEnableColor(false);
+     m_logger.setEnableStdout(true);
+@@ -57,3 +69,21 @@
+ Hyprutils::CLI::CLogger& CLogger::hu() {
+     return m_logger;
+ }
++
++void CLogger::backendLog(Hyprutils::CLI::eLogLevel level, const std::string_view& str) {
++    const int  priority = level >= Hyprutils::CLI::LOG_CRIT ? 2 : level >= Hyprutils::CLI::LOG_ERR ? 3 : level >= Hyprutils::CLI::LOG_WARN ? 4 : 6;
++    const bool transition =
++        str.starts_with("drm: Connector ") || str.starts_with("drm: Connecting connector ") || str.starts_with("drm: Disabling output ") || str.starts_with("drm: Modesetting ");
++    if (!displayLog().write("aquamarine", priority, str, transition))
++        std::fputs("<3>tamlinux backend logging write failed\n", stderr);
++    // Explicit verbose logging remains separate from the bounded timeline.
++    // Its existing configured stdout/file/rolling routes and trace threshold
++    // still apply; the default disabled setting never forwards frame logs.
++    if (m_logsEnabled)
++        m_logger.log(level, "from aquamarine: {}", str);
++}
++
++void CLogger::displayEvent(const std::string_view& str) {
++    if (!displayLog().write("hyprland", 6, str, true))
++        std::fputs("<3>tamlinux display event write failed\n", stderr);
++}
+--- /dev/null
++++ b/src/debug/log/DisplayLog.hpp
+@@ -0,0 +1,74 @@
++#pragma once
++
++#include <cstdio>
++#include <ctime>
++#include <fcntl.h>
++#include <format>
++#include <mutex>
++#include <string>
++#include <string_view>
++#include <unistd.h>
++#include <sys/stat.h>
++
++// Small shared emission sink for Hyprland and its Aquamarine callback.
++// No DRM, compositor or systemd dependency: the exact sink is tested in isolation.
++namespace Tamlinux {
++    class CDisplayLog {
++      public:
++        ~CDisplayLog() {
++            if (m_file)
++                std::fclose(m_file);
++        }
++        bool open(const std::string& path) {
++            std::lock_guard guard(m_mutex);
++            const int       fd = ::open(path.c_str(), O_WRONLY | O_CREAT | O_APPEND | O_CLOEXEC | O_NOFOLLOW | O_NONBLOCK, 0600);
++            if (fd < 0)
++                return false;
++            struct stat metadata{};
++            if (::fstat(fd, &metadata) || !S_ISREG(metadata.st_mode)) {
++                ::close(fd);
++                return false;
++            }
++            FILE* file = ::fdopen(fd, "a");
++            if (!file) {
++                ::close(fd);
++                return false;
++            }
++            if (m_file)
++                std::fclose(m_file);
++            m_file = file;
++            return true;
++        }
++        // Lower priorities are more severe. State events are a small allowlist;
++        // trace/frame/cursor/input logs never enter this production sink.
++        bool write(std::string_view component, int priority, std::string_view message, bool state = false) {
++            if (priority > 4 && !state)
++                return true;
++            std::lock_guard guard(m_mutex);
++            timespec        wall{}, mono{};
++            if (clock_gettime(CLOCK_REALTIME, &wall) || clock_gettime(CLOCK_MONOTONIC, &mono))
++                return false;
++            std::string body(message.substr(0, 3500));
++            for (char& c : body)
++                if (static_cast<unsigned char>(c) < 32 || c == 127)
++                    c = ' ';
++            const auto record = std::format("wall_ns={} monotonic_ns={} component={} severity={} pid={} {}{}\n", wall.tv_sec * 1'000'000'000LL + wall.tv_nsec,
++                                            mono.tv_sec * 1'000'000'000LL + mono.tv_nsec, component, priority, getpid(), body, message.size() > body.size() ? " [truncated]" : "");
++            // The journal stream consumes the priority prefix; the retained file
++            // gets identical payload clocks, sampled once before either write.
++            const auto stream  = std::format("<{}>{}", priority, record);
++            const bool out     = std::fwrite(stream.data(), 1, stream.size(), stdout) == stream.size();
++            const bool flushed = std::fflush(stdout) == 0;
++            bool       file    = true;
++            if (m_file) {
++                file = std::fwrite(record.data(), 1, record.size(), m_file) == record.size();
++                file = std::fflush(m_file) == 0 && file;
++            }
++            return out && flushed && file;
++        }
++
++      private:
++        std::mutex m_mutex;
++        FILE*      m_file = nullptr;
++    };
++}
+--- a/src/Compositor.cpp
++++ b/src/Compositor.cpp
+@@ -301,10 +301,14 @@
+     wl_display_set_default_max_buffer_size(m_wlDisplay, 1_MB);
+ 
+     Aquamarine::SBackendOptions           options{};
+-    SP<Hyprutils::CLI::CLoggerConnection> conn = makeShared<Hyprutils::CLI::CLoggerConnection>(Log::logger->hu());
+-    conn->setLogLevel(Log::DEBUG);
+-    conn->setName("aquamarine");
+-    options.logConnection = std::move(conn);
++    options.logFunction = [](Aquamarine::eBackendLogLevel level, std::string message) {
++        const auto severity = level == Aquamarine::AQ_LOG_CRITICAL ? Log::CRIT :
++            level == Aquamarine::AQ_LOG_ERROR                      ? Log::ERR :
++            level == Aquamarine::AQ_LOG_WARNING                    ? Log::WARN :
++            level == Aquamarine::AQ_LOG_TRACE                      ? Log::TRACE :
++                                                                     Log::DEBUG;
++        Log::logger->backendLog(severity, message);
++    };
+ 
+     std::vector<Aquamarine::SBackendImplementationOptions> implementations;
+     Aquamarine::SBackendImplementationOptions              option;

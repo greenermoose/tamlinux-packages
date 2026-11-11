@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-11: Codex CLI `0.167.1` (`gpt-6.1-sol`) builds and freezes paired native display corrections and verifies their correspondence with exact product/user-package sources. [Record](docs/ai/2026-11-11-display-native-integration.md).
+
 2026-11-11: Codex CLI `0.167.1` (`gpt-6.1-sol`) — packaging defect tracker. [Record](docs/ai/2026-11-11-defect-tracker.md).
 
 2026-11-10: Codex CLI `0.167.0` (`gpt-6.1-sol`) adds format-2 workstation recipes. [Record](docs/ai/2026-11-10-workstation-recipes.md).

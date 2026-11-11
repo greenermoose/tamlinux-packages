@@ -1,6 +1,13 @@
 {
+  "developmentCorrection": {
+    "commit": "25f5e5d04761b33c25e7e526367831a0ca88f422",
+    "patch": "aquamarine-commit-attribution.patch",
+    "repository": "https://github.com/greenermoose/aquamarine",
+    "retirement": "Upstream attributes synchronous and asynchronous commit failures without weakening connector guards"
+  },
   "files": {
-    "PKGBUILD": "e3bca28ed22c4ffaac7a071d95eb98caaedb023e2aa514f52182351389a30a89",
+    "PKGBUILD": "f0ac16f519ea96a869adfd5a865a3856c2dae4d403a2d71a8c1ca1be514b8c67",
+    "aquamarine-commit-attribution.patch": "22c28d1cbd584e65f89b615dc84e7e5546bae2814c15f007aa02bbf34eb79f33",
     "aquamarine-guard-null-connectors.patch": "91b97d3fc9e6a7f78f9f66bb68cecd946329027d246a3162c591ac3b5a04721a"
   },
   "origin": "https://gitlab.archlinux.org/archlinux/packaging/packages/aquamarine",

@@ -3,8 +3,8 @@
 
 pkgname=aquamarine
 pkgver=0.15.1
-pkgrel=1.1
-# patches: exported from https://github.com/greenermoose/aquamarine tag v0.15.1-fred.1 by 'tam-ecosystem export aquamarine'
+pkgrel=1.2
+# Existing guards: exported from https://github.com/greenermoose/aquamarine tag v0.15.1-fred.1 by 'tam-ecosystem export aquamarine'
 # (registry: https://github.com/greenermoose/ecosystem-fred-tamlinux/tree/main/packages/aquamarine)
 pkgdesc='a very light linux rendering backend library'
 arch=(x86_64 aarch64)
@@ -30,9 +30,11 @@ makedepends=(cmake
 provides=("lib$pkgname.so")
 _archive="$pkgname-$pkgver"
 source=("$url/archive/v$pkgver/$_archive.tar.gz"
-        aquamarine-guard-null-connectors.patch)
+        aquamarine-guard-null-connectors.patch
+        aquamarine-commit-attribution.patch)
 sha256sums=('2f9de98c0bd1b7b1b09c576e390a2fef436449762fb334163c414f0c300296f2'
-            '91b97d3fc9e6a7f78f9f66bb68cecd946329027d246a3162c591ac3b5a04721a')
+            '91b97d3fc9e6a7f78f9f66bb68cecd946329027d246a3162c591ac3b5a04721a'
+            '22c28d1cbd584e65f89b615dc84e7e5546bae2814c15f007aa02bbf34eb79f33')
 
 prepare() {
 	cd "$_archive"
@@ -40,6 +42,8 @@ prepare() {
 	# destructor before later outputs flush async commit events (aquamarine #383).
 	# The patch and the local pkgrel suffix retire when Arch ships that fix.
 	patch -Np1 -i "$srcdir/aquamarine-guard-null-connectors.patch"
+	# Bounded output activation / attributed display diagnostics; source 25f5e5d.
+	patch -Np1 -i "$srcdir/aquamarine-commit-attribution.patch"
 }
 
 build() {
