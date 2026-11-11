@@ -46,3 +46,24 @@ The fixed apply helper takes the checked transaction id. The required
 user action records active product units before stopping them and
 retains that list through a failed restart. Four bootstrap fixture tests
 pass. These source pins are separate from the native adapter's live pin.
+
+## Exact bundle delivery records
+
+`tools/bundle-delivery.py` records an existing verified public bundle.
+The recipe assembly is frozen before the build. A later delivery commit
+records that ancestor, the carried component pins, full bundle hash and
+archive SHA-256, avoiding a circular dependency between the packaging
+commit and its archive bytes. Publication never replaces an existing
+record and rehashes a cache copy before publishing it.
+
+Five isolated tests pass, including immutable output, mismatched recipes,
+private capture rejection, changed source bytes during cache publication
+and interrupted publication. The console integration recipe at `ed0af05`
+was built twice from empty caches. Both 3,175-entry archives verified and
+matched byte for byte, SHA-256
+`3e6e71bc044c607ac67b4cc2d26aef5ef4e7e0725283fce006ad576a57acc56b`.
+The uninstalled 0.10.0 tam nut archive passed `makepkg --check`, native
+tool, XML and offline systemd verification, SHA-256
+`95e0cd8aaf49fc840dccef03b62b3219fe5d2d354922fe7d99fbe798e51c611b`.
+The emitter also verified that development bundle and wrote its record
+only into a temporary directory. No public candidate or stage was created.
