@@ -93,3 +93,5 @@ archived or kept session notes as open deploy instructions — use
 | 2026-10-23 | Console-startup 0.5.2 assembly preparation | [`2026-10-23-console-candidate-0.5.2.md`](2026-10-23-console-candidate-0.5.2.md) |
 | 2026-10-22 | Release 0.4.8 — final Incipiens cultivar | [`2026-10-22-release-0.4.8.md`](2026-10-22-release-0.4.8.md) |
 | 2026-10-22 | Verified development bootstrap media | [`2026-10-22-nut.md`](2026-10-22-nut.md) |
+
+- [2026-11-11 — Repository-local defect tracker](2026-11-11-defect-tracker.md), Codex CLI 0.167.1 / gpt-6.1-sol.
