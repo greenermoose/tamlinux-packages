@@ -1,0 +1,57 @@
+format 2
+name tamlinux
+target arch x86_64 baseline x86-64-v2
+target libc glibc loader /lib64/ld-linux-x86-64.so.2
+target profile arch-systemd
+
+# Build-time allowlist. The tam nut supplies the independent install policy.
+place usr/bin
+place usr/share/man
+place usr/share/bash-completion/completions
+place usr/share/doc
+place usr/share/start
+place usr/share/licenses
+place usr/share/icons/hicolor
+place usr/share/fonts/truetype/TamlinuxIcons.ttf
+place usr/share/fontconfig/conf.avail
+place usr/share/fontconfig/conf.default
+place usr/share/polkit-1/actions
+place usr/share/libalpm/hooks
+place usr/lib/systemd
+place usr/lib/NetworkManager/conf.d
+place usr/lib/environment.d
+place usr/lib/issue.d
+place usr/lib/sysctl.d
+place usr/lib/tmpfiles.d
+
+needs tam-bundle >= 0.9.0
+needs command sh arch=bash
+needs command bash arch=bash
+needs command env arch=coreutils
+needs file /usr/bin/python3 >= 3.12 arch=python
+needs file /usr/bin/Hyprland >= 0.56 arch=hyprland
+needs file /usr/bin/start-hyprland arch=hyprland
+needs file /usr/bin/quickshell >= 0.3 arch=quickshell
+needs qml Quickshell.Wayland 0.0 arch=quickshell
+needs file /usr/bin/uwsm arch=uwsm
+needs file /usr/bin/jq arch=jq
+needs file /usr/bin/nft arch=nftables
+needs file /usr/bin/mandb arch=man-db
+needs file /usr/bin/asdcontrol arch=asdcontrol
+needs file /usr/lib/libhyprbars.so arch=hyprland-plugin-hyprbars
+needs file /lib64/ld-linux-x86-64.so.2 arch=glibc
+needs file /usr/lib/libc.so.6 arch=glibc
+needs file /usr/lib/libm.so.6 arch=glibc
+needs file /usr/lib/libmagic.so.1 arch=file
+needs file /usr/lib/libcpuid.so.18 arch=libcpuid
+needs file /usr/lib/libdbus-1.so.3 arch=dbus
+needs file /usr/lib/libsystemd.so.0 arch=systemd-libs
+needs file /usr/lib/libz.so.1 arch=zlib
+needs file /usr/lib/libncursesw.so.6 arch=ncurses
+needs elf usr/bin/tam
+needs elf usr/bin/tam-start
+needs elf usr/bin/tam-file-select
+after user-units-reload
+
+file recipes/workstation/SETTINGS SETTINGS
+file notes/tamlinux-development.txt tree/share/tamlinux/version-notes.txt

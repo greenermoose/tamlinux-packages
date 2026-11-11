@@ -1,0 +1,9 @@
+format 1
+component libtam
+build make
+output build-only
+make-targets all display session
+install-targets install install-display install-session
+build-needs dbus
+build-needs libdrm
+build-needs systemd-libs

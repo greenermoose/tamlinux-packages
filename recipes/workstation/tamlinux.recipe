@@ -1,0 +1,12 @@
+format 1
+component tamlinux
+build make
+make-vars LIBTAM_PREFIX=@libtam@ PYTHON=/usr/bin/python3
+install-targets install-bundle
+after-build libtam
+build-needs file
+build-needs libcpuid
+build-needs libdrm
+build-needs python
+build-needs python-fonttools
+build-needs systemd-libs

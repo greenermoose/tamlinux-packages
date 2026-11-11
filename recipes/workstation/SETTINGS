@@ -1,0 +1,24 @@
+format 1
+# Product settings only. The capture engine excludes secret paths and values.
+common .bashrc
+common .bash_profile
+common .gitconfig
+common .config/bash/tamlinux/
+common .config/environment.d/
+common .config/fontconfig/
+common .config/foot/
+common .config/gtk-3.0/settings.ini
+common .config/gtk-4.0/settings.ini
+common .config/micro/settings.json
+common .config/micro/bindings.json
+common .config/mimeapps.list
+common .config/tamlinux/shell.toml
+common .config/tamlinux/shell/
+common .config/tamlinux/hypr/bindings.lua
+common .config/tamlinux/hypr/looknfeel.lua
+common .config/tamlinux/hypr/autostart.lua
+host .config/tamlinux/hypr/monitors.lua
+host .config/tamlinux/hypr/input.lua
+host .config/tamlinux/hybrid-gpu/
+host .config/tamlinux/audio/
+host .config/hypr/hypridle.conf

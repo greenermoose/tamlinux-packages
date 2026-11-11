@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-10 — Format-2 workstation recipes](2026-11-10-workstation-recipes.md)
+
 - [2026-11-10 — Explain the changes in Tamlinux 0.6.22](2026-11-10-version-notes.md)
 
 - [2026-11-10 — Retire the duplicate tam host-profile patch](2026-11-10-tam-host-profile-patch.md)

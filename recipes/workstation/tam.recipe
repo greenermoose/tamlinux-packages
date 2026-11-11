@@ -1,0 +1,8 @@
+format 1
+component tam
+build make
+make-vars LIBTAM_PREFIX=@libtam@ DATADIR=/usr/lib/tamlinux/current/share/tamlinux/knowledge
+after-build libtam
+build-needs ncurses
+build-needs python
+build-needs zlib
