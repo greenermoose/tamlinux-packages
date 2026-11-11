@@ -56,7 +56,7 @@ def verify_native(root, archives):
     return result
 
 
-def verify(root, product, plugins, shell, archives):
+def verify(root, product, plugins, shell, archives, commands=None):
     revision = (shell / 'share/tamlinux/source-revision').read_text().strip()
     if not re.fullmatch('[0-9a-f]{40}', revision):
         raise ValueError('User package has no exact product revision')
@@ -68,6 +68,16 @@ def verify(root, product, plugins, shell, archives):
             if installed.is_symlink() or installed.read_bytes() != expected:
                 raise ValueError('User package differs from selected source: ' + path)
             files[path] = hashlib.sha256(expected).hexdigest()
+    if commands is None:
+        raise ValueError('The standalone command package is required')
+    for name, path in (("tam-desktop-mode", "desktop/plugins/fred.workspaces/tam-desktop-mode"),
+                       ("hyprland_backend.py", "desktop/shell/host/hyprland_backend.py"),
+                       ("compositor_commands.py", "desktop/shell/host/compositor_commands.py")):
+        installed = commands / 'share/tamlinux/workspaces' / name
+        expected = source(product, revision, path)
+        if installed.is_symlink() or installed.read_bytes() != expected:
+            raise ValueError('Standalone command differs from selected source: ' + name)
+        files['standalone/' + name] = hashlib.sha256(expected).hexdigest()
     # Native recipe patches must be the corrections reviewed with this source.
     for name, patch in (('hyprland', 'hyprland-output-workspace-logging.patch'),
                         ('aquamarine', 'aquamarine-commit-attribution.patch')):
@@ -81,12 +91,12 @@ def verify(root, product, plugins, shell, archives):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('product', 'plugins', 'shell', 'hyprland', 'aquamarine'):
+    for name in ('product', 'plugins', 'shell', 'commands', 'hyprland', 'aquamarine'):
         parser.add_argument('--' + name, type=Path, required=True)
     args = parser.parse_args()
     try:
         result = verify(ROOT, args.product, args.plugins, args.shell,
-                        {name: getattr(args, name) for name in MARKERS})
+                        {name: getattr(args, name) for name in MARKERS}, args.commands)
     except (OSError, ValueError, StopIteration, subprocess.SubprocessError) as error:
         parser.exit(1, 'display-integration: ' + str(error) + '\n')
     print(json.dumps(result, indent=2, sort_keys=True))

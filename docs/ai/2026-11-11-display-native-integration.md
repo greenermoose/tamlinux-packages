@@ -19,10 +19,17 @@ version-only entry also runs against the staged corrected library.
 The archive identities and source commits are frozen in the native provider
 selection. `check-display-integration.py` binds both native archives and
 recipe closures to the exact product patches and actual Nix user-package
-files. Seven synthetic regressions cover exact pairing, changed archives,
-changed recipes, relabeled builds, missing corrections and mixed user sources.
+files. Ten synthetic regressions cover exact pairing, changed archives,
+changed recipes, relabeled builds, missing corrections, mixed user sources and a stale standalone command helper.
 
 Verification: full Hyprland package compile/link; Aquamarine package build
 and three fake-backend tests; native archive metadata/recipe/payload checks.
 Nix user-package integration is recorded in the final integration receipt.
+The command-package build exposed the journal launcher's missing native C
+classification: its check had no libtam headers. Register it as a native
+payload, giving its build/check/install the selected library. The integration
+build also selects exact committed libtam/tools revisions through temporary
+Nix overrides because current Develop uses the bundle guard missing from the
+old frozen candidate's library. Candidate pins remain unchanged.
+
 No package is installed and no Test, Run or Release is promoted.

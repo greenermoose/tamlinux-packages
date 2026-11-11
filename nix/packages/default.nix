@@ -276,6 +276,7 @@ let
     tam-dev =[ pkgs.python3 pkgs.git pkgs.gnumake pkgs.coreutils pkgs.systemd ];
     tam-desktop-test = [ pkgs.python3 pkgs.wl-clipboard pkgs.libnotify pkgs.util-linux pkgs.systemd ];
     start = [ ];
+    tam-launch-journal = [ ];
     tam-macro = [ pkgs.python3 pkgs.wl-clipboard ];
     tam-nut = [ pkgs.coreutils pkgs.gawk pkgs.util-linux pkgs.pciutils ];
     tam-theme-set = themeTools;
@@ -783,7 +784,8 @@ let
     || (name == "start" && has "commands/start/Makefile")
     || (name == "tam-meter" && has "commands/${name}/Makefile")
     || (name == "tam-boot" && has "commands/${name}/Makefile")
-  ) [ "tam-monitor" "tam-hardware" "tam-open" "start" "tam-meter" "tam-boot" ];
+    || (name == "tam-launch-journal" && has "commands/${name}/Makefile")
+  ) [ "tam-monitor" "tam-hardware" "tam-open" "start" "tam-meter" "tam-boot" "tam-launch-journal" ];
   commandChecks = lib.genAttrs (lib.subtractLists nativeNames commandNames) (name: pkgs.stdenv.mkDerivation {
     pname = "${name}-checks";
     version = "1";

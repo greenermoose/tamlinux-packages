@@ -94,3 +94,42 @@ class DisplayIntegrationTests(unittest.TestCase):
         (installed / 'manifest.json').write_text('changed')
         with patch.object(CHECK, 'source', return_value=b'expected'), self.assertRaisesRegex(ValueError, 'differs from selected source'):
             CHECK.verify(self.root, self.root, plugins, shell, self.archives)
+
+    def user_packages(self):
+        shell = self.root / 'shell'
+        plugins = self.root / 'plugins'
+        commands = self.root / 'commands'
+        (shell / 'share/tamlinux').mkdir(parents=True)
+        (shell / 'share/tamlinux/source-revision').write_text('a' * 40)
+        for package, paths in CHECK.PRODUCT_FILES.items():
+            for path in paths:
+                installed = plugins / 'share/tamlinux/plugins' / path.removeprefix('desktop/plugins/') if package == 'plugins' else shell / 'share/tamlinux' / path.removeprefix('desktop/')
+                installed.parent.mkdir(parents=True, exist_ok=True)
+                installed.write_bytes(path.encode())
+        for name, path in (("tam-desktop-mode", "desktop/plugins/fred.workspaces/tam-desktop-mode"),
+                           ("hyprland_backend.py", "desktop/shell/host/hyprland_backend.py"),
+                           ("compositor_commands.py", "desktop/shell/host/compositor_commands.py")):
+            installed = commands / 'share/tamlinux/workspaces' / name
+            installed.parent.mkdir(parents=True, exist_ok=True)
+            installed.write_bytes(path.encode())
+        for name, patch_name in (('hyprland', 'hyprland-output-workspace-logging.patch'),
+                                 ('aquamarine', 'aquamarine-commit-attribution.patch')):
+            (self.providers / 'recipes' / name / patch_name).write_bytes(('desktop/native/providers/display/' + patch_name).encode())
+        return shell, plugins, commands
+
+    def test_both_user_entry_points_match_the_exact_native_source_pair(self):
+        shell, plugins, commands = self.user_packages()
+        with patch.object(CHECK, 'source', side_effect=lambda product, rev, path: path.encode()):
+            result = CHECK.verify(self.root, self.root, plugins, shell, self.archives, commands)
+        self.assertEqual(len(result['userFiles']), 9)
+
+    def test_standalone_command_cannot_lag_behind_bar_helper(self):
+        shell, plugins, commands = self.user_packages()
+        (commands / 'share/tamlinux/workspaces/tam-desktop-mode').write_text('old helper')
+        with patch.object(CHECK, 'source', side_effect=lambda product, rev, path: path.encode()), self.assertRaisesRegex(ValueError, 'Standalone command differs'):
+            CHECK.verify(self.root, self.root, plugins, shell, self.archives, commands)
+
+    def test_missing_standalone_command_is_not_a_complete_integration(self):
+        shell, plugins, commands = self.user_packages()
+        with patch.object(CHECK, 'source', side_effect=lambda product, rev, path: path.encode()), self.assertRaisesRegex(ValueError, 'standalone command package'):
+            CHECK.verify(self.root, self.root, plugins, shell, self.archives)

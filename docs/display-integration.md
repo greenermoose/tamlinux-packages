@@ -21,7 +21,7 @@ Aquamarine fake-backend tests are `attachments`, `output`, and `commitThread`.
 The real-window test belongs to an explicitly scheduled trial.
 
 After committing the product sources, build `tamlinux-shell` and
-`tamlinux-plugins` from that exact revision through Nix. An integration build
+`tamlinux-plugins` plus `tamlinux-commands` from that exact revision through Nix. An integration build
 may use `--override-input tamlinux git+file://...?...rev=<commit>` with
 `--no-write-lock-file` against an immutable assembly revision. It does not
 change an existing candidate or consume a version. Record both revisions
@@ -31,10 +31,10 @@ the selected sources through its normal recorded assembly.
 Run `python3 tools/check-display-integration.py` with:
 
 - `--product`: the product Git repository containing the selected revision;
-- `--plugins` and `--shell`: the two Nix package output roots;
+- `--plugins`, `--shell` and `--commands`: the three Nix output roots;
 - `--hyprland` and `--aquamarine`: the selected native archives.
 
-The check compares the packaged widget, shared queue, helper and backend
+The check compares the packaged widget, shared queue, both helper entry points and backend
 byte-for-byte with the revision carried by the shell package. Native source
 patches must match that same revision. It validates the archive and recipe
 closure digests, `.PKGINFO`, `.BUILDINFO`, required files and correction/guard
