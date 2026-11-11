@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Upgrade
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Checking runtime compatibility of retained Tamlinux bundles
+When = PostTransaction
+Exec = /usr/bin/tam-bundle --root / native-status

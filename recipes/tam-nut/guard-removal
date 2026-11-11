@@ -1,0 +1,72 @@
+#!/bin/bash
+set -euo pipefail
+
+slot=/usr/lib/tamlinux
+if [[ ! -L $slot/current ]]; then
+    exit 0
+fi
+version=$(/usr/bin/readlink -- "$slot/current")
+if [[ ! $version =~ ^version/[A-Za-z0-9][A-Za-z0-9._+-]*$ ]]; then
+    printf '%s\n' 'Tamlinux current bundle has an invalid target' >&2
+    exit 1
+fi
+
+mapfile -t targets
+if (( ${#targets[@]} == 0 )); then
+    exit 0
+fi
+declare -A removing files
+for package in "${targets[@]}"; do
+    if [[ ! $package =~ ^[A-Za-z0-9@._+-]+$ ]]; then
+        printf 'Invalid native removal target: %s\n' "$package" >&2
+        exit 1
+    fi
+    removing["$package"]=1
+done
+listing=$(LC_ALL=C /usr/bin/pacman -Ql -- "${targets[@]}")
+while IFS=' ' read -r package path; do
+    if [[ $path == /* && $path != */ ]]; then
+        files["$path"]=$package
+    fi
+done <<< "$listing"
+
+result=0
+while IFS= read -r line; do
+    read -r key kind target rest <<< "$line"
+    if [[ $key != needs ]]; then
+        continue
+    fi
+    path=
+    case "$kind" in
+        command) path=/usr/bin/$target ;;
+        file) path=$target ;;
+        qml) path=/usr/lib/qt6/qml/${target//./\/}/qmldir ;;
+        python|tam-bundle) ;;
+        *) continue ;;
+    esac
+    package=
+    if [[ -n $path ]]; then
+        canonical=$(/usr/bin/realpath -e -- "$path" 2>/dev/null || :)
+        package=${files["$path"]:-}
+        if [[ -z $package && -n $canonical ]]; then
+            package=${files["$canonical"]:-}
+        fi
+    fi
+    if [[ -z $package && ( $kind == python || $kind == qml ) ]]; then
+        read -ra options <<< "$rest"
+        for option in "${options[@]}"; do
+            if [[ $option == arch=?* && ${removing["${option#arch=}"]:-} ]]; then
+                package=${option#arch=}
+                break
+            fi
+        done
+    fi
+    if [[ $kind == tam-bundle && ${removing[tam-nut]:-} ]]; then
+        package=tam-nut
+    fi
+    if [[ -n $package ]]; then
+        printf 'Cannot remove %s: the installed Tamlinux bundle requires %s %s\n' "$package" "$kind" "$target" >&2
+        result=1
+    fi
+done < "$slot/$version/BUNDLE"
+exit "$result"

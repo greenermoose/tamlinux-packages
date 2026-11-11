@@ -1,0 +1,21 @@
+format 1
+allow usr/bin
+allow usr/share/man
+allow usr/share/bash-completion/completions
+allow usr/share/doc
+allow usr/share/start
+allow usr/share/licenses
+allow usr/share/icons/hicolor
+allow usr/share/fonts/truetype/TamlinuxIcons.ttf
+allow usr/share/fontconfig/conf.avail
+allow usr/share/fontconfig/conf.default
+allow usr/share/polkit-1/actions
+allow usr/share/libalpm/hooks
+allow usr/lib/systemd
+allow usr/lib/NetworkManager/conf.d
+allow usr/lib/environment.d
+allow usr/lib/issue.d
+allow usr/lib/sysctl.d
+allow usr/lib/tmpfiles.d
+step system-units-reload required usr/lib/tam-nut/system-units-reload
+user-step user-units-reload required usr/lib/tam-nut/user-units-reload

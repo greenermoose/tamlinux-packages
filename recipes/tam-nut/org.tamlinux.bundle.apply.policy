@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>Tamlinux</vendor>
+  <vendor_url>https://github.com/greenermoose/tamlinux-tools</vendor_url>
+  <action id="org.tamlinux.bundle.apply">
+    <description>Apply a prepared Tamlinux transaction</description>
+    <message>Authentication is required to apply the prepared Tamlinux transaction</message>
+    <defaults>
+      <allow_any>no</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>no</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/lib/tam-nut/apply-prepared</annotate>
+  </action>
+</policyconfig>

@@ -1,0 +1,5 @@
+#!/bin/sh
+if [ -x /usr/bin/tam ]; then
+    exec /usr/bin/tam hi "$@"
+fi
+exec /usr/bin/tam-nut welcome

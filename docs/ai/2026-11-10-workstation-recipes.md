@@ -24,3 +24,16 @@ components in a temporary workspace. The new recipe and lock are
 independent of the dormant native adapter and the Nix/Home Manager
 delivery inputs. Session launch and real-machine acceptance remain
 migration gates.
+
+After reviewing the recipe proof in Micro, the developer said “Approve
+recipes; continue tam nut”.
+
+The Arch tam nut recipe pins its static tool and bootstrap source. It
+packages the rootstock profile, fixed apply helper, polkit action and
+active-local-session rule, boot service and native package hooks.
+`makepkg --check` passed, including three script/policy fixtures.
+The extracted package had root-owned payload, validated polkit XML and a
+boot unit accepted by systemd's verifier. Its SHA-256 was
+`2ec1d0cfac8436f680364a41c9646f9b173aa7cfa6d2323cee45c15bdef669bf`.
+This was a temporary development build. The existing native adapter and
+Nix/Home Manager delivery inputs remain pinned.

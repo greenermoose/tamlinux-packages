@@ -1,0 +1,85 @@
+# Arch bootstrap for the format-2 workstation bundle.
+pkgname=tam-nut
+pkgver=0.9.0
+pkgrel=1
+pkgdesc='Tamlinux workstation bundle bootstrap for Arch Linux'
+arch=(x86_64)
+url='https://github.com/greenermoose/tamlinux'
+license=(GPL-3.0-or-later)
+depends=(polkit)
+makedepends=(git)
+checkdepends=(python)
+conflicts=(tamlinux-native)
+options=(!debug)
+
+_libtam=88ce9ac3cffeb9a5940267ac4de49cc69346ad5d
+_tools=c226c49736955e76438f111975098d0c0ff3b6e1
+_product=b21eb8d133d40a684b11b5d655ef89868f866030
+source=(
+  "libtam::git+https://github.com/greenermoose/libtam.git#commit=$_libtam"
+  "tamlinux-tools::git+https://github.com/greenermoose/tamlinux-tools.git#commit=$_tools"
+  "tamlinux::git+https://github.com/greenermoose/tamlinux.git#commit=$_product"
+  rootstock-id rootstock-profile tam-bundle-apply.service
+  org.tamlinux.bundle.apply.policy 49-tam-nut-apply.rules
+  apply-prepared system-units-reload user-units-reload hi start tam-nut.1
+  70-tam-nut-guard-removal.hook 95-tam-nut-check-runtime.hook guard-removal
+  test_bootstrap.py
+)
+sha256sums=('SKIP' 'SKIP' 'SKIP'
+  '0383a6baf4dea3d5ccffbbad3c31d0c9b679b37be8497ef929fa01df1971522f'
+  'c6753d7b6b4b2f088159ee7d0adf00d832379b21f40539fb9445966e512e3b1c'
+  '661633e1573b45f39fab2c31d5c7e9aa09e3d843999e63f369e27b4ae39f3b7d'
+  'ec59d28cebfcdb1bfb9a4aa4e27cde519c94114db22c6b79c4d82b66b877913d'
+  'bd38acd6b93e03dd8cfca66b13dcda6e5817394dec969dc49aec753a539e82e5'
+  '25d1c9575d1f50a22f49735f0b4119b02c21143747f1cd1b711a6fcc5cd34971'
+  'd124257c85cb3bce5f4b7a94cf42a18826142dc526ec3b862751aae878d38761'
+  '55b9314a7824bc6c1904bf13d66677dcc839a59cc1aa4443583d770e1084eee6'
+  '4d5a97853b6bcbef23d032b804120accdb334a83d54d4a1feeb389a2194fbeba'
+  'fd4891b5e0bdabed9523ecd56f5fcce3f9ed6352f7e5e9c803146449ee57ed00'
+  'f34c85642dce12646b25cf6b6716420c87310836da9e8d84451aa888555aca12'
+  '41ac5e2e6bf6fe593845bfc299b585dfde3648bb7527d3b4a5f9dcf45b899246'
+  '5a3c31acd0929d1e3fc021839d6a92e4e9d445549ca9154b47f02cddf42983f9'
+  '9b10d0564cba31aa56f9a6ff8ad9954b9374b69dceddf55d7c95b0cef1c26638'
+  '2dc71af3b50bf31c2a550436469302332f63411e697599846930ea688ee3d880'
+)
+
+build() {
+  local flags="$CFLAGS -ffile-prefix-map=$srcdir=."
+  make -C "$srcdir/libtam" core CFLAGS="$flags"
+  make -C "$srcdir/libtam" install-core PREFIX="$srcdir/bootstrap-libtam"
+  make -C "$srcdir/tamlinux-tools" bin/tam-bundle CFLAGS="$flags" \
+    LIBTAM_PREFIX="$srcdir/bootstrap-libtam"
+}
+
+check() {
+  "$srcdir/tamlinux-tools/bin/tam-bundle" --version | grep -Fx "tam-bundle $pkgver (record format 2)"
+  local headers
+  headers=$(readelf -lW "$srcdir/tamlinux-tools/bin/tam-bundle")
+  [[ $headers != *INTERP* ]]
+  for helper in apply-prepared system-units-reload user-units-reload hi start guard-removal; do
+    bash -n "$srcdir/$helper"
+  done
+  /usr/bin/python3 -B "$srcdir/test_bootstrap.py"
+}
+
+package() {
+  make -C "$srcdir/tamlinux-tools" install-bundle PREFIX=/usr DESTDIR="$pkgdir" \
+    LIBTAM_PREFIX="$srcdir/bootstrap-libtam"
+  make -C "$srcdir/tamlinux/commands/tam-nut" install PREFIX=/usr DESTDIR="$pkgdir"
+  cd "$srcdir"
+  install -Dm755 -t "$pkgdir/usr/bin" hi start
+  install -Dm755 -t "$pkgdir/usr/lib/tam-nut" \
+    apply-prepared system-units-reload user-units-reload guard-removal
+  install -Dm644 rootstock-id "$pkgdir/usr/share/tamlinux/rootstock/id"
+  install -Dm644 rootstock-profile "$pkgdir/usr/share/tamlinux/rootstock/profile"
+  install -Dm644 tam-nut.1 "$pkgdir/usr/share/man/man1/tam-nut.1"
+  install -Dm644 -t "$pkgdir/usr/share/polkit-1/actions" org.tamlinux.bundle.apply.policy
+  install -Dm644 -t "$pkgdir/usr/share/polkit-1/rules.d" 49-tam-nut-apply.rules
+  install -Dm644 -t "$pkgdir/usr/share/libalpm/hooks" \
+    70-tam-nut-guard-removal.hook 95-tam-nut-check-runtime.hook
+  install -Dm644 -t "$pkgdir/usr/lib/systemd/system" tam-bundle-apply.service
+  install -d "$pkgdir/usr/lib/systemd/system/multi-user.target.wants" \
+    "$pkgdir/usr/lib/tamlinux" "$pkgdir/var/lib/tamlinux"
+  ln -s ../tam-bundle-apply.service \
+    "$pkgdir/usr/lib/systemd/system/multi-user.target.wants/tam-bundle-apply.service"
+}

@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ -x /usr/bin/tam-start ]; then
+    if ! /usr/bin/tam-bundle session-ready; then
+        printf '%s\n' 'Tamlinux is waiting for a completed bundle and settings transaction.' >&2
+        printf '%s\n' 'Run tam-bundle status from this console to see the pending work.' >&2
+        exit 1
+    fi
+    exec /usr/bin/tam-start "$@"
+fi
+exec /usr/bin/tam-nut welcome

@@ -1,0 +1,12 @@
+[Unit]
+Description=Recover the prepared Tamlinux bundle transaction
+Before=systemd-user-sessions.service
+ConditionPathExists=/var/lib/tamlinux/transaction
+RequiresMountsFor=/usr/lib/tamlinux /var/lib/tamlinux
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/tam-bundle apply
+
+[Install]
+WantedBy=multi-user.target

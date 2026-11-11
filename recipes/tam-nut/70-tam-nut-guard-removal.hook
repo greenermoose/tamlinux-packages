@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Checking native providers required by the installed Tamlinux bundle
+When = PreTransaction
+Exec = /usr/lib/tam-nut/guard-removal
+NeedsTargets
+AbortOnFail

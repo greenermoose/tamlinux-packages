@@ -1,0 +1,3 @@
+#!/bin/sh
+[ "$#" -eq 2 ] && [ "$1" = apply ] || exit 2
+exec /usr/bin/systemctl --user daemon-reload
