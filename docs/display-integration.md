@@ -57,3 +57,25 @@ its own approval. First verify the actual helper and compositor journal
 routes and quiet idle, then perform the approved Dell switching matrix.
 Source checks and a successful `--version` do not pass physical continuity.
 Run and Release remain separate decisions.
+
+
+## Verified development preparation, 2026-11-11
+
+Integration source tuple: product `ea21f86`, delivery recipe `9a309a9`,
+libtam `67cffd5`, tools `b92c4f5`. Nix builds the shell, plugins, commands
+and tools successfully using exact source overrides and no lock-file write.
+The portable tools checks run in Nix; the full `make test` on those exact
+library/tools sources also passes on Arch, including private PID/mount and
+native-database proofs. Source regressions: 872 desktop tests with 14
+skipped, plus 11 delivery correspondence cases and three Aquamarine
+fake-backend cases. The packaged bar and standalone helpers publish to the
+same temporary intent store in an isolated smoke check without compositor
+IPC. Archive hashes and the full output/source tuple are retained in the
+local `result-plan54-native/integration.json` receipt.
+
+The preparation uses current Develop version labels and reserves no new
+candidate number. These are new uninstalled store outputs, distinct from
+the frozen 0.6.22 Test installation. Candidate preparation must select the
+final whole Develop revision and rebind this evidence to its exact assembly.
+Runtime journal routing, quiet idle and Dell physical continuity remain
+pending after that candidate's authorized installation.

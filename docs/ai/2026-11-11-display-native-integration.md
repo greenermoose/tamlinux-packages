@@ -25,7 +25,14 @@ relocation with unchanged isolated mode/body.
 
 Verification: full Hyprland package compile/link; Aquamarine package build
 and three fake-backend tests; native archive metadata/recipe/payload checks.
-Nix user-package integration is recorded in the final integration receipt.
+The final Nix build succeeds for shell, plugins, commands and tools:
+product `ea21f86`, recipe `9a309a9`, libtam `67cffd5`, tools `b92c4f5`.
+The complete tools `make test` passes on the Arch host with mandatory private
+PID/mount namespaces. Both workspace package entry points share temporary
+intent and retain the newest generation in a no-IPC smoke test. The native
+and user-package correspondence receipt records all exact identities.
+The root cause of physical Dell blanking is not established; the source fix
+removes a concrete focus-cycling path and logging supports any recurrence.
 The command-package build exposed the journal launcher's missing native C
 classification: its check had no libtam headers. Register it as a native
 payload, giving its build/check/install the selected library. The integration
