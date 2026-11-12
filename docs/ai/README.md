@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-12 — Display continuity candidate 0.6.23](2026-11-12-display-test-candidate.md)
+
 - [2026-11-11 — Standalone bundle migration checkpoint](2026-11-11-bundle-migration.md)
 
 - [2026-11-11 — Native display and workspace package integration](2026-11-11-display-native-integration.md)

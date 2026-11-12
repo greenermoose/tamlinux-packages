@@ -1,0 +1,7 @@
+Tamlinux 0.6.23
+
+Keep the active desktop steady while side monitors wake.
+- Apply the active output first without focus cycling; retain the latest desktop request.
+- Share bar clicks and bound per-output repair retries.
+- Add timestamped native display diagnostics with output and commit attribution.
+- Requires the selected Hyprland 0.56.2-4.2 and Aquamarine 0.15.1-1.2 packages before session re-entry.
