@@ -79,3 +79,15 @@ the frozen 0.6.22 Test installation. Candidate preparation must select the
 final whole Develop revision and rebind this evidence to its exact assembly.
 Runtime journal routing, quiet idle and Dell physical continuity remain
 pending after that candidate's authorized installation.
+
+## Selected Test preparation, 2026-11-12
+
+Candidate **0.6.23** freezes product `98806d0` in assembly `c83ca13`, retaining
+the exact library/tools sources above and the reviewed native archive pair.
+The final package correspondence check, all ten assembly build targets,
+301 desktop units and 194 assembly tests pass. Consumer/recovery generation
+validation also passes. Native installation, session re-entry, stage Test and
+the runtime/physical gates remain pending. The generic stage operator does
+not check the display pair: verify both installed providers and the running
+compositor/library identities before activating the new helper. Current
+source handoff documentation does not repin this frozen candidate.
