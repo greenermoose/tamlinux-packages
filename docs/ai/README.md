@@ -1,5 +1,7 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-11 — Standalone bundle migration checkpoint](2026-11-11-bundle-migration.md)
+
 - [2026-11-11 — Native display and workspace package integration](2026-11-11-display-native-integration.md)
 
 - [2026-11-10 — Format-2 workstation recipes](2026-11-10-workstation-recipes.md)
