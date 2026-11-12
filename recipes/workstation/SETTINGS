@@ -14,6 +14,8 @@ common .config/micro/bindings.json
 common .config/mimeapps.list
 common .config/tamlinux/shell.toml
 common .config/tamlinux/shell/
+common .config/tamlinux/session/hyprland.lua
+common .config/uwsm/env.d/10-tamlinux.sh
 common .config/tamlinux/hypr/bindings.lua
 common .config/tamlinux/hypr/looknfeel.lua
 common .config/tamlinux/hypr/autostart.lua
