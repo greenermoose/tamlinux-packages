@@ -65,7 +65,7 @@ common .local/state/tamlinux/current/background.selection
 common .local/state/tamlinux/defaults/editor
 common .local/state/tamlinux/settings/weather.json
 common .local/state/tamlinux/settings/tides.json
-common .local/state/tamlinux/desktop-mode
+host .local/state/tamlinux/desktop-mode
 common .local/state/tamlinux/workspace-layouts/
 common .local/state/tamlinux/toggles/
 host .local/state/tamlinux/toggles/hypr/

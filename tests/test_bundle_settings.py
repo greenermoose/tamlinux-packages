@@ -23,9 +23,10 @@ class BundleSettings(unittest.TestCase):
             self.assertEqual(paths['.config/tamlinux/hypr/' + name], 'host')
         for state_common in ('shell.toml', 'current/theme.name', 'current/background.selection',
                              'defaults/editor', 'settings/weather.json', 'settings/tides.json',
-                             'desktop-mode', 'workspace-layouts/', 'toggles/'):
+                             'workspace-layouts/', 'toggles/'):
             self.assertEqual(paths['.local/state/tamlinux/' + state_common], 'common')
-        self.assertEqual(paths['.local/state/tamlinux/toggles/hypr/'], 'host')
+        for state_host in ('toggles/hypr/', 'desktop-mode'):
+            self.assertEqual(paths['.local/state/tamlinux/' + state_host], 'host')
         self.assertNotIn('.local/state/tamlinux/', paths)
         self.assertNotIn('.local/state/tamlinux/current/theme/', paths)
         self.assertNotIn('.local/state/tamlinux/theme-generations/', paths)
