@@ -64,9 +64,11 @@ How the pivot goes stale, from the 1.28.0 source:
   ongoing with the old pivot. The next pointer motion past the pivot
   crashes.
 
-Inferred, not proved: the trigger was a newly opened window. One opened
-about 70 ms before the crash and would have resized the crashed terminal and
-taken its keyboard focus. Nothing records the resize itself.
+The trigger, as Fred reported: he was dragging a selection in the terminal
+when an agent opened a new review window, about 70 ms before the crash. That
+window would have resized the terminal and taken its keyboard focus. The
+compositor does not log the resize itself, so the reproducer below has not
+yet confirmed this sequence.
 
 ## Workaround
 
