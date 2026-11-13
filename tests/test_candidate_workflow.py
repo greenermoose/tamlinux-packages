@@ -426,3 +426,94 @@ class Workflow(unittest.TestCase):
             item['summary'] = bad
             with self.assertRaisesRegex(w.WorkflowError, 'invalid requested component summary'):
                 self.flow.requested_contents('0.6.2')
+
+    def test_tam_bundle_backend_prepares_caches_and_resumes(self):
+        (self.packages / 'recipes/workstation').mkdir(parents=True)
+        lock_lines = ['format 1'] + [
+            f'component {name} https://github.com/greenermoose/{name} {self.git(self.root / name, "rev-parse", "HEAD")}'
+            for name in w.COMPONENTS
+        ]
+        (self.packages / 'recipes/workstation/tamlinux.lock').write_text('\n'.join(lock_lines) + '\n')
+        self.git(self.packages, 'add', '--', 'recipes/workstation/tamlinux.lock')
+        self.git(self.packages, 'commit', '-qm', 'Add bundle recipe lock')
+        self.git(self.packages, 'push', '-q', 'origin', 'develop')
+        product = self.root / 'tamlinux'
+        cmd_dir = product / 'commands/tam-desktop-test'
+        cmd_dir.mkdir(parents=True)
+        (cmd_dir / 'Makefile').write_text('install:\n\ttrue\n')
+        self.git(product, 'add', '--', 'commands/tam-desktop-test/Makefile')
+        self.git(product, 'commit', '-qm', 'Add desktop test command fixture')
+        self.git(product, 'push', '-q', 'origin', 'develop')
+        req = self.inclusion()
+        req['summary'] = 'Add desktop test runner'
+        tam_item = {
+            'name': 'tam', 'repo': 'tam', 'output': 'tam', 'artifact': 'bin/tam',
+            'sourcePath': '.', 'versions': {'command': '1.2.3', 'corpus': '4.5.6'},
+        }
+        required = [req, tam_item]
+        self.flow.inclusions = lambda version: list(required)
+        tam = self.root / 'tam'
+        (tam / 'src').mkdir(exist_ok=True)
+        (tam / 'src/version.h').write_text('#define TAM_COMMAND_VERSION "1.2.3"\n')
+        (tam / 'knowledge').mkdir(exist_ok=True)
+        (tam / 'knowledge/version').write_text('4.5.6\n')
+        self.git(tam, 'add', '--', 'src/version.h', 'knowledge/version')
+        self.git(tam, 'commit', '-qm', 'Set tam versions')
+        self.git(tam, 'push', '-q', 'origin', 'develop')
+        req['revision'] = self.git(self.root / 'tamlinux', 'rev-parse', 'HEAD')
+        fake_log = self.root / 'tam-bundle.log'
+        fake = self.root / 'fake-tam-bundle'
+        fake.write_text(f"""#!{w.sys.executable}
+import hashlib, io, json, os, pathlib, sys, tarfile
+args = sys.argv[1:]
+with open({str(fake_log)!r}, 'a') as fh:
+    fh.write(' '.join(args) + '\\n')
+cmd = args[0]
+if cmd == 'build':
+    out = pathlib.Path(args[args.index('-o') + 1])
+    ver = args[args.index('--version') + 1]
+    lock = pathlib.Path(args[-1]).read_text().splitlines()
+    packaging = os.popen('git -C ' + str(pathlib.Path(args[-1]).parents[2]) + ' rev-parse HEAD').read().strip()
+    meta = ['format 2', 'name tamlinux', 'version ' + ver, 'target profile arch-systemd', 'source packaging ' + packaging]
+    for line in lock[1:]:
+        _, comp, _, rev = line.split()
+        meta.append('source ' + comp + ' ' + rev)
+    out.mkdir(parents=True)
+    (out / 'placed/usr/bin').mkdir(parents=True)
+    runner = out / 'placed/usr/bin/tam-desktop-test'
+    runner.write_text('#!/bin/sh\\nexit 0\\n'); runner.chmod(0o755)
+    fake_tam = out / 'placed/usr/bin/tam'
+    fake_tam.write_text('#!/bin/sh\\necho "tam command 1.2.3"\\necho "knowledge corpus 4.5.6"\\n'); fake_tam.chmod(0o755)
+    know = out / 'tree/share/tamlinux/knowledge'
+    know.mkdir(parents=True); (know / 'version').write_text('4.5.6\\n')
+    meta.append('hash sha256:' + hashlib.sha256(('tamlinux-' + ver).encode()).hexdigest())
+    (out / 'BUNDLE').write_text('\\n'.join(meta) + '\\n')
+elif cmd == 'verify':
+    pass
+elif cmd == 'pack':
+    src = pathlib.Path(args[1])
+    dst = pathlib.Path(args[args.index('-o') + 1])
+    with tarfile.open(dst, 'w') as tf:
+        for item in sorted(src.rglob('*')):
+            tf.add(item, arcname=item.relative_to(src).as_posix())
+else:
+    sys.exit(2)
+""")
+        fake.chmod(0o755)
+        cache_home = self.root / 'cache'
+        self.flow.tam_bundle = fake
+        with patch.dict(os.environ, {'XDG_CACHE_HOME': str(cache_home)}):
+            result = self.flow.prepare('0.6.2', word='Package up and test Tamlinux 0.6.2',
+                                       trailers='AI-Tool: fixture', backend='tam-bundle')
+            self.assertEqual(result['backend'], 'tam-bundle')
+            self.assertEqual(result['phase'], 'frozen')
+            delivery = json.loads((self.packages / 'deliveries/tamlinux-0.6.2.json').read_text())
+            self.assertEqual(delivery['backend'], 'tam-bundle')
+            self.assertEqual(delivery['inclusions'], required)
+            self.assertTrue((cache_home / 'tamlinux/bundles' / (delivery['artifact']['sha256'] + '.tbundle')).is_file())
+            self.assertEqual(fake_log.read_text().splitlines()[0].split()[0], 'build')
+            resumed = self.flow.prepare('0.6.2', resume=True, trailers='AI-Tool: fixture')
+            self.assertEqual(resumed['assembly'], result['assembly'])
+            self.assertEqual(sum(1 for line in fake_log.read_text().splitlines() if line.startswith('build ')), 1)
+            with self.assertRaisesRegex(w.WorkflowError, 'cannot change packaging backend'):
+                self.flow.prepare('0.6.2', resume=True, trailers='AI-Tool: fixture', backend='nix')
