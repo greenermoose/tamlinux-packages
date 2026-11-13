@@ -7,29 +7,55 @@
   contract requires. The same code is unchanged on upstream `master` as of
   2026-11-13. Older versions not checked.
 - **Fixed:** None yet.
-- **Next:** Reproduce with the synthetic steps below; then carry a
-  self-retiring local patch and prepare an upstream report for Fred's
-  approval.
+- **Next:** One more reproduction attempt with the corrected window
+  contents below, when Fred chooses; then carry a self-retiring local patch
+  and prepare an upstream report for Fred's approval.
 
 ## Reproduce
 
-Not yet reproduced on purpose; these steps follow the mechanism found in the
-core dump.
+Not yet reproduced on purpose. Four attempts on 2026-11-13 did not crash.
+They did confirm two of the three conditions the crash needs, and found why
+the third was missing.
 
-1. In a tiling session, open one Foot window running a plain shell, and run
-   `seq 300` so it has scrollback.
-2. From another terminal, run `sleep 5; foot` and switch back to the first
-   window at once.
-3. Within the five seconds, press and hold the left mouse button over the
-   first window's text and start dragging a selection. Keep holding.
-4. When the new window opens, the compositor splits the tile, so the first
-   window shrinks and the new one takes keyboard focus.
-5. Still holding the button, move the pointer above the point where the
-   drag started.
+The crash needs all three:
+
+1. **The selection stays in progress across the resize.** Confirmed. A
+   Wayland protocol log of the test window showed the compositor send the
+   keyboard-focus `leave` and the smaller `configure` in the same batch when
+   the new window opened. The button stayed held throughout, and Fred saw
+   the highlight keep following the mouse after the resize.
+2. **The resize changes the rows' absolute numbers.** Missing in every
+   attempt. A reflow packs the text into a fresh grid, which only renumbers
+   rows if the old grid had freed rows, for example after the scrollback was
+   erased (`CSI 3 J`, as `clear` and full-screen programs send). The test
+   window printed 400 lines and erased its scrollback before its own first
+   resizes, so those early reflows had already packed the grid. A debugger
+   trace showed the grid offset at 20 both before and after the test resize,
+   and the pivot was unchanged and still correct. In the real crash the
+   terminal was a long-running session whose scrollback had been erased
+   since its last resize.
+3. **The drag direction flips after the resize.** `selection_update()` reads
+   the pivot only when the direction changes (`selection.c:1179-1193`). The
+   drag starts downward, and after the renumbering every row compares as
+   above the stale pivot.
+
+Next attempt (a test script, two Foot windows):
+
+1. Open window A. Wait about two seconds so the window has settled, then
+   have it print `seq 1 400`, erase the scrollback (`printf
+   '\033[H\033[2J\033[3J'`), and print 60 short lines.
+2. Press and hold the left button at the start of a line near the bottom,
+   drag down and to the right two or three lines, and keep holding.
+3. About seven seconds after A appears, open window B on the same
+   workspace. The compositor splits the tile, so A shrinks and B takes
+   keyboard focus.
+4. Still holding, move the pointer up.
 
 Expected crash point: `selection_update()` at `selection.c:1274`, reached
 from `wl_pointer_motion()` (`input.c:2823`), reading through a NULL row
-pointer (`segfault at 0`).
+pointer (`segfault at 0`). Running A under gdb with a breakpoint on
+`selection_update` that prints `selection.pivot`, `selection.coords` and
+`grid->offset` shows whether condition 2 holds without waiting for a crash.
 
 ## Expected and actual
 
