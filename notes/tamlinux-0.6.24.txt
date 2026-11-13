@@ -1,0 +1,5 @@
+Tamlinux 0.6.24 version notes
+
+Changes since Tamlinux 0.6.23:
+- agy-micro-review-registration: Register Micro review globally so agy can discover the review skill
+- tam 0.55.0 (0.81.0): Update tam command 0.55.0 and corpus 0.81.0

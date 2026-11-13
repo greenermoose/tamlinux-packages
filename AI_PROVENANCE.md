@@ -159,3 +159,5 @@ Candidate 0.6.19: [preparation](docs/ai/0.6.19-candidate-preparation.md).
 Candidate 0.6.20: [preparation](docs/ai/0.6.20-candidate-preparation.md).
 
 Candidate 0.6.22: [preparation](docs/ai/0.6.22-candidate-preparation.md).
+
+Candidate 0.6.24: [preparation](docs/ai/0.6.24-candidate-preparation.md).

@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "id": "tamlinux-0.6.24",
+  "version": "0.6.24",
+  "stage": "Develop candidate prepared for Test",
+  "packagingRevision": "The Git commit containing this record",
+  "parentAssembly": "b94c96aecf51b5397a776823c8d11ab0c14eda74",
+  "scope": "Selected development state for 0.6.24",
+  "components": {
+    "home-manager": {
+      "lastModified": 1792605213,
+      "narHash": "sha256-J73EBU30r2hXvHCcBtaigQDAIu/GGPYk1nc6P9THcmg=",
+      "owner": "nix-community",
+      "repo": "home-manager",
+      "rev": "ab97a5d09e0f2aa7339cfd35ec5824fd6653e27c",
+      "type": "github"
+    },
+    "libtam": {
+      "lastModified": 1794499634,
+      "narHash": "sha256-xXnkdZxEV2T+3u1yyiow03I/4PprFaDLvyXGw6SjDis=",
+      "owner": "greenermoose",
+      "repo": "libtam",
+      "rev": "37c0dbd2194981e23215a7edad1575fa10bdfb1e",
+      "type": "github"
+    },
+    "nixpkgs": {
+      "lastModified": 1792626989,
+      "narHash": "sha256-SqQcbCptvcTV4Iargthk+aQH75jOzYFP8WT4BHOyUnQ=",
+      "owner": "nixos",
+      "repo": "nixpkgs",
+      "rev": "d630516d328323b5440895ffcd3b273de93d88e7",
+      "type": "github"
+    },
+    "tam": {
+      "lastModified": 1794565570,
+      "narHash": "sha256-Vh5X7sNpUFXaDWIVpPqul9L+uEiAib26GC+5gJ3/q4M=",
+      "owner": "greenermoose",
+      "repo": "tam",
+      "rev": "0baa4be8411839c32d2433a52da918b66c02467c",
+      "type": "github"
+    },
+    "tamlinux": {
+      "lastModified": 1794566427,
+      "narHash": "sha256-uHYPtIi6KRU/ebySKYcFlsSWvXsyo1o8cCh/dzWc5Iw=",
+      "owner": "greenermoose",
+      "repo": "tamlinux",
+      "rev": "199f1512edc38f100cce5083438e952da5968958",
+      "type": "github"
+    },
+    "tamlinux-tools": {
+      "lastModified": 1794534970,
+      "narHash": "sha256-sTkPPoeU5plbHyBx9CD0O9fK7Nwzpl8nx9H3/pBJZqI=",
+      "owner": "greenermoose",
+      "repo": "tamlinux-tools",
+      "rev": "c0c328e91812a7331ef8b791325162c80adaee54",
+      "type": "github"
+    }
+  },
+  "outputs": [
+    {
+      "drvPath": "/nix/store/zi05bx60xp3b9810hhnxf6fj7jci0jns-tamlinux-shell-0.6.24.drv",
+      "outputs": {
+        "out": "/nix/store/6pk5p3xrqls5anbkd98m7r8j1a2bji5c-tamlinux-shell-0.6.24"
+      }
+    },
+    {
+      "drvPath": "/nix/store/9avxxhp2kdnms5kizbj8201lp5vp8rbj-tamlinux-plugins-0.6.24.drv",
+      "outputs": {
+        "out": "/nix/store/pnjhaa75f59xzrygi8s3mn3k0pbcdqsf-tamlinux-plugins-0.6.24"
+      }
+    },
+    {
+      "drvPath": "/nix/store/814vkxzmscsabw32hr4nsr7fw43vqqbp-tamlinux-commands-0.6.24.drv",
+      "outputs": {
+        "out": "/nix/store/042wflhz5fmz7rlmihii7i0l5cyg8hzd-tamlinux-commands-0.6.24"
+      }
+    },
+    {
+      "drvPath": "/nix/store/59hmxzdcn7jj62vi631jrxl2w7yjn0pi-tam-0.55.0.drv",
+      "outputs": {
+        "out": "/nix/store/ccdpyk0vh94bqk105ak7gg04f4s3grjc-tam-0.55.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/kln3m2xkjca0h66y8g730w5ii5359dbi-libtam-0.7.0.drv",
+      "outputs": {
+        "out": "/nix/store/h37yn42saf143im8k5xlsz6rdkr832kv-libtam-0.7.0"
+      }
+    },
+    {
+      "drvPath": "/nix/store/x8a52dvnh97xxs1h1dhfwgqdq2ac9d7v-tamlinux-tools-0-unstable-c0c328e.drv",
+      "outputs": {
+        "out": "/nix/store/ik14nd07ws6076myq8gk69hg924pvjha-tamlinux-tools-0-unstable-c0c328e"
+      }
+    },
+    {
+      "drvPath": "/nix/store/zai325h46dzyc5dcg58j2nsigw0z3l9z-tamlinux-assembly-contract.drv",
+      "outputs": {
+        "out": "/nix/store/gff72f4c20yszfbag2702g49s07n7qrh-tamlinux-assembly-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/2mf1cb7k64krxfqpvc5jvs7xx2f79vav-tamlinux-installed-components.drv",
+      "outputs": {
+        "out": "/nix/store/fhkh4mw2hi0xsi4gqlsgy3bkqbl4f3vy-tamlinux-installed-components"
+      }
+    },
+    {
+      "drvPath": "/nix/store/igkgxw5hlcbpyx95c59a7qmghjf8hfx9-tamlinux-fresh-session-contract.drv",
+      "outputs": {
+        "out": "/nix/store/h5wb9n9k70r6vdlic7g5s442z6bh2qj3-tamlinux-fresh-session-contract"
+      }
+    },
+    {
+      "drvPath": "/nix/store/z74czbpvzvbqf54bl79xlb78ywb90a8a-tamlinux-example-contract.drv",
+      "outputs": {
+        "out": "/nix/store/79wf6naipi132fcfn6s27wsh0gy30nf6-tamlinux-example-contract"
+      }
+    }
+  ],
+  "verification": {
+    "builtTargets": [
+      ".#tamlinux-shell",
+      ".#tamlinux-plugins",
+      ".#tamlinux-commands",
+      ".#tam",
+      ".#libtam",
+      ".#tamlinux-tools",
+      ".#checks.x86_64-linux.assembly-contract",
+      ".#checks.x86_64-linux.installed-components",
+      ".#checks.x86_64-linux.fresh-session",
+      ".#checks.x86_64-linux.example-contract"
+    ],
+    "build": "pass",
+    "fingerprint": "653ccee5dee525cc19448a732bf1bc436b40cb8e15236811b4b2c680583a6e40",
+    "focusedChecks": {
+      "fingerprint": "653ccee5dee525cc19448a732bf1bc436b40cb8e15236811b4b2c680583a6e40",
+      "tests": [
+        "test_theme_ownership.py",
+        "test_keybinding_defaults.py",
+        "test_user_defaults.py"
+      ],
+      "product": "199f1512edc38f100cce5083438e952da5968958",
+      "sourceKey": "8d9b9377118f2f26785f3d1670e832fd7e8c4161a2f278bef844140548a77384"
+    }
+  },
+  "activation": "Not performed; await user Test instruction",
+  "nativePackage": {
+    "name": "tamlinux-native",
+    "version": "0.6.22-0.1",
+    "archive": "tamlinux-native-0.6.22-0.1-x86_64.pkg.tar.zst",
+    "sha256": "00b9903cd09b184109245853680051d5be4abae157d29db77c54977c331460dd",
+    "productRevision": "19db334a32176dcd2c322c86208bd18dab41df14",
+    "payloadId": "d531ca1407354968ddafe5abe45c4c9079025a967dc59599cffc72174ebcc582"
+  },
+  "nativeRequirement": {
+    "payloadId": "d531ca1407354968ddafe5abe45c4c9079025a967dc59599cffc72174ebcc582",
+    "interface": 1
+  },
+  "inclusions": [
+    {
+      "name": "agy-micro-review-registration",
+      "provider": "host",
+      "inclusionRecord": "0.6.24",
+      "digest": "b977ca69530bb50fa2ab655f5e445e2ea79f9e0bc92d6b3871cab5f6d8f45167",
+      "summary": "Register Micro review globally so agy can discover the review skill"
+    },
+    {
+      "name": "tam",
+      "repo": "tam",
+      "sourcePath": ".",
+      "revision": "0baa4be8411839c32d2433a52da918b66c02467c",
+      "output": "tam",
+      "artifact": "bin/tam",
+      "versions": {
+        "command": "0.55.0",
+        "corpus": "0.81.0"
+      },
+      "summary": "Update tam command 0.55.0 and corpus 0.81.0"
+    }
+  ],
+  "readiness": {
+    "nativeInstallationRequired": true
+  }
+}
