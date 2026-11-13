@@ -24,7 +24,7 @@ place usr/lib/issue.d
 place usr/lib/sysctl.d
 place usr/lib/tmpfiles.d
 
-needs tam-bundle >= 0.10.0
+needs tam-bundle >= 0.13.0
 needs command sh arch=bash
 needs command bash arch=bash
 needs command env arch=coreutils

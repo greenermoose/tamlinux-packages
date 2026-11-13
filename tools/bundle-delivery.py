@@ -156,7 +156,7 @@ def record(root: Path, archive: Path, tool: Path, output: Path, cache: Path) -> 
         value = {
             "format": 1, "backend": "tam-bundle", "version": version,
             "recipeAssembly": assembly, "components": pins,
-            "rootstock": metadata["profile"], "minimumTool": "0.11.0",
+            "rootstock": metadata["profile"], "minimumTool": "0.13.0",
             "artifact": {
                 "name": f"tamlinux-{version}-{metadata['hash'][7:19]}.tbundle",
                 "sha256": digest, "bundleHash": metadata["hash"],

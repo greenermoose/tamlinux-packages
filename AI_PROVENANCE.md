@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-12: Codex CLI `0.167.2` (`gpt-6.1-sol`) — Portable UX list and tool requirement. [Record](docs/ai/2026-11-12-bundle-settings-coverage.md).
+
 2026-11-12: Codex CLI `0.167.2` (`gpt-6.1-sol`) prepares exact display-continuity candidate 0.6.23 and verifies user/native package correspondence. [Record](docs/ai/2026-11-12-display-test-candidate.md).
 
 2026-11-11: Codex CLI `0.167.1` (`gpt-6.1-sol`) records the uninstalled standalone bundle settings checkpoint and bootstrap settings recipe. [Record](docs/ai/2026-11-11-bundle-migration.md).
