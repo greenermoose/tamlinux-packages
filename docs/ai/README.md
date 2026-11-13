@@ -1,5 +1,6 @@
 # AI collaboration sessions — tamlinux-packages
 
+- [2026-11-13 — Drop required `/usr/bin/asdcontrol` from workstation bundle recipe](2026-11-13-workstation-recipe-asdcontrol.md)
 - [2026-11-13 — `tam-nut 0.13.0`, workstation lock pins, and host-scoped `desktop-mode`](2026-11-13-tam-nut-0130-and-workstation-lock.md)
 - [2026-11-12 — Portable UX list and tool requirement](2026-11-12-bundle-settings-coverage.md)
 

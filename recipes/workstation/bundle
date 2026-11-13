@@ -37,7 +37,6 @@ needs file /usr/bin/uwsm arch=uwsm
 needs file /usr/bin/jq arch=jq
 needs file /usr/bin/nft arch=nftables
 needs file /usr/bin/mandb arch=man-db
-needs file /usr/bin/asdcontrol arch=asdcontrol
 needs file /usr/lib/libhyprbars.so arch=hyprland-plugin-hyprbars
 needs file /lib64/ld-linux-x86-64.so.2 arch=glibc
 needs file /usr/lib/libc.so.6 arch=glibc

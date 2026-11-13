@@ -1,5 +1,6 @@
 # AI collaboration and provenance
 
+2026-11-13: Antigravity CLI (`agy`) `1.5.8` — Drop required `/usr/bin/asdcontrol` from workstation bundle recipe. [Record](docs/ai/2026-11-13-workstation-recipe-asdcontrol.md).
 2026-11-13: Antigravity CLI (`agy`) `1.5.8` — `tam-nut 0.13.0` pins, workstation `tamlinux.lock` update, and `desktop-mode` host scope. [Record](docs/ai/2026-11-13-tam-nut-0130-and-workstation-lock.md).
 2026-11-12: Codex CLI `0.167.2` (`gpt-6.1-sol`) — Portable UX list and tool requirement. [Record](docs/ai/2026-11-12-bundle-settings-coverage.md).
 
