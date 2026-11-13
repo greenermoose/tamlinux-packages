@@ -23,5 +23,7 @@ link its owner, even when its effects span components.
 
 ## Index
 
-No defects recorded here yet. New entries link a record with its short title;
-read the record for status rather than maintain duplicate status columns.
+- [0001 — Foot crashes when a mouse selection is dragged across a window resize](0001-foot-selection-resize-crash.md).
+
+New entries link a record with its short title; read the record for status
+rather than maintain duplicate status columns.
