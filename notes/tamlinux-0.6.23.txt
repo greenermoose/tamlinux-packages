@@ -1,4 +1,4 @@
-Tamlinux 0.6.23
+Tamlinux 0.6.23 version notes
 
 Keep the active desktop steady while side monitors wake.
 - Apply the active output first without focus cycling; retain the latest desktop request.

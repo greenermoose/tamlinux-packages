@@ -50,6 +50,7 @@ FOCUSED_TESTS = ('test_theme_ownership.py', 'test_keybinding_defaults.py', 'test
 def fingerprint(root: Path) -> str:
     """Bind evidence to the complete assembly recipe and verification policy."""
     paths = {root / name for name in ('VERSION', 'flake.nix', 'flake.lock')}
+    paths.add(root / 'notes' / f'tamlinux-{read_version(root)}.txt')
     paths.update((root / 'nix').rglob('*'))
     paths.update((root / 'tools').glob('*.py'))
     digest = hashlib.sha256(json.dumps([DEFAULT_TARGETS, FOCUSED_TESTS]).encode())
@@ -454,6 +455,12 @@ def cmd_check(root: Path, args) -> int:
     problems = []
     version = read_version(root)
     version_key(version)
+    notes = root / 'notes' / f'tamlinux-{version}.txt'
+    if notes.exists():
+        lines = notes.read_text(encoding='utf-8').splitlines()
+        expected = f'Tamlinux {version} version notes'
+        if not lines or lines[0].strip() != expected:
+            problems.append(f'{notes.relative_to(root)} must begin with {expected!r}')
     inputs = lock_inputs(root)
     for name, revs in flake_revs(root, inputs).items():
         locked = inputs[name]["locked"].get("rev")

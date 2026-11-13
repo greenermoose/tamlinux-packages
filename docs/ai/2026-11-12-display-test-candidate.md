@@ -34,3 +34,22 @@ No Test branch, host installation, session restart, physical trial or cleanup
 was performed. Native installation, its rollback snapshot and session
 re-entry require their own approvals. Runtime logging, quiet idle and the
 20-switch physical continuity matrix remain open.
+
+## Version notes defect reported after Test
+
+> Why are there no version notes for Tamlinux 0.6.23?
+
+The notes were packaged, but this session supplied the first line
+`Tamlinux 0.6.23`. The version widget requires
+`Tamlinux 0.6.23 version notes`, so it deliberately displayed its fallback.
+The source header is corrected. Candidate verification now rejects a missing
+or wrong-version header in an explicit notes file before reusing focused
+checks, and fingerprints the selected notes so edits invalidate build evidence.
+The regression covers rejection, correction and rebuilding before recording.
+
+The already installed Test assembly remains immutable. Delivering a correction
+requires a later candidate; this source fix does not re-freeze 0.6.23 or edit
+its delivery record or installed store files.
+
+Verification: all 22 focused candidate-preparation tests pass, and the corrected
+Develop notes satisfy the version-widget header contract.

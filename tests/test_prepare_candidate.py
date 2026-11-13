@@ -139,6 +139,22 @@ class PrepareCandidate(unittest.TestCase):
         calls = [line.split()[0] for line in self.log.read_text().splitlines()]
         self.assertEqual(set(calls), {"flake", "build", "path-info"})
 
+    def test_notes_validation_precedes_cached_checks_and_invalidates_build_evidence(self):
+        self.ok('version', '0.4.4-c')
+        self.ok('build')
+        notes = self.root / 'notes/tamlinux-0.4.4-c.txt'
+        notes.parent.mkdir()
+        for header in ('Tamlinux 0.4.4-c', 'Tamlinux 0.4.4-b version notes', ''):
+            notes.write_text(header + '\n\nChanged workspaces.\n')
+            result = self.run_tool('verify', '--product', str(self.product))
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("must begin with 'Tamlinux 0.4.4-c version notes'", result.stdout)
+        notes.write_text('Tamlinux 0.4.4-c version notes\n\nChanged workspaces.\n')
+        self.ok('verify', '--product', str(self.product))
+        self.refused('build evidence is stale', 'record', '--parent', PARENT, '--scope', 'notes fixed')
+        self.ok('build')
+        self.ok('record', '--parent', PARENT, '--scope', 'notes fixed')
+
     def test_version_only_change_reuses_checks_but_source_change_invalidates(self):
         self.ok('version', '0.4.4-c');self.ok('build')
         (self.product/'VERSION').write_text('0.4.4-d\n')
