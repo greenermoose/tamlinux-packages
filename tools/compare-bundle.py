@@ -15,6 +15,8 @@ def files(root):
         # logical command/helper is already included under its normal name.
         if path.name.startswith('.') and path.name.endswith('-wrapped'):continue
         if name.startswith('share/man/') and name.endswith('.gz'):name=name[:-3]
+        # Compare old immutable product documentation with its renamed path.
+        if name.startswith('share/tamlinux/') and name.endswith('/README.md'):name=name[:-3]
         result.add(name)
     return result
 
@@ -31,7 +33,7 @@ def explanation(path, added):
         if path=='share/man/index.db':return 'manual index is switched with the pages'
         if path.startswith('share/systemd/user/'):return 'product user units move out of Home Manager'
         if path.startswith('share/tamlinux/knowledge/'):return 'new pages in the pinned corpus'
-        if path=='share/tamlinux/plugins/README.md':return 'plugin documentation from product sources'
+        if path=='share/tamlinux/plugins/README':return 'plugin documentation from product sources'
     return 'UNEXPLAINED'
 
 

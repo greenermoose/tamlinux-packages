@@ -242,10 +242,12 @@ let
       renderDeliveryNotes (builtins.fromJSON (builtins.readFile deliveryRecordPath))
     else
       "Tamlinux ${productVersion} version notes\n\n- tamlinux (${builtins.substring 0 12 (product.rev or "unknown")})\n";
+  # Older immutable product pins still carry the historical Markdown filename.
+  desktopReadme = if has "desktop/README" then "desktop/README" else "desktop/README.md";
   features = {
     menu = has "desktop/menu/default.jsonc" && has "desktop/menu/tam-menu";
     protocolShadow = has "desktop/protocol-shadow";
-    documentation = has "desktop/README.md";
+    documentation = has desktopReadme;
     sessionProviders = has "desktop/session/providers.json";
     consoleDesktop = has "desktop/session/console.py" && has "desktop/session/desktop";
     consoleWelcome = has "desktop/session/console-welcome.py";
@@ -568,7 +570,7 @@ let
         || relative == "LICENSE"
         || lib.any (prefix: relative == prefix || lib.hasPrefix "${prefix}/" relative) [
           "desktop/shell" "desktop/session" "desktop/skills" "desktop/menu"
-          "desktop/protocol-shadow" "desktop/user-defaults" "desktop/README.md"
+          "desktop/protocol-shadow" "desktop/user-defaults" desktopReadme
           "share/nftables"
         ];
   };
@@ -593,7 +595,7 @@ let
         ${lib.optionalString features.agentSkills ''
           cp -R ${shellPayloadSource}/desktop/skills $out/share/tamlinux/skills
         ''}
-        ${lib.optionalString features.documentation "cp ${shellPayloadSource}/desktop/README.md $out/share/tamlinux/README.md"}
+        ${lib.optionalString features.documentation "cp ${shellPayloadSource}/${desktopReadme} $out/share/tamlinux/README"}
         ${lib.optionalString features.sessionProviders ''
           cp -R ${shellPayloadSource}/desktop/session $out/share/tamlinux/session
           install -m755 ${shellPayloadSource}/desktop/session/start $out/bin/tam-hyprland-session

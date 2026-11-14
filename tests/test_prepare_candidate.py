@@ -158,8 +158,8 @@ class PrepareCandidate(unittest.TestCase):
     def test_version_only_change_reuses_checks_but_source_change_invalidates(self):
         self.ok('version', '0.4.4-c');self.ok('build')
         (self.product/'VERSION').write_text('0.4.4-d\n')
-        (self.product/'README.md').write_text('documentation only\n')
-        subprocess.run(['git','-C',str(self.product),'add','--','VERSION','README.md'],check=True)
+        (self.product/'README').write_text('documentation only\n')
+        subprocess.run(['git','-C',str(self.product),'add','--','VERSION','README'],check=True)
         subprocess.run(['git','-C',str(self.product),'commit','-qm','Candidate metadata'],check=True)
         rev=subprocess.check_output(['git','-C',str(self.product),'rev-parse','HEAD'],text=True).strip()
         self.ok('version','0.4.4-d');self.ok('pin','tamlinux='+rev)

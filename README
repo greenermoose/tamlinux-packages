@@ -1,0 +1,59 @@
+TAMLINUX-PACKAGES
+
+Public delivery definitions for Tamlinux
+<https://github.com/greenermoose/tamlinux>, tamlinux-tools
+<https://github.com/greenermoose/tamlinux-tools>, tam
+<https://github.com/greenermoose/tam>, and libtam
+<https://github.com/greenermoose/libtam>.
+
+This repository records exact package assemblies (Nix flake, locks, and
+<deliveries/>) for Test and Run. Current develop version is in <VERSION>. Gate
+A closed with released 0.4.8 and Blue Sparkler released as 0.5.12; develop
+continues on 0.6 (KBN WB). Product source lives in the component repos; this
+repo selects pins and installs them through Home Manager.
+
+The deployment contract <docs/deployment.md> requires Test and Run to install
+an exact, recorded package assembly through Nix and Home Manager at the same
+managed locations. Login is console-first <docs/console-startup.md>. See
+docs/README <docs/README> for the operational doc index.
+
+From a checkout:
+
+    nix flake check
+    python3 tests/portability.py
+    nix build .#tam .#libtam .#tamlinux-tools .#tamlinux-shell
+    nix build .#example-home
+
+Builds and the example use pinned public inputs. The example username and home
+directory are illustrative: set your own values before activation. No check
+activates a desktop, starts services, or changes the host package database.
+
+Import homeManagerModules.default, enable tamlinux.shell.enable, and supply
+layout/settings sources. The module installs the shell, plugins and product
+commands from package outputs built from one product revision (tamlinux-shell,
+tamlinux-plugins, tamlinux-commands), plus tam with its offline guide and
+tam-file-select; tamlinux.shell.plugins selects plugin IDs (default: all in
+the assembly). Background and menu paths are configurable. Deploy an assembly
+with tam-deploy from the Tamlinux commands; see the deployment contract
+<docs/deployment.md>.
+
+The clean-host contract <docs/clean-host.md> declares native Arch/Hyprland
+prerequisites and audits built outputs for missing commands and inherited
+identifiers. It is a proof bar for independent delivery, not a claim that
+every candidate already passes it.
+
+The developer baseline installs Bash, editing, C compilation/linking with libc
+headers, Make, Git, secure downloads and certificate trust. A consumer can set
+tamlinux.developer.nativeProvided = true only after verifying equivalent host
+tools. lib.packageSets pkgs provides developer, terminalGames, and optional
+userTools lists; personal applications, vendor editors and their overrides
+stay with consumers.
+
+Source behavior and ordinary build interfaces belong in their component
+repositories. Nix definitions, native package adapters, dependency selection,
+assembly and delivery verification belong here.
+
+GNU GPL v3 or later. See <LICENSE> and AI provenance <AI_PROVENANCE.md>.
+
+Software defect tracker <bugs/README-bugs.md>: report reproducible defects
+beside their source.

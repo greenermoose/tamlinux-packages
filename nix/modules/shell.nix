@@ -41,7 +41,7 @@ in
     documentation = lib.mkOption {
       type = lib.types.str;
       default =
-        if features.documentation then "file://${shell}/share/tamlinux/README.md" else "https://github.com/greenermoose/tamlinux";
+        if features.documentation then "file://${shell}/share/tamlinux/README" else "https://github.com/greenermoose/tamlinux";
       description = "Product documentation URI.";
     };
     layoutSource = lib.mkOption {

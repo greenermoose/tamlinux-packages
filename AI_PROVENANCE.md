@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-13: Codex CLI `0.169.0` (`gpt-6.1-sol`) converts tracked README files to plain text and updates their consumers. [Record](docs/ai/2026-11-13-plain-readmes.md).
+
 2026-11-13: Antigravity CLI (`agy`) `1.5.8` — Drop required `/usr/bin/asdcontrol` from workstation bundle recipe. [Record](docs/ai/2026-11-13-workstation-recipe-asdcontrol.md).
 2026-11-13: Antigravity CLI (`agy`) `1.5.8` — `tam-nut 0.13.0` pins, workstation `tamlinux.lock` update, and `desktop-mode` host scope. [Record](docs/ai/2026-11-13-tam-nut-0130-and-workstation-lock.md).
 2026-11-12: Codex CLI `0.167.2` (`gpt-6.1-sol`) — Portable UX list and tool requirement. [Record](docs/ai/2026-11-12-bundle-settings-coverage.md).
@@ -77,7 +79,7 @@ privately by the author.
 **How to read this ledger:** Recent session bullets below are provenance, not
 open deploy instructions. Exact assemblies are in [`VERSION`](VERSION) and
 [`deliveries/`](deliveries/). Living session files are indexed in
-[`docs/ai/README.md`](docs/ai/README.md). Archived sessions (first extraction,
+[`docs/ai/README`](docs/ai/README). Archived sessions (first extraction,
 lettered 0.4.x, early superseded 0.5 prep) are in Git via
 [`docs/ai/FILING-CARD.md`](docs/ai/FILING-CARD.md).
 
@@ -107,7 +109,7 @@ lettered 0.4.x, early superseded 0.5 prep) are in Git via
 
 2026-10-28: Codex CLI `0.165.0` (`gpt-6.1-sol`) prepares 0.5.9 with shell palette, visible authorization and readiness validation fixes. [Session](docs/ai/2026-10-28-0.5.9-candidate.md).
 
-2026-10-23: Console-first delivery and Blue Sparkler 0.5.0–0.5.4 assembly work. See index rows for 2026-10-23 in [`docs/ai/README.md`](docs/ai/README.md).
+2026-10-23: Console-first delivery and Blue Sparkler 0.5.0–0.5.4 assembly work. See index rows for 2026-10-23 in [`docs/ai/README`](docs/ai/README).
 
 2026-10-22: Release 0.4.8, the final Incipiens / Gate A assembly. [Session](docs/ai/2026-10-22-release-0.4.8.md).
 
@@ -115,12 +117,12 @@ lettered 0.4.x, early superseded 0.5 prep) are in Git via
 
 | Date | Milestone | Record |
 | --- | --- | --- |
-| 2026-10-30 | Terminal prerequisite; tam/corpus pins; session bootstrap | [docs/ai/README.md](docs/ai/README.md) |
-| 2026-10-29 | 0.5.11 prep; start menu; screensaver; fonts | [docs/ai/README.md](docs/ai/README.md) |
-| 2026-10-28 | 0.5.5–0.5.9 candidates; console welcome; tam pins | [docs/ai/README.md](docs/ai/README.md) |
-| 2026-10-27 | Monitor integration; tam 0.45.5 selection | [docs/ai/README.md](docs/ai/README.md) |
-| 2026-10-25 | 0.5.5 plan; monitor feasibility | [docs/ai/README.md](docs/ai/README.md) |
-| 2026-10-23 | Console-first and 0.5.0–0.5.4 | [docs/ai/README.md](docs/ai/README.md) |
+| 2026-10-30 | Terminal prerequisite; tam/corpus pins; session bootstrap | [docs/ai/README](docs/ai/README) |
+| 2026-10-29 | 0.5.11 prep; start menu; screensaver; fonts | [docs/ai/README](docs/ai/README) |
+| 2026-10-28 | 0.5.5–0.5.9 candidates; console welcome; tam pins | [docs/ai/README](docs/ai/README) |
+| 2026-10-27 | Monitor integration; tam 0.45.5 selection | [docs/ai/README](docs/ai/README) |
+| 2026-10-25 | 0.5.5 plan; monitor feasibility | [docs/ai/README](docs/ai/README) |
+| 2026-10-23 | Console-first and 0.5.0–0.5.4 | [docs/ai/README](docs/ai/README) |
 | 2026-10-22 | Release 0.4.8; nut | [2026-10-22-release-0.4.8.md](docs/ai/2026-10-22-release-0.4.8.md), [nut](docs/ai/2026-10-22-nut.md) |
 
 Older milestones through first extraction (2026-10-09) remain in Git; retrieve

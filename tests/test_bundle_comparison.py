@@ -8,6 +8,16 @@ m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 
 
 class BundleComparison(unittest.TestCase):
+    def test_readme_rename_preserves_coverage_but_missing_documentation_does_not(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            old=Path(tmp)/'old';new=Path(tmp)/'new';old.mkdir();new.mkdir()
+            for root,name in ((old,'README.md'),(new,'README')):
+                p=root/'share/tamlinux'/name;p.parent.mkdir(parents=True);p.write_text('docs')
+            self.assertTrue(m.compare(new,[old])['explained'])
+            self.assertEqual(m.compare(new,[old])['commonFiles'],1)
+            (new/'share/tamlinux/README').unlink()
+            self.assertFalse(m.compare(new,[old])['explained'])
+
     def test_missing_product_command_is_not_hidden_by_packaging_differences(self):
         with tempfile.TemporaryDirectory() as tmp:
             old=Path(tmp)/'old';new=Path(tmp)/'new';old.mkdir();new.mkdir()
