@@ -147,7 +147,7 @@ class Workflow:
         if not isinstance(items, list):
             raise WorkflowError('candidate inclusions must be a list')
         for item in items:
-            if (item.get('repo') not in COMPONENTS or
+            if (item.get('repo') not in (*COMPONENTS, 'tamlinux-packages') or
                     not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.+-]{0,127}', item.get('name', '')) or
                     not re.fullmatch(r'[A-Za-z0-9_.+-]+', item.get('output', '')) or
                     (item.get('revision') is not None and not re.fullmatch(r'[0-9a-f]{40}', item['revision']))):
@@ -191,7 +191,8 @@ class Workflow:
     def verify_inclusion_sources(self, items, pins):
         for item in items:
             repo = self.workspace/item['repo']
-            revision = pins[item['repo']]
+            revision = (git(self.packages, 'rev-parse', 'HEAD')
+                        if item['repo'] == 'tamlinux-packages' else pins[item['repo']])
             if item.get('revision'):
                 result = subprocess.run(['git', '-C', str(repo), 'merge-base', '--is-ancestor',
                                          item['revision'], revision], capture_output=True)
@@ -403,14 +404,18 @@ class Workflow:
         lock_file = self.packages / 'recipes/workstation/tamlinux.lock'
         lock_file.parent.mkdir(parents=True, exist_ok=True)
         urls = {}
+        dependencies = []
         if lock_file.exists():
             for line in lock_file.read_text().splitlines():
                 fields = line.split()
                 if len(fields) == 4 and fields[0] == 'component':
                     urls[fields[1]] = fields[2]
+                    if fields[1] not in COMPONENTS:
+                        dependencies.append(line)
         lines = ['format 1']
         for name in COMPONENTS:
             lines.append(f"component {name} {urls.get(name, f'https://github.com/greenermoose/{name}')} {pins[name]}")
+        lines.extend(dependencies)
         content = '\n'.join(lines) + '\n'
         if not lock_file.exists() or lock_file.read_text() != content:
             lock_file.write_text(content)

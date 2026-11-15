@@ -30,6 +30,39 @@ class Workflow(unittest.TestCase):
 
     def git(self,repo,*args):return subprocess.check_output(['git','-C',str(repo),*args],text=True).strip()
 
+    def test_assembly_owned_inclusion_checks_committed_recipe(self):
+        recipe = self.packages/'recipes/workstation/tam-edit.recipe'
+        recipe.parent.mkdir(parents=True)
+        recipe.write_text('format 1\ncomponent tam-edit\nbuild make\n')
+        self.git(self.packages, 'add', 'recipes')
+        self.git(self.packages, 'commit', '-qm', 'Editor recipe')
+        item = {'name': 'tam-edit', 'repo': 'tamlinux-packages',
+                'sourcePath': 'recipes/workstation/tam-edit.recipe',
+                'revision': self.git(self.packages, 'rev-parse', 'HEAD'),
+                'output': 'tam-edit', 'artifact': 'bin/tam-edit'}
+        flow = w.Workflow(self.root, inclusions=lambda version: [item])
+        items = flow.requested_contents('0.6.26')
+        flow.verify_inclusion_sources(items, {})
+        item['sourcePath'] = 'recipes/workstation/missing.recipe'
+        with self.assertRaisesRegex(w.WorkflowError, 'missing from selected source'):
+            flow.verify_inclusion_sources(items, {})
+
+    def test_bundle_repin_preserves_external_component_locks(self):
+        lock_file = self.packages/'recipes/workstation/tamlinux.lock'
+        lock_file.parent.mkdir(parents=True)
+        dependencies = [f'component {name} https://example.invalid/{name} '+('a'*40)
+                        for name in ('tam-edit', 'tam-data')]
+        lock_file.write_text('format 1\n'+'\n'.join(dependencies)+'\n')
+        pins = {name: item['revision'] for name, item in self.flow.inspect().items()}
+        self.flow.update_bundle_lock(pins)
+        lines = lock_file.read_text().splitlines()
+        for dependency in dependencies:
+            self.assertEqual(lines.count(dependency), 1)
+        for name, revision in pins.items():
+            self.assertIn(f'component {name} https://github.com/greenermoose/{name} {revision}', lines)
+        self.flow.update_bundle_lock(pins)
+        self.assertEqual(lines, lock_file.read_text().splitlines())
+
     def test_unrelated_dirty_work_is_left_out_of_selection(self):
         # Corpus edits in tam must not block packaging that only pins HEAD.
         (self.root/'tam/knowledge').mkdir(parents=True, exist_ok=True)
