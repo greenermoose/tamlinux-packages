@@ -119,6 +119,26 @@ esac
         self.assertIn("--user start -- tam-demo.service", history)
         self.assertNotIn("--user start -- tam-inactive.timer", history)
 
+    def test_var_lib_tamlinux_mode_and_tmpfiles_rule_stay_traversable(self):
+        self.assertEqual(
+            [line for line in (RECIPE / "tam-nut.conf").read_text().splitlines() if line and not line.startswith("#")],
+            ["d /var/lib/tamlinux 0755 root root -"],
+        )
+        pkgbuild = (RECIPE / "PKGBUILD").read_text()
+        self.assertIn("install=tam-nut.install", pkgbuild)
+        self.assertIn('install -Dm644 tam-nut.conf "$pkgdir/usr/lib/tmpfiles.d/tam-nut.conf"', pkgbuild)
+        self.assertIn('install -d -m755 "$pkgdir/var/lib/tamlinux"', pkgbuild)
+        state = self.root / "var-lib-tamlinux"
+        state.mkdir(mode=0o700)
+        install_script = (RECIPE / "tam-nut.install").read_text()
+        self.assertIn("chmod 0755 /var/lib/tamlinux", install_script)
+        rewritten = install_script.replace("/var/lib/tamlinux", str(state))
+        subprocess.run(["/usr/bin/sh", "-e", "-c", f"{rewritten}\npost_install"], check=True)
+        self.assertEqual(state.stat().st_mode & 0o777, 0o755)
+        state.chmod(0o700)
+        subprocess.run(["/usr/bin/sh", "-e", "-c", f"{rewritten}\npost_upgrade"], check=True)
+        self.assertEqual(state.stat().st_mode & 0o777, 0o755)
+
 
 if __name__ == "__main__":
     unittest.main()

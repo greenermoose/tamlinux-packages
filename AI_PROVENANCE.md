@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-14: Antigravity CLI (`agy`) `1.5.9` adds the Nerd Font file requirement to `recipes/workstation/bundle` and `/var/lib/tamlinux` `0755` tmpfiles/install rules to `recipes/tam-nut`. [Record](docs/ai/2026-11-14-nerd-font-needs-and-tam-nut-tmpfiles.md).
+
 2026-11-13: Codex CLI `0.169.0` (`gpt-6.1-sol`) converts tracked README files to plain text and updates their consumers. [Record](docs/ai/2026-11-13-plain-readmes.md).
 
 2026-11-13: Antigravity CLI (`agy`) `1.5.8` — Drop required `/usr/bin/asdcontrol` from workstation bundle recipe. [Record](docs/ai/2026-11-13-workstation-recipe-asdcontrol.md).
