@@ -263,3 +263,4 @@ Model: gpt-6.1-sol
 Record: Session <2026-11-13-plain-readmes.md>
 
 - 2026-11-15 — Bundle completion packaging inputs <2026-11-15-bundle-completion.md>, Codex CLI 0.169.0 / gpt-6.1-sol.
+- 2026-11-15 — Refused-prepare bootstrap correction <2026-11-15-refused-prepare-bootstrap.md>, Codex CLI 0.169.0 / gpt-6.1-sol.
