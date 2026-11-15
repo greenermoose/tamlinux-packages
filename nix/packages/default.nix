@@ -159,6 +159,51 @@ let
       mainProgram = "tam-file-select";
     };
   };
+  tamEdit = pkgs.stdenv.mkDerivation {
+    dontStrip = true;
+    NIX_CFLAGS_COMPILE = "-g";
+    NIX_LDFLAGS = "--build-id";
+    pname = "tam-edit";
+    version = "1.0.0-${builtins.substring 0 7 sources.tam-edit.rev}";
+    src = buildSource sources.tam-edit;
+    nativeBuildInputs = [ pkgs.pkg-config pkgs.glibc.bin ];
+    buildInputs = [ libtam ];
+    makeFlags = [ "PREFIX=$(out)" ];
+    doCheck = true;
+    checkPhase = ''
+      runHook preCheck
+      LC_ALL=C.UTF-8 make test check-deps
+      runHook postCheck
+    '';
+    meta = {
+      license = pkgs.lib.licenses.gpl3Plus;
+      mainProgram = "tam-edit";
+    };
+  };
+  tamData = pkgs.stdenv.mkDerivation {
+    dontStrip = true;
+    NIX_CFLAGS_COMPILE = "-g -Wno-error=unused-result";
+    NIX_LDFLAGS = "--build-id";
+    pname = "tam-data";
+    version = "1.0.0-${builtins.substring 0 7 sources.tam-data.rev}";
+    src = buildSource sources.tam-data;
+    nativeBuildInputs = [ pkgs.pkg-config ];
+    buildInputs = [ libtam ];
+    makeFlags = [
+      "PREFIX=$(out)"
+      "LIBTAM_PREFIX=${libtam}"
+    ];
+    doCheck = true;
+    checkPhase = ''
+      runHook preCheck
+      ASAN_OPTIONS=detect_leaks=0 make test smoke
+      runHook postCheck
+    '';
+    meta = {
+      license = pkgs.lib.licenses.gpl3Plus;
+      mainProgram = "tam-data";
+    };
+  };
   lib = pkgs.lib;
   product = sources.tamlinux;
   has = path: builtins.pathExists "${product}/${path}";
@@ -1011,6 +1056,8 @@ let
 in
 {
   inherit libtam tam;
+  tam-edit = tamEdit;
+  tam-data = tamData;
   tamlinux-tools = tools;
   tamlinux-shell = shell;
   tamlinux-plugins = plugins;

@@ -22,6 +22,14 @@
       url = "github:greenermoose/tamlinux-tools/c0c328e91812a7331ef8b791325162c80adaee54";
       flake = false;
     };
+    tam-edit = {
+      url = "github:greenermoose/tam-edit/80f5c3f8e6320daf88c78d4d71bc19d99534e54b";
+      flake = false;
+    };
+    tam-data = {
+      url = "github:greenermoose/tam-data/3a1544cb67bfbb5ba82b5281d0aee2fcc50edb12";
+      flake = false;
+    };
   };
   outputs =
     inputs@{
@@ -56,6 +64,8 @@
         tamlinux.developer.libraries = lib.mkDefault [ components.libtam pkgs.systemd.dev pkgs.libdrm pkgs.zlib.dev pkgs.ncurses.dev ];
         tamlinux.tools.tam = lib.mkDefault components.tam;
         tamlinux.tools.fileSelect = lib.mkDefault components.tamlinux-tools;
+        tamlinux.tools.tamEdit = lib.mkDefault components.tam-edit;
+        tamlinux.tools.tamData = lib.mkDefault components.tam-data;
       };
       packages.${system} = components // {
         default = components.tam;

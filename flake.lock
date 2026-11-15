@@ -60,6 +60,8 @@
         "libtam": "libtam",
         "nixpkgs": "nixpkgs",
         "tam": "tam",
+        "tam-data": "tam-data",
+        "tam-edit": "tam-edit",
         "tamlinux": "tamlinux",
         "tamlinux-tools": "tamlinux-tools"
       }
@@ -78,6 +80,40 @@
         "owner": "greenermoose",
         "repo": "tam",
         "rev": "0baa4be8411839c32d2433a52da918b66c02467c",
+        "type": "github"
+      }
+    },
+    "tam-data": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794776322,
+        "narHash": "sha256-SIg6vkjRwDw3bGV4xnihP4P+lNgCwxqBBzR9wFJTD7A=",
+        "owner": "greenermoose",
+        "repo": "tam-data",
+        "rev": "3a1544cb67bfbb5ba82b5281d0aee2fcc50edb12",
+        "type": "github"
+      },
+      "original": {
+        "owner": "greenermoose",
+        "repo": "tam-data",
+        "rev": "3a1544cb67bfbb5ba82b5281d0aee2fcc50edb12",
+        "type": "github"
+      }
+    },
+    "tam-edit": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794776322,
+        "narHash": "sha256-i5j0QoDTy5+rm/lamuHeZZ4qgIhzFn+yjqNJ9S/GQR8=",
+        "owner": "greenermoose",
+        "repo": "tam-edit",
+        "rev": "80f5c3f8e6320daf88c78d4d71bc19d99534e54b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "greenermoose",
+        "repo": "tam-edit",
+        "rev": "80f5c3f8e6320daf88c78d4d71bc19d99534e54b",
         "type": "github"
       }
     },

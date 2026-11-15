@@ -21,6 +21,16 @@ in
       type = lib.types.package;
       description = "The tamlinux-tools package from the recorded assembly.";
     };
+    tamEdit = lib.mkOption {
+      type = lib.types.nullOr lib.types.package;
+      default = null;
+      description = "The tam-edit package from the recorded assembly.";
+    };
+    tamData = lib.mkOption {
+      type = lib.types.nullOr lib.types.package;
+      default = null;
+      description = "The tam-data package from the recorded assembly.";
+    };
   };
   config = lib.mkIf cfg.enable {
     home.file = {
@@ -31,6 +41,11 @@ in
       ".local/bin/tam-file-select".source = "${cfg.fileSelect}/bin/tam-file-select";
     } // lib.optionalAttrs (cfg.tam.passthru.features.manWrapper or false) {
       ".local/bin/tam-man".source = "${cfg.tam}/bin/tam-man";
+    } // lib.optionalAttrs (cfg.tamEdit != null) {
+      ".local/bin/tam-edit".source = "${cfg.tamEdit}/bin/tam-edit";
+      ".local/share/man/man1/tam-edit.1".source = "${cfg.tamEdit}/share/man/man1/tam-edit.1";
+    } // lib.optionalAttrs (cfg.tamData != null) {
+      ".local/bin/tam-data".source = "${cfg.tamData}/bin/tam-data";
     };
   };
 }

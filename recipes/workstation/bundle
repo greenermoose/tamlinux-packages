@@ -7,6 +7,7 @@ target profile arch-systemd
 # Build-time allowlist. The tam nut supplies the independent install policy.
 place usr/bin
 place usr/share/man
+place usr/share/applications
 place usr/share/bash-completion/completions
 place usr/share/doc
 place usr/share/start
@@ -51,6 +52,8 @@ needs file /usr/lib/libncursesw.so.6 arch=ncurses
 needs elf usr/bin/tam
 needs elf usr/bin/tam-start
 needs elf usr/bin/tam-file-select
+needs elf usr/bin/tam-edit
+needs elf usr/bin/tam-data
 after user-units-reload
 
 file recipes/workstation/SETTINGS SETTINGS
