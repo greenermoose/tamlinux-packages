@@ -109,6 +109,13 @@ class Workflow(unittest.TestCase):
             with self.assertRaisesRegex(w.WorkflowError,'held by another session'):
                 self.flow.inspect()
 
+    def test_explicit_backend_word_and_mismatch(self):
+        word = 'Package up and test Tamlinux 0.6.26 using tam-bundle.'
+        self.assertEqual(w.WORD.fullmatch(word)['backend'], 'tam-bundle')
+        with self.assertRaisesRegex(w.WorkflowError, 'spoken backend differs'):
+            self.flow.prepare('0.6.26', word, backend='nix', trailers='fixture')
+        self.assertFalse((self.flow.state/'active.json').exists())
+
     def test_invalid_word_does_not_allocate_version(self):
         with self.assertRaises(w.WorkflowError):self.flow.prepare(word='Implement the plan',trailers='fixture')
         self.assertFalse((self.flow.state/'active.json').exists())

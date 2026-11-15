@@ -21,3 +21,10 @@ assembly freezes their recipes and source pins. No candidate was reserved or ins
 
 26 candidate-workflow tests and 9 bundle tests pass. Read-only inspection of
 the requested candidate passes all four recorded source requirements.
+
+## Explicit backend request
+
+> Package up and test Tamlinux 0.6.26 using tam-bundle.
+
+Accept the optional backend suffix verbatim and reject a conflicting backend
+argument before reservation. 27 workflow tests pass.

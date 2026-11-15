@@ -23,7 +23,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPONENTS = ('libtam', 'tam', 'tamlinux-tools', 'tamlinux')
-WORD = re.compile(r'(?:please\s+)?package(?:\s+up)?\s+and\s+test\s+(?:the\s+next\s+version\s+of\s+tamlinux|tamlinux\s+(?P<version>(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)))[.!]?', re.I)
+WORD = re.compile(r'(?:please\s+)?package(?:\s+up)?\s+and\s+test\s+(?:the\s+next\s+version\s+of\s+tamlinux|tamlinux\s+(?P<version>(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)))(?:\s+using\s+(?P<backend>nix|tam-bundle))?[.!]?', re.I)
 
 
 class WorkflowError(Exception):
@@ -520,10 +520,13 @@ class Workflow:
             if self.inclusions and self.requested_contents(state['version']) != state.get('inclusions', []):
                 raise WorkflowError('requested contents changed; preserve this candidate and make a new request')
         else:
-            backend = backend or 'nix'
             request = WORD.fullmatch((word or '').strip())
             if not request:
                 raise WorkflowError('say Package up and test Tamlinux <version>, or Package and test the next version of Tamlinux')
+            spoken_backend = (request['backend'] or '').lower()
+            if spoken_backend and backend and spoken_backend != backend:
+                raise WorkflowError('spoken backend differs from the command backend')
+            backend = backend or spoken_backend or 'nix'
             requested_version = request['version']
             if requested_version:
                 if version not in ('next', requested_version):
