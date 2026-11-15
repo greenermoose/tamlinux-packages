@@ -367,6 +367,11 @@ class Workflow:
         with tarfile.open(cached, 'r:*') as bundle:
             members = {entry.name: entry for entry in bundle.getmembers()}
             for item in items:
+                try:
+                    if module('bundle-delivery').build_only_inclusion(self.packages, bundle, record, item):
+                        continue
+                except (ValueError, KeyError, subprocess.CalledProcessError) as exc:
+                    raise WorkflowError(str(exc)) from exc
                 relative = item['artifact']
                 candidates = ([('placed/usr/bin/tam-start' if relative == 'bin/tam-menu' else 'placed/usr/' + relative),
                                'tree/' + relative]

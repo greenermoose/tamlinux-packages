@@ -59,6 +59,25 @@ class BundleDelivery(unittest.TestCase):
     def record(self):
         return delivery.record(self.repo, self.archive, self.tool, self.output, self.cache)
 
+    def test_build_only_inclusion_requires_recipe_and_matching_archive_sources(self):
+        recipe = self.repo/'recipes/workstation/tamlinux.recipe'
+        recipe.write_text('format 1\ncomponent tamlinux\noutput build-only\n')
+        subprocess.run(['git', '-C', str(self.repo), 'add', 'recipes'], check=True)
+        subprocess.run(['git', '-C', str(self.repo), '-c', 'user.name=Fixture',
+                        '-c', 'user.email=fixture@example.invalid', 'commit', '-qm', 'Build-only recipe'], check=True)
+        self.assembly = delivery.git(self.repo, 'rev-parse', 'HEAD')
+        self.bundle()
+        record = {'recipeAssembly': self.assembly, 'components': {'tamlinux': '1'*40}}
+        item = {'repo': 'tamlinux', 'output': 'tamlinux', 'sourcePath': '.'}
+        with tarfile.open(self.archive) as packed:
+            self.assertTrue(delivery.build_only_inclusion(self.repo, packed, record, item))
+            record['components']['tamlinux'] = '2'*40
+            with self.assertRaisesRegex(ValueError, 'archive build source differs'):
+                delivery.build_only_inclusion(self.repo, packed, record, item)
+            item['output'] = 'other'
+            with self.assertRaisesRegex(ValueError, 'differs from recipe'):
+                delivery.build_only_inclusion(self.repo, packed, record, item)
+
     def test_record_binds_the_frozen_recipe_and_public_archive(self):
         result = self.record()
         digest = hashlib.sha256(self.archive.read_bytes()).hexdigest()

@@ -28,3 +28,14 @@ the requested candidate passes all four recorded source requirements.
 
 Accept the optional backend suffix verbatim and reject a conflicting backend
 argument before reservation. 27 workflow tests pass.
+
+## Build-only requirements
+
+> Fix the problem with libtam.
+
+> Keep going.
+
+Verify build-only dependencies from the frozen recipe and matching archive source
+metadata, retaining source ancestry checks. Missing build-only evidence still
+requires the shipped artifact. The original 0.6.26 archive passes all inclusion
+checks without modification. 27 workflow, 10 bundle and 8 stage tests pass.

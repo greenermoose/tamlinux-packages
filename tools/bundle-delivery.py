@@ -24,6 +24,36 @@ def git(root: Path, *arguments: str) -> str:
     ).strip()
 
 
+def build_only_inclusion(root: Path, packed, record: dict, item: dict) -> bool:
+    """Prove a build-only requirement against frozen recipes and archive sources."""
+    name = item.get('repo', '')
+    if name == 'tamlinux-packages':
+        return False
+    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.+-]*', name):
+        raise ValueError('invalid inclusion component')
+    try:
+        recipe = git(root, 'show', record['recipeAssembly'] + ':recipes/workstation/' + name + '.recipe')
+    except subprocess.CalledProcessError:
+        return False  # No proven build-only recipe: require the shipped artifact.
+    directives = [line.split() for line in recipe.splitlines() if line.strip() and not line.lstrip().startswith('#')]
+    if ['output', 'build-only'] not in directives:
+        return False
+    if ['component', name] not in directives or item.get('output') != name or item.get('sourcePath') != '.':
+        raise ValueError(name + ': build-only requirement differs from recipe')
+    revision = record['components'].get(name)
+    if not revision or not REVISION.fullmatch(revision):
+        raise ValueError(name + ': missing build source identity')
+    metadata = packed.getmember('BUNDLE')
+    if not metadata.isfile() or metadata.size > 1024 * 1024:
+        raise ValueError('invalid bundle metadata')
+    lines = [line.split() for line in packed.extractfile(metadata).read().decode().splitlines()]
+    sources = [line[2] for line in lines if len(line) == 3 and line[:2] == ['source', name]]
+    packaging = [line[2] for line in lines if len(line) == 3 and line[:2] == ['source', 'packaging']]
+    if sources != [revision] or packaging != [record['recipeAssembly']]:
+        raise ValueError(name + ': archive build source differs from frozen recipe assembly')
+    return True
+
+
 def publish(path: Path, writer) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, temporary = tempfile.mkstemp(prefix="." + path.name + "-", dir=path.parent)
