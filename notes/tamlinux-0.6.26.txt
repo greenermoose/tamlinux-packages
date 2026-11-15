@@ -1,0 +1,7 @@
+Tamlinux 0.6.26 version notes
+
+Changes since Tamlinux 0.6.24:
+- libtam: libtam 0.7.0
+- tam 0.60.2 (0.93.9)
+- tam-data: tam-data 1.0.0
+- tam-edit: tam-edit 1.0.0

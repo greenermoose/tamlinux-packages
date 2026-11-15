@@ -1,0 +1,63 @@
+{
+  "artifact": {
+    "bundleHash": "sha256:82583cb08b47a86aae8fb32090fb261ede4f97be909cc27013b1f52c6ef2c8eb",
+    "bundleId": "tamlinux-0.6.26-82583cb08b47",
+    "name": "tamlinux-0.6.26-82583cb08b47.tbundle",
+    "sha256": "6c3170976e0c0fac693a470eb056520b6f41de7d17b09c9da49bddf0512c873a"
+  },
+  "backend": "tam-bundle",
+  "components": {
+    "libtam": "f14df3ffeec1cedacabbe27352a2babd8caec5bc",
+    "tam": "7b2395c141ddb023d33e971822e6e9601bb0acf3",
+    "tam-data": "3a1544cb67bfbb5ba82b5281d0aee2fcc50edb12",
+    "tam-edit": "80f5c3f8e6320daf88c78d4d71bc19d99534e54b",
+    "tamlinux": "f62188c557883e30e9f5655c56adfc125e40a403",
+    "tamlinux-tools": "3245abb2d4ef21e30360cac61813d90673d5884c"
+  },
+  "format": 1,
+  "inclusions": [
+    {
+      "artifact": "lib/libtam.so",
+      "name": "libtam",
+      "output": "libtam",
+      "repo": "libtam",
+      "revision": "f14df3ffeec1cedacabbe27352a2babd8caec5bc",
+      "sourcePath": ".",
+      "summary": "libtam 0.7.0"
+    },
+    {
+      "artifact": "bin/tam",
+      "name": "tam",
+      "output": "tam",
+      "repo": "tam",
+      "revision": "7b2395c141ddb023d33e971822e6e9601bb0acf3",
+      "sourcePath": ".",
+      "versions": {
+        "command": "0.60.2",
+        "corpus": "0.93.9"
+      }
+    },
+    {
+      "artifact": "bin/tam-data",
+      "name": "tam-data",
+      "output": "tam-data",
+      "repo": "tamlinux-packages",
+      "revision": null,
+      "sourcePath": "recipes/workstation/tam-data.recipe",
+      "summary": "tam-data 1.0.0"
+    },
+    {
+      "artifact": "bin/tam-edit",
+      "name": "tam-edit",
+      "output": "tam-edit",
+      "repo": "tamlinux-packages",
+      "revision": null,
+      "sourcePath": "recipes/workstation/tam-edit.recipe",
+      "summary": "tam-edit 1.0.0"
+    }
+  ],
+  "minimumTool": "0.13.0",
+  "recipeAssembly": "e5ae038c1896a756a2e7a5fe5773499f03ea9bc9",
+  "rootstock": "arch-systemd",
+  "version": "0.6.26"
+}
