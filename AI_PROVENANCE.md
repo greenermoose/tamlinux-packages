@@ -175,3 +175,5 @@ Bundle completion packaging inputs: [session](docs/ai/2026-11-15-bundle-completi
 2026-11-15: Codex CLI 0.169.0 (`gpt-6-astra`) preserves external bundle pins and verifies assembly-owned inclusions. [Record](docs/ai/2026-11-15-bundle-components.md).
 
 Candidate 0.6.26: [preparation](docs/ai/0.6.26-candidate-preparation.md).
+
+Candidate 0.6.27: [preparation](docs/ai/0.6.27-candidate-preparation.md).

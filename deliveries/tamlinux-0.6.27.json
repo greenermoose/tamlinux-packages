@@ -1,0 +1,22 @@
+{
+  "artifact": {
+    "bundleHash": "sha256:e53d55dc94372047212a249972f9fe96f5165d78550dbab2373876adb1db0051",
+    "bundleId": "tamlinux-0.6.27-e53d55dc9437",
+    "name": "tamlinux-0.6.27-e53d55dc9437.tbundle",
+    "sha256": "88d93abeebe9cc54f769c7c75d93d4094b160ef9962e4b596c1d2a02b4c2b621"
+  },
+  "backend": "tam-bundle",
+  "components": {
+    "libtam": "f14df3ffeec1cedacabbe27352a2babd8caec5bc",
+    "tam": "7b2395c141ddb023d33e971822e6e9601bb0acf3",
+    "tam-data": "3a1544cb67bfbb5ba82b5281d0aee2fcc50edb12",
+    "tam-edit": "80f5c3f8e6320daf88c78d4d71bc19d99534e54b",
+    "tamlinux": "5f4299e76fcb6901fb1c46d35ae198d5dd4d4719",
+    "tamlinux-tools": "3245abb2d4ef21e30360cac61813d90673d5884c"
+  },
+  "format": 1,
+  "minimumTool": "0.13.0",
+  "recipeAssembly": "32c6ffa6d49d210d51789f88726bda975a9a091a",
+  "rootstock": "arch-systemd",
+  "version": "0.6.27"
+}
