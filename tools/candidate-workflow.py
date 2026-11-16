@@ -498,12 +498,14 @@ class Workflow:
             print('Cancelled request '+version+'; sources, artifacts and the reserved number are preserved.')
             return state
 
-    def prepare(self, version='next', word=None, resume=False, trailers='', backend=None):
+    def prepare(self, version='next', word=None, resume=False, trailers='', backend=None, target_host=None):
         with (self.state/'operation.lock').open('a') as lock:
             fcntl.flock(lock, fcntl.LOCK_EX|fcntl.LOCK_NB)
-            return self._prepare(version,word,resume,trailers,backend)
+            return self._prepare(version,word,resume,trailers,backend,target_host)
 
-    def _prepare(self, version, word, resume, trailers, backend=None):
+    def _prepare(self, version, word, resume, trailers, backend=None, target_host=None):
+        if target_host is not None and not re.fullmatch(r'[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?', target_host):
+            raise WorkflowError('invalid target hostname')
         if backend is not None and backend not in ('nix', 'tam-bundle'):
             raise WorkflowError('unsupported packaging backend: ' + str(backend))
         active = self.state/'active.json'
@@ -514,8 +516,10 @@ class Workflow:
             if version not in ('next',state['version']):
                 raise WorkflowError('resume names a different candidate')
             if state['phase']=='cancelled':raise WorkflowError('request was cancelled; start a new request')
-            if state['host'] != os.uname().nodename:
-                raise WorkflowError('request belongs to another host')
+            if state.get('builderHost', state['host']) != os.uname().nodename:
+                raise WorkflowError('request belongs to another host (build host)')
+            if target_host is not None and target_host != state['host']:
+                raise WorkflowError('resume cannot change the target host')
             if word is not None and word != state.get('word'):
                 raise WorkflowError('resume cannot replace the original request')
             expected_backend = state.get('backend', 'nix')
@@ -564,11 +568,13 @@ class Workflow:
                 raise WorkflowError('next unused version is '+chosen)
             included = self.requested_contents(chosen)
             self.verify_tam_versions(included)
-            state = {'schema':1,'version':chosen,'previousVersion':current,'word':word,'host':os.uname().nodename,
+            host = target_host or os.uname().nodename
+            state = {'schema':1,'version':chosen,'previousVersion':current,'word':word,'host':host,
+                     'builderHost':os.uname().nodename,
                      'backend':backend,'inclusions':included,
                      'selected':selected,'assemblySelection':assembly_selection,'parentAssembly':parent,'phase':'selected','steps':{},
                      'requestId':digest({'parent':parent,'selected':selected,'inclusions':included,
-                                         'backend':backend,'host':os.uname().nodename,'word':word})}
+                                         'backend':backend,'host':host,'builderHost':os.uname().nodename,'word':word})}
             save(active,state)  # version reservation before any source mutation
             save(self.state/(chosen+'.json'),state)
         version = state['version']
@@ -927,11 +933,13 @@ def main():
     parser.add_argument('--resume',action='store_true')
     parser.add_argument('--backend',choices=('nix','tam-bundle'),default=None)
     parser.add_argument('--tam-bundle',type=Path)
+    parser.add_argument('--host', dest='target_host', help='Initial Test host, separate from this build host')
     parser.add_argument('--trailers-file',type=Path,required=True)
     args=parser.parse_args()
     try:
         result=Workflow(args.workspace,tam_bundle=args.tam_bundle).prepare(
-            args.version,args.word,args.resume,args.trailers_file.read_text(),backend=args.backend)
+            args.version,args.word,args.resume,args.trailers_file.read_text(),backend=args.backend,
+            target_host=args.target_host)
         print(json.dumps(result,indent=2));return 0
     except (WorkflowError,OSError,ValueError,KeyError,subprocess.CalledProcessError) as exc:
         print('candidate-workflow: '+str(exc),file=sys.stderr);return 1

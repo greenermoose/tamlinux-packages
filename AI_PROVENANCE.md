@@ -182,3 +182,6 @@ Candidate 0.6.27: [preparation](docs/ai/0.6.27-candidate-preparation.md).
 placement and adds a preparation regression. [Record](docs/ai/2026-11-15-application-placement.md).
 
 2026-11-16: Codex CLI 0.169.0 (`gpt-6.1-sol`) implements optional documentation and native delivery fixes. [Record](docs/ai/2026-11-16-0.6.28.md).
+
+2026-11-16: Codex CLI 0.169.0 (`gpt-6.1-sol`) separates the initial Test host
+from the candidate builder. [Record](docs/ai/2026-11-16-target-host-preparation.md).

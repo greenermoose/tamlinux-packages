@@ -140,6 +140,26 @@ class Workflow(unittest.TestCase):
         self.assertEqual(state['version'], '0.6.2')
         self.assertEqual(state['word'], 'Package up and test Tamlinux 0.6.2')
 
+    def test_explicit_target_is_frozen_separately_from_builder_and_cannot_change(self):
+        with patch.object(self.flow, 'claim', side_effect=w.WorkflowError('stop after allocation')):
+            with self.assertRaisesRegex(w.WorkflowError, 'stop after allocation'):
+                self.flow.prepare('0.6.2', 'Package up and test Tamlinux 0.6.2',
+                                  trailers='fixture', target_host='test-laptop')
+        state = json.loads((self.flow.state/'active.json').read_text())
+        self.assertEqual(state['host'], 'test-laptop')
+        self.assertEqual(state['builderHost'], os.uname().nodename)
+        with self.assertRaisesRegex(w.WorkflowError, 'cannot change the target host'):
+            self.flow.prepare('0.6.2', resume=True, target_host='another-host')
+        with patch.object(self.flow, 'claim', side_effect=w.WorkflowError('same builder resumes')):
+            with self.assertRaisesRegex(w.WorkflowError, 'same builder resumes'):
+                self.flow.prepare('0.6.2', resume=True, trailers='fixture')
+
+    def test_invalid_target_does_not_reserve_a_candidate(self):
+        for host in ('-option', 'user@host', 'host/path', 'host;command', ''):
+            with self.subTest(host=host), self.assertRaisesRegex(w.WorkflowError, 'invalid target hostname'):
+                self.flow.prepare('0.6.2', 'Package up and test Tamlinux 0.6.2', target_host=host)
+        self.assertFalse((self.flow.state/'active.json').exists())
+
     def inclusion(self):
         return {'name': 'tam-desktop-test', 'repo': 'tamlinux',
                 'revision': self.git(self.root/'tamlinux', 'rev-parse', 'HEAD'),
