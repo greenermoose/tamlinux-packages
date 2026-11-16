@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -25,6 +26,33 @@ class Bootstrap(unittest.TestCase):
         path = self.root / "usr/bin" / name
         path.write_text(f"#!/bin/sh\n{script}\n")
         path.chmod(0o755)
+
+    def test_profile_prepares_a_desktop_application(self):
+        tool = os.environ.get("TAM_BUNDLE_BIN", "/usr/bin/tam-bundle")
+        profile = self.root / "usr/share/tamlinux/rootstock"
+        profile.mkdir(parents=True)
+        shutil.copyfile(RECIPE / "rootstock-profile", profile / "profile")
+        database = self.root / "var/lib/pacman/local"
+        database.mkdir(parents=True)
+        (database / "ALPM_DB_VERSION").write_text("9\n")
+        bundle = self.home / "application-bundle"
+        (bundle / "tree/share").mkdir(parents=True)
+        (bundle / "tree/share/fixture").write_text("application fixture\n")
+        applications = bundle / "placed/usr/share/applications"
+        applications.mkdir(parents=True)
+        (applications / "tam-edit.desktop").write_text(
+            "[Desktop Entry]\nType=Application\nName=Tam Edit\nExec=tam-edit\n"
+        )
+        for arguments in (
+            ("seal", str(bundle), "--format", "2", "--name", "application", "--version", "1"),
+            ("--root", str(self.root), "install", str(bundle)),
+        ):
+            result = subprocess.run([tool, *arguments], text=True, capture_output=True,
+                                    timeout=30, check=False)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        transaction = (self.root / "var/lib/tamlinux/transaction").read_text()
+        self.assertIn("state ready\n", transaction)
+        self.assertFalse((self.root / "usr/share/applications/tam-edit.desktop").exists())
 
     def run_helper(self, helper, args=(), inputs=""):
         text = (RECIPE / helper).read_text()

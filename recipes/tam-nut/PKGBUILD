@@ -1,7 +1,7 @@
 # Arch bootstrap for the format-2 workstation bundle.
 pkgname=tam-nut
 pkgver=0.13.1
-pkgrel=1
+pkgrel=2
 pkgdesc='Tamlinux workstation bundle bootstrap for Arch Linux'
 arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'
@@ -30,7 +30,7 @@ sha256sums=(  'SKIP'
   'SKIP'
   'SKIP'
   '0383a6baf4dea3d5ccffbbad3c31d0c9b679b37be8497ef929fa01df1971522f'
-  'c6753d7b6b4b2f088159ee7d0adf00d832379b21f40539fb9445966e512e3b1c'
+  '9fe864f493b9cd93efb937cf374b06cf13ffa54293060bad94529332443f313b'
   '661633e1573b45f39fab2c31d5c7e9aa09e3d843999e63f369e27b4ae39f3b7d'
   'ec59d28cebfcdb1bfb9a4aa4e27cde519c94114db22c6b79c4d82b66b877913d'
   'bd38acd6b93e03dd8cfca66b13dcda6e5817394dec969dc49aec753a539e82e5'
@@ -44,7 +44,7 @@ sha256sums=(  'SKIP'
   '5a3c31acd0929d1e3fc021839d6a92e4e9d445549ca9154b47f02cddf42983f9'
   '9b10d0564cba31aa56f9a6ff8ad9954b9374b69dceddf55d7c95b0cef1c26638'
   '6fdb7c23b422e163a21d58920b8329520f8591eba2d16a50bb8efe06ca65c938'
-  '2f2b0b2276124cee8de02e3df918bf2984cd7042743fbb3ac5c7895229534e3b'
+  'd11541d80612cc5b204ebe7d66e8e712bb4d8e67216c69d1a2aae164a01179a7'
 )
 
 build() {
@@ -63,7 +63,7 @@ check() {
   for helper in apply-prepared system-units-reload user-units-reload hi start guard-removal; do
     bash -n "$srcdir/$helper"
   done
-  /usr/bin/python3 -B "$srcdir/test_bootstrap.py"
+  TAM_BUNDLE_BIN="$srcdir/tamlinux-tools/bin/tam-bundle" /usr/bin/python3 -B "$srcdir/test_bootstrap.py"
 }
 
 package() {

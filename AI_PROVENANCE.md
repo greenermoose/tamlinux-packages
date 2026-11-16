@@ -177,3 +177,6 @@ Bundle completion packaging inputs: [session](docs/ai/2026-11-15-bundle-completi
 Candidate 0.6.26: [preparation](docs/ai/0.6.26-candidate-preparation.md).
 
 Candidate 0.6.27: [preparation](docs/ai/0.6.27-candidate-preparation.md).
+
+2026-11-15: Codex CLI 0.169.0 (`gpt-6.1-sol`) corrects native application
+placement and adds a preparation regression. [Record](docs/ai/2026-11-15-application-placement.md).

@@ -1,5 +1,6 @@
 format 1
 allow usr/bin
+allow usr/share/applications
 allow usr/share/man
 allow usr/share/bash-completion/completions
 allow usr/share/doc
