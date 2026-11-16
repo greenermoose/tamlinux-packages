@@ -1,0 +1,15 @@
+Tamlinux 0.6.28 version notes
+
+Changes since Tamlinux 0.6.27:
+- claude-bug-hunt: Reviewed workspace retry fix 2.0.12; companion MSI helper and host paths recorded separately
+- fleet-host-paths: Repair relative paths after fleet directory move
+- idle-configurations: Preserve host idle policy and call only tam-suspend-unless-stay-awake
+- libtam: libtam 0.7.1
+- msi-wake-helper: Select repaired MSI wake helper with journal evidence and warm retrain to 60 Hz
+- optional-host-documentation: Select Info, curated tldr and Arch Wiki on all three hosts
+- tam 0.61.0 (0.95.0): Optional host documentation and native bundle identity
+- tam-data: tam-data 1.0.1
+- tam-edit: tam-edit 1.0.3
+- tam-suspend-unless-stay-awake: Use only the canonical sleep helper; retire the old executable name
+- tamlinux-packages: Pinned native archives and canonical /usr/share/doc packaging
+- tamlinux-tools: tam-bundle 0.14.0 with optional documentation transactions

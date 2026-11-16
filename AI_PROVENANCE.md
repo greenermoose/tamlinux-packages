@@ -185,3 +185,5 @@ placement and adds a preparation regression. [Record](docs/ai/2026-11-15-applica
 
 2026-11-16: Codex CLI 0.169.0 (`gpt-6.1-sol`) separates the initial Test host
 from the candidate builder. [Record](docs/ai/2026-11-16-target-host-preparation.md).
+
+Candidate 0.6.28: [preparation](docs/ai/0.6.28-candidate-preparation.md).

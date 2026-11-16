@@ -1,0 +1,125 @@
+{
+  "artifact": {
+    "bundleHash": "sha256:e849e538fc3ee1a984699ba4cc01f3c617e4e2eb20e7362431cba4a73030486d",
+    "bundleId": "tamlinux-0.6.28-e849e538fc3e",
+    "name": "tamlinux-0.6.28-e849e538fc3e.tbundle",
+    "sha256": "e92c1862d0ae5c6107093b06ce0b22f35e3b4fe63869be76afb1645f6f95d173"
+  },
+  "backend": "tam-bundle",
+  "components": {
+    "libtam": "d1b3cbfbbfc2dfd063efca5321ee75a06d7ae1ec",
+    "tam": "e9ce68376f30b250f022c15d1a52451ca476b2b3",
+    "tam-data": "c907254ae3949e51846ef14cfb0a112914728771",
+    "tam-edit": "6a2f8b7cd6cc7180c48ceeb43e65a88af5b969b2",
+    "tamlinux": "cf8218255bfc9e70fc7a0a3b054b11c66652d6cc",
+    "tamlinux-tools": "5854b84816eba366bfd05190f4f2584f66f51e35"
+  },
+  "format": 1,
+  "inclusions": [
+    {
+      "artifact": "share/tamlinux/plugins/fred.workspaces/manifest.json",
+      "name": "claude-bug-hunt",
+      "output": "tamlinux-plugins",
+      "repo": "tamlinux",
+      "revision": "23f4302be3ba79629ba8769888c43e8d5f59cf99",
+      "sourcePath": "desktop/plugins/fred.workspaces",
+      "summary": "Reviewed workspace retry fix 2.0.12; companion MSI helper and host paths recorded separately"
+    },
+    {
+      "digest": "51af0acde55d87353b41e1339bcdd3e0fcf4e4bf3021fae5d0e183551c51c2b9",
+      "inclusionRecord": "0.6.28",
+      "name": "fleet-host-paths",
+      "provider": "host",
+      "summary": "Repair relative paths after fleet directory move"
+    },
+    {
+      "digest": "da37e6fd321d408e9b8e8598b9f8778df504a793b9ac01459faa025d2bcc4044",
+      "inclusionRecord": "0.6.28",
+      "name": "idle-configurations",
+      "provider": "host",
+      "summary": "Preserve host idle policy and call only tam-suspend-unless-stay-awake"
+    },
+    {
+      "artifact": "lib/libtam.so",
+      "name": "libtam",
+      "output": "libtam",
+      "repo": "libtam",
+      "revision": "d1b3cbfbbfc2dfd063efca5321ee75a06d7ae1ec",
+      "sourcePath": ".",
+      "summary": "libtam 0.7.1"
+    },
+    {
+      "digest": "e7c68c75d8178187e4b04bb1b81570f2017336e6f1ba808976b5795d473a60da",
+      "inclusionRecord": "0.6.28",
+      "name": "msi-wake-helper",
+      "provider": "host",
+      "summary": "Select repaired MSI wake helper with journal evidence and warm retrain to 60 Hz"
+    },
+    {
+      "digest": "d955957257ea24d2b24acfc2a5be90b2aefdb57871ce89d2f5f334d1fa5b0a9d",
+      "inclusionRecord": "0.6.28",
+      "name": "optional-host-documentation",
+      "provider": "host",
+      "summary": "Select Info, curated tldr and Arch Wiki on all three hosts"
+    },
+    {
+      "artifact": "bin/tam",
+      "name": "tam",
+      "output": "tam",
+      "repo": "tam",
+      "revision": "e9ce68376f30b250f022c15d1a52451ca476b2b3",
+      "sourcePath": ".",
+      "summary": "Optional host documentation and native bundle identity",
+      "versions": {
+        "command": "0.61.0",
+        "corpus": "0.95.0"
+      }
+    },
+    {
+      "artifact": "bin/tam-data",
+      "name": "tam-data",
+      "output": "tam-data",
+      "repo": "tamlinux-packages",
+      "revision": "ca531e0033a2b8631419cdee537bb6b20587411b",
+      "sourcePath": "recipes/workstation/tam-data.recipe",
+      "summary": "tam-data 1.0.1"
+    },
+    {
+      "artifact": "bin/tam-edit",
+      "name": "tam-edit",
+      "output": "tam-edit",
+      "repo": "tamlinux-packages",
+      "revision": "ca531e0033a2b8631419cdee537bb6b20587411b",
+      "sourcePath": "recipes/workstation/tam-edit.recipe",
+      "summary": "tam-edit 1.0.3"
+    },
+    {
+      "artifact": "bin/tam-suspend-unless-stay-awake",
+      "name": "tam-suspend-unless-stay-awake",
+      "output": "tamlinux-commands",
+      "repo": "tamlinux",
+      "revision": "23f4302be3ba79629ba8769888c43e8d5f59cf99",
+      "sourcePath": "commands/tam-suspend-unless-stay-awake",
+      "summary": "Use only the canonical sleep helper; retire the old executable name"
+    },
+    {
+      "name": "tamlinux-packages",
+      "provider": "assembly",
+      "revision": "ca531e0033a2b8631419cdee537bb6b20587411b",
+      "summary": "Pinned native archives and canonical /usr/share/doc packaging"
+    },
+    {
+      "artifact": "bin/tam-file-select",
+      "name": "tamlinux-tools",
+      "output": "tamlinux-tools",
+      "repo": "tamlinux-tools",
+      "revision": "5854b84816eba366bfd05190f4f2584f66f51e35",
+      "sourcePath": ".",
+      "summary": "tam-bundle 0.14.0 with optional documentation transactions"
+    }
+  ],
+  "minimumTool": "0.14.0",
+  "recipeAssembly": "200f341c2cc65e00b942085b9fc1a362e224aeb3",
+  "rootstock": "arch-systemd",
+  "version": "0.6.28"
+}
