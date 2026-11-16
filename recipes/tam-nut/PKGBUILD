@@ -1,7 +1,7 @@
 # Arch bootstrap for the format-2 workstation bundle.
 pkgname=tam-nut
-pkgver=0.13.1
-pkgrel=2
+pkgver=0.14.0
+pkgrel=1
 pkgdesc='Tamlinux workstation bundle bootstrap for Arch Linux'
 arch=(x86_64)
 url='https://github.com/greenermoose/tamlinux'
@@ -13,9 +13,9 @@ conflicts=(tamlinux-native)
 install=tam-nut.install
 options=(!debug)
 
-_libtam=37c0dbd2194981e23215a7edad1575fa10bdfb1e
-_tools=3245abb2d4ef21e30360cac61813d90673d5884c
-_product=12fd03f61a43e8779217d4a6ea9940b536c133fe
+_libtam=d1b3cbfbbfc2dfd063efca5321ee75a06d7ae1ec
+_tools=5854b84816eba366bfd05190f4f2584f66f51e35
+_product=23f4302be3ba79629ba8769888c43e8d5f59cf99
 source=(
   "libtam::git+https://github.com/greenermoose/libtam.git#commit=$_libtam"
   "tamlinux-tools::git+https://github.com/greenermoose/tamlinux-tools.git#commit=$_tools"

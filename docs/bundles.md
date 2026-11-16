@@ -39,3 +39,17 @@ Native slot install, switch, full verification, rollback and forward switch
 have passed with the development bundle. The remaining workstation migration
 includes the tam-deploy back end, configuration migration and active desktop
 cutover. Existing stage and privileged-step approval rules still apply.
+
+## Optional documentation
+
+The workstation recipe targets tam-bundle 0.14.0. Its declared documentation
+sources are hash-pinned package archives in `recipes/workstation/documentation.json`.
+The importer runs from the exact packaging commit and writes only unpublished
+`placed/usr/share/doc` data. Info's directory is generated from the selected
+manuals. The curated tldr payload is installed separately from the core corpus.
+
+Each host selects `info`, `tldr`, and/or `archwiki` independently. Fleet profiles
+select all three for the next candidate. Native-owned matching documentation is
+reused; it is not overwritten. Build source and license identities travel with
+the documentation. Missing selected archives stop preparation with their name;
+this is not permission to harvest live files or download arbitrary replacements.

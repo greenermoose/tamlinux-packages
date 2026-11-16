@@ -90,6 +90,7 @@ def read_metadata(stream) -> dict:
     values = {}
     sources = {}
     profile = None
+    minimum_tool = (0, 13, 0)
     for line in metadata.splitlines():
         key, separator, value = line.partition(" ")
         if not separator:
@@ -99,6 +100,13 @@ def read_metadata(stream) -> dict:
             if name in sources or not REVISION.fullmatch(revision):
                 raise ValueError("invalid or repeated source")
             sources[name] = revision
+        elif key == 'optional-doc':
+            minimum_tool = max(minimum_tool, (0, 14, 0))
+        elif key == 'needs' and value.startswith('tam-bundle '):
+            match = re.fullmatch(r'tam-bundle >= ([0-9]+)\.([0-9]+)\.([0-9]+)', value)
+            if not match:
+                raise ValueError('invalid bundle tool requirement')
+            minimum_tool = max(minimum_tool, tuple(map(int, match.groups())))
         elif key == "target" and value.startswith("profile "):
             if profile is not None:
                 raise ValueError("repeated rootstock profile")
@@ -114,6 +122,7 @@ def read_metadata(stream) -> dict:
         raise ValueError("expected an identified Arch workstation bundle")
     values["sources"] = sources
     values["profile"] = profile
+    values["minimumTool"] = ".".join(map(str, minimum_tool))
     return values
 
 
@@ -186,7 +195,7 @@ def record(root: Path, archive: Path, tool: Path, output: Path, cache: Path) -> 
         value = {
             "format": 1, "backend": "tam-bundle", "version": version,
             "recipeAssembly": assembly, "components": pins,
-            "rootstock": metadata["profile"], "minimumTool": "0.13.0",
+            "rootstock": metadata["profile"], "minimumTool": metadata["minimumTool"],
             "artifact": {
                 "name": f"tamlinux-{version}-{metadata['hash'][7:19]}.tbundle",
                 "sha256": digest, "bundleHash": metadata["hash"],

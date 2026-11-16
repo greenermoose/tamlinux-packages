@@ -1,7 +1,7 @@
 format 1
-component libtam https://github.com/greenermoose/libtam f14df3ffeec1cedacabbe27352a2babd8caec5bc
-component tam https://github.com/greenermoose/tam 7b2395c141ddb023d33e971822e6e9601bb0acf3
-component tamlinux-tools https://github.com/greenermoose/tamlinux-tools 3245abb2d4ef21e30360cac61813d90673d5884c
-component tamlinux https://github.com/greenermoose/tamlinux 5f4299e76fcb6901fb1c46d35ae198d5dd4d4719
-component tam-edit https://github.com/greenermoose/tam-edit 80f5c3f8e6320daf88c78d4d71bc19d99534e54b
-component tam-data https://github.com/greenermoose/tam-data 3a1544cb67bfbb5ba82b5281d0aee2fcc50edb12
+component libtam https://github.com/greenermoose/libtam d1b3cbfbbfc2dfd063efca5321ee75a06d7ae1ec
+component tam https://github.com/greenermoose/tam e9ce68376f30b250f022c15d1a52451ca476b2b3
+component tamlinux-tools https://github.com/greenermoose/tamlinux-tools 5854b84816eba366bfd05190f4f2584f66f51e35
+component tamlinux https://github.com/greenermoose/tamlinux 23f4302be3ba79629ba8769888c43e8d5f59cf99
+component tam-edit https://github.com/greenermoose/tam-edit 6a2f8b7cd6cc7180c48ceeb43e65a88af5b969b2
+component tam-data https://github.com/greenermoose/tam-data c907254ae3949e51846ef14cfb0a112914728771

@@ -42,11 +42,11 @@ class BundleDelivery(unittest.TestCase):
         self.cache = self.root / "cache"
         self.bundle()
 
-    def bundle(self, revision="1" * 40, private=False):
+    def bundle(self, revision="1" * 40, private=False, requirements=""):
         metadata = (
             "format 2\nname tamlinux\nversion 9.8.7\nhash sha256:" + "a" * 64 + "\n"
             "target profile arch-systemd\nsource tamlinux " + revision + "\n"
-            "source packaging " + self.assembly + "\n"
+            "source packaging " + self.assembly + "\n" + requirements
         ).encode()
         with tarfile.open(self.archive, "w") as archive:
             entry = tarfile.TarInfo("BUNDLE")
@@ -90,6 +90,13 @@ class BundleDelivery(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             self.record()
         self.assertEqual(json.loads(self.output.read_text()), result)
+
+    def test_optional_docs_and_native_requirements_set_minimum_tool(self):
+        self.bundle(requirements='optional-doc info\nneeds tam-bundle >= 0.14.0\n')
+        self.assertEqual(self.record()['minimumTool'],'0.14.0')
+        self.output.unlink()
+        self.bundle(requirements='optional-doc info\nneeds tam-bundle >= 0.15.1\n')
+        self.assertEqual(self.record()['minimumTool'],'0.15.1')
 
     def test_source_mismatch_is_refused_before_publication(self):
         self.bundle(revision="2" * 40)

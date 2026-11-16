@@ -208,7 +208,7 @@
       "bin/tam-system-lock",
       "bin/tam-system-sleep-lock",
       "bin/tam-system-wake",
-      "bin/suspend-unless-stay-awake",
+      "bin/tam-suspend-unless-stay-awake",
       "bin/tam-toggle",
       "bin/tam-toggle-enabled"
     ],

@@ -499,10 +499,10 @@ elif name == 'hyprctl':
         checks.append('packaged brightness writers reject invalid requests without hardware/authorization')
 
         run('tam-toggle-idle', 'stay-awake')
-        run('suspend-unless-stay-awake')
+        run('tam-suspend-unless-stay-awake')
         explicit = root / 'awake-override'
         explicit.touch()
-        run('suspend-unless-stay-awake', extra_env={'TAMLINUX_STAY_AWAKE_FILE': str(explicit)})
+        run('tam-suspend-unless-stay-awake', extra_env={'TAMLINUX_STAY_AWAKE_FILE': str(explicit)})
         run('tam-toggle-idle', 'allow-idle')
         checks.append('packaged idle suspend honors the same XDG marker and explicit override without calling logind')
 

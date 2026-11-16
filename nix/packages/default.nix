@@ -574,7 +574,7 @@ let
     tam-system-lock = [ pkgs.coreutils pkgs.procps pkgs.util-linux ];
     tam-system-sleep-lock = [ pkgs.coreutils pkgs.procps pkgs.systemd ];
     tam-system-wake = [  ];
-    suspend-unless-stay-awake = [ pkgs.coreutils pkgs.procps pkgs.util-linux pkgs.gnugrep pkgs.gnused pkgs.systemd ];
+    tam-suspend-unless-stay-awake = [ pkgs.coreutils pkgs.procps pkgs.util-linux pkgs.gnugrep pkgs.gnused pkgs.systemd ];
     tam-toggle = [ pkgs.coreutils ];
     tam-toggle-enabled = [  ];
     tam-weather-location = [ pkgs.coreutils pkgs.jq pkgs.curl ];
@@ -734,7 +734,7 @@ let
   };
   # Checks that need desktop/ fixtures beside commands/<name> (inventory 2026-11-04).
   desktopCheckNames = [
-    "suspend-unless-stay-awake"
+    "tam-suspend-unless-stay-awake"
     "tam-audio-tuning"
     "tam-capture-region"
     "tam-capture-screenrecording-with-webcam"

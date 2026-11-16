@@ -180,3 +180,5 @@ Candidate 0.6.27: [preparation](docs/ai/0.6.27-candidate-preparation.md).
 
 2026-11-15: Codex CLI 0.169.0 (`gpt-6.1-sol`) corrects native application
 placement and adds a preparation regression. [Record](docs/ai/2026-11-15-application-placement.md).
+
+2026-11-16: Codex CLI 0.169.0 (`gpt-6.1-sol`) implements optional documentation and native delivery fixes. [Record](docs/ai/2026-11-16-0.6.28.md).
