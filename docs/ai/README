@@ -271,3 +271,4 @@ Record: Session <2026-11-13-plain-readmes.md>
 
 - 2026-11-16 — Optional documentation and native delivery fixes <2026-11-16-0.6.28.md>, Codex CLI 0.169.0 / gpt-6.1-sol.
 - 2026-11-16 — Explicit initial Test host <2026-11-16-target-host-preparation.md>, Codex CLI 0.169.0 / gpt-6.1-sol.
+- 2026-11-16 — Same-version candidate metadata repair <2026-11-16-candidate-metadata-repair.md>, Codex CLI 0.169.0 / gpt-6.1-sol.

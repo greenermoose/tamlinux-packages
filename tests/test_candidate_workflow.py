@@ -1,6 +1,7 @@
 """Real Git selection, version reservation and interrupted commits."""
 import importlib.util
 import json
+import hashlib
 import contextlib
 import os
 from pathlib import Path
@@ -569,7 +570,10 @@ else:
             self.assertEqual(result['phase'], 'frozen')
             delivery = json.loads((self.packages / 'deliveries/tamlinux-0.6.2.json').read_text())
             self.assertEqual(delivery['backend'], 'tam-bundle')
-            self.assertEqual(delivery['inclusions'], required)
+            self.assertNotIn('inclusions', delivery)
+            audit = json.loads((self.packages / 'deliveries/inclusions/tamlinux-0.6.2.json').read_text())
+            self.assertEqual(audit['inclusions'], required)
+            self.assertEqual(audit['artifactSha256'], delivery['artifact']['sha256'])
             self.assertTrue((cache_home / 'tamlinux/bundles' / (delivery['artifact']['sha256'] + '.tbundle')).is_file())
             self.assertEqual(fake_log.read_text().splitlines()[0].split()[0], 'build')
             resumed = self.flow.prepare('0.6.2', resume=True, trailers='AI-Tool: fixture')
@@ -577,3 +581,66 @@ else:
             self.assertEqual(sum(1 for line in fake_log.read_text().splitlines() if line.startswith('build ')), 1)
             with self.assertRaisesRegex(w.WorkflowError, 'cannot change packaging backend'):
                 self.flow.prepare('0.6.2', resume=True, trailers='AI-Tool: fixture', backend='nix')
+
+    def metadata_repair_fixture(self, change_payload=False, wrong_audit=False):
+        version = '0.6.2'
+        payload = b'unchanged native product bytes'
+        digest = hashlib.sha256(payload).hexdigest()
+        cache = self.root / 'bundle-cache'
+        cache.mkdir()
+        archive = cache / (digest + '.tbundle')
+        archive.write_bytes(payload)
+        self.flow.bundle_cache = lambda: cache
+        component = self.git(self.root / 'tamlinux', 'rev-parse', 'HEAD')
+        record = {'format': 1, 'backend': 'tam-bundle', 'version': version,
+                  'recipeAssembly': self.git(self.packages, 'rev-parse', 'HEAD'),
+                  'components': {'tamlinux': component}, 'rootstock': 'arch-systemd',
+                  'minimumTool': '0.14.0', 'artifact': {'sha256': digest}, 'inclusions': []}
+        delivery = self.packages / 'deliveries/tamlinux-0.6.2.json'
+        delivery.write_text(json.dumps(record, indent=2) + '\n')
+        self.git(self.packages, 'add', '--', 'deliveries/tamlinux-0.6.2.json')
+        self.git(self.packages, 'commit', '-qm', 'Original frozen delivery')
+        previous = self.git(self.packages, 'rev-parse', 'HEAD')
+        state = {'phase': 'frozen', 'version': version, 'assembly': previous,
+                 'host': 'initial-target', 'inclusions': [],
+                 'deliverySha256': hashlib.sha256(delivery.read_bytes()).hexdigest(),
+                 'steps': {'assembly': {'result': previous}},
+                 'suite': {'tamlinux-packages': previous, 'tamlinux': component}}
+        w.save(self.flow.state / 'active.json', state)
+        record.pop('inclusions')
+        if change_payload:
+            record['artifact']['sha256'] = 'f' * 64
+        delivery.write_text(json.dumps(record, indent=2) + '\n')
+        audit = self.packages / self.flow.inclusion_audit_path(version)
+        w.save(audit, {'format': 1, 'version': version,
+                      'artifactSha256': 'e' * 64 if wrong_audit else record['artifact']['sha256'],
+                      'inclusions': []})
+        self.git(self.packages, 'add', '--', 'deliveries')
+        self.git(self.packages, 'commit', '-qm', 'Separate inclusion audit')
+        return previous, self.git(self.packages, 'rev-parse', 'HEAD'), state, archive, payload
+
+    def test_metadata_repair_preserves_version_bytes_and_previous_freeze(self):
+        previous, revision, old, archive, payload = self.metadata_repair_fixture()
+        result = self.flow.repair_metadata('0.6.2', revision, 'Repair this candidate in place')
+        self.assertEqual(result['version'], '0.6.2')
+        self.assertEqual(result['host'], 'initial-target')
+        self.assertEqual(result['assembly'], revision)
+        self.assertEqual(archive.read_bytes(), payload)
+        saved = self.flow.state / 'repairs/0.6.2' / (previous + '.json')
+        self.assertEqual(json.loads(saved.read_text()), old)
+        self.assertNotIn('tamlinux-packages', result['suite'])
+        self.assertEqual(result['suite']['tamlinux'], old['suite']['tamlinux'])
+        self.assertEqual(self.flow.verify_frozen(result), revision)
+        self.assertEqual(self.flow.repair_metadata('0.6.2', revision, 'Resume this repair'), result)
+
+    def test_metadata_repair_refuses_changed_payload(self):
+        _, revision, old, _, _ = self.metadata_repair_fixture(change_payload=True)
+        with self.assertRaisesRegex(w.WorkflowError, 'payload or selected sources'):
+            self.flow.repair_metadata('0.6.2', revision, 'Repair this candidate')
+        self.assertEqual(json.loads((self.flow.state / 'active.json').read_text()), old)
+
+    def test_metadata_repair_refuses_unbound_inclusion_audit(self):
+        _, revision, old, _, _ = self.metadata_repair_fixture(wrong_audit=True)
+        with self.assertRaisesRegex(w.WorkflowError, 'inclusion audit differs'):
+            self.flow.repair_metadata('0.6.2', revision, 'Repair this candidate')
+        self.assertEqual(json.loads((self.flow.state / 'active.json').read_text()), old)

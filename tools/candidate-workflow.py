@@ -347,6 +347,74 @@ class Workflow:
     def bundle_cache(self):
         return Path(os.environ.get('XDG_CACHE_HOME', str(Path.home() / '.cache'))) / 'tamlinux/bundles'
 
+    def inclusion_audit_path(self, version):
+        if not isinstance(version, str) or not re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+', version):
+            raise WorkflowError('invalid inclusion audit version')
+        return f'deliveries/inclusions/tamlinux-{version}.json'
+
+    def delivery_inclusions(self, record, revision=None):
+        # Older records embedded audit data in the runtime record. Native
+        # deploy readers intentionally accept only the runtime schema.
+        if 'inclusions' in record:
+            return record['inclusions']
+        path = self.inclusion_audit_path(record['version'])
+        if revision:
+            exists = subprocess.run(['git', '-C', str(self.packages), 'cat-file', '-e', revision + ':' + path],
+                                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0
+            text = git(self.packages, 'show', revision + ':' + path) if exists else None
+        else:
+            source = self.packages / path
+            text = source.read_text() if source.exists() else None
+        if text is None:
+            return []
+        audit = json.loads(text)
+        if (set(audit) != {'format', 'version', 'artifactSha256', 'inclusions'} or
+                audit['format'] != 1 or audit['version'] != record['version'] or
+                audit['artifactSha256'] != record['artifact']['sha256'] or
+                not isinstance(audit['inclusions'], list)):
+            raise WorkflowError('inclusion audit differs from the delivery identity')
+        return audit['inclusions']
+
+    def repair_metadata(self, version, revision, word):
+        """Rebind a frozen candidate to corrected metadata, never rebuilding bytes."""
+        if not word or not word.strip() or not re.fullmatch('[0-9a-f]{40}', revision):
+            raise WorkflowError('metadata repair needs explicit authority and an exact assembly')
+        with (self.state / 'operation.lock').open('a') as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            active = self.state / 'active.json'
+            state = json.loads(active.read_text())
+            if state.get('phase') != 'frozen' or state.get('version') != version:
+                raise WorkflowError('metadata repair must name the frozen candidate')
+            previous = state['assembly']
+            if revision == previous:
+                return state
+            git(self.packages, 'merge-base', '--is-ancestor', previous, revision)
+            path = f'deliveries/tamlinux-{version}.json'
+            old_text = git(self.packages, 'show', previous + ':' + path) + '\n'
+            if hashlib.sha256(old_text.encode()).hexdigest() != state['deliverySha256']:
+                raise WorkflowError('previous frozen delivery identity differs')
+            new_text = git(self.packages, 'show', revision + ':' + path) + '\n'
+            old, new = json.loads(old_text), json.loads(new_text)
+            if (old.get('backend') != 'tam-bundle' or
+                    {k: v for k, v in old.items() if k != 'inclusions'} != new):
+                raise WorkflowError('metadata repair cannot change the payload or selected sources')
+            if self.delivery_inclusions(new, revision) != state.get('inclusions', []):
+                raise WorkflowError('metadata repair cannot change frozen inclusions')
+            self.bundle_archive(new)
+            save(self.state / 'repairs' / version / (previous + '.json'), state)
+            state.setdefault('metadataRepairs', []).append({
+                'previousAssembly': previous, 'assembly': revision, 'word': word,
+                'artifactSha256': new['artifact']['sha256'], 'recordedAt': time.time(),
+            })
+            state['assembly'] = revision
+            state['deliverySha256'] = hashlib.sha256(new_text.encode()).hexdigest()
+            state['steps']['assembly']['result'] = revision
+            state.get('suite', {}).pop('tamlinux-packages', None)
+            state['testState'] = 'awaiting-target-preparation'
+            save(active, state)
+            save(self.state / (version + '.json'), state)
+            return state
+
     def bundle_archive(self, record):
         artifact = record.get('artifact') or {}
         sha256 = artifact.get('sha256')
@@ -786,7 +854,8 @@ class Workflow:
                                    'Pin Tamlinux ' + version + ' bundle recipes', trailers)
         recipe_assembly = phase('pin-bundle', pin_bundle)
         def assemble_bundle_locked():
-            self.claim(self.packages, [f'deliveries/tamlinux-{version}.json', notes_rel])
+            audit_rel = self.inclusion_audit_path(version)
+            self.claim(self.packages, [f'deliveries/tamlinux-{version}.json', audit_rel, notes_rel])
             delivery = self.packages / f'deliveries/tamlinux-{version}.json'
             if delivery.exists():
                 data = json.loads(delivery.read_text())
@@ -803,10 +872,10 @@ class Workflow:
                     data = module('bundle-delivery').record(
                         self.packages, archive, self.tam_bundle, delivery, self.bundle_cache())
                 if state.get('inclusions'):
-                    data['inclusions'] = state['inclusions']
-                    delivery.write_text(json.dumps(data, indent=2, sort_keys=True) + '\n')
+                    save(self.packages / audit_rel, {'format': 1, 'version': version,
+                         'artifactSha256': data['artifact']['sha256'], 'inclusions': state['inclusions']})
             data = json.loads(delivery.read_text())
-            if data.get('inclusions', []) != state.get('inclusions', []):
+            if self.delivery_inclusions(data) != state.get('inclusions', []):
                 raise WorkflowError('delivery inclusions differ from the frozen selection')
             self.verify_bundle_inclusions(state.get('inclusions', []), data)
             self.bundle_archive(data)
@@ -831,7 +900,8 @@ class Workflow:
             existing = index.read_text() if index.exists() else '# AI provenance\n'
             if entry not in existing:
                 index.write_text(existing + entry)
-            revision = self.commit(self.packages, [str(delivery.relative_to(self.packages)), notes_rel, record, 'AI_PROVENANCE.md'],
+            audit_paths = [audit_rel] if (self.packages / audit_rel).exists() else []
+            revision = self.commit(self.packages, [str(delivery.relative_to(self.packages)), *audit_paths, notes_rel, record, 'AI_PROVENANCE.md'],
                                    'Prepare Tamlinux ' + version + ' candidate', trailers)
             if self.registrar:
                 self.registrar('tamlinux-packages', record)
@@ -883,7 +953,7 @@ class Workflow:
         elif record.get('outputs'):
             self.frozen_outputs(revision,record,restore=True)
         items = state.get('inclusions', [])
-        if record.get('inclusions', []) != items:
+        if self.delivery_inclusions(record, revision) != items:
             raise WorkflowError('frozen delivery inclusions differ')
         if items:
             self.verify_inclusion_sources(items, {name: component_rev(pin) for name, pin in record['components'].items()})
