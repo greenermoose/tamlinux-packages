@@ -1,13 +1,12 @@
 # Bug 0002 — Bundle installs show no version notes
 
-- **Status:** Confirmed.
+- **Status:** Fix available.
 - **Severity:** Medium; the version widget shows nothing about what
   changed in the version under test.
 - **Affected:** Workstation bundle deliveries 0.6.27 and 0.6.28
   (`recipes/workstation/bundle`, `tools/candidate-workflow.py`).
-- **Fixed:** None yet. Proposed for 0.6.29.
-- **Next:** Render the version notes before `tam-bundle build`, pack those
-  notes, and fail the build when the packed header names another version.
+- **Fixed:** In source on `develop`; planned for 0.6.29, not yet installed.
+- **Next:** After installing 0.6.29, confirm `fred.tamversion` shows its notes.
 
 ## Reproduce
 
@@ -41,21 +40,32 @@ Read `notes/tamlinux-<version>.txt` in this repository.
 
 ## Fix and verification
 
-Proposed:
+`tam-bundle build` reads the recipe and its `file` sources from the packaging
+commit, so the notes must be committed before the build.
+`tools/candidate-workflow.py` now does this in the `pin-bundle` step:
 
-1. In `_prepare_bundle()`, render `notes/tamlinux-<version>.txt` before the
-   build and keep the existing review step on it before Test.
-2. Build from a temporary copy of `recipes/workstation` whose notes `file`
-   line names `notes/tamlinux-<version>.txt`, or add the version-specific
-   line to the pinned recipe in `pin-bundle`. Keep
-   `notes/tamlinux-development.txt` for development builds only.
-3. After `tam-bundle verify`, read `tree/share/tamlinux/version-notes.txt`
-   and stop if its first line is not `Tamlinux <version> version notes`.
-4. Test in `tests/`: a candidate build packs notes whose header matches the
-   version, and a placeholder header fails the build.
+1. It renders `notes/tamlinux-<version>.txt` and points the recipe's single
+   `file ... tree/share/tamlinux/version-notes.txt` line at it
+   (`point_bundle_notes`), then commits both with `VERSION` and the lock.
+2. After `tam-bundle verify`, the build stops unless the packed
+   `version-notes.txt` is exactly the rendered notes.
+3. The later preparation commit checks that the notes did not change after
+   the build, instead of writing them for the first time.
 
-Acceptance: after installing 0.6.29, `fred.tamversion` shows the 0.6.29
-notes.
+Consequence: the notes are part of the bundle. Review them before Test from
+the `Pin Tamlinux <version> bundle recipes` commit; a wording change after
+that needs a new build. `notes/tamlinux-development.txt` remains for manual
+development builds, but the recipe now names the last candidate's notes.
+
+Regression checks in `tests/test_candidate_workflow.py`: the fake
+`tam-bundle build` now packs the recipe's `file` entries from the committed
+packaging `HEAD`, as the real tool does. The bundle test asserts the pinned
+recipe and the packed notes. A new test, which packs the placeholder, must be
+refused before any delivery record is written. Both fail on the previous
+workflow, and the full suite passes (211 tests). The rewrite was also run on
+a copy of the real recipe: one line changed.
+
+Remaining: installed acceptance in 0.6.29.
 
 ## Resolution
 

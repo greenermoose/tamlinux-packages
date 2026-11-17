@@ -68,6 +68,24 @@ def within(path, scopes):
     return any(path == scope or path.startswith(scope.rstrip('/')+'/') for scope in scopes)
 
 
+BUNDLE_RECIPE = 'recipes/workstation/bundle'
+BUNDLE_NOTES = 'tree/share/tamlinux/version-notes.txt'
+
+
+def point_bundle_notes(recipe: Path, notes_rel: str) -> None:
+    """Make the bundle recipe pack this version's notes, not a placeholder."""
+    if not recipe.is_file():
+        raise WorkflowError('bundle recipe is missing: ' + BUNDLE_RECIPE)
+    lines = recipe.read_text().splitlines(keepends=True)
+    hits = [i for i, line in enumerate(lines) if line.split()[:1] == ['file'] and line.split()[2:] == [BUNDLE_NOTES]]
+    if len(hits) != 1:
+        raise WorkflowError('bundle recipe must name exactly one file for ' + BUNDLE_NOTES)
+    wanted = f'file {notes_rel} {BUNDLE_NOTES}\n'
+    if lines[hits[0]] != wanted:
+        lines[hits[0]] = wanted
+        recipe.write_text(''.join(lines))
+
+
 def render_version_notes(version, parent_version=None, inclusions=None, components=None):
     lines = [f'Tamlinux {version} version notes', '']
     if parent_version and parent_version != version:
@@ -845,12 +863,21 @@ class Workflow:
     def _prepare_bundle(self, state, active, version, pins, trailers, phase):
         notes_rel = f'notes/tamlinux-{version}.txt'
         lock_rel = 'recipes/workstation/tamlinux.lock'
+        notes_text = render_version_notes(version, self.parent_version(state), state.get('inclusions', []), pins)
         def pin_bundle():
             with self.assembly_guard(state):
-                self.claim(self.packages, ['VERSION', lock_rel])
+                paths = ['VERSION', lock_rel, notes_rel, BUNDLE_RECIPE]
+                self.claim(self.packages, paths)
                 (self.packages / 'VERSION').write_text(version + '\n')
                 self.update_bundle_lock(pins)
-                return self.commit(self.packages, ['VERSION', lock_rel],
+                # The build reads committed packaging files, so the notes it
+                # packs must be rendered and committed with the recipes.
+                notes_file = self.packages / notes_rel
+                notes_file.parent.mkdir(parents=True, exist_ok=True)
+                if not notes_file.exists() or notes_file.read_text() != notes_text:
+                    notes_file.write_text(notes_text)
+                point_bundle_notes(self.packages / BUNDLE_RECIPE, notes_rel)
+                return self.commit(self.packages, paths,
                                    'Pin Tamlinux ' + version + ' bundle recipes', trailers)
         recipe_assembly = phase('pin-bundle', pin_bundle)
         def assemble_bundle_locked():
@@ -868,6 +895,9 @@ class Workflow:
                     run(self.tam_bundle, 'build', '--repos', self.workspace, '--version', version,
                         '-o', tree, self.packages / 'recipes/workstation', self.packages / lock_rel)
                     run(self.tam_bundle, 'verify', tree)
+                    packed = tree / BUNDLE_NOTES
+                    if not packed.is_file() or packed.read_text() != notes_text:
+                        raise WorkflowError('bundle version notes are not the notes for ' + version + ': ' + BUNDLE_NOTES)
                     run(self.tam_bundle, 'pack', tree, '-o', archive)
                     data = module('bundle-delivery').record(
                         self.packages, archive, self.tam_bundle, delivery, self.bundle_cache())
@@ -881,11 +911,8 @@ class Workflow:
             self.bundle_archive(data)
             state['deliverySha256'] = hashlib.sha256(delivery.read_bytes()).hexdigest()
             save(active, state)
-            notes_file = self.packages / notes_rel
-            notes_file.parent.mkdir(parents=True, exist_ok=True)
-            notes_text = render_version_notes(version, self.parent_version(state), state.get('inclusions', []), pins)
-            if not notes_file.exists() or notes_file.read_text() != notes_text:
-                notes_file.write_text(notes_text)
+            if (self.packages / notes_rel).read_text() != notes_text:
+                raise WorkflowError('version notes changed after the bundle was built: ' + notes_rel)
             record = f'docs/ai/{version}-candidate-preparation.md'
             self.claim(self.packages, [record, 'AI_PROVENANCE.md'])
             note = self.packages / record

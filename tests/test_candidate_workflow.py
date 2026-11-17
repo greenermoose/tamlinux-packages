@@ -488,8 +488,13 @@ class Workflow(unittest.TestCase):
             with self.assertRaisesRegex(w.WorkflowError, 'invalid requested component summary'):
                 self.flow.requested_contents('0.6.2')
 
-    def test_tam_bundle_backend_prepares_caches_and_resumes(self):
+    def make_bundle_fixture(self, stale_notes=False):
         (self.packages / 'recipes/workstation').mkdir(parents=True)
+        (self.packages / 'notes').mkdir(exist_ok=True)
+        (self.packages / 'notes/tamlinux-development.txt').write_text('Tamlinux 0.6.20-dev\n\nDevelopment bundle.\n')
+        (self.packages / 'recipes/workstation/bundle').write_text(
+            'format 2\nfile notes/tamlinux-development.txt tree/share/tamlinux/version-notes.txt\n')
+        self.git(self.packages, 'add', '--', 'notes/tamlinux-development.txt', 'recipes/workstation/bundle')
         lock_lines = ['format 1'] + [
             f'component {name} https://github.com/greenermoose/{name} {self.git(self.root / name, "rev-parse", "HEAD")}'
             for name in w.COMPONENTS
@@ -525,7 +530,7 @@ class Workflow(unittest.TestCase):
         fake_log = self.root / 'tam-bundle.log'
         fake = self.root / 'fake-tam-bundle'
         fake.write_text(f"""#!{w.sys.executable}
-import hashlib, io, json, os, pathlib, sys, tarfile
+import hashlib, io, json, os, pathlib, subprocess, sys, tarfile
 args = sys.argv[1:]
 with open({str(fake_log)!r}, 'a') as fh:
     fh.write(' '.join(args) + '\\n')
@@ -540,6 +545,14 @@ if cmd == 'build':
         _, comp, _, rev = line.split()
         meta.append('source ' + comp + ' ' + rev)
     out.mkdir(parents=True)
+    pkg = pathlib.Path(args[-1]).parents[2]
+    recipe = subprocess.check_output(['git', '-C', str(pkg), 'show', 'HEAD:recipes/workstation/bundle'], text=True)
+    for entry in recipe.splitlines():
+        f = entry.split()
+        if f[:1] == ['file']:
+            source = 'notes/tamlinux-development.txt' if {stale_notes!r} else f[1]
+            dest = out / f[2]; dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(subprocess.check_output(['git', '-C', str(pkg), 'show', 'HEAD:' + source]))
     (out / 'placed/usr/bin').mkdir(parents=True)
     runner = out / 'placed/usr/bin/tam-desktop-test'
     runner.write_text('#!/bin/sh\\nexit 0\\n'); runner.chmod(0o755)
@@ -561,6 +574,10 @@ else:
     sys.exit(2)
 """)
         fake.chmod(0o755)
+        return fake, fake_log, required
+
+    def test_tam_bundle_backend_prepares_caches_and_resumes(self):
+        fake, fake_log, required = self.make_bundle_fixture()
         cache_home = self.root / 'cache'
         self.flow.tam_bundle = fake
         with patch.dict(os.environ, {'XDG_CACHE_HOME': str(cache_home)}):
@@ -576,11 +593,26 @@ else:
             self.assertEqual(audit['artifactSha256'], delivery['artifact']['sha256'])
             self.assertTrue((cache_home / 'tamlinux/bundles' / (delivery['artifact']['sha256'] + '.tbundle')).is_file())
             self.assertEqual(fake_log.read_text().splitlines()[0].split()[0], 'build')
+            notes = (self.packages / 'notes/tamlinux-0.6.2.txt').read_text()
+            self.assertTrue(notes.startswith('Tamlinux 0.6.2 version notes\n'))
+            self.assertIn('file notes/tamlinux-0.6.2.txt tree/share/tamlinux/version-notes.txt',
+                          self.git(self.packages, 'show', delivery['recipeAssembly'] + ':recipes/workstation/bundle'))
+            with w.tarfile.open(cache_home / 'tamlinux/bundles' / (delivery['artifact']['sha256'] + '.tbundle')) as tf:
+                self.assertEqual(tf.extractfile('tree/share/tamlinux/version-notes.txt').read().decode(), notes)
             resumed = self.flow.prepare('0.6.2', resume=True, trailers='AI-Tool: fixture')
             self.assertEqual(resumed['assembly'], result['assembly'])
             self.assertEqual(sum(1 for line in fake_log.read_text().splitlines() if line.startswith('build ')), 1)
             with self.assertRaisesRegex(w.WorkflowError, 'cannot change packaging backend'):
                 self.flow.prepare('0.6.2', resume=True, trailers='AI-Tool: fixture', backend='nix')
+
+    def test_tam_bundle_backend_refuses_placeholder_version_notes(self):
+        fake, _, _ = self.make_bundle_fixture(stale_notes=True)
+        self.flow.tam_bundle = fake
+        with patch.dict(os.environ, {'XDG_CACHE_HOME': str(self.root / 'cache')}):
+            with self.assertRaisesRegex(w.WorkflowError, 'bundle version notes are not the notes for 0.6.2'):
+                self.flow.prepare('0.6.2', word='Package up and test Tamlinux 0.6.2',
+                                  trailers='AI-Tool: fixture', backend='tam-bundle')
+        self.assertFalse((self.packages / 'deliveries/tamlinux-0.6.2.json').exists())
 
     def metadata_repair_fixture(self, change_payload=False, wrong_audit=False):
         version = '0.6.2'
