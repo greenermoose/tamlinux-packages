@@ -1,8 +1,9 @@
 # Native product bundles
 
-`recipes/` and `tamlinux.lock` build the product with tam-bundle 0.5.0 or
-later. They are a development integration alongside the existing delivery;
-they do not select a workstation's Test or Run candidate.
+`recipes/workstation/` and its `tamlinux.lock` build every Tamlinux
+candidate with tam-bundle 0.5.0 or later; bundles are Tamlinux's delivery
+(see [deployment](deployment.md)). A manual build like the one below is for
+development only and does not select a workstation's Test or Run candidate.
 
 ```sh
 tam-bundle build recipes tamlinux.lock -o /var/tmp/tamlinux-dev --version 0.6.20-dev

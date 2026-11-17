@@ -785,8 +785,6 @@
     "linux-omarchy",
     "linux-omarchy-headers"
   ],
-  "deferredAbsoluteTools": [
-    "/usr/bin/swaymsg"
-  ],
+  "deferredAbsoluteTools": [],
   "limits": "Native package names are the host contract, not proof of independent availability or exact versions. Binary presence and lexical scans cannot establish complete runtime closure, bus/service availability, visual behavior or clean-host acceptance. Pending requirements always block candidate readiness."
 }

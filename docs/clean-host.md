@@ -72,8 +72,8 @@ and absolute host programs. Executable embedded plugin helpers are reported
 separately: their presence does not establish correct invocation or PATH
 resolution. Docs, tests, licenses and whole-line comments preserve ancestry and
 are excluded. Inline comments, data strings and dormant code are conservative
-review hits. The deferred Sway adapter's absolute `swaymsg` reference is recorded
-separately and does not add a Sway requirement to this Hyprland target.
+review hits. Deferred absolute tools named by the contract are recorded separately and
+add no requirement to this Hyprland target.
 Non-UTF-8 compiled payloads are skipped by this text inventory; binary string,
 shared-library and resolved QML-module audits still require their own checks.
 
