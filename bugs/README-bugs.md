@@ -24,6 +24,7 @@ link its owner, even when its effects span components.
 ## Index
 
 - [0001 — Foot crashes when a mouse selection is dragged across a window resize](0001-foot-selection-resize-crash.md).
+- [0002 — Bundle installs show no version notes](0002-version-notes-are-development-placeholder.md).
 
 New entries link a record with its short title; read the record for status
 rather than maintain duplicate status columns.
