@@ -31,6 +31,25 @@ creates a new candidate with the next unused number, which needs Test again.
 Run promotes the tested delivery without rebuilding it. From 0.4.5, candidate
 numbers are plain `X.Y.Z`.
 
+## Rehearse a Make delivery
+
+After `make` in the product checkout, `make source-delivery` reads the
+verified stage and emits a format-1 `source-install` record for
+`deliveries/tamlinux-V.json`. The record pins the cultivar version, Arch
+rootstock and Git revisions. Each rehearsal uses a disposable delivery
+checkout and an isolated Arch root.
+
+Use `fred-stage prepare test V --source-stage PATH --source-root PATH` with
+the actual digest-named stage directory. For bundle migration, add
+`--rollback-version V --bundle-archive PATH` with the existing bundle's
+recorded version and matching archive. Preparation verifies the pinned
+source lock, payload, native prerequisites, destination ownership and
+recovery baseline. It records the host and the exact manifest SHA-256.
+`fred-stage plan test V` repeats those checks and displays the rehearsal
+digest. The two commands leave the target root and its installed settings
+untouched. Live Test, Run and Release continue to use the current bundle
+procedure.
+
 ## Install through one endpoint
 
 `tam-deploy` verifies the archive and migration profile (`prepare-console`)

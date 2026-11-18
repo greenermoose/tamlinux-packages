@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-18: Codex CLI `0.170.0` (`gpt-6.2-sol`) documents Make delivery rehearsals. [Record](docs/ai/2026-11-18-source-delivery-rehearsal.md).
+
 2026-11-17: Codex CLI `0.169.1` (`gpt-6.2-sol`) removes the session's `udiskie` dependency. [Record](docs/ai/2026-11-17-remove-udiskie.md).
 
 2026-11-15: Codex CLI `0.169.0` (`gpt-6.1-sol`) selects the independently versioned 0.13.1 bootstrap correction for refused preparation. [Record](docs/ai/2026-11-15-refused-prepare-bootstrap.md).
