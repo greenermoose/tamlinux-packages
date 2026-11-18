@@ -1,0 +1,5 @@
+Tamlinux 0.6.30 version notes
+
+Changes since Tamlinux 0.6.29:
+- restore-console-welcome: Restore and verify the versioned welcome before console login
+- tam-deploy: Keep bundle updates and rollback working after Home Manager retirement

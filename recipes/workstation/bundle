@@ -57,7 +57,7 @@ needs elf usr/bin/tam-data
 after user-units-reload
 
 file recipes/workstation/SETTINGS SETTINGS
-file notes/tamlinux-0.6.29.txt tree/share/tamlinux/version-notes.txt
+file notes/tamlinux-0.6.30.txt tree/share/tamlinux/version-notes.txt
 
 optional-doc info
 optional-doc tldr
