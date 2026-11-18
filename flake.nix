@@ -23,7 +23,7 @@
       flake = false;
     };
     tam-edit = {
-      url = "github:greenermoose/tam-edit/80f5c3f8e6320daf88c78d4d71bc19d99534e54b";
+      url = "github:greenermoose/tam-edit-micro-fork/80f5c3f8e6320daf88c78d4d71bc19d99534e54b";
       flake = false;
     };
     tam-data = {

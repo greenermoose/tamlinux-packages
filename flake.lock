@@ -106,13 +106,13 @@
         "lastModified": 1794776322,
         "narHash": "sha256-i5j0QoDTy5+rm/lamuHeZZ4qgIhzFn+yjqNJ9S/GQR8=",
         "owner": "greenermoose",
-        "repo": "tam-edit",
+        "repo": "tam-edit-micro-fork",
         "rev": "80f5c3f8e6320daf88c78d4d71bc19d99534e54b",
         "type": "github"
       },
       "original": {
         "owner": "greenermoose",
-        "repo": "tam-edit",
+        "repo": "tam-edit-micro-fork",
         "rev": "80f5c3f8e6320daf88c78d4d71bc19d99534e54b",
         "type": "github"
       }
