@@ -50,6 +50,16 @@ digest. The two commands leave the target root and its installed settings
 untouched. Live Test, Run and Release continue to use the current bundle
 procedure.
 
+### Clean Make pilot contract for review
+
+For a clean pilot, bind the committed delivery and the exact staged
+manifest to one named host and a clean installation preview. The
+privileged `make install` consumes that approved plan from a root-owned
+export of the pinned operator. See the [source install procedure](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/source-install.md#migration-and-candidate-delivery)
+for the plan and stage layout. A pilot requires explicit approval of this
+contract and the exact host delivery. The existing Test stage machinery
+still supports only isolated Make preparation.
+
 ## Install through one endpoint
 
 `tam-deploy` verifies the archive and migration profile (`prepare-console`)
