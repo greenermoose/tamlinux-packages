@@ -1,0 +1,7 @@
+Tamlinux 0.6.29 version notes
+
+Changes since Tamlinux 0.6.28:
+- restore-console-welcome: Restore the versioned Tamlinux welcome at the bosgame console login
+- tam-deploy: Record the background on screen before each install so upgrades keep it
+- tamlinux: Keep the chosen desktop background during upgrades and mount removable drives manually
+- tamlinux-packages: Show each version's own notes instead of the development placeholder and drop the legacy udiskie dependency
