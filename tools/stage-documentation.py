@@ -11,7 +11,12 @@ import subprocess
 import tarfile
 
 
-def stage(destination, sources, cache):
+def _default_archwiki_preprocessor():
+    candidate = Path(__file__).resolve().parents[2] / 'tam/tools/build-archwiki-tam.py'
+    return candidate if candidate.is_file() else None
+
+
+def stage(destination, sources, cache, archwiki_preprocessor=None):
     destination = Path(destination)
     root = destination / 'placed/usr/share/doc'
     if destination.is_symlink() or not destination.is_dir():
@@ -19,10 +24,15 @@ def stage(destination, sources, cache):
     if sources.get('format') != 1 or not isinstance(sources.get('archives'), list):
         raise ValueError('unsupported documentation source list')
     recorded = {'info': [], 'arch-wiki': []}
+    archwiki_archives = {}
+    has_archwiki_pair = (
+        any(s.get('collection') == 'archwiki' for s in sources['archives'])
+        and any(s.get('collection') == 'archwiki-lite' for s in sources['archives'])
+    )
     total = 0
     for source in sources['archives']:
         kind = source['collection']
-        if kind not in ('info', 'archwiki'):
+        if kind not in ('info', 'archwiki', 'archwiki-lite'):
             raise ValueError('unsupported native documentation collection')
         if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.+\-]*', source['package']):
             raise ValueError('invalid documentation package name')
@@ -60,6 +70,9 @@ def stage(destination, sources, cache):
                             raise ValueError('unsupported documentation archive entry')
                         if kind == 'info' and str(relative) == 'dir':
                             continue
+                        if has_archwiki_pair and kind in ('archwiki', 'archwiki-lite') and not is_license:
+                            count += 1
+                            continue
                         total += entry.size
                         if total > 2 * 1024 * 1024 * 1024:
                             raise ValueError('documentation exceeds size limit')
@@ -86,7 +99,26 @@ def stage(destination, sources, cache):
                 raise ValueError('documentation archive changed during staging')
         if not count:
             raise ValueError('native archive contains no requested documentation: ' + filename)
+        if kind in ('archwiki', 'archwiki-lite'):
+            archwiki_archives[kind] = archive
         recorded[collection].append({key: source[key] for key in ('package', 'version', 'archive', 'sha256')})
+    if has_archwiki_pair:
+        preprocessor = Path(archwiki_preprocessor) if archwiki_preprocessor else _default_archwiki_preprocessor()
+        if preprocessor is None or not preprocessor.is_file():
+            raise ValueError('missing Arch Wiki tam pre-processor script')
+        tam_out = root / 'arch-wiki/tam'
+        subprocess.run(
+            [
+                '/usr/bin/python3',
+                str(preprocessor),
+                '--docs', str(archwiki_archives['archwiki']),
+                '--lite', str(archwiki_archives['archwiki-lite']),
+                '--output', str(tam_out),
+            ],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
     info = root / 'info'
     if recorded['info']:
         manuals = sorted(path for path in info.iterdir() if re.search(r'\.info(?:\.(?:gz|xz|bz2|zst))?$', path.name))

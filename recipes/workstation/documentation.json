@@ -28,6 +28,13 @@
       "version": "20261003-1",
       "archive": "arch-wiki-docs-20261003-1-any.pkg.tar.zst",
       "sha256": "1824753d4dfe5429d16a3fab97f21685116bf5bcf14ab69f18777e2e33f7d76e"
+    },
+    {
+      "collection": "archwiki-lite",
+      "package": "arch-wiki-lite",
+      "version": "20261003-1",
+      "archive": "arch-wiki-lite-20261003-1-any.pkg.tar.zst",
+      "sha256": "f297f49902d2a60405e896bae0f49b2117ba75be812d09b910acb0fdc939ff56"
     }
   ]
 }

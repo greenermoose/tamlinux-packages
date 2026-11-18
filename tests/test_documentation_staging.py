@@ -1,3 +1,4 @@
+import gzip
 import hashlib
 import importlib.util
 import io
@@ -38,5 +39,34 @@ class Staging(unittest.TestCase):
             sources=self.fixture(base,'usr/share/info/../../escape')
             with self.assertRaisesRegex(ValueError,'unsafe'):m.stage(dest,sources,base)
             self.assertFalse((dest/'placed/usr/escape').exists())
+
+    def test_archwiki_tam_staging_from_docs_and_lite(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);dest=base/'stage';dest.mkdir()
+            docs_arc=base/'arch-wiki-docs-1-any.pkg.tar.gz'
+            html=b'<html><head><title>pacman - ArchWiki</title></head><body><div class="mw-content-ltr mw-parser-output"><p>Pacman docs</p><script>x</script></div></body></html>'
+            with tarfile.open(docs_arc,'w:gz') as tar:
+                m1=tarfile.TarInfo('usr/share/doc/arch-wiki/html/en/Pacman.html');m1.size=len(html);tar.addfile(m1,io.BytesIO(html))
+                l1=tarfile.TarInfo('usr/share/licenses/arch-wiki-docs/GFDL');l1.size=4;tar.addfile(l1,io.BytesIO(b'gfdl'))
+            lite_arc=base/'arch-wiki-lite-1-any.pkg.tar.gz'
+            idx=b'en/Pacman 00000001\n'
+            txt=gzip.compress(b'00000001:Pacman docs\n')
+            with tarfile.open(lite_arc,'w:gz') as tar:
+                m2=tarfile.TarInfo('usr/share/doc/arch-wiki/text/index');m2.size=len(idx);tar.addfile(m2,io.BytesIO(idx))
+                m3=tarfile.TarInfo('usr/share/doc/arch-wiki/text/arch-wiki.txt.gz');m3.size=len(txt);tar.addfile(m3,io.BytesIO(txt))
+                l2=tarfile.TarInfo('usr/share/licenses/arch-wiki-lite/GPL');l2.size=3;tar.addfile(l2,io.BytesIO(b'gpl'))
+            sources={'format':1,'archives':[
+                {'collection':'archwiki','package':'arch-wiki-docs','version':'1','archive':docs_arc.name,'sha256':hashlib.sha256(docs_arc.read_bytes()).hexdigest()},
+                {'collection':'archwiki-lite','package':'arch-wiki-lite','version':'1','archive':lite_arc.name,'sha256':hashlib.sha256(lite_arc.read_bytes()).hexdigest()},
+            ]}
+            m.stage(dest,sources,base)
+            root=dest/'placed/usr/share/doc/arch-wiki'
+            tam_page=(root/'tam/Pacman.html').read_text()
+            self.assertIn('Pacman docs',tam_page)
+            self.assertNotIn('<script',tam_page)
+            self.assertFalse((root/'html').exists())
+            self.assertEqual((root/'licenses/arch-wiki-docs/GFDL').read_bytes(),b'gfdl')
+            self.assertEqual((root/'licenses/arch-wiki-lite/GPL').read_bytes(),b'gpl')
+            self.assertIn('arch-wiki-lite', (root/'SOURCE.json').read_text())
 
 if __name__=='__main__':unittest.main()
