@@ -1,0 +1,38 @@
+{
+  "format": 1,
+  "version": "0.6.29",
+  "artifactSha256": "3d46196e2717dd897b27250653c92b357bb2b2c043642529c93ffbd1e99f12af",
+  "inclusions": [
+    {
+      "name": "restore-console-welcome",
+      "provider": "host",
+      "inclusionRecord": "0.6.29",
+      "digest": "bd33b3209d1697cbb30b5185e880878c0de359e4fd5aa2da530e4c9d4e26b1f7",
+      "summary": "Restore the versioned Tamlinux welcome at the bosgame console login"
+    },
+    {
+      "name": "tam-deploy",
+      "repo": "tamlinux",
+      "sourcePath": "commands/tam-deploy",
+      "revision": "d6e6e04bc6c45a1fa389f2db865e09be2a9a4864",
+      "output": "tamlinux-commands",
+      "artifact": "bin/tam-deploy",
+      "summary": "Record the background on screen before each install so upgrades keep it"
+    },
+    {
+      "name": "tamlinux",
+      "repo": "tamlinux",
+      "sourcePath": ".",
+      "revision": "e9bcfe53ab5faa537aa2fd920970fb4df348621d",
+      "output": "tamlinux-shell",
+      "artifact": "share/tamlinux/shell",
+      "summary": "Keep the chosen desktop background during upgrades and mount removable drives manually"
+    },
+    {
+      "name": "tamlinux-packages",
+      "provider": "assembly",
+      "revision": "c9311f1271a7ec65365294d5ddc0460f3fc11b8f",
+      "summary": "Show each version's own notes instead of the development placeholder and drop the legacy udiskie dependency"
+    }
+  ]
+}
