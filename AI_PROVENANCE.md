@@ -91,6 +91,8 @@ lettered 0.4.x, early superseded 0.5 prep) are in Git via
 
 ## Recent sessions (kept in tree)
 
+2026-11-17: Codex CLI evidence for [user command lookup during deployment](docs/ai/2026-11-17-user-command-lookup.md).
+
 2026-11-02: Antigravity `1.4.12` (`gemini-3.8-flash`) packages tam-desktop-test runtime dependencies and library wrappers for candidate 0.6.2. [Session](docs/ai/2026-11-02-package-tam-desktop-test.md).
 
 2026-11-02: Antigravity `1.4.12` (`gemini-4-argon-medium`) prepares the 0.6.1 KBN WB assembly and verifies curated terminal game builds. [Session](docs/ai/2026-11-02-061-preparation.md).

@@ -48,11 +48,10 @@ finishes settings and checks at an inactive desktop.
 | Version and notes | `/usr/lib/tamlinux/current/share/tamlinux/version`, `version-notes.txt` |
 | Shell service | `/usr/lib/systemd/user/tamlinux-shell.service` |
 
-Installed software must resolve to the recorded bundle. Local checkout links,
-copied working trees and ad hoc overrides do not satisfy this contract, and
-activation refuses while `~/.local/bin` holds a copy of a bundle command.
-Developer checks of source code are useful evidence before deployment, but do
-not constitute a deployed Test.
+Deployment installs and verifies the recorded bundle at its system paths.
+Verify packaged commands by their installed paths under `/usr/bin`. User
+commands in `~/.local/bin` can coexist with the bundle, and each user’s
+`PATH` determines what a command name runs.
 
 ## Verify and recover
 
