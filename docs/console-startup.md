@@ -1,7 +1,7 @@
 # Console-first delivery
 
 Tamlinux 0.5 develops a visible text boot and explicit desktop launch. The
-selected minimal root-stock and `tam-nut` provide the starting environment;
+selected minimal rootstock and `tam-nut` (the current bud package) provide the starting environment;
 this work does not redesign their upstream boot media or firmware. The
 managed startup policy applies after choosing Tamlinux to boot.
 
