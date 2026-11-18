@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-18 — Codex CLI `0.170.0` (`gpt-6.2-sol`) corrects the 0.6.31 Make pilot tam pin. [Record](docs/ai/2026-11-18-correct-make-pilot-tam-pin.md).
+
 2026-11-18: Codex CLI `0.170.0` (`gpt-6.2-sol`) records the clean Make pilot delivery. [Record](docs/ai/2026-11-18-clean-make-pilot.md).
 
 2026-11-18: Codex CLI `0.170.0` (`gpt-6.2-sol`) documents Make delivery rehearsals. [Record](docs/ai/2026-11-18-source-delivery-rehearsal.md).

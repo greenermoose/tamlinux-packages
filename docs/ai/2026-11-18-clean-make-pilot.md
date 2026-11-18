@@ -13,3 +13,5 @@ The clean Make transaction installed 3,285 files in an isolated Arch
 root, verified their modes and hashes, and passed a repeat installation.
 An administrator-local command survived. This rehearsal did not exercise a
 physical boot, a live privileged installation or a graphical session.
+
+The [corrected tam pin rehearsal](2026-11-18-correct-make-pilot-tam-pin.md) supersedes this manifest.
