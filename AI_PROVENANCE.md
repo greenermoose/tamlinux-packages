@@ -1,5 +1,7 @@
 # AI collaboration and provenance
 
+2026-11-17: Codex CLI `0.169.1` (`gpt-6.2-sol`) removes the session's `udiskie` dependency. [Record](docs/ai/2026-11-17-remove-udiskie.md).
+
 2026-11-15: Codex CLI `0.169.0` (`gpt-6.1-sol`) selects the independently versioned 0.13.1 bootstrap correction for refused preparation. [Record](docs/ai/2026-11-15-refused-prepare-bootstrap.md).
 
 2026-11-14: Antigravity CLI (`agy`) `1.5.9` adds the Nerd Font file requirement to `recipes/workstation/bundle` and `/var/lib/tamlinux` `0755` tmpfiles/install rules to `recipes/tam-nut`. [Record](docs/ai/2026-11-14-nerd-font-needs-and-tam-nut-tmpfiles.md).

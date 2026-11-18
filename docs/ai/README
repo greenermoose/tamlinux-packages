@@ -1,5 +1,8 @@
 AI COLLABORATION SESSIONS — TAMLINUX-PACKAGES
 
+- 2026-11-17 — Remove udiskie from the session
+  <2026-11-17-remove-udiskie.md>
+
 - 2026-11-13 — Drop required /usr/bin/asdcontrol from workstation bundle
   recipe <2026-11-13-workstation-recipe-asdcontrol.md>
 - 2026-11-13 — tam-nut 0.13.0, workstation lock pins, and host-scoped

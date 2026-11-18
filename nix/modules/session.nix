@@ -111,7 +111,7 @@ in {
     home.file.".local/bin/tam-desktop" = lib.mkIf (shell.package.passthru.features.consoleDesktop or false) {
       source = "${shell.package}/bin/tam-desktop";
     };
-    home.packages = [ pkgs.udiskie pkgs.helix pkgs.nix.man ];
+    home.packages = [ pkgs.helix pkgs.nix.man ];
     fonts.fontconfig.enable = true;
     programs.man.generateCaches = lib.mkDefault true;
     systemd.user.services.tam-crash-watch = {
