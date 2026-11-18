@@ -196,3 +196,5 @@ Candidate 0.6.28: [preparation](docs/ai/0.6.28-candidate-preparation.md).
 without rebuilding its product. [Record](docs/ai/2026-11-16-candidate-metadata-repair.md).
 
 Candidate 0.6.29: [preparation](docs/ai/0.6.29-candidate-preparation.md).
+
+Candidate 0.6.30: [preparation](docs/ai/0.6.30-candidate-preparation.md).

@@ -1,0 +1,23 @@
+{
+  "format": 1,
+  "version": "0.6.30",
+  "artifactSha256": "ca1a36457001dc3cb13626e26d995022f0aa9ac5a57cb49ea8d7d10b36679c74",
+  "inclusions": [
+    {
+      "name": "restore-console-welcome",
+      "provider": "host",
+      "inclusionRecord": "0.6.30",
+      "digest": "bd33b3209d1697cbb30b5185e880878c0de359e4fd5aa2da530e4c9d4e26b1f7",
+      "summary": "Restore and verify the versioned welcome before console login"
+    },
+    {
+      "name": "tam-deploy",
+      "repo": "tamlinux",
+      "sourcePath": "commands/tam-deploy",
+      "revision": "5234bd28d4ab9f30339b600ae047aa20885b26e4",
+      "output": "tamlinux-commands",
+      "artifact": "bin/tam-deploy",
+      "summary": "Keep bundle updates and rollback working after Home Manager retirement"
+    }
+  ]
+}
