@@ -1,5 +1,0 @@
-format 1
-component tam-data
-build make
-make-vars LIBTAM_PREFIX=@libtam@
-after-build libtam

@@ -1,0 +1,14 @@
+{
+  "backend": "source-install",
+  "components": {
+    "libtam": "4b10a2ef74cc1adcb32f975b83841470c6f180dc",
+    "tam": "9ff5a36e7a46cf562593de12dc8bd50b68d7b860",
+    "tam-data": "c907254ae3949e51846ef14cfb0a112914728771",
+    "tam-edit": "5658244414285139159cffbe32f40340915bfafc",
+    "tamlinux": "212fd095d7ba8c712e1a8129f7eca935bb0460ed",
+    "tamlinux-tools": "dc43de2d9750ed893837a3c700e8c806a88a9d7e"
+  },
+  "format": 1,
+  "rootstock": "arch-systemd",
+  "version": "0.6.35"
+}

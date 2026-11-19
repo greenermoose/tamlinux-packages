@@ -3,44 +3,24 @@ TAMLINUX-PACKAGES
 Public delivery definitions for Tamlinux
 <https://github.com/greenermoose/tamlinux>, tamlinux-tools
 <https://github.com/greenermoose/tamlinux-tools>, tam
-<https://github.com/greenermoose/tam>, and libtam
+<https://github.com/greenermoose/tam>, tam-edit, tam-data, and libtam
 <https://github.com/greenermoose/libtam>.
 
-This repository records exact package assemblies (bundle recipes, locks and
-<deliveries/>) for Test and Run. Current develop version is in <VERSION>. Gate
-A closed with released 0.4.8 and Blue Sparkler released as 0.5.12; develop
-continues on 0.6 (KBN WB). Product source lives in the component repos; this
-repo selects pins and builds them into tam-bundle archives.
+This repository records exact source-install delivery receipts under
+<deliveries/> for Test and Run. Gate A closed with released 0.4.8 and Blue
+Sparkler released as 0.5.12; develop continues on 0.6 (KBN WB). Product
+source lives in the component repositories; bespoke Tamlinux software builds
+and installs directly from pinned Git commits with `make` and `make install`
+(Nix, Home Manager, and `tam-bundle` are retired).
 
 The deployment contract <docs/deployment.md> requires Test and Run to install
-an exact, recorded bundle at the same locations. Native bundles <docs/bundles.md>
-describes the recipes. Login is console-first <docs/console-startup.md>. See
-docs/README <docs/README> for the operational doc index.
-
-From a checkout:
-
-    python3 -B -m unittest discover -s tests
-
-Nix and Home Manager were the previous delivery and are being retired. Until
-then the flake still builds (nix flake check; nix build .#example-home) for
-machines that keep a Nix fallback; homeManagerModules.default and
-tamlinux.shell options serve only that path. No new work targets it.
-
-The clean-host contract <docs/clean-host.md> declares native Arch/Hyprland
-prerequisites and audits built outputs for missing commands and inherited
-identifiers. It is a proof bar for independent delivery, not a claim that
-every candidate already passes it.
-
-On the Nix path, the developer baseline installs Bash, editing, C compilation/linking with libc
-headers, Make, Git, secure downloads and certificate trust. A consumer can set
-tamlinux.developer.nativeProvided = true only after verifying equivalent host
-tools. lib.packageSets pkgs provides developer, terminalGames, and optional
-userTools lists; personal applications, vendor editors and their overrides
-stay with consumers.
+a recorded candidate delivery built from pinned Git commits. Login is
+console-first <docs/console-startup.md>. See docs/README <docs/README> for
+the operational doc index.
 
 Source behavior and ordinary build interfaces belong in their component
-repositories. Bundle recipes, native package adapters, dependency selection,
-assembly and delivery verification belong here.
+repositories. Delivery records and rootstock package verification belong
+here.
 
 GNU GPL v3 or later. See <LICENSE> and AI provenance <AI_PROVENANCE.md>.
 

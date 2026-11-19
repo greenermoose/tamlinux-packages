@@ -1,5 +1,0 @@
-format 1
-component tam-edit
-build make
-make-vars PKG_CONFIG_PATH=@libtam@/lib/pkgconfig
-after-build libtam
