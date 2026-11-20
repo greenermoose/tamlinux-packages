@@ -12,5 +12,5 @@
 Updated the 0.5.5 delivery plan after native inspection/routing analysis was
 implemented in the components. Ownership, restoration and physical blanking
 feasibility remain unproved. No recipe, pin, lock, delivery record, version or
-deployment changed. The [product record](https://github.com/greenermoose/tamlinux/blob/develop/docs/ai/2026-10-25-monitor-feasibility.md)
+deployment changed. The [product record](https://github.com/greenermoose/tamlinux/blob/dev/work/history/2026-10-25-monitor-feasibility.md)
 holds the implementation and test evidence.

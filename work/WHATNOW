@@ -2,7 +2,7 @@ WHATNOW
 
 What tamlinux-packages is doing now and what comes next.
 
-Updated: 2026-11-20, with W2
+Updated: 2026-11-20, with W3
 
 
 STATE
@@ -16,7 +16,8 @@ STATE
 
   D278 retired docs/ai/: the 108 old records are read-only history in
   work/history/ and candidate preparation writes there (W2). No live
-  docs/ai folder remains in this repository.
+  docs/ai folder remains in this repository. Two moved records that
+  still linked to the old tamlinux path were repaired in W3.
 
 
 NEXT

@@ -1,0 +1,32 @@
+W3 CROSS-REPO LINK REPAIR
+
+Date: 2026-11-20
+AI harness: OpenCode 2.2.5
+AI model: big-pickle
+Commits: the B3 cross-repo link commit
+Continues: W2
+
+GUIDANCE
+
+  Fred: "Continue the tamlinux migration."
+
+  D278 moved history into work/. Two moved records still linked to the
+  old tamlinux docs/ai path on the retired develop branch.
+
+
+DONE
+
+  - 2026-10-25-monitor-feasibility.md and 2026-11-11-bundle-migration.md
+    now link to github.com/greenermoose/tamlinux/blob/dev/work/history/
+    with the same record names.
+  - No product version, source pin or delivery changed.
+
+
+FAILED
+
+  - Nothing.
+
+
+HANDOFF
+
+  - Nothing queued here. Candidate moves remain on Fred's word.

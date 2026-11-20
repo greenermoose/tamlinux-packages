@@ -22,7 +22,7 @@ The product's four installation fixtures verify the actual generated default
 contents and conventional staged layout. The coordinator's six cross-layer
 fixtures use the real C bundle engine with temporary roots/homes and private
 PID/private-proc isolation. They are described in the
-[product record](https://github.com/greenermoose/tamlinux/blob/develop/docs/ai/2026-11-11-bundle-delivery-integration.md).
+[product record](https://github.com/greenermoose/tamlinux/blob/dev/work/history/2026-11-11-bundle-delivery-integration.md).
 
 No complete workstation bundle was rebuilt or installed for this list change.
 Complete settings and Nix-reference coverage, bootstrap/package integration,
