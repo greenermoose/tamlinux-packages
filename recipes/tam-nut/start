@@ -1,5 +1,0 @@
-#!/bin/sh
-if [ -x /usr/bin/tam-start ]; then
-    exec /usr/bin/tam-start "$@"
-fi
-exec /usr/bin/tam-nut welcome
