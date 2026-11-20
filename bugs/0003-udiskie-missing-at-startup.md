@@ -3,7 +3,7 @@
 - **Status:** Fix available.
 - **Severity:** Low. Desktop startup shows an app failure notification.
 - **Affected:** Tamlinux 0.6.28 bundle on systems without `udiskie`.
-- **Fixed:** In source on `develop` for 0.6.29.
+- **Fixed:** In source on `dev` for 0.6.29.
 - **Next:** Confirm the notification is gone at the first 0.6.29 login.
 
 ## Reproduce

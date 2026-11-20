@@ -323,8 +323,8 @@ class Workflow:
         trials = self.registered_trials()
         for name in COMPONENTS:
             repo = self.workspace/name
-            if git(repo, 'branch', '--show-current') != 'develop':
-                raise WorkflowError(name+': candidate sources must be on develop')
+            if git(repo, 'branch', '--show-current') != 'dev':
+                raise WorkflowError(name+': candidate sources must be on dev')
             changes = dirty(repo)
             owned = self.owner_scopes(repo)
             owned += [p for trial in trials if trial['repo']==str(repo) for p in trial['files']]
@@ -565,12 +565,12 @@ class Workflow:
     def publish(self, repo, revision):
         # A normal fast-forward push refuses a concurrent remote divergence.
         # No branch switching and no force rewind.
-        run('git','-C',repo,'fetch','-q','origin','develop')
-        remote = git(repo,'rev-parse','origin/develop')
+        run('git','-C',repo,'fetch','-q','origin','dev')
+        remote = git(repo,'rev-parse','origin/dev')
         if subprocess.run(['git','-C',str(repo),'merge-base','--is-ancestor',revision,remote],capture_output=True).returncode==0:
             return
         run('git','-C',repo,'merge-base','--is-ancestor',remote,revision)
-        run('git','-C',repo,'push','origin',revision+':refs/heads/develop')
+        run('git','-C',repo,'push','origin',revision+':refs/heads/dev')
 
     def cancel(self, version):
         with (self.state/'operation.lock').open('a') as lock:

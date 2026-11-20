@@ -1,0 +1,37 @@
+W1 DEV BRANCH
+
+Date: 2026-11-20
+AI harness: opencode 2.2.5
+AI model: big-pickle
+Commits: the branch-rename commit
+
+
+GUIDANCE
+
+  Fred: "Plan approved. Proceed"
+
+  D272 renames the working branch from develop to dev in every Tamlinux
+  repository.
+
+
+DONE
+
+  - Renamed develop to dev locally and on GitHub; origin/dev holds the
+    same commit. No version or source pin changed.
+  - tools/candidate-workflow.py now checks for dev, fetches origin/dev
+    and publishes to refs/heads/dev; its tests use dev fixtures.
+  - Deployment, candidate-preparation, bug, README and provenance links
+    now say dev. The deliberately invalid tamlinux=develop pin in
+    tests/test_prepare_candidate.py was left as the test requires.
+  - Added this initial work folder handoff.
+
+
+FAILED
+
+  - Nothing.
+
+
+HANDOFF
+
+  - No packaging work is queued. The full work-folder migration for this
+    repository is planned as separate work.

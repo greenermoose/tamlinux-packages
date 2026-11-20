@@ -35,7 +35,7 @@ start, locking/VT recovery, and baseline plus three cold-boot timings. Keep
 those observations bound to their exact installed assembly; source/package
 checks alone do not pass physical startup acceptance.
 
-Product design: [console-first startup](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/console-first-startup.md).
+Product design: [console-first startup](https://github.com/greenermoose/tamlinux/blob/dev/docs/plans/console-first-startup.md).
 
 The explicit launcher now holds the originating text shell until graphical
 shutdown is confirmed, blocks keyboard suspension, discards queued input and

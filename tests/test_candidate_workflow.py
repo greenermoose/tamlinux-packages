@@ -19,12 +19,12 @@ class Workflow(unittest.TestCase):
         self.env=patch.dict(os.environ,{'XDG_STATE_HOME':str(self.root/'state'),'TAM_WORK_SESSION':'test-session'})
         self.env.start();self.addCleanup(self.env.stop)
         for name in (*w.COMPONENTS,'tamlinux-packages'):
-            repo=self.root/name;repo.mkdir();self.git(repo,'init','-q','-b','develop')
+            repo=self.root/name;repo.mkdir();self.git(repo,'init','-q','-b','dev')
             self.git(repo,'config','user.name','Fixture');self.git(repo,'config','user.email','fixture@example.invalid')
             (repo/'VERSION').write_text('0.6.1\n');(repo/'source').write_text('original\n')
             self.git(repo,'add','--','VERSION','source');self.git(repo,'commit','-qm','Initial')
             remote=self.root/(name+'.git');subprocess.run(['git','init','--bare','-q',str(remote)],check=True)
-            self.git(repo,'remote','add','origin',str(remote));self.git(repo,'push','-q','-u','origin','develop')
+            self.git(repo,'remote','add','origin',str(remote));self.git(repo,'push','-q','-u','origin','dev')
         self.flow=w.Workflow(self.root);self.flow.claim=lambda *args:None
         self.flow.assembly_guard=lambda state:contextlib.nullcontext()
         self.packages=self.root/'tamlinux-packages';(self.packages/'deliveries').mkdir()
@@ -502,14 +502,14 @@ class Workflow(unittest.TestCase):
         (self.packages / 'recipes/workstation/tamlinux.lock').write_text('\n'.join(lock_lines) + '\n')
         self.git(self.packages, 'add', '--', 'recipes/workstation/tamlinux.lock')
         self.git(self.packages, 'commit', '-qm', 'Add bundle recipe lock')
-        self.git(self.packages, 'push', '-q', 'origin', 'develop')
+        self.git(self.packages, 'push', '-q', 'origin', 'dev')
         product = self.root / 'tamlinux'
         cmd_dir = product / 'commands/tam-desktop-test'
         cmd_dir.mkdir(parents=True)
         (cmd_dir / 'Makefile').write_text('install:\n\ttrue\n')
         self.git(product, 'add', '--', 'commands/tam-desktop-test/Makefile')
         self.git(product, 'commit', '-qm', 'Add desktop test command fixture')
-        self.git(product, 'push', '-q', 'origin', 'develop')
+        self.git(product, 'push', '-q', 'origin', 'dev')
         req = self.inclusion()
         req['summary'] = 'Add desktop test runner'
         tam_item = {
@@ -525,7 +525,7 @@ class Workflow(unittest.TestCase):
         (tam / 'knowledge/version').write_text('4.5.6\n')
         self.git(tam, 'add', '--', 'src/version.h', 'knowledge/version')
         self.git(tam, 'commit', '-qm', 'Set tam versions')
-        self.git(tam, 'push', '-q', 'origin', 'develop')
+        self.git(tam, 'push', '-q', 'origin', 'dev')
         req['revision'] = self.git(self.root / 'tamlinux', 'rev-parse', 'HEAD')
         fake_log = self.root / 'tam-bundle.log'
         fake = self.root / 'fake-tam-bundle'

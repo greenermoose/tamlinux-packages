@@ -6,7 +6,7 @@ services; only their source selection and acceptance differ. Nix and Home
 Manager were the previous delivery and are being retired: `tam-deploy
 return-nix` keeps a saved Nix generation reachable until then.
 
-Current product develop version is in [`VERSION`](../VERSION). Exact candidate
+Current product dev version is in [`VERSION`](../VERSION). Exact candidate
 assemblies are recorded under [`deliveries/`](../deliveries/). Login is
 [console-first](console-startup.md): no display manager is packaged. Stage
 moves (Test, Run, Release) require Fred's exact word for that candidate.
@@ -14,7 +14,7 @@ moves (Test, Run, Release) require Fred's exact word for that candidate.
 ## Select and record the assembly
 
 "Package and test Tamlinux V" runs `tools/candidate-workflow.py` (through
-`fred-stage`). It selects the `develop` revisions of every component and the
+`fred-stage`). It selects the `dev` revisions of every component and the
 recorded inclusions, then:
 
 1. pins them in `recipes/workstation/tamlinux.lock` and renders
@@ -55,7 +55,7 @@ procedure.
 For a clean pilot, bind the committed delivery and the exact staged
 manifest to one named host and a clean installation preview. The
 privileged `make install` consumes that approved plan from a root-owned
-export of the pinned operator. See the [source install procedure](https://github.com/greenermoose/tamlinux/blob/develop/docs/plans/source-install.md#migration-and-candidate-delivery)
+export of the pinned operator. See the [source install procedure](https://github.com/greenermoose/tamlinux/blob/dev/docs/plans/source-install.md#migration-and-candidate-delivery)
 for the plan and stage layout. A pilot requires explicit approval of this
 contract and the exact host delivery. The existing Test stage machinery
 still supports only isolated Make preparation.

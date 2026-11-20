@@ -1,0 +1,34 @@
+WHATNOW
+
+What tamlinux-packages is doing now and what comes next.
+
+Updated: 2026-11-20, with W1
+
+
+STATE
+
+  The assembly and delivery tools for Tamlinux candidates. The working
+  branch was renamed from develop to dev on 2026-11-20 under D272; no
+  version or source pin changed (W1).
+
+  Candidate preparation now checks for dev in each source repo and
+  publishes component commits to refs/heads/dev.
+
+
+NEXT
+
+  No packaging work is queued. Candidate preparation, Test, Run and
+  Release happen only on Fred's word.
+
+
+WAITING FOR FRED
+
+  - Which candidate comes next.
+
+
+WATCH OUT
+
+  - Candidate preparation writes exact commit pins; never promote a
+    branch or activate software from this checkout.
+  - This work folder is being filled in. Older session records still
+    live in docs/ai/ until the repository work-folder migration.

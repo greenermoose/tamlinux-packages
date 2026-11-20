@@ -8,7 +8,7 @@ Public delivery definitions for Tamlinux
 
 This repository records exact source-install delivery receipts under
 <deliveries/> for Test and Run. Gate A closed with released 0.4.8 and Blue
-Sparkler released as 0.5.12; develop continues on 0.6 (KBN WB). Product
+Sparkler released as 0.5.12; dev continues on 0.6 (KBN WB). Product
 source lives in the component repositories; bespoke Tamlinux software builds
 and installs directly from pinned Git commits with `make` and `make install`
 (Nix, Home Manager, and `tam-bundle` are retired).

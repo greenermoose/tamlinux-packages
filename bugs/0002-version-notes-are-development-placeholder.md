@@ -5,7 +5,7 @@
   changed in the version under test.
 - **Affected:** Workstation bundle deliveries 0.6.27 and 0.6.28
   (`recipes/workstation/bundle`, `tools/candidate-workflow.py`).
-- **Fixed:** In source on `develop`; planned for 0.6.29, not yet installed.
+- **Fixed:** In source on `dev`; planned for 0.6.29, not yet installed.
 - **Next:** After installing 0.6.29, confirm `fred.tamversion` shows its notes.
 
 ## Reproduce
