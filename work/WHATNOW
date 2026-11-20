@@ -2,7 +2,7 @@ WHATNOW
 
 What tamlinux-packages is doing now and what comes next.
 
-Updated: 2026-11-20, with W1
+Updated: 2026-11-20, with W2
 
 
 STATE
@@ -13,6 +13,10 @@ STATE
 
   Candidate preparation now checks for dev in each source repo and
   publishes component commits to refs/heads/dev.
+
+  D278 retired docs/ai/: the 108 old records are read-only history in
+  work/history/ and candidate preparation writes there (W2). No live
+  docs/ai folder remains in this repository.
 
 
 NEXT
@@ -30,5 +34,5 @@ WATCH OUT
 
   - Candidate preparation writes exact commit pins; never promote a
     branch or activate software from this checkout.
-  - This work folder is being filled in. Older session records still
-    live in docs/ai/ until the repository work-folder migration.
+  - Older records are read-only history in work/history/. New
+    sessions use work/W<n>-<name> records.

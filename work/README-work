@@ -1,0 +1,28 @@
+WORK SESSIONS
+
+This folder is where tamlinux-packages is handed from one session to the
+next. It holds:
+
+  WHATNOW        what was just done and what comes next. Read it first.
+  W<n>-<name>    one record per work session: what was asked, what got
+                 done, what failed and what is left.
+  history/       records written before the 2026-11-17 cutover, moved
+                 from docs/ai/ under D278. Read-only and not indexed;
+                 only their links were repaired.
+
+An AI agent starting here should be able to read WHATNOW and carry on
+without asking Fred to repeat himself.
+
+THE PROCEDURE
+
+At the start of a session:
+
+  1. Read this file, then WHATNOW. NEXT is the to-do list in order.
+  2. Read the newest W record only when WHATNOW points to it.
+  3. Keep records plain, short and factual. Do not edit history/.
+  4. Revise WHATNOW before handing off, and commit the record with the
+     work it describes.
+
+D278 retired docs/ai/ in every live Tamlinux source tree. Candidate
+selection and preparation records are operational history, so they
+live in history/ rather than becoming W records.

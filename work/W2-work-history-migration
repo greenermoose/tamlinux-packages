@@ -1,0 +1,47 @@
+W2 WORK HISTORY MIGRATION
+
+Date: 2026-11-20
+AI harness: opencode 2.2.5
+AI model: big-pickle
+Commits: the docs/ai retirement commit
+
+
+GUIDANCE
+
+  Fred: "all docs/ai files should be rewritten into work/ files. i don't
+  want there to be a docs/ai/ folder any more -- I'm looking in work/
+  to see work history"
+
+  D278 retires docs/ai/ in every live repository. Pre-cutover records
+  move to work/history/ unchanged apart from repaired links.
+
+
+DONE
+
+  - Moved all 108 docs/ai records to work/history/ with git mv, so
+    their history is preserved. The docs/ai folder is gone.
+  - Repointed 108 paths in AI_PROVENANCE.md, four record paths in
+    tools/candidate-workflow.py, one path in docs/package-test-speed.md
+    and one backtick path in a moved record. Checked that all 98
+    ledger links resolve to files.
+  - Left the FILING-CARD's git show paths and its former-path column
+    alone: those are historical retrieval instructions, not live links.
+  - Added work/README-work describing WHATNOW, W records and history.
+  - Revision of WHATNOW notes the new history location.
+
+
+FAILED
+
+  - Nothing. The full test suite still has one pre-existing failure in
+    test_tam_bundle_backend_prepares_caches_and_resumes: it calls the
+    retired tools/bundle-delivery.py. The same failure reproduces from
+    a clean export of HEAD. The other 196 tests pass.
+
+
+HANDOFF
+
+  - Cross-repo links inside two history records still point at the old
+    docs/ai path in the tamlinux source tree; fix them when that repo
+    migrates. Three cross-repo links in improvements reports and plan
+    57 also need repointing in that repo.
+  - No Test, Run or Release action was taken. No version or pin changed.

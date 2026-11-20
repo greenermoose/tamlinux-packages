@@ -726,7 +726,7 @@ class Workflow:
                     paths=list(dict.fromkeys([*paths,'VERSION']))
                     writes['VERSION']=version+'\n'
                 if paths:
-                    record=f'docs/ai/{version}-candidate-selection.md'
+                    record=f'work/history/{version}-candidate-selection.md'
                     paths=list(dict.fromkeys([*paths,record,'AI_PROVENANCE.md']))
                     self.claim(repo,paths)
                     writes[record]=('# Candidate source selection\n\nSelected registered development changes for '+version+'.\n\n'
@@ -769,7 +769,7 @@ class Workflow:
             if self.registrar:
                 for name,intent in state.get('sourceIntents',{}).items():
                     for record in intent['files']:
-                        if record.startswith('docs/ai/') and record.endswith('-candidate-selection.md'):
+                        if record.startswith('work/history/') and record.endswith('-candidate-selection.md'):
                             self.registrar(name,record)
             return self.publish_sources(pins)
         phase('published-sources', publish_selected)
@@ -828,7 +828,7 @@ class Workflow:
                 raise WorkflowError('delivery inclusions differ from the frozen selection')
             self.verify_inclusion_outputs(state.get('inclusions', []), data)
             state['deliverySha256']=hashlib.sha256(delivery.read_bytes()).hexdigest();save(active,state)
-            record=f'docs/ai/{version}-candidate-preparation.md'
+            record=f'work/history/{version}-candidate-preparation.md'
             self.claim(self.packages,[record,'AI_PROVENANCE.md'])
             note=self.packages/record;note.parent.mkdir(parents=True,exist_ok=True)
             text=('# Candidate preparation '+version+'\n\nPrepared exact committed sources and verified package outputs.\n\n'
@@ -913,7 +913,7 @@ class Workflow:
             save(active, state)
             if (self.packages / notes_rel).read_text() != notes_text:
                 raise WorkflowError('version notes changed after the bundle was built: ' + notes_rel)
-            record = f'docs/ai/{version}-candidate-preparation.md'
+            record = f'work/history/{version}-candidate-preparation.md'
             self.claim(self.packages, [record, 'AI_PROVENANCE.md'])
             note = self.packages / record
             note.parent.mkdir(parents=True, exist_ok=True)

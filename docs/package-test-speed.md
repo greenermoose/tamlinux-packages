@@ -18,7 +18,7 @@ all. Native archives and `tam`/`libtam`/`tamlinux-tools` already reused.
 2. **Narrow check sources** — every command check uses a filtered
    `builtins.path` (`checkSource`). Multi-command integrators in
    `fullProductCheckNames` get `commands/` + `desktop/` + `share/` + LICENSE
-   only (not VERSION/`docs/ai`), so candidate stamps do not rebuild them.
+   only (not VERSION/`work/history`), so candidate stamps do not rebuild them.
    Other checks list sibling commands in `extraCheckCommands`; desktop
    fixture checks list `desktop/` explicitly.
 3. **Version-stable payloads** — `tamlinux-shell-payload-1`,

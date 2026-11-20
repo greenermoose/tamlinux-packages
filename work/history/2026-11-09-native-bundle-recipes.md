@@ -1,0 +1,58 @@
+# Native bundle recipes
+
+- **CLI Tool:** Codex CLI 0.167.0
+- **Model:** `gpt-6.1-sol`
+- **Transcript:** Retained privately by the author.
+- **Commits:** The commit adding this record and subsequent fixes naming it.
+- **Authorship:** Codex implemented the approved native bundle recipes.
+
+## Guiding prompt
+
+> Pick up where claude left off and work on tam-bundle. The goal is to finish tam-bundle and start using it on [redacted: host].
+
+## Implementation
+
+Four recipes pin libtam, tam, tamlinux-tools and the product. libtam supplies
+private core, portal and display/session libraries; tam-bundle is excluded
+from the product output. Notes and the packaging commit are recorded along
+with the component sources. The initial version is explicitly a development
+bundle; no candidate is reserved or promoted by adding these recipes.
+
+## Verification
+
+The first full build and a warm-cache repeat produced the same bundle hash,
+`480b39d1cc1fdcff46f88dc59c286dc25d3e08c9f96ef3765644f87d4e90c5ea`,
+with 3,085 manifest entries. Verification passed. Comparing the five old
+component outputs found 2,622 common logical file paths, no missing product
+commands or owned assets, and these differences:
+
+- 124 third-party font files are native-package dependencies.
+- The source-revision file is replaced by BUNDLE's source records.
+- Added: two bundle metadata files, one manual index, five user units,
+  four newer corpus pages and one plugin README.
+
+The comparator normalizes Nix's hidden wrapper originals and compressed
+manual paths; an unexplained removed command fails its regression test.
+
+The adapter preparer can include the rollback tool and libtam from exact
+lock-file commits, preserving Git's executable bits. Its package leaves
+the product slot empty and installs the tool and polkit policy outside it.
+Environment settings append the new prefix for dormant bring-up. The
+development recipe carries no session restart steps; active candidate
+recipes must add them at the separately approved cutover.
+
+The lock later advances to tam-bundle 0.5.1's read-only planning fix, tam
+0.51.0's bundle identity/ownership support and prefix-aware shell startup.
+The preparer accepts an explicit numeric package release, so a changed
+adapter is never passed off as its previously built archive. Sixteen native
+adapter tests pass, including this release selection and its validation.
+
+Final bring-up pins tam-bundle 0.5.2. Bundle
+`8323d1c1fb822ce505cbcafb10d26528f8094b8b9eebfb0df6579e844155f254`
+(packaging `7cf75f5`) reproduced identically with the installed native tool.
+Native adapter `0.6.20-0.4` was built and checked, then installed with
+individual approval and a recorded rollback point. Real product-slot switch,
+full verification, rollback and forward switch passed; exchanges took 0.1
+seconds. The daily desktop service and process stayed on the previous
+delivery. This is dormant development bring-up, not a Test/Run promotion or
+the completed workstation cutover.
