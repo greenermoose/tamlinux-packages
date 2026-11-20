@@ -83,7 +83,7 @@
 2026-11-01: Codex CLI `0.166.0` (`gpt-6.1-sol`) implements resumable candidate preparation. [Session](work/history/2026-11-01-candidate-process.md).
 
 This repository follows the
-[Tamlinux AI provenance standard](https://github.com/greenermoose/tamlinux/blob/dev/docs/ai-provenance-standard.md).
+[Tamlinux AI blame standard](https://github.com/greenermoose/tamlinux/blob/main/work/ai-blame-standard.md).
 AI-assisted commits carry tool/model trailers. Session records give guiding
 prompts, implementation choices and verification; transcripts are retained
 privately by the author.

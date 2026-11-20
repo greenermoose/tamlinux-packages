@@ -22,7 +22,7 @@ Source behavior and ordinary build interfaces belong in their component
 repositories. Delivery records and rootstock package verification belong
 here.
 
-GNU GPL v3 or later. See <LICENSE> and AI provenance <AI_PROVENANCE.md>.
+GNU GPL v3 or later. See <LICENSE> and AI blame <AI-BLAME.md>.
 
 Software defect tracker <bugs/README-bugs.md>: report reproducible defects
 beside their source.

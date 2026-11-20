@@ -727,12 +727,12 @@ class Workflow:
                     writes['VERSION']=version+'\n'
                 if paths:
                     record=f'work/history/{version}-candidate-selection.md'
-                    paths=list(dict.fromkeys([*paths,record,'AI_PROVENANCE.md']))
+                    paths=list(dict.fromkeys([*paths,record,'AI-BLAME.md']))
                     self.claim(repo,paths)
                     writes[record]=('# Candidate source selection\n\nSelected registered development changes for '+version+'.\n\n'
                                     '- Transcript: Retained privately by the author.\n- Request: '+state['word']+'\n\n'+trailers+'\n')
-                    index=repo/'AI_PROVENANCE.md'
-                    writes['AI_PROVENANCE.md']=(index.read_text() if index.exists() else '# AI provenance\n')+f'\nCandidate {version}: [source selection]({record}).\n'
+                    index=repo/'AI-BLAME.md'
+                    writes['AI-BLAME.md']=(index.read_text() if index.exists() else '# AI blame\n')+f'\nCandidate {version}: [source selection]({record}).\n'
                     originals={p:[(repo/p).stat().st_mode & 0o777,hashlib.sha256((repo/p).read_bytes()).hexdigest()]
                                  if (repo/p).is_file() else None for p in paths}
                     files=dict(originals)
@@ -829,18 +829,18 @@ class Workflow:
             self.verify_inclusion_outputs(state.get('inclusions', []), data)
             state['deliverySha256']=hashlib.sha256(delivery.read_bytes()).hexdigest();save(active,state)
             record=f'work/history/{version}-candidate-preparation.md'
-            self.claim(self.packages,[record,'AI_PROVENANCE.md'])
+            self.claim(self.packages,[record,'AI-BLAME.md'])
             note=self.packages/record;note.parent.mkdir(parents=True,exist_ok=True)
             text=('# Candidate preparation '+version+'\n\nPrepared exact committed sources and verified package outputs.\n\n'
                   '- Transcript: Retained privately by the author.\n- Request: '+state['word']+'\n\n'+trailers+'\n')
             if note.exists() and note.read_text()!=text:
                 raise WorkflowError('existing assembly provenance differs')
             note.write_text(text)
-            index=self.packages/'AI_PROVENANCE.md'
+            index=self.packages/'AI-BLAME.md'
             entry=f'\nCandidate {version}: [preparation]({record}).\n'
-            existing=index.read_text() if index.exists() else '# AI provenance\n'
+            existing=index.read_text() if index.exists() else '# AI blame\n'
             if entry not in existing:index.write_text(existing+entry)
-            revision=self.commit(self.packages,['VERSION','flake.nix','flake.lock',str(delivery.relative_to(self.packages)),notes_rel,record,'AI_PROVENANCE.md'],
+            revision=self.commit(self.packages,['VERSION','flake.nix','flake.lock',str(delivery.relative_to(self.packages)),notes_rel,record,'AI-BLAME.md'],
                                  'Prepare Tamlinux '+version+' candidate',trailers)
             if self.registrar:self.registrar('tamlinux-packages',record)
             self.frozen_outputs(revision,json.loads(delivery.read_text()))
@@ -914,7 +914,7 @@ class Workflow:
             if (self.packages / notes_rel).read_text() != notes_text:
                 raise WorkflowError('version notes changed after the bundle was built: ' + notes_rel)
             record = f'work/history/{version}-candidate-preparation.md'
-            self.claim(self.packages, [record, 'AI_PROVENANCE.md'])
+            self.claim(self.packages, [record, 'AI-BLAME.md'])
             note = self.packages / record
             note.parent.mkdir(parents=True, exist_ok=True)
             text = ('# Candidate preparation ' + version + '\n\nPrepared exact committed sources and verified bundle outputs.\n\n'
@@ -922,13 +922,13 @@ class Workflow:
             if note.exists() and note.read_text() != text:
                 raise WorkflowError('existing assembly provenance differs')
             note.write_text(text)
-            index = self.packages / 'AI_PROVENANCE.md'
+            index = self.packages / 'AI-BLAME.md'
             entry = f'\nCandidate {version}: [preparation]({record}).\n'
-            existing = index.read_text() if index.exists() else '# AI provenance\n'
+            existing = index.read_text() if index.exists() else '# AI blame\n'
             if entry not in existing:
                 index.write_text(existing + entry)
             audit_paths = [audit_rel] if (self.packages / audit_rel).exists() else []
-            revision = self.commit(self.packages, [str(delivery.relative_to(self.packages)), *audit_paths, notes_rel, record, 'AI_PROVENANCE.md'],
+            revision = self.commit(self.packages, [str(delivery.relative_to(self.packages)), *audit_paths, notes_rel, record, 'AI-BLAME.md'],
                                    'Prepare Tamlinux ' + version + ' candidate', trailers)
             if self.registrar:
                 self.registrar('tamlinux-packages', record)
