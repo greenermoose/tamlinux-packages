@@ -2,7 +2,7 @@ WHATNOW
 
 What tamlinux-packages is doing now and what comes next.
 
-Updated: 2026-11-20, with W3
+Updated: 2026-11-23, with W4
 
 
 STATE
@@ -10,6 +10,9 @@ STATE
   The assembly and delivery tools for Tamlinux candidates. The working
   branch was renamed from develop to dev on 2026-11-20 under D272; no
   version or source pin changed (W1).
+
+  W4 recorded deliveries/tamlinux-0.6.38.json on dev (tamlinux cffdcf6,
+  tam 14676d4).
 
   Candidate preparation now checks for dev in each source repo and
   publishes component commits to refs/heads/dev.

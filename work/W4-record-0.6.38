@@ -1,0 +1,26 @@
+W4 RECORD TAMLINUX 0.6.38 SOURCE-INSTALL DELIVERY
+
+Date: 2026-11-23
+AI harness: Antigravity CLI 1.5.15
+AI model: Gemini 4 Argon (Medium)
+Continues: W3
+
+GUIDANCE
+
+  Fred: "Include tam version 0.67.9 (0.107.0) in Tamlinux 0.6.38"
+  Fred: "Proceed with plan 62"
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.6.38.json pinning tamlinux cffdcf6, tam
+    14676d4 (command 0.67.9 / corpus 0.107.0), libtam 4b10a2e,
+    tamlinux-tools dc43de2, tam-edit 5658244, and tam-data c907254.
+
+FAILED
+
+  - Nothing.
+
+HANDOFF
+
+  - Ready for 0.6.38 fleet text-console deployment across slowhp,
+    toughbook, and bosgame.
