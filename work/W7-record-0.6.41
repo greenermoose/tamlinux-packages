@@ -1,0 +1,27 @@
+W7 RECORD TAMLINUX 0.6.41 SOURCE-INSTALL DELIVERY
+
+Date: 2026-11-25
+AI harness: Antigravity CLI 1.5.17
+AI model: Gemini 4 Neon (Medium)
+Continues: W6
+
+GUIDANCE
+
+  Fred: "Add the tam-last and fixed clipboard picker to Tamlinux 0.6.41, then package up and test Tamlinux 0.6.41."
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.6.41.json pinning tamlinux eef11a5 (0.6.41,
+    including clipboard history picker paste fix 77e30a8 for tam-last),
+    tam-last ec39c8c (0.2.4, honoring depressed modifiers and aligning
+    clipboard shortcuts), tam e4b30e1 (command 0.69.7 / corpus 0.128.4),
+    libtam a3e0901 (0.9.1), tamlinux-tools dc43de2, tam-edit 4df178c (1.0.6),
+    tam-data c907254, and tam-clam fbbc4b1 (0.3.5).
+
+FAILED
+
+  - Nothing.
+
+HANDOFF
+
+  - Ready for 0.6.41 text-console Test deployment on bosgame-tamlinux.
