@@ -1,0 +1,26 @@
+W6 RECORD TAMLINUX 0.6.40 SOURCE-INSTALL DELIVERY
+
+Date: 2026-11-25
+AI harness: Antigravity CLI 1.5.17
+AI model: Gemini 4 Neon (Medium)
+Continues: W5
+
+GUIDANCE
+
+  Fred: "Let's get this working in Tamlinux 0.6.40. On bosgame, package up and test Tamlinux 0.6.40."
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.6.40.json pinning tamlinux 653ddcc (0.6.40,
+    including tam-last terminal tagging and tam-macro CLIPBOARD paste fix),
+    tam e4b30e1 (command 0.69.7 / corpus 0.128.4), libtam a3e0901 (0.9.1),
+    tamlinux-tools dc43de2, tam-edit 4df178c (1.0.6), tam-data c907254,
+    tam-last 84cadd8 (0.2.3), and tam-clam fbbc4b1 (0.3.5).
+
+FAILED
+
+  - Nothing.
+
+HANDOFF
+
+  - Ready for 0.6.40 text-console Test deployment on bosgame-tamlinux.
