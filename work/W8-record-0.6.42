@@ -1,0 +1,30 @@
+W8 RECORD TAMLINUX 0.6.42 SOURCE-INSTALL DELIVERY
+
+Date: 2026-11-25
+AI harness: Antigravity CLI 1.5.17
+AI model: Gemini 4 Hydrogen (Medium)
+Continues: W7
+
+GUIDANCE
+
+  Fred: "Include tam-launch-terminal and tam-cmd-terminal-cwd in Tamlinux
+  0.6.42." / "Package up and test Tamlinux 0.6.42"
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.6.42.json pinning tamlinux 724b78a
+    (0.6.42, including 2e2cc29 preferring executable
+    $HOME/.local/bin/tam-clam and $HOME/.local/bin/tam-last on
+    Meta + Return and recognizing $HOME/.local/bin/tam-clam in
+    tam-cmd-terminal-cwd), tam-last ec39c8c (0.2.4), tam e4b30e1
+    (command 0.69.7 / corpus 0.128.4), libtam a3e0901 (0.9.1),
+    tamlinux-tools dc43de2, tam-edit 4df178c (1.0.6), tam-data c907254,
+    and tam-clam fbbc4b1 (0.3.5).
+
+FAILED
+
+  - Nothing.
+
+HANDOFF
+
+  - Ready for 0.6.42 Test deployment on bosgame-tamlinux.
