@@ -1,0 +1,26 @@
+W5 RECORD TAMLINUX 0.6.39 SOURCE-INSTALL DELIVERY
+
+Date: 2026-11-25
+AI harness: Antigravity CLI 1.5.15
+AI model: Gemini 4 Neon (Medium)
+Continues: W4
+
+GUIDANCE
+
+  Fred: "Package up and test Tamlinux 0.6.39"
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.6.39.json pinning tamlinux 6c25d11,
+    tam e4b30e1 (command 0.69.7 / corpus 0.128.4), libtam a3e0901 (0.9.1),
+    tamlinux-tools dc43de2, tam-edit 4df178c (1.0.6), tam-data c907254,
+    tam-last 84cadd8 (0.2.3), and tam-clam fbbc4b1 (0.3.5).
+
+FAILED
+
+  - Nothing.
+
+HANDOFF
+
+  - Ready for 0.6.39 fleet text-console Test deployment across slowhp,
+    toughbook, and bosgame.
