@@ -16,7 +16,7 @@ pkgs.runCommand "tamlinux-developer-baseline"
       return 0;
     }
     EOF
-    gcc -std=c11 -Wall -Wextra -Werror hello.c -o hello
+    gcc -std=c17 -Wall -Wextra -Werror hello.c -o hello
     test "$(./hello)" = 'tamlinux C'
     command -v as ld make git bash curl nano
     test -s ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
