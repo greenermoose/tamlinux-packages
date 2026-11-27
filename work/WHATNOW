@@ -2,7 +2,7 @@ WHATNOW
 
 What tamlinux-packages is doing now and what comes next.
 
-Updated: 2026-11-27, with W10
+Updated: 2026-11-27, with W11
 
 
 STATE
@@ -10,6 +10,10 @@ STATE
   The assembly and delivery tools for Tamlinux candidates. The working
   branch was renamed from develop to dev on 2026-11-20 under D272; no
   version or source pin changed (W1).
+
+  W11 recorded deliveries/tamlinux-0.7.4.json on dev (tamlinux f5fb27b,
+  Northern Torch cultivar fix + build-time guard; all 11 sibling component
+  pins unchanged from 0.7.3, source-install backend).
 
   W10 recorded deliveries/tamlinux-0.7.3.json on dev (tamlinux 8f34bc6,
   tam-pane 2de3b52, tam-hide 9d4fe8b, tam-last 673777d, source-install

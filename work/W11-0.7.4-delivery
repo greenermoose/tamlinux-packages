@@ -1,0 +1,26 @@
+W11 RECORD TAMLINUX 0.7.4 SOURCE-INSTALL DELIVERY
+
+Date: 2026-11-27
+AI harness: agy 1.5.18
+AI model: Gemini 4 Neon (Medium)
+
+GUIDANCE
+
+  Fred: "approved. proceed. Once you are ready, package up and test Tamlinux
+  0.7.4"
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.7.4.json pinning tamlinux f5fb27b (0.7.4,
+    fixing CULTIVAR from KBN WB to Northern Torch and adding a build-time
+    VERSION/CULTIVAR consistency guard in src/desktop/install-product.py),
+    with all 11 sibling component pins unchanged from 0.7.3.
+  - Verified tamlinux-packages test suite under umask 022.
+
+FAILED
+
+  - Nothing.
+
+HANDOFF
+
+  - Ready for live VT Test installation on bosgame-tamlinux (sudo sh ~/bump.sh).
