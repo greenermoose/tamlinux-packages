@@ -1,0 +1,30 @@
+W10 RECORD TAMLINUX 0.7.3 SOURCE-INSTALL DELIVERY
+
+Date: 2026-11-27
+AI harness: agy 1.5.18
+AI model: Gemini 4 Neon (Medium)
+
+GUIDANCE
+
+  Fred: "/plan Decide what to include in Tamlinux 0.7.3, then package up and
+  test Tamlinux 0.7.3."
+  Fred reviewed the plan in tam-view and approved:
+  1. Include tam-pane 0.3.0 (2de3b52).
+  2. Keep the 8 docs-only ROADMAP repos pinned at their 0.7.2 commits.
+  3. Advance origin/test once all suites pass.
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.7.3.json pinning tamlinux 8f34bc6 (0.7.3,
+    Milestones 11-14 wired onto tam-pane), tam-pane 2de3b52 (0.3.0),
+    tam-hide 9d4fe8b (0.3.1), and tam-last 673777d (Right Alt synthetic
+    modifier fix), with all other 8 component pins unchanged from 0.7.2.
+  - Verified tamlinux-packages test suite under umask 022.
+
+FAILED
+
+  - Nothing.
+
+HANDOFF
+
+  - Ready for live VT Test installation on bosgame-tamlinux (sudo sh ~/bump.sh).
