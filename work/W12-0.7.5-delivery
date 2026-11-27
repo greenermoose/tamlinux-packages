@@ -1,0 +1,24 @@
+W12 RECORD TAMLINUX 0.7.5 SOURCE DELIVERY
+
+Date: 2026-11-27
+AI harness: Codex CLI 0.172.0
+AI model: gpt-6.2-sol
+Transcript: Retained privately by the author.
+
+GUIDANCE
+
+  Fred: "Package up and test Tamlinux 0.7.5."
+  Fred: "Implement the plan."
+
+DONE
+
+  - Recorded the revisions emitted by make source-delivery for 0.7.5.
+  - Confirmed the only sibling pin changed from 0.7.4 was tam-pane.
+
+FAILED
+
+  - Nothing at delivery generation.
+
+HANDOFF
+
+  - Verify the frozen assembly and get approval for the live Test plan.
