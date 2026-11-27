@@ -447,49 +447,7 @@ class Workflow:
         return cached
 
     def verify_bundle_inclusions(self, items, record):
-        cached = self.bundle_archive(record)
-        if not items:
-            return
-        with tarfile.open(cached, 'r:*') as bundle:
-            members = {entry.name: entry for entry in bundle.getmembers()}
-            for item in items:
-                try:
-                    if module('bundle-delivery').build_only_inclusion(self.packages, bundle, record, item):
-                        continue
-                except (ValueError, KeyError, subprocess.CalledProcessError) as exc:
-                    raise WorkflowError(str(exc)) from exc
-                relative = item['artifact']
-                candidates = ([('placed/usr/bin/tam-start' if relative == 'bin/tam-menu' else 'placed/usr/' + relative),
-                               'tree/' + relative]
-                              if relative.startswith('bin/') else ['tree/' + relative])
-                entry = next((members[path] for path in candidates if path in members), None)
-                if entry is None or (relative.startswith('bin/') and (not entry.isfile() or not (entry.mode & 0o111))):
-                    raise WorkflowError(item['name'] + ': requested artifact absent from built ' + item['output'])
-                if item.get('versions'):
-                    knowledge = members.get('tree/share/tamlinux/knowledge/version')
-                    if knowledge is None or not knowledge.isfile():
-                        raise WorkflowError('tam: cannot verify built command/corpus versions')
-                    corpus = bundle.extractfile(knowledge).read().decode('utf-8').strip()
-                    expected = item['versions']
-                    if corpus != expected['corpus']:
-                        raise WorkflowError('tam: built package does not match requested ' + expected['command'] + ' (' + expected['corpus'] + ')')
-                    with tempfile.TemporaryDirectory(prefix='tamlinux-bundle-tam-') as tmp:
-                        bundle.extract(entry, tmp, filter='data')
-                        for member in members.values():
-                            if member.name.startswith('tree/share/tamlinux/knowledge/'):
-                                bundle.extract(member, tmp, filter='data')
-                        tam_bin = Path(tmp) / entry.name
-                        tam_bin.chmod(entry.mode & 0o777)
-                        tam_knowledge = Path(tmp) / 'tree/share/tamlinux/knowledge'
-                        try:
-                            result = subprocess.run([str(tam_bin), '--version'], capture_output=True, text=True, check=True, timeout=10,
-                                                    env={**os.environ, 'TAM_KNOWLEDGE_DIR': str(tam_knowledge), 'TAM_DATADIR': str(tam_knowledge)})
-                        except (OSError, subprocess.SubprocessError) as exc:
-                            raise WorkflowError('tam: cannot verify built command/corpus versions') from exc
-                        command = re.search(r'^tam command ([0-9]+\.[0-9]+\.[0-9]+)(?:\s|$)', result.stdout, re.M)
-                        reported_corpus = re.search(r'^knowledge corpus ([0-9]+\.[0-9]+\.[0-9]+)(?:\s|$)', result.stdout, re.M)
-                        if not command or not reported_corpus or command[1] != expected['command'] or reported_corpus[1] != expected['corpus']:
-                            raise WorkflowError('tam: built package does not match requested ' + expected['command'] + ' (' + expected['corpus'] + ')')
+        raise WorkflowError('tam-bundle backend is retired; use source-install')
 
     def update_bundle_lock(self, pins):
         lock_file = self.packages / 'recipes/workstation/tamlinux.lock'
@@ -594,6 +552,8 @@ class Workflow:
             raise WorkflowError('invalid target hostname')
         if backend is not None and backend not in ('nix', 'tam-bundle'):
             raise WorkflowError('unsupported packaging backend: ' + str(backend))
+        if backend == 'tam-bundle':
+            raise WorkflowError('tam-bundle backend is retired; use source-install')
         active = self.state/'active.json'
         if resume:
             if not active.exists():
@@ -861,94 +821,7 @@ class Workflow:
         return phase('assembly',assemble)
 
     def _prepare_bundle(self, state, active, version, pins, trailers, phase):
-        notes_rel = f'notes/tamlinux-{version}.txt'
-        lock_rel = 'recipes/workstation/tamlinux.lock'
-        notes_text = render_version_notes(version, self.parent_version(state), state.get('inclusions', []), pins)
-        def pin_bundle():
-            with self.assembly_guard(state):
-                paths = ['VERSION', lock_rel, notes_rel, BUNDLE_RECIPE]
-                self.claim(self.packages, paths)
-                (self.packages / 'VERSION').write_text(version + '\n')
-                self.update_bundle_lock(pins)
-                # The build reads committed packaging files, so the notes it
-                # packs must be rendered and committed with the recipes.
-                notes_file = self.packages / notes_rel
-                notes_file.parent.mkdir(parents=True, exist_ok=True)
-                if not notes_file.exists() or notes_file.read_text() != notes_text:
-                    notes_file.write_text(notes_text)
-                point_bundle_notes(self.packages / BUNDLE_RECIPE, notes_rel)
-                return self.commit(self.packages, paths,
-                                   'Pin Tamlinux ' + version + ' bundle recipes', trailers)
-        recipe_assembly = phase('pin-bundle', pin_bundle)
-        def assemble_bundle_locked():
-            audit_rel = self.inclusion_audit_path(version)
-            self.claim(self.packages, [f'deliveries/tamlinux-{version}.json', audit_rel, notes_rel])
-            delivery = self.packages / f'deliveries/tamlinux-{version}.json'
-            if delivery.exists():
-                data = json.loads(delivery.read_text())
-                if data.get('backend') != 'tam-bundle' or data.get('recipeAssembly') != recipe_assembly:
-                    raise WorkflowError('existing delivery differs from pinned bundle recipes')
-            else:
-                with tempfile.TemporaryDirectory(prefix='tamlinux-bundle-build-') as temp:
-                    tree = Path(temp) / 'tree'
-                    archive = Path(temp) / f'tamlinux-{version}.tbundle'
-                    run(self.tam_bundle, 'build', '--repos', self.workspace, '--version', version,
-                        '-o', tree, self.packages / 'recipes/workstation', self.packages / lock_rel)
-                    run(self.tam_bundle, 'verify', tree)
-                    packed = tree / BUNDLE_NOTES
-                    if not packed.is_file() or packed.read_text() != notes_text:
-                        raise WorkflowError('bundle version notes are not the notes for ' + version + ': ' + BUNDLE_NOTES)
-                    run(self.tam_bundle, 'pack', tree, '-o', archive)
-                    data = module('bundle-delivery').record(
-                        self.packages, archive, self.tam_bundle, delivery, self.bundle_cache())
-                if state.get('inclusions'):
-                    save(self.packages / audit_rel, {'format': 1, 'version': version,
-                         'artifactSha256': data['artifact']['sha256'], 'inclusions': state['inclusions']})
-            data = json.loads(delivery.read_text())
-            if self.delivery_inclusions(data) != state.get('inclusions', []):
-                raise WorkflowError('delivery inclusions differ from the frozen selection')
-            self.verify_bundle_inclusions(state.get('inclusions', []), data)
-            self.bundle_archive(data)
-            state['deliverySha256'] = hashlib.sha256(delivery.read_bytes()).hexdigest()
-            save(active, state)
-            if (self.packages / notes_rel).read_text() != notes_text:
-                raise WorkflowError('version notes changed after the bundle was built: ' + notes_rel)
-            record = f'work/history/{version}-candidate-preparation.md'
-            self.claim(self.packages, [record, 'AI-BLAME.md'])
-            note = self.packages / record
-            note.parent.mkdir(parents=True, exist_ok=True)
-            text = ('# Candidate preparation ' + version + '\n\nPrepared exact committed sources and verified bundle outputs.\n\n'
-                    '- Transcript: Retained privately by the author.\n- Request: ' + state['word'] + '\n\n' + trailers + '\n')
-            if note.exists() and note.read_text() != text:
-                raise WorkflowError('existing assembly provenance differs')
-            note.write_text(text)
-            index = self.packages / 'AI-BLAME.md'
-            entry = f'\nCandidate {version}: [preparation]({record}).\n'
-            existing = index.read_text() if index.exists() else '# AI blame\n'
-            if entry not in existing:
-                index.write_text(existing + entry)
-            audit_paths = [audit_rel] if (self.packages / audit_rel).exists() else []
-            revision = self.commit(self.packages, [str(delivery.relative_to(self.packages)), *audit_paths, notes_rel, record, 'AI-BLAME.md'],
-                                   'Prepare Tamlinux ' + version + ' candidate', trailers)
-            if self.registrar:
-                self.registrar('tamlinux-packages', record)
-            self.publish(self.packages, revision)
-            return revision
-        def assemble():
-            with self.assembly_guard(state):
-                return assemble_bundle_locked()
-        delivery = self.packages / f'deliveries/tamlinux-{version}.json'
-        if 'assembly' not in state['steps'] and delivery.exists() and not dirty(self.packages):
-            revision = git(self.packages, 'rev-parse', 'HEAD')
-            if (git(self.packages, 'log', '-1', '--format=%s') == 'Prepare Tamlinux ' + version
-                    and git(self.packages, 'rev-parse', 'HEAD^') == recipe_assembly
-                    and hashlib.sha256(delivery.read_bytes()).hexdigest() == state.get('deliverySha256')):
-                with self.assembly_guard(state):
-                    self.bundle_archive(json.loads(delivery.read_text()))
-                    self.publish(self.packages, revision)
-                state['steps']['assembly'] = {'seconds': 0, 'result': revision}
-                save(active, state)
-        return phase('assembly', assemble)
+        raise WorkflowError('tam-bundle backend is retired; use source-install')
 
     def parent_version(self, state):
         previous = state.get('previousVersion')
