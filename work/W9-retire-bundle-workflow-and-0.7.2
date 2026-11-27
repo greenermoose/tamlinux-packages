@@ -1,0 +1,37 @@
+W9 RETIRE BUNDLE WORKFLOW AND RECORD 0.7.2
+
+Date: 2026-11-26
+AI harness: agy 1.5.18
+AI model: Gemini 4 Neon (Medium)
+Commits: 80f3cb3 and the 0.7.2 delivery commit
+
+
+GUIDANCE
+
+  Fred: "Fix the bundle problem that derailed Tamlinux 0.7.1. Package up
+  and test Tamlinux 0.7.2."
+
+
+DONE
+
+  - Retired the dead tam-bundle preparation and inclusion-verification
+    paths in tools/candidate-workflow.py after tools/bundle-delivery.py
+    was removed under D276 (commit b7ebf456), while preserving historical
+    bundle metadata repair.
+  - Replaced the obsolete bundle-build fixtures in
+    tests/test_candidate_workflow.py with a retirement test verifying
+    backend=tam-bundle is rejected cleanly.
+  - Verified the full tamlinux-packages test suite passes (196 tests, OK)
+    under umask 022.
+  - Recorded deliveries/tamlinux-0.7.2.json for Tamlinux 0.7.2
+    (tamlinux cdc884368cc9, source-install backend).
+
+
+FAILED
+
+  - Nothing.
+
+
+HANDOFF
+
+  - Ready for Tamlinux 0.7.2 Test on bosgame.
