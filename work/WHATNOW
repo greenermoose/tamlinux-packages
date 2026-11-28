@@ -2,7 +2,7 @@ WHATNOW
 
 What tamlinux-packages is doing now and what comes next.
 
-Updated: 2026-11-27, with W12
+Updated: 2026-11-28, with W13
 
 
 STATE
@@ -10,6 +10,11 @@ STATE
   The assembly and delivery tools for Tamlinux candidates. The working
   branch was renamed from develop to dev on 2026-11-20 under D272; no
   version or source pin changed (W1).
+
+  W13 recorded deliveries/tamlinux-0.7.6.json on dev (tamlinux 6350c89,
+  adding tam-keys 0.1.9 at 95321c7, upgrading tam-pane to 0.4.3 at
+  9688bc8 and tam-knox to 1.1.5 at 912f284, carrying forward the other
+  nine sibling pins from 0.7.5).
 
   W12 recorded the 0.7.5 source delivery with tam-pane 0.4.1.
   The other ten sibling pins carry forward from 0.7.4.

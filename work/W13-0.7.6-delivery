@@ -1,0 +1,27 @@
+W13 RECORD TAMLINUX 0.7.6 SOURCE DELIVERY
+
+Date: 2026-11-28
+AI harness: agy
+AI model: Gemini 4 Neon (Medium)
+Transcript: Retained privately by the author.
+
+GUIDANCE
+
+  Fred: "Include tam-keys in Tamlinux 0.7.6. Decide what else to include,
+  then package up and test Tamlinux 0.7.6." (Plan approved 2026-11-28.)
+
+DONE
+
+  - Recorded deliveries/tamlinux-0.7.6.json on dev (tamlinux 6350c89,
+    adding tam-keys 0.1.9 at 95321c7, upgrading tam-pane to 0.4.3 at
+    9688bc8 and tam-knox to 1.1.5 at 912f284, carrying forward the other
+    nine sibling pins from 0.7.5).
+
+FAILED
+
+  - Nothing at delivery generation.
+
+HANDOFF
+
+  - Complete frozen verification suites and obtain Fred's approval for
+    the Bosgame 0.7.6 Test plan.
